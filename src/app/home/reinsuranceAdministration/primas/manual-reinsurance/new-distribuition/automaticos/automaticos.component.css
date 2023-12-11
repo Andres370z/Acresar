@@ -1,0 +1,15 @@
+.form {
+    width: 100%;
+}
+.custom-cell {
+    text-align: center;
+    /* border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0; */
+    padding: 3px;
+}
+table {
+    width: 100%;
+}
+.centered-cell {
+    text-align: center;
+}

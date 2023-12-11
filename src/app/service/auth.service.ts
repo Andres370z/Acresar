@@ -237,4 +237,7 @@ export class AuthService {
   getCurrency(){
     return this.registeresquest.GETER(RoutersLink.getCurrency)
   }
+  getDtaRamos(id: any){
+    return this.registeresquest.GETER(RoutersLink.getDtaRamos + id)
+  }
 }

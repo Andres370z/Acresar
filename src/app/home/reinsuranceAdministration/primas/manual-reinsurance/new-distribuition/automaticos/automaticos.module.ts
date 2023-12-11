@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NewDistribuitionRoutingModule } from './new-distribuition-routing.module';
+import { AutomaticosRoutingModule } from './automaticos-routing.module';
+import { AutomaticosComponent } from './automaticos.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -12,14 +13,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { NewDistribuitionComponent } from './new-distribuition.component';
 
 
 @NgModule({
-  declarations: [NewDistribuitionComponent],
+  declarations: [AutomaticosComponent],
   imports: [
     CommonModule,
-    NewDistribuitionRoutingModule,
+    AutomaticosRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -33,4 +33,4 @@ import { NewDistribuitionComponent } from './new-distribuition.component';
     MatButtonModule,
   ]
 })
-export class NewDistribuitionModule { }
+export class AutomaticosModule { }

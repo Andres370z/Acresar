@@ -4,38 +4,55 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" style="background-color: #016672;">
+            <div class="card-icon" style="background-color: #016672">
               <i class="material-icons">storage</i>
             </div>
-            <h4 class="card-title">Cuota parte edit {{cuota}}</h4>
+            <h4 class="card-title">Cuota parte edit {{ cuota }}</h4>
           </div>
-
 
           <div class="card-body">
             <form class="form mb-4" [formGroup]="form">
               <div class="row">
-                <div class="col-3"> <!--Name-->
+                <div class="col-3">
+                  <!--Name-->
                   <mat-form-field appearance="fill">
                     <mat-label>Codigo contrato</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="codigoContrato" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el ramo"
+                      formControlName="codigoContrato"
+                      type="text"
+                    />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
                 </div>
 
-                <div class="col-6"> <!--Name-->
+                <div class="col-6">
+                  <!--Name-->
                   <mat-form-field appearance="fill">
                     <mat-label>Descripcion</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="descripcion" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el ramo"
+                      formControlName="descripcion"
+                      type="text"
+                    />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
                 </div>
 
-                <div class="col-3"> <!--Name-->
+                <div class="col-3">
+                  <!--Name-->
                   <mat-form-field appearance="fill">
                     <mat-label>EPI</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="epiContrato" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el ramo"
+                      formControlName="epiContrato"
+                      type="text"
+                    />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -44,11 +61,17 @@
                 <div class="col-12 mt-2">
                   <h4 class="card-title">Fecha y Hora Inicio</h4>
                 </div>
-                
+
                 <div class="col-2 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Año</mat-label>
-                    <input matInput placeholder="ingresa el año" [value]="fecha1String" formControlName="year" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el año"
+                      [value]="fecha1String"
+                      formControlName="year"
+                      type="text"
+                    />
                     <mat-icon matSuffix>calendar_today</mat-icon>
                     <mat-hint>*</mat-hint>
                   </mat-form-field>
@@ -57,7 +80,12 @@
                 <div class="col-2 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Mes</mat-label>
-                    <input matInput placeholder="ingresa el mes"  formControlName="month" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el mes"
+                      formControlName="month"
+                      type="text"
+                    />
                     <mat-icon matSuffix>calendar_today</mat-icon>
                     <mat-hint>*</mat-hint>
                   </mat-form-field>
@@ -66,7 +94,12 @@
                 <div class="col-2 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Dia</mat-label>
-                    <input matInput placeholder="ingresa el dia"  formControlName="day" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el dia"
+                      formControlName="day"
+                      type="text"
+                    />
                     <mat-icon matSuffix>today</mat-icon>
                     <mat-hint>e*</mat-hint>
                   </mat-form-field>
@@ -75,17 +108,29 @@
                 <div class="col-2 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Hora</mat-label>
-                    <input matInput placeholder="Hora"  formControlName="hour" type="text">
+                    <input
+                      matInput
+                      placeholder="Hora"
+                      formControlName="hour"
+                      type="text"
+                    />
                     <mat-icon matSuffix>access_time</mat-icon>
                     <mat-hint>*</mat-hint>
                   </mat-form-field>
                 </div>
-                
+
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Moneda</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="currency">
-                      <mat-option *ngFor="let item of money" value="{{item.a}}">{{item.c}}</mat-option>
+                    <mat-select
+                      [(ngModel)]="selectedOption"
+                      formControlName="currency"
+                    >
+                      <mat-option
+                        *ngFor="let item of money"
+                        value="{{ item.a }}"
+                        >{{ item.c }}</mat-option
+                      >
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -97,7 +142,13 @@
                 <div class="col-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Año</mat-label>
-                    <input matInput placeholder="ingresa el año" [value]="fecha1String" formControlName="yearTwo" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el año"
+                      [value]="fecha1String"
+                      formControlName="yearTwo"
+                      type="text"
+                    />
                     <mat-icon matSuffix>calendar_today</mat-icon>
                     <mat-hint>*</mat-hint>
                   </mat-form-field>
@@ -106,7 +157,12 @@
                 <div class="col-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Mes</mat-label>
-                    <input matInput placeholder="ingresa el mes"  formControlName="monthTwo" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el mes"
+                      formControlName="monthTwo"
+                      type="text"
+                    />
                     <mat-icon matSuffix>calendar_today</mat-icon>
                     <mat-hint>*</mat-hint>
                   </mat-form-field>
@@ -115,7 +171,12 @@
                 <div class="col-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Dia</mat-label>
-                    <input matInput placeholder="ingresa el dia"  formControlName="dayTwo" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el dia"
+                      formControlName="dayTwo"
+                      type="text"
+                    />
                     <mat-icon matSuffix>today</mat-icon>
                     <mat-hint>e*</mat-hint>
                   </mat-form-field>
@@ -124,35 +185,137 @@
                 <div class="col-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Hora</mat-label>
-                    <input matInput placeholder="Hora"  formControlName="hourTwo" type="text">
+                    <input
+                      matInput
+                      placeholder="Hora"
+                      formControlName="hourTwo"
+                      type="text"
+                    />
                     <mat-icon matSuffix>access_time</mat-icon>
                     <mat-hint>*</mat-hint>
                   </mat-form-field>
                 </div>
-                
+
                 <div class="col-4">
                   <mat-form-field appearance="fill">
                     <mat-label>Siniestros</mat-label>
-                    <input matInput placeholder="ingresa el ramo"  formControlName="sinistros" type="text">
+                    <input
+                      matInput
+                      placeholder="ingresa el ramo"
+                      formControlName="sinistros"
+                      type="text"
+                    />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
                 </div>
 
-                <div class="col-12"> 
+                <div class="col-12">
                   <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>Observaciones</mat-label>
-                    <textarea matInput placeholder="Ingresa algo..."></textarea>
+                    <textarea
+                      matInput
+                      placeholder="Ingresa algo..."
+                      formControlName="observacion"
+                    ></textarea>
                   </mat-form-field>
                 </div>
 
-                <div class="col-4"> <!--BOTON-->
-                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
-                    style="background-color: #016672">Agregar Nómina</button>
+                <div class="col-4">
+                  <!--BOTON-->
+                  <button
+                    mat-raised-button
+                    type="submit"
+                    class="btn btn-fill btn-rose"
+                    style="background-color: #016672"
+                  >
+                    Agregar Nómina
+                  </button>
                 </div>
-
               </div>
             </form>
+            <div class="col-12">
+              <div class="table-responsive">
+                <table
+                  mat-table
+                  [dataSource]="dataSource"
+                  class="mat-elevation-z8"
+                >
+                  <ng-container matColumnDef="contrato">
+                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
+                      Contratos
+                    </th>
+                    <td
+                      mat-cell
+                      *matCellDef="let i = index"
+                      class="custom-cell"
+                    >
+                      {{ i }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="sumaLimite">
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      class="custom-cell titulo"
+                    >
+                      Suma Limite
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="custom-cell">
+                      {{ miles("tabel", element.c) }}
+                      <!-- HACE LO MISMO CON UNA SOLA LINEA DE CODIGO {{ element.c | number: '1.0-0' }} -->
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="cesion">
+                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
+                      %Cesión
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="custom-cell">
+                      {{ procentaje(element.r | number) }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="nomina">
+                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
+                      Nómina Reaseguradores
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="custom-cell">
+                      {{ element.s }}
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="reas">
+                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
+                      % Reas
+                    </th>
+                    <td mat-cell *matCellDef="let element" class="custom-cell">
+                      {{ procentaje(element.part | number) }}
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                  ></tr>
+                </table>
+                
+              </div>
+              <div class="col-4">
+                <!--BOTON-->
+                <button
+                  mat-raised-button
+                  type="submit"
+                  class="btn btn-fill btn-rose"
+                  style="background-color: #016672"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+            
           </div>
         </div>
       </div>

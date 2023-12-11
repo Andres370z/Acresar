@@ -1,0 +1,151 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Formulario Prima Automatico</h4>
+          </div>
+
+          <div class="card-body">
+            <form class="form mb-4" [formGroup]="form" (ngSubmit)="sendForm(form.value)">
+              <div class="row">
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Identificación del contrato</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="idContract" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Descripción</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="descripcion" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Moneda</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="moneda" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Inicio</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="inicio" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fin</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="fin" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Ramos</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="ramos" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Tipo Asociacion</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="asociasionTipo" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Producto</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="producto" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Compañia</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="compania" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Reasegurador</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="reasegurador" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label> % Participación</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="participacion" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Cuentas</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="cuentas" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Inicio</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="inicio2" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div> 
+
+                <div class="col-4"> <!--Name-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fin</mat-label>
+                    <input matInput placeholder="ingresa el ramo" formControlName="fin2" type="text">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
