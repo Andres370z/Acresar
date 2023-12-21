@@ -13,3 +13,8 @@ table {
 .centered-cell {
     text-align: center;
 }
+.myTitles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

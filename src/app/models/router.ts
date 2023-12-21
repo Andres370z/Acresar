@@ -49,7 +49,9 @@ export const RoutersLink = {
     deleted: '/contratos/automaticos/proporcionales/cuotaparte/',
     getDtaForm: '/contratos/automaticos/proporcionales/cuotaparte/',
     getCurrency: '/monedas',
-    getDtaRamos: '/contratos/automaticos/proporcionales/cuotaparte/ramos/'
+    getDtaRamos: '/contratos/automaticos/proporcionales/cuotaparte/ramos/',
+    postFacultativos: '/contratos/asociacion/search',
+    getLoadRamos: '/facultativo/contrato/comision/'
 };
 
 export const Menssage = {
