@@ -18,10 +18,11 @@ import { AsyncPipe } from '@angular/common';
 export class AutomaticosComponent implements OnInit {
   myControl = new FormControl('');
   public options: any[] = [];
-  contratofinal:  any[] = [];
+  contratofinal: any[] = [];
   public lisRequest: any
   public form: FormGroup;
   public clickOne: boolean = false
+  idRamo: any
   myMoney: any;
   public ramoscomision: any;
   reasegurador: any;
@@ -53,8 +54,8 @@ export class AutomaticosComponent implements OnInit {
       fin2: [Menssage.empty, Validators.compose([Validators.required])],
 
     })
-    
 
+    
 
   }
   contratosfacultativos() {
@@ -72,8 +73,8 @@ export class AutomaticosComponent implements OnInit {
           console.log('pailas', err);
         }
       );
-    }else{
-    this.lisRequest = false;
+    } else {
+      this.lisRequest = false;
     }
   }
 
@@ -97,30 +98,33 @@ export class AutomaticosComponent implements OnInit {
     this.form.controls.asociasionTipo.setValue(item.tpa)
     this.form.controls.producto.setValue(item.tp)
     this.myMoney = item;
-    if(item.m === '3'){
+    if (item.m === '3') {
       this.form.controls.moneda.setValue('COP')
-    }else if(item.m === '2') {
+    } else if (item.m === '2') {
       this.form.controls.moneda.setValue('EUR')
-    }else {
+    } else {
       this.form.controls.moneda.setValue('USD')
     }
     this.authService.getDtaRamos(item.rct).then(
       res => {
         this.listareasu = res[0];
-          console.log(this.listareasu);
-          this.loadRamos(this.listareasu.a);
+        console.log(res)
+
+        console.log(this.listareasu, '<-');
+        this.loadRamos(this.listareasu.a);
       },
       err => {
         console.log(err)
       }
     )
   }
-  loadRamos(id: string){
-    if(id){
+  loadRamos(id: any) {
+    if (id) {
       this.authService.getLoadRamos(id).then(
         res => {
           this.ramoscomision = res
           console.log('estos son los ramos', res);
+          console.log('este es el id del ramo ', this.idRamo)
         },
         err => {
           console.log(err);

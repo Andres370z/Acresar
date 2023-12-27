@@ -8,7 +8,16 @@
               <i class="material-icons">storage</i>
             </div>
             <h4 class="card-title">Listado</h4>
+            <!-- MENU -->
+            <div class="row">
+              <div style="position: relative; display: flex; justify-content: center; align-items: center;">
+                <app-first-menu></app-first-menu>
+              </div>
+            </div>
           </div>
+          
+
+
           <div class="card-body">
             <form class="form" [formGroup]="form" (ngSubmit)="sendForm(form.value)">
               <div class="row">
@@ -47,7 +56,8 @@
                 <div class="col-6"> <!--id-->
                   <mat-form-field appearance="fill">
                     <mat-label>Subramo / Producto</mat-label>
-                    <input matInput placeholder="ingresa el subramo o producto" formControlName="subramosProduct" type="text">
+                    <input matInput placeholder="ingresa el subramo o producto" formControlName="subramosProduct"
+                      type="text">
                     <mat-icon matSuffix>class</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -127,7 +137,8 @@
                 <div class="col-3"> <!--id-->
                   <mat-form-field appearance="fill">
                     <mat-label>Prima por Distribucion</mat-label>
-                    <input matInput placeholder="prima por distribuición" formControlName="primaDistribuicion" type="text">
+                    <input matInput placeholder="prima por distribuición" formControlName="primaDistribuicion"
+                      type="text">
                     <mat-icon matSuffix>widgets</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -141,6 +152,7 @@
               </div>
             </form>
           </div>
+
         </div>
       </div>
     </div>

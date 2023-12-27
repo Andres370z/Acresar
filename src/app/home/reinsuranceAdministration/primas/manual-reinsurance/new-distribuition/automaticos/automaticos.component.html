@@ -112,7 +112,7 @@
                   <mat-form-field appearance="fill">
                     <mat-label>Reasegurador</mat-label>
                     <mat-select formControlName="reasegurador" >
-                      <mat-option *ngFor="let item of ramoscomision">{{idReasegurador(item.c)}}</mat-option>
+                      <mat-option *ngFor="let item of ramoscomision"> {{loadRamos(item.c)}} </mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>

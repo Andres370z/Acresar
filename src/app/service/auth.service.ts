@@ -244,6 +244,6 @@ export class AuthService {
     return this.registeresquest.POSTS(RoutersLink.postFacultativos, {item})
   }
   getLoadRamos(id: string){
-    return this.registeresquest.GETER(RoutersLink.getDtaRamos + id)
+    return this.registeresquest.GETER(RoutersLink.getLoadRamos + id)
   }
 }
