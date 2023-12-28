@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { MatTableModule } from '@angular/material/table';
     MatNativeDateModule,
     MatButtonModule,
     MatDatepickerModule,
-    MatTableModule
+    MatTableModule,
+    MatAutocompleteModule
   ]
 })
 export class FacultativosEspecialModule { }

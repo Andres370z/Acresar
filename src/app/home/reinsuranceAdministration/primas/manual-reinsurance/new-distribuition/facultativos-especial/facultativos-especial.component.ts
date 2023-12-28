@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Menssage } from 'src/app/models/router';
+import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
 interface years {
@@ -23,10 +24,16 @@ export class FacultativosEspecialComponent implements OnInit {
   public entities: any = [];
   public selectedOption: any;
   public createForm: any;
+  public contratofinal: any;
+  public options: any[] = [];
+  public lisRequest: boolean;
+  public selectcontrato: any
+  public listareasu: any
 
   constructor(
     private myFormBuilder: FormBuilder,
-    private myFormBuilderTwo: FormBuilder
+    private myFormBuilderTwo: FormBuilder,
+    private authService: AuthService,
   ) { }
 
   ngOnInit(): void {
@@ -39,16 +46,16 @@ export class FacultativosEspecialComponent implements OnInit {
 
   displayedColumns: string[] = ['codRamo', 'ramos', 'sumaLimite', 'primaReaseguradora', 'cesion'];
   displayedColumnsTwo: string[] = ['contrato', 'tramo', 'sumaRetenida', 'sumaCedida', 'primaRetenida', 'primaCedida'];
-  displayedColumnsTree: string[] = ['corredor', 'reasegurador', 'sumaCedida', 'primaCedida','comision','depositosRetenidos','impCedida','brokerage','valorPagar'];
+  displayedColumnsTree: string[] = ['corredor', 'reasegurador', 'sumaCedida', 'primaCedida', 'comision', 'depositosRetenidos', 'impCedida', 'brokerage', 'valorPagar'];
   myYears: NewType[] = [
-    {value: '2019', viewValue: '2019'},
-    {value: '2020', viewValue: '2020'},
-    {value: '2021', viewValue: '2021'},
-    {value: '2022', viewValue: '2022'},
-    {value: '2023', viewValue: '2023'},
-    {value: '2024', viewValue: '2024'},
+    { value: '2019', viewValue: '2019' },
+    { value: '2020', viewValue: '2020' },
+    { value: '2021', viewValue: '2021' },
+    { value: '2022', viewValue: '2022' },
+    { value: '2023', viewValue: '2023' },
+    { value: '2024', viewValue: '2024' },
   ];
-  initial(){
+  initial() {
     this.form = this.myFormBuilder.group({
       poliza1: [Menssage.empty, Validators.compose([Validators.required])],
       years: [Menssage.empty, Validators.compose([Validators.required])],
@@ -65,11 +72,11 @@ export class FacultativosEspecialComponent implements OnInit {
       moneda: [Menssage.empty, Validators.compose([Validators.required])],
       inicio: [Menssage.empty, Validators.compose([Validators.required])],
       fin: [Menssage.empty, Validators.compose([Validators.required])],
-      
+
     })
 
   }
-  clearForm(){
+  clearForm() {
     Swal.fire({
       title: 'Borrar?',
       text: "Deseas borrar los datos ingresados",
@@ -89,7 +96,7 @@ export class FacultativosEspecialComponent implements OnInit {
       }
     })
   }
-  clearFormTwo(){
+  clearFormTwo() {
     Swal.fire({
       title: 'Borrar?',
       text: "Deseas borrar los datos ingresados",
@@ -109,8 +116,8 @@ export class FacultativosEspecialComponent implements OnInit {
       }
     })
   }
-  
-  sendForm(item:any){
+
+  sendForm(item: any) {
     Swal.fire(
       'Good job!',
       'You clicked the button!',
@@ -119,7 +126,7 @@ export class FacultativosEspecialComponent implements OnInit {
     console.log(this.form)
     this.form.reset()
   }
-  sendFormTwo(item:any){
+  sendFormTwo(item: any) {
     Swal.fire(
       'Good job!',
       'You clicked the button!',
@@ -132,5 +139,48 @@ export class FacultativosEspecialComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  contratosfacultativos() {
+    this.lisRequest = true
+    if (this.formTwo.controls.identyContract.value) {
+      const item = {
+        word: this.formTwo.controls.identyContract.value,
+        type: 10,
+      };
+      console.log(item)
+      this.authService.postFacultativosContratos(item).then(
+        res => {
+          this.options = res
+          console.log(this.options);
+        },
+        err => {
+          console.log(err);
+        }
+      )
+    }
 
+  }
+  upload(item: any){
+    console.log(item)
+    this.formTwo.controls.descripcion.setValue(item.c)
+    this.formTwo.controls.inicio.setValue(item.r)
+    this.formTwo.controls.fin.setValue(item.e)
+    if (item.s == 3) {
+      this.formTwo.controls.moneda.setValue('COP');
+    }else if (item.s == 2){
+      this.formTwo.controls.moneda.setValue('EUR');
+    }else{
+      this.formTwo.controls.moneda.setValue('USD');
+    }
+    this.lisRequest = false
+    this.selectcontrato = item
+    this.authService.getFacultativoContrato(item.pro_id).then(
+      res=>{
+        this.listareasu = res
+        console.log('aqui 23',res)
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
 }

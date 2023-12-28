@@ -51,7 +51,9 @@ export const RoutersLink = {
     getCurrency: '/monedas',
     getDtaRamos: '/contratos/automaticos/proporcionales/cuotaparte/ramos/',
     postFacultativos: '/contratos/asociacion/search',
-    getLoadRamos: '/facultativo/contrato/comision/'
+    postFacultativosContrato: '/contratos/facultativo/search',
+    getLoadRamos: '/facultativo/contrato/comision/',
+    getFacultativoContrato: '/facultativo/contrato/'
 };
 
 export const Menssage = {

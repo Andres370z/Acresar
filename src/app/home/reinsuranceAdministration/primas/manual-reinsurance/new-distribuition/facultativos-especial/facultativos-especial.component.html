@@ -91,12 +91,19 @@
 
             <form class="form mb-4" [formGroup]="formTwo" (ngSubmit)="sendFormTwo(formTwo.value)">
               <div class="row">
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
+                <!--Buscador con autocomplete-->
+                <div class="col-6 ">
+                  <mat-form-field appearance="outline">
                     <mat-label>Identificación del contrato</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="identyContract" type="text">
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <!-- PARA QUE EL AUTOCOMPLETE FUNCIONE AL TECLEAR AGREGA ESTE METODO AL INPUT: (ngModelChange)="contratosfacultativos()" -->
+                    <input type="text" matInput [matAutocomplete]="auto" formControlName="identyContract" (ngModelChange)="contratosfacultativos()">
+                    <mat-autocomplete #auto="matAutocomplete" >
+                      <mat-option  *ngFor="let item of options" [value]="item.o" (click)="upload(item)">
+                        {{item.o}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon matSuffix (click)="contratosfacultativos()">search</mat-icon>
+                    <mat-hint>preciona el icono para buscar *</mat-hint>
                   </mat-form-field>
                 </div>
                 <div class="col-6">

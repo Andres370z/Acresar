@@ -1,9 +1,20 @@
-<div class="menu">
+<!-- <div class="menu">
   <ul>
     <li class="item"><a (click)="navigate('home/reinsuranceAdministration/primas')">Primas</a>
       <ul class="dsple">
-        
-        <li><a href="#">Reaseguro Manual</a></li>
+
+        <li><a href="#">Reaseguro Manual</a>
+          <ul class="submenu">
+            <li><a href="#">Nueva Distribucion</a>
+              <ul class="submenu2">
+                <li><a href="">Opcion uno</a></li>
+                <li><a href="">Opcion dos</a></li>
+                <li><a href="">Opcion tres</a></li>
+              </ul>
+            </li>
+            <li><a href="#">Opción 2</a></li>
+          </ul>
+        </li>
         <li><a href="#">Reaseguro Automatico</a></li>
         <li><a href="#">Borrar</a></li>
       </ul>
@@ -11,5 +22,42 @@
     <li class="item"><a href="#">Siniestro</a></li>
     <li class="item"><a href="#">Regresar</a></li>
   </ul>
+</div> -->
+<div class="menuOne">
+  <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Primas</button>
+  <mat-menu #matMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="reaseguradorManual">Reasegurador Manual</button>
+    <button mat-menu-item [matMenuTriggerFor]="reaseguroAutomatico">Reaseguro Automatico</button>
+    <button mat-menu-item [matMenuTriggerFor]="reaseguroAutomatico" (click)="navigate('home/reinsuranceAdministration/primas')">Primas</button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Siniestro</button>
+  <mat-menu #matMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="reaseguradorManual">Reasegurador Manual</button>
+    <button mat-menu-item [matMenuTriggerFor]="reaseguroAutomatico">Reaseguro Automatico</button>
+  </mat-menu>
+  <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Regresar</button>
+  <mat-menu #reaseguradorManual="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="newDistribution" (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition')">Nueva Distribución</button>
+    <button mat-menu-item [matMenuTriggerFor]="modifyDistribution">Modificar Distribución</button>
+    <button mat-menu-item [matMenuTriggerFor]="newSetting">Nuevo Ajuste</button>
+  </mat-menu>
+  <mat-menu #newDistribution="matMenu">
+    <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition/primas-facultativos')">Facultativos</button>
+    <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition/primas-especiales')" >Facultativos Especial</button>
+    <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition/primas-automaticos')">Automaticos</button>
+  </mat-menu>
+  <mat-menu #modifyDistribution="matMenu">
+    <button mat-menu-item>Prorroga</button>
+    <button mat-menu-item>Modificar Facultativos</button>
+    <button mat-menu-item>Modificar Automaticos</button>
+  </mat-menu>
+  <mat-menu #newSetting="matMenu">
+    <button mat-menu-item>Ajuste Facultativo</button>
+    <button mat-menu-item>Ajuste Automatico </button>
+  </mat-menu>
+  
+<mat-menu #reaseguroAutomatico="matMenu">
+  <button mat-menu-item>Cargar</button>
+  <button mat-menu-item>Procesar</button>
+</mat-menu>
 </div>
-

@@ -1,11 +1,11 @@
-.menu ul {
+/* .menu ul {
 	list-style: none;
 	padding: 0;
 }
 
 .menu .item {
 	float: left;
-	/* Añadido para posicionar correctamente el menú desplegable */
+	
 }
 
 .menu .item a {
@@ -16,6 +16,7 @@
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 16px;
 	text-decoration: none;
+	border-radius: 23px;
 }
 
 .menu .dsple {
@@ -30,4 +31,33 @@
 
 .menu .item a:hover {
 	background-color: #00cae0;
+}
+
+.menu .submenu {
+	display: none;
+	position: absolute;
+	left: 100%;
+	top: 0;
+}
+
+.menu .dsple li:hover .submenu {
+	display: block;
+	position: absolute;
+	width: auto;
+}
+
+.menu .submenu .submenu2 {
+	display: none;
+	position: absolute;
+	left: 100%;
+	
+	top: 0;
+}
+
+.menu .dsple li:hover .submenu .submenu2 {
+	display: block;
+} */
+
+.myButton{
+	color: #006571;
 }
