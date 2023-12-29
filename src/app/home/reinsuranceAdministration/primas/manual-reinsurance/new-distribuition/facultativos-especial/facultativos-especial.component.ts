@@ -25,11 +25,16 @@ export class FacultativosEspecialComponent implements OnInit {
   public selectedOption: any;
   public createForm: any;
   public contratofinal: any;
+  public statefinal: boolean
   public options: any[] = [];
   public lisRequest: boolean;
+  public lisRequest3: boolean;
   public selectcontrato: any
   public listareasu: any
-
+  public polizacontrato: any;
+  public idsegurador: any
+  public idpoliza: any;
+  public aseguradorpoliza: any;
   constructor(
     private myFormBuilder: FormBuilder,
     private myFormBuilderTwo: FormBuilder,
@@ -58,7 +63,6 @@ export class FacultativosEspecialComponent implements OnInit {
   initial() {
     this.form = this.myFormBuilder.group({
       poliza1: [Menssage.empty, Validators.compose([Validators.required])],
-      years: [Menssage.empty, Validators.compose([Validators.required])],
       date: [Menssage.empty, Validators.compose([Validators.required])],
       ciudad: [Menssage.empty, Validators.compose([Validators.required])],
       certificado: [Menssage.empty, Validators.compose([Validators.required])],
@@ -135,9 +139,20 @@ export class FacultativosEspecialComponent implements OnInit {
     console.log(this.formTwo)
     this.formTwo.reset()
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  loadramos() {
+    console.log(this.aseguradorpoliza);
+    if (this.aseguradorpoliza) {
+      const data = {
+        id: this.idpoliza
+      }
+      console.log(data);
+      this.authService.postFacultativosRamos(data). then(
+        res =>{
+          //this.listareasu2 = res;
+          console.log(res);
+        }
+      )
+    }
   }
   contratosfacultativos() {
     this.lisRequest = true
@@ -149,7 +164,8 @@ export class FacultativosEspecialComponent implements OnInit {
       console.log(item)
       this.authService.postFacultativosContratos(item).then(
         res => {
-          this.options = res
+          this.options = res;
+
           console.log(this.options);
         },
         err => {
@@ -159,28 +175,122 @@ export class FacultativosEspecialComponent implements OnInit {
     }
 
   }
-  upload(item: any){
+  upload(item: any) {
     console.log(item)
     this.formTwo.controls.descripcion.setValue(item.c)
     this.formTwo.controls.inicio.setValue(item.r)
     this.formTwo.controls.fin.setValue(item.e)
     if (item.s == 3) {
       this.formTwo.controls.moneda.setValue('COP');
-    }else if (item.s == 2){
+    } else if (item.s == 2) {
       this.formTwo.controls.moneda.setValue('EUR');
-    }else{
+    } else {
       this.formTwo.controls.moneda.setValue('USD');
     }
     this.lisRequest = false
     this.selectcontrato = item
     this.authService.getFacultativoContrato(item.pro_id).then(
-      res=>{
-        this.listareasu = res
-        console.log('aqui 23',res)
+      res => {
+        this.dataSource = res;
+        console.log('aqui dtaSource', this.dataSource)
       },
       err => {
         console.log(err);
       }
     )
+  }
+  desimal(key: any) {
+    return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  cortarDesimales(item: any) {
+    return Math.trunc(item);
+  }
+  procentajedos(item: any) {
+    if (item != null && item !== '') {
+      const e = parseFloat(item);
+      return e + '%';
+    }
+  }
+  porcentaje(key: any, form: any) {
+    if (!!form) {
+      const value = this.formTwo.controls[key].value;
+      this.formTwo.controls[key].setValue(
+        this.procentajedos(value)
+      )
+    } else {
+      return this.procentajedos(key);
+    }
+  }
+  miles(form: any, key: any) {
+    if (form === 'formTwo') {
+      let value = this.formTwo.controls[key].value;
+      if (value.split('.').length > 2) {
+        value = this.desimal(this.formTwo.controls[key].value)
+      }
+      const val = this.desimal(value);
+      this.formTwo.controls[key].setValue(val.toString())
+    }
+    if (form === 'tabel') {
+      const cortar = this.cortarDesimales(key)
+      const quitar = this.desimal(cortar);
+      return quitar;
+    }
+  }
+  create() {
+    if (this.form.valid) {
+      const data = {
+        poliza: this.form.controls.poliza1.value,
+        certificado: this.form.controls.certificado.value,
+        fechaemision: this.form.controls.date.value,
+        ciudad: this.form.controls.ciudad.value,
+        // idsegurador: this.idsegurador,
+        // idusers: this.user.authUser.id,
+
+      }
+      console.log(data)
+      this.authService.postFacultativosAseguradoras(data).then(
+        res => {
+          localStorage.setItem('idcontrato', JSON.stringify(res));
+          this.polizacontrato = res;
+          this.statefinal = true;
+          //this.selectpoliza = JSON.parse(localStorage.getItem('idcontrato'));;
+          console.log(res);
+        }
+      )
+    }
+  }
+  consultar(item: any) {
+    const data2 = {
+      word: item.a
+    }
+    this.authService.postAseguradoraNomina(item).then(
+      res => {
+        console.log(res)
+        if (res.length === 0) {
+          this.statefinal = true;
+          this.form.controls.poliza1.setValue(item.c);
+          this.form.controls.certificado.setValue(item.r);
+          this.form.controls.date.setValue(item.e);
+          this.form.controls.ciudad.setValue(item.s);
+          this.form.controls.asegurado.setValue(item.pc);
+          this.form.controls.nit.setValue(item.pn);
+          this.idsegurador = item.pa;
+          this.idpoliza = item.a;
+          this.lisRequest3 = false;
+          this.statefinal = true;
+          this.polizacontrato = item;
+          this.form.enable();
+          this.formTwo.enable();
+          this.loadramos()
+        }
+      }, err => {
+        console.log(err) //QUEDASTE AQUI  
+      }
+    )
+
+  }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 }

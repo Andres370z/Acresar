@@ -22,17 +22,7 @@
                   </mat-form-field>
                 </div>
 
-                <div class="col-3"> <!--id-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Año</mat-label>
-                    <mat-select formControlName="years">
-                      <mat-option *ngFor="let years of myYears" [value]="years.value">
-                        {{years.viewValue}}
-                      </mat-option>
-                    </mat-select>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                
 
                 <div class="col-3"> <!--id-->
                   <mat-form-field appearance="fill">
@@ -152,30 +142,30 @@
                     <ng-container matColumnDef="codRamo">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Cod ramo
                       </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell" > {{element.ramos.nme}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ramos">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Ramos </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.ramos.nm}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="sumaLimite">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Suma Limite
                       </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{miles('tabel',element.ramos.c)}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="primaReaseguradora">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Prima
                         Reaseguradores </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{miles('tabel',element.ramos.ttl)}} </td>
                     </ng-container>
 
                     <ng-container matColumnDef="cesion">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> % Cesión
                       </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{porcentaje(element.ramos.r | number)}} </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

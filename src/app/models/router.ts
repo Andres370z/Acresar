@@ -50,10 +50,15 @@ export const RoutersLink = {
     getDtaForm: '/contratos/automaticos/proporcionales/cuotaparte/',
     getCurrency: '/monedas',
     getDtaRamos: '/contratos/automaticos/proporcionales/cuotaparte/ramos/',
+    getLoadRamos: '/facultativo/contrato/comision/',
+    getFacultativoContrato: '/facultativo/contrato/especial/',
+    /** POSTS **/
     postFacultativos: '/contratos/asociacion/search',
     postFacultativosContrato: '/contratos/facultativo/search',
-    getLoadRamos: '/facultativo/contrato/comision/',
-    getFacultativoContrato: '/facultativo/contrato/'
+    postFacultativosAseguradoras: '/aseguradoras/facultativo',
+    postAseguradoraNomina: '/aseguradoras/facultativo/getaseguradonomina',
+    postFacultativosRamos: '/aseguradoras/facultativo/ramos/id'
+    
 };
 
 export const Menssage = {

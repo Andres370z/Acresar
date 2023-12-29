@@ -240,16 +240,27 @@ export class AuthService {
   getDtaRamos(id: any){
     return this.registeresquest.GETER(RoutersLink.getDtaRamos + id)
   }
+  
+  getLoadRamos(id: string){
+    return this.registeresquest.GETER(RoutersLink.getLoadRamos + id)
+  }
+  getFacultativoContrato(id: any){
+    return this.registeresquest.GETER(RoutersLink.getFacultativoContrato + id)
+  }
+  /** POST **/
   postFacultativosContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosContrato, {item})
   }
   postFcultativos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativos, {item})
   }
-  getLoadRamos(id: string){
-    return this.registeresquest.GETER(RoutersLink.getLoadRamos + id)
+  postFacultativosAseguradoras(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postFacultativosAseguradoras, {item})
   }
-  getFacultativoContrato(id: any){
-    return this.registeresquest.GETER(RoutersLink.getFacultativoContrato + id)
+  postAseguradoraNomina(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postAseguradoraNomina, {item})
+  }
+  postFacultativosRamos(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postFacultativosRamos, {item})
   }
 }
