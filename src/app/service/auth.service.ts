@@ -263,4 +263,21 @@ export class AuthService {
   postFacultativosRamos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosRamos, {item})
   }
+  //hice un cambio
+  postBuscarContratos(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postBuscarContra, {item})
+  }
+  postFacultativoContra(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postFacultativoContra, {item})
+  }
+
+
+  /**SOLICITUDES DE RESPALDO */
+  postBuscarContratosRespaldo(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, {item})
+  }
+  postFacultativoContraRespaldo(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, {item})
+  }
+
 }

@@ -1,23 +1,26 @@
-<div class="col-12 text-center">
-    <ul class="nav">
-      <li class="nav-item">
-        <!-- Single link -->
-        <a (click)="navigate('home/contracts/Facultativos')" class="nav-link" style="color: #006571;">
-          <p>Automaticos</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <!-- Single link -->
-        <a (click)="navigate('home/contracts/Facultativos')" class="nav-link" style="color: #006571;">
-          <p>Facultativos</p>
-        </a>
-      </li>
-      <li class="nav-item">
-        <!-- Single link -->
-        <a (click)="navigate('home/companias/insurance-carrier')" class="nav-link" style="color: #006571;">
-          <p>Cotizacion</p>
-        </a>
-      </li>
-  
-      </ul>
-  </div>
+<div class="menuOne">
+  <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Automáticos</button>
+  <mat-menu #matMenu="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="proporcionales">Proporcionales</button>
+    <button mat-menu-item (click)="navigate('home/contracts/Facultativos')">Automàticos</button>
+  </mat-menu>
+  <mat-menu #proporcionales="matMenu">
+    <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition')">Cuota
+      Parte</button>
+  </mat-menu>
+  <!-- ESTA ES LA OTRA OPCION -->
+  <button mat-button [matMenuTriggerFor]="facultativos" class="myButton">Facultativos</button>
+  <mat-menu #facultativos="matMenu">
+    <button mat-menu-item [matMenuTriggerFor]="proporcionales2" (click)="navigate('home/contracts/Facultativos/proporcionales')">Proporcionales</button>
+    <button mat-menu-item [matMenuTriggerFor]="especiales">Especiales</button>
+  </mat-menu>
+  <mat-menu #proporcionales2="matMenu">
+    <button mat-menu-item
+      (click)="navigate('home/contracts/Facultativos/proporcionales')">Facultativos</button>
+  </mat-menu>
+  <mat-menu #especiales="matMenu">
+    <button mat-menu-item
+      (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition')">Facultativos</button>
+  </mat-menu>
+  <button mat-button class="myButton">Cotización</button>
+</div>

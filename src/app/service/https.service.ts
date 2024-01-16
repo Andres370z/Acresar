@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class HttpsService {
   private api = environment.api
   private api2 = environment.api2
+  private api2Respaldo = environment.apiRespaldo
   constructor( 
     private http: HttpClient) { }
     public headers=new HttpHeaders().set('Content-Type','multipart/form-data');
@@ -20,6 +21,7 @@ export class HttpsService {
 
     GETER = async (sub: string) => await this.http.get<any>(this.api2 + sub).toPromise();
     POSTS = async (sub: string, obj: any) => await this.http.post<any>(this.api2 + sub, obj).toPromise();
+    POSTRESPALDO = async (sub: string, obj: any) => await this.http.post<any>(this.api2Respaldo + sub, obj).toPromise()
     DELETED = async(sub: string) => await this.http.delete<any>(this.api2 + sub).toPromise();
 
 }

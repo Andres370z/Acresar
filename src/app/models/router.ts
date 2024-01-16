@@ -57,7 +57,10 @@ export const RoutersLink = {
     postFacultativosContrato: '/contratos/facultativo/search',
     postFacultativosAseguradoras: '/aseguradoras/facultativo',
     postAseguradoraNomina: '/aseguradoras/facultativo/getaseguradonomina',
-    postFacultativosRamos: '/aseguradoras/facultativo/ramos/id'
+    postFacultativosRamos: '/aseguradoras/facultativo/ramos/id',
+    postBuscarContrato: '/contratos/facultativo/buscar/contrato',
+    postBuscarContra: '/contratos/facultativo/buscar/contrato',
+    postFacultativoContra: '/facultativo/contrato',
     
 };
 
