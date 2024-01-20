@@ -34,7 +34,9 @@ export class AuthService {
   resgisterImageEvents(inform:any){
     return  this.registeresquest.POST(RoutersLink.resgisterImageEvents, inform)
   }
-  
+  loginAcresar(inform:any){
+    return this.registeresquest.POSTS(RoutersLink.loginApi2, inform)
+  }
   login(inform:any){
     return  this.registeresquest.POST(RoutersLink.loginApi, inform)
   }
@@ -246,6 +248,9 @@ export class AuthService {
   }
   getFacultativoContrato(id: any){
     return this.registeresquest.GETER(RoutersLink.getFacultativoContrato + id)
+  }
+  getFacultativoContra(inform: any){
+    return this.registeresquest.GETER(RoutersLink.getFacultativoContra + inform)
   }
   /** POST **/
   postFacultativosContratos(item: any){

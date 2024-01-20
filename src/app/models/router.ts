@@ -16,6 +16,7 @@ export const RoutersLink = {
     profile:"home/profile",
     login:"pages/login/",
     loginApi:"login",
+    loginApi2: '/auth/login',
     forgotPassword:"forgotPassword/",
     city:"city",
     category:"category",
@@ -52,6 +53,7 @@ export const RoutersLink = {
     getDtaRamos: '/contratos/automaticos/proporcionales/cuotaparte/ramos/',
     getLoadRamos: '/facultativo/contrato/comision/',
     getFacultativoContrato: '/facultativo/contrato/especial/',
+    getFacultativoContra: '/facultativo/contrato/',
     /** POSTS **/
     postFacultativos: '/contratos/asociacion/search',
     postFacultativosContrato: '/contratos/facultativo/search',

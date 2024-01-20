@@ -1,0 +1,6 @@
+/* CSS */
+.cdk-global-overlay-wrapper {
+  display: flex ;
+  position: absolute ;
+  z-index: 1000 ;
+}

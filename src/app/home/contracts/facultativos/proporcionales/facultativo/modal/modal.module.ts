@@ -1,8 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { FacultativoRoutingModule } from './facultativo-routing.module';
-import { FacultativoComponent } from './facultativo.component';
+import { ModalComponent } from './modal.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -14,15 +12,16 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars'
-import { MatDialogModule, MatDialogConfig} from '@angular/material/dialog';
-import { ModalComponent } from './modal/modal.component';
+import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+
+
+
 @NgModule({
-  declarations: [FacultativoComponent, ModalComponent],
+  declarations: [ ],
   imports: [
     CommonModule,
-    FacultativoRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -40,7 +39,6 @@ import { MatCardModule } from '@angular/material/card';
     DateTimePickerModule,
     MatDialogModule,
     MatCardModule
-  ],
-  entryComponents: [ModalComponent]
+  ],schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class FacultativoModule { }
+export class ModalModule { }

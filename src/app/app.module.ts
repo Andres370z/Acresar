@@ -49,7 +49,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
 import { InterceptorService } from './service/interceptor.service';
 import { MenuModule } from './home/reinsurance-companies/menu/menu.module';
-
+import * as $ from 'jquery';
 @NgModule({
   exports: [
     MatAutocompleteModule,

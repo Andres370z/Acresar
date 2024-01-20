@@ -1,3 +1,4 @@
+
 export class SessionUser {
     private authUser: any;
     public uName: string;
@@ -16,9 +17,9 @@ export class SessionUser {
 
         let data = atob(localStorage.getItem('rsltnsri'));
         this.authUser = JSON.parse(data);
-        this.uName = this.authUser.name + ' ' + this.authUser.lastName;
-        this.uPhoto = this.authUser.photo;
-        this.uDate = this.authUser.created_at;
+         this.uName = this.authUser.name + ' ' + this.authUser.lastName;
+         this.uPhoto = this.authUser.photo;
+         this.uDate = this.authUser.created_at;
     }
 
     logOut() {
