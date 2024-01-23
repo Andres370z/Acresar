@@ -63,6 +63,7 @@ export const RoutersLink = {
     postBuscarContrato: '/contratos/facultativo/buscar/contrato',
     postBuscarContra: '/contratos/facultativo/buscar/contrato',
     postFacultativoContra: '/facultativo/contrato',
+    postFacultativoContratb: '/facultativo/contrato/tb'
     
 };
 

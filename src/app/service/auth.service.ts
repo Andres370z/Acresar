@@ -273,9 +273,11 @@ export class AuthService {
     return this.registeresquest.POSTS(RoutersLink.postBuscarContra, {item})
   }
   postFacultativoContra(item: any){
-    return this.registeresquest.POSTS(RoutersLink.postFacultativoContra, {item})
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, {item})
   }
-
+  postFacultativoContratb(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postFacultativoContratb, {item})
+  }
 
   /**SOLICITUDES DE RESPALDO */
   postBuscarContratosRespaldo(item: any){

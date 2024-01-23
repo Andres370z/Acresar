@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Procentajes } from 'src/app/home/commos/porcentajes';
 import { SessionUser } from 'src/app/home/global/sessionUser';
@@ -10,8 +10,9 @@ import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
 import { ModalComponent } from './modal/modal.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { PercentageService } from 'src/app/service/percentage.service';
 
-const ELEMENT_DATA = [{data: ''}];
+const ELEMENT_DATA = [{ data: '' }];
 @Component({
   selector: 'app-facultativo',
   templateUrl: './facultativo.component.html',
@@ -40,18 +41,20 @@ export class FacultativoComponent implements OnInit, OnDestroy {
   contrato: any;
   selectMoneda: any;
   listareasu: any;
-  temporal: any
+  temporal: any;
+  reasegurador: string;
   public rta: boolean = false
   private item = { c: '', e: '', r: '' };
   private _pct = new Procentajes();
-  
+
   constructor(
     private myFormBuilder: FormBuilder,
     private authService: AuthService,
     private alertService: AlertService,
     private router: Router,
     private localStorageService: LocalstoreService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private percentageService: PercentageService
   ) {
 
     if (localStorage.getItem('rsltntmpcntrt') === null) {
@@ -68,7 +71,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
       this.cod = this.item.c + ' - ' + this.item.r;
     }
   }
-  
+
   ngOnInit() {
     this.onCreate()
     this.user = new SessionUser(this.router)
@@ -111,7 +114,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
       this.currency = resulta
       console.log('esta es las monedas', resulta)
     })
-    this.authService.getRamos().then((resulta: any )=> {
+    this.authService.getRamos().then((resulta: any) => {
       this.ramos = resulta
       console.log('ramos: ', resulta)
 
@@ -119,11 +122,31 @@ export class FacultativoComponent implements OnInit, OnDestroy {
     this.user.getAuthUser()
   }
   saveData(item: any) {
+    const data = this.form.controls.starDate.value;
+    if (data) {
+      const day = data.getDate();
+      const month = data.getMonth() + 1;
+      const year = data.getFullYear();
+
+      const fechaAlmacenada = { day, month, year };
+
+      console.log(fechaAlmacenada);
+    }
     if (!sessionStorage.getItem('formCuotaP')) {
       console.log('aqui llega 1')
       const form = this.form.value;
       var d = new Date(form.starHours);
       var e = new Date(form.endHours);
+      const fecha1 = {
+        "day": 22,
+        "month": 1,
+        "year": 2024
+      }
+      const fecha2 =  {
+        "day": 22,
+        "month": 1,
+        "year": 2024
+      }
       sessionStorage.setItem('formCuotaP', JSON.stringify(form));
       // tslint:disable-next-line:no-debugger ..≤
       const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
@@ -143,7 +166,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
             const buscar = res
             console.log(buscar)
             if (buscar == "N.N") {
-              this.temporal = localStorage.getItem('rsltntmpcntrt')
+              this.temporal = JSON.parse(localStorage.getItem('rsltntmpcntrt'))
               this.cod = this.temporal.c + ' - ' + this.temporal.r
               console.log('entro')// esto para verificar el if
               const data = {
@@ -151,13 +174,13 @@ export class FacultativoComponent implements OnInit, OnDestroy {
                 tipocontrato: 10,
                 codigocontrato: this.cod,
                 descripcion: form2['descripcion'],
-                fechaInicio: form2['starDate'],
-                fechaFin: form2['endDate'],
+                fechaInicio : fecha1,
+                fechaFin: fecha2,
                 moneda: form2['money'],
                 siniestroContrato: this._pct.removerDesimal(form2['sinistros']),
                 observacion: form2['observations'],
-                horainicio: d.getHours() + ':' + d.getMinutes(),
-                horafin: e.getHours() + ':' + e.getMinutes()
+                horainicio: form2['starHours'],
+                horafin:  form2['endHours']
               };
               console.log('este es el objeto data,', data)
               this.authService.postFacultativoContra(data).then(
@@ -169,6 +192,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
                   this.statefinal = true;
                   console.log(res);
                   console.log('si llega')
+
                 }, err => {
                   console.log('error 1', err)
                 }
@@ -225,7 +249,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
         this.statefinal = true;
       }
       this.alertService.success('Formulario Enviado', 'Ok')
-    }else {
+    } else {
       this.alertService.error('El formulario no se ha podido enviar', 'Error')
     }
     console.log(' formulario : ', item)
@@ -254,7 +278,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
   onCreate() {
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '30%',
-    dialogConfig.disableClose = true
+      dialogConfig.disableClose = true
     this.dialog.open(ModalComponent, dialogConfig)
     this.rta = true
   }
@@ -265,15 +289,114 @@ export class FacultativoComponent implements OnInit, OnDestroy {
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
   }
-  createFormReasegurador(){
+  createFormReasegurador() {
     this.formReaseguros = this.myFormBuilder.group({
       codigo: [Menssage.empty, Validators.compose([Validators.required])],
       ramos: [Menssage.empty, Validators.compose([Validators.required])],
-      contrato: [Menssage.empty, Validators.compose([Validators.required])],
       sumaLimite: [Menssage.empty, Validators.compose([Validators.required])],
       seccion: [Menssage.empty, Validators.compose([Validators.required])],
       reas: [Menssage.empty, Validators.compose([Validators.required])],
-      id: [Menssage.empty, Validators.compose([Validators.required])]
     })
+  }
+  eventRamo(key: string) {
+    if (!!key) {
+      if (key === 'ramos') {
+        const value = this.formReaseguros.controls[key].value
+        this.formReaseguros.controls.codigo.setValue(value)
+      }
+      if (key === 'codigo') {
+        const value = this.formReaseguros.controls[key].value
+        console.log(value, 'de codigo')
+        this.formReaseguros.controls.ramos.setValue(value)
+      }
+    } else {
+      console.log('error')
+    }
+  }
+  miles(form: string, key: string) {
+    if (form == 'form') {
+      let value = this.formReaseguros.controls[key].value
+      if (value.split('.').length > 2) {
+        value = this.percentageService.removerDesimal((this.form.controls[key].value))
+      }
+      const val = this.percentageService.desimalDeMiles(value)
+      this.formReaseguros.controls[key].setValue(val.toString())
+    }
+    if (form == 'formReaseguros') {
+      let value = this.formReaseguros.controls[key].value
+      if (value.split('.').length > 2) {
+        value = this.percentageService.removerDesimal(this.formReaseguros.controls[key].value)
+      }
+      const val = this.percentageService.desimalDeMiles(value)
+      this.formReaseguros.controls[key].setValue(val.toString())
+    }
+  }
+  percentageTwo(item: any) {
+    if (item != null && item !== '') {
+      const e = parseFloat(item);
+      return e + '%';
+    }
+  }
+  percentage(key: string, form: any) {
+    if (!!form) {
+      const value = this.formReaseguros.controls[key].value;
+      this.formReaseguros.controls[key].setValue(
+        this.percentageTwo(value)
+      )
+    } else {
+      this.percentageTwo(key)
+    }
+  }
+  onSubmit() {
+    console.log(this.contrato);
+    if (this.contrato) {
+      const form1 = this.formReaseguros.value;
+
+      sessionStorage.setItem('formCuotaP1', JSON.stringify(form1));
+      console.log(form1);
+      if (form1) {
+        this.goDetail();
+      }
+    } else {
+      this.alertService.error('Error', 'Error en la conexión con el servidor')
+    }
+  }
+  goDetail() {
+    this.alertService.loading();
+    const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'))
+    let cont = + 0;
+    const data = {
+      idusers: this.user.authUser.id,
+      codigo: form1['codigo'],
+      secion: this._pct.removerDesimal(this.percentageService.removerPor(form1['seccion'])),
+      sumaLimite: this.percentageService.removerDesimal(form1['sumaLimite']),
+      contrato: cont,
+      reas: this._pct.removerDesimal(this.percentageService.removerPor(form1['reas'])),
+      id: this.contrato.a,
+    };
+    console.log('goDetail trabajando', data);
+    this.authService.postFacultativoContratb(data).then(
+      res => {
+        this.alertService.messagefin();
+        sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
+        // this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
+        this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
+      }, err => {
+        this.alertService.error('No se logró el envio del formulario', 'Error')
+      }
+    )
+  }
+
+  fecha(data: any) {
+    console.log('esta es la fecha ', data)
+    if (data) {
+      const day = data.getDate();
+      const month = data.getMonth() + 1;
+      const year = data.getFullYear();
+
+      const fechaAlmacenada = { day, month, year };
+
+      console.log(fechaAlmacenada);
+    }
   }
 }
