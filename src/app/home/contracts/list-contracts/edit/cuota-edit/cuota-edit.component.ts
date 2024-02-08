@@ -35,6 +35,10 @@ export class CuotaEditComponent implements OnInit {
   form: FormGroup;
   fecha1: NgbDateStruct = { day: 0, month: 0, year: 0 };
   fecha2: NgbDateStruct = { day: 0, month: 0, year: 0 };
+  fechaOne: string
+  fechaTwo: string
+  horainicio: any;
+  horafin: any
   public selectedOption: any;
   public money: any;
   private porcentajes = new Procentajes();
@@ -43,10 +47,11 @@ export class CuotaEditComponent implements OnInit {
     private router: Router,
     private myFormBuilder: FormBuilder,
     private alert: AlertService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     //this.alert.loading();
+    this.createForm();
     this.initial();
   }
 
@@ -64,28 +69,20 @@ export class CuotaEditComponent implements OnInit {
       this.cuota = cnt.o;
       this.fecha1 = { year: fIni[0], month: fIni[1], day: fIni[2] };
       this.fecha2 = { year: fFin[0], month: fFin[1], day: fFin[2] };
+      this.horainicio = cnt.hrn;
+      this.horafin = cnt.hrf;
 
-      /*Este es el Formulario*/
-      this.form = this.myFormBuilder.group({
-        codigoContrato: [cnt.o, Validators.compose([Validators.required])],
-        descripcion: [cnt.c, Validators.compose([Validators.required])],
-        epiContrato: [cnt.epi, Validators.compose([Validators.required])],
-        year: [this.fecha1.year, Validators.compose([Validators.required])],
-        month: [this.fecha1.month, Validators.compose([Validators.required])],
-        day: [this.fecha1.day, Validators.compose([Validators.required])],
-        hour: [cnt.hrn, Validators.compose([Validators.required])],
-        currency: [cnt.hrn, Validators.compose([Validators.required])],
-        dayTwo: [this.fecha2.day, Validators.compose([Validators.required])],
-        monthTwo: [
-          this.fecha2.month,
-          Validators.compose([Validators.required]),
-        ],
-        yearTwo: [this.fecha2.year, Validators.compose([Validators.required])],
-        hourTwo: [cnt.hrf, Validators.compose([Validators.required])],
-        siniestros: ["", Validators.compose([Validators.required])],
-        observacion: [cnt.r2, Validators.compose([Validators.required])],
-      });
-      console.log(this.fecha1);
+      this.fechaOne = this.getFecha(this.fecha1)
+      this.fechaTwo = this.getFecha(this.fecha2)
+      //Trae datos formulario
+      this.form.controls.hour.setValue(this.horainicio)
+      this.form.controls.hourTwo.setValue(this.horafin)
+      this.form.controls.descripcion.setValue(cnt.c)
+      this.form.controls.observacion.setValue(cnt.r2)
+      this.form.controls.codigoContrato.setValue(cnt.o)
+      this.form.controls.starDate.setValue(this.fechaOne)
+      this.form.controls.endDate.setValue(this.fechaTwo)
+      this.form.controls.siniestros.setValue(this.desimal(this.removerSiniestro(cnt.sin_con)))
       if (cnt.pro_id) {
         this.authService.getDtaRamos(cnt.pro_id).then(
           (res) => {
@@ -97,9 +94,34 @@ export class CuotaEditComponent implements OnInit {
           }
         );
       }
+      this.form.controls.currency.setValue(cnt.mc)
     });
     this.getMoney();
   }
+  createForm() {
+    /*Este es el Formulario*/
+    this.form = this.myFormBuilder.group({
+      codigoContrato: ['', Validators.compose([Validators.required])],
+      descripcion: ['', Validators.compose([Validators.required])],
+      epiContrato: ['', Validators.compose([Validators.required])],
+      starDate: ['', Validators.compose([Validators.required])],
+      endDate: ['', Validators.compose([Validators.required])],
+      hour: ['', Validators.compose([Validators.required])],
+      currency: ['', Validators.compose([Validators.required])],
+      hourTwo: ['', Validators.compose([Validators.required])],
+      siniestros: ['', Validators.compose([Validators.required])],
+      observacion: ['', Validators.compose([Validators.required])],
+    });
+  }
+
+  getFecha(date: any): string {
+    const year = date["year"];
+    const month = date["month"];
+    const day = date["day"];
+
+    return `${year}-${month}-${day}`;
+  }
+
   cortarDesimales(item: any) {
     return Math.trunc(item);
   }
@@ -131,12 +153,12 @@ export class CuotaEditComponent implements OnInit {
     }
   }
 
-  porcentaje2(form: string, key: any){
-    if(!!form){
+  porcentaje2(form: string, key: any) {
+    if (!!form) {
       const value = this.form.controls[key].value
       this.form.controls[key].setValue(
         this.procentaje(value)
-      ) 
+      )
     }
   }
 
@@ -153,5 +175,16 @@ export class CuotaEditComponent implements OnInit {
       .catch((err) => {
         console.log(err);
       });
+  }
+  removerSiniestro(e: any) {
+    if (e != "") {
+      if (typeof e == "string") {
+        const a = e.split('.');
+
+        return a[0];
+      }
+    } else {
+      return '';
+    }
   }
 }

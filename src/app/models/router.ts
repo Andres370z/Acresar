@@ -63,7 +63,9 @@ export const RoutersLink = {
     postBuscarContrato: '/contratos/facultativo/buscar/contrato',
     postBuscarContra: '/contratos/facultativo/buscar/contrato',
     postFacultativoContra: '/facultativo/contrato',
-    postFacultativoContratb: '/facultativo/contrato/tb'
+    postFacultativoContratb: '/facultativo/contrato/tb',
+    postSearchProporcionalesCuotaAparte: '/contratos/automaticos/proporcionales/cuotaparte/buscar',
+    postContratoCuotaAparte: '/contratos/automaticos/proporcionales/cuotaparte/contrato'
     
 };
 

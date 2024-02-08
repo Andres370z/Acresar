@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, ElementRef, Inject, OnInit, ViewChi
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Menssage } from 'src/app/models/router';
-import { FacultativoComponent } from '../facultativo.component';
+import { FacultativoComponent } from '../proporcionales/facultativo/facultativo.component';
 import { AlertService } from 'src/app/service/alert.service';
 import { Route, Router } from '@angular/router';
 
@@ -33,6 +33,7 @@ export class ModalComponent implements OnInit {
   ) { }
   startDate = new Date(1990, 0, 1);
   ngOnInit(): void {
+    localStorage.removeItem('rsltntmpcntrt')
     this.initial()
   }
   initial() {

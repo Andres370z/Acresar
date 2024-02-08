@@ -38,6 +38,7 @@ const routes: Routes = [
 
   /*CONTRATOS*/
   {path: 'contracts/Facultativos', loadChildren:() => import ('./contracts/facultativos/facultativos.module').then(m => m.FacultativosModule)},
+  {path: 'contracts/Automaticos', loadChildren: () => import ('./contracts/automatic/automatic.module').then(m => m.AutomaticModule)},
 
   /**Asociacion de colombia */
   {path: 'asociacion/contratos', loadChildren:() => import ('./contract-association/contracs/contracs.module').then(m => m.ContracsModule)},

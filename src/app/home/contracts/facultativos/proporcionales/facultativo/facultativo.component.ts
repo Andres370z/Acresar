@@ -8,11 +8,11 @@ import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
-import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from '../../modal/modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { PercentageService } from 'src/app/service/percentage.service';
 
-const ELEMENT_DATA = [{ data: '' }];
+const ELEMENT_DATA = [{ data: '' },{position: 1,}];
 @Component({
   selector: 'app-facultativo',
   templateUrl: './facultativo.component.html',

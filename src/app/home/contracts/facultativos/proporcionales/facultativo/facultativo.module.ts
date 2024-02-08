@@ -16,7 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars'
 import { MatDialogModule, MatDialogConfig} from '@angular/material/dialog';
-import { ModalComponent } from './modal/modal.component';
+import { ModalComponent } from '../../modal/modal.component';
 import { MatCardModule } from '@angular/material/card';
 @NgModule({
   declarations: [FacultativoComponent, ModalComponent],

@@ -1,19 +1,19 @@
-import { HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { RoutersLink } from '../models/router';
 import { AlertService } from './alert.service';
 import { HttpsService } from './https.service';
-
+import {Observable} from 'rxjs'
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(
     private registeresquest: HttpsService,
     private route: Router, 
-    private alert: AlertService
+    private alert: AlertService,
+    private http: HttpClient
   ) { }
 
   create(inform:any){
@@ -272,12 +272,7 @@ export class AuthService {
   postBuscarContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postBuscarContra, {item})
   }
-  postFacultativoContra(item: any){
-    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, {item})
-  }
-  postFacultativoContratb(item: any){
-    return this.registeresquest.POSTS(RoutersLink.postFacultativoContratb, {item})
-  }
+  
 
   /**SOLICITUDES DE RESPALDO */
   postBuscarContratosRespaldo(item: any){
@@ -286,5 +281,20 @@ export class AuthService {
   postFacultativoContraRespaldo(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, {item})
   }
-
+  postFacultativoContra(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, {item})
+  }
+  postFacultativoContratb(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContratb, {item})
+  }
+  postBuscarCuotaAparte(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postSearchProporcionalesCuotaAparte, {item})
+  }
+  postContratoCuotaAparte(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparte, {item})
+  }
+  // preuba menu
+  getMenu(){
+    return this.http.get('./assets/json/menu.json')
+  }
 }

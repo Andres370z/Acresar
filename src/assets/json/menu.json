@@ -1,0 +1,116 @@
+[
+  {
+    "id": 1,
+    "path": "\/home\/companias",
+    "title": "Companias",
+    "type": "link",
+    "icon": "dashboard",
+    "role": 1,
+    "subMenu" : [
+      {
+        "title": "reaseurador",
+        "path": "\/home\/companias\/reinsurer"
+      },{
+        "title": "corredor",
+        "path": "\/home\/companias\/corredor"
+      },{
+        "title": "aseguradora",
+        "path": "\/home\/companias\/insurance-carrier"
+      },{
+        "title": "intermediario",
+        "path": "\/home\/companias\/intermediary"
+      },{
+        "title": "info",
+        "path": "\/home\/companias\/info\/directorio"
+      },{
+        "title": "Clientes y Proveedores",
+        "path": "\/home\/companias\/clients"
+      },{
+        "title": "reacoex",
+        "path": "\/home\/companias\/reacoex"
+      }
+    ]
+    
+  },
+  {
+    "id": 2,
+    "path": "\/home\/contracts",
+    "title": "Contratos",
+    "type": "link",
+    "icon": "assignment",
+    "role": 1,
+    "subMenu2": [
+      {
+        "title": "Automaticos",
+        "subMenuAutomaticos" : [
+          {
+            "title": "Proporcionales",
+            "subMenuProporcionales" : [
+              {
+                "title": "Cuota Parte",
+                "path": ""
+              }
+            ]
+          },{
+            "title": "Proporcionales"
+          },{
+            "title": "Cotización"
+          }
+        ]
+      }
+    ]
+    
+  },
+  {
+    "id": 3,
+    "path": "\/home\/asociacion\/contratos",
+    "title": "Asociacion",
+    "type": "link",
+    "icon": "people",
+    "role": 1,
+    "subMenu3" : [
+      {
+        "title" : "Ramos"
+      }, {
+        "title" : "Asociación de contratos"
+      }
+    ] 
+  },
+  {
+    "id": 4,
+    "path": "\/home\/reinsuranceAdministration\/primas",
+    "title": "AdministracionReaseguros",
+    "type": "link",
+    "icon": "work",
+    "role": 1
+  },
+  {
+    "id": 5,
+    "path": "\/home\/",
+    "title": "Coaseguros",
+    "type": "link",
+    "icon": "settings",
+    "role": 1
+    
+  },
+  {
+    "id": 7,
+    "path": "\/home\/",
+    "title": "Reportes",
+    "type": "link",
+    "icon": "assessment",
+    "role": 1
+    
+  }
+  
+]
+{
+  "user": {
+    "username" : "admin@acrezar.com",
+    "password": "123",
+    "role" : 1
+  }
+}
+
+
+

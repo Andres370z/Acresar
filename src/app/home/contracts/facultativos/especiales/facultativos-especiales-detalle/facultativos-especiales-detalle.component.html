@@ -1,0 +1,362 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">edit</i>
+            </div>
+            <h4 class="card-title">Detalle por Reasegurador - Facultativo</h4>
+          </div>
+          <div class="card-body">
+            <form class="form">
+
+              <div class="row">
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill"> 
+                    <mat-label>Corredor</mat-label>
+                    <mat-select>
+                      <mat-option *ngFor="let item of rsltncr">{{item.cod}} {{item.a2}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Reasegurador</mat-label>
+                    <input matInput placeholder="reasegurador" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>100% Participación</mat-label>
+                    <input matInput placeholder="participación" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Comisión</mat-label>
+                    <input matInput placeholder="% comisión" type="text" data-toggle="modal"
+                      data-target="#comisionModal" autocomplete="off">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Depositos retenidos</mat-label>
+                    <input matInput placeholder="depositos retenidos" type="text" data-toggle="modal"
+                    data-target="#depositoRetenidoModal" autocomplete="off">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>% de Impuesto sobre Primas cedidas</mat-label>
+                    <input matInput placeholder="% impuesto" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Imp. renta / dep. retenidos</mat-label>
+                    <input matInput placeholder="impuesto renta" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6"> <!--C--> 
+                  <mat-form-field appearance="fill">
+                    <mat-label>Cuentas</mat-label>
+                    <mat-select disableRipple>
+                      <mat-option value="1">Meses</mat-option>
+                      <mat-option value="2">año</mat-option>
+                      <mat-option value="2">año</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Gararntia de pago</mat-label>
+                    <input matInput placeholder="impuesto renta" type="text" data-toggle="modal"
+                    data-target="#garantiaPagoModal" autocomplete="off">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                
+
+              </div>
+
+
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- MODALS -->
+
+
+<!-- Modal  Comision-->
+<div class="modal fade" id="comisionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="text-center" id="exampleModalLabel">Comisión</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row ">
+          <div class="col-12 buttons-container">
+            <button mat-raised-button type="button" class="btn btn-fill btn-rose" style="background-color: #016672; "
+              (click)="onClickComision('fija')">
+              Fijo
+            </button>
+            
+            <button mat-raised-button type="button" class="btn btn-fill btn-rose" style="background-color: #016672; "
+              (click)="onClickComision('provisional')">
+              Provisional
+            </button>
+            <button mat-raised-button type="button" class="btn btn-fill btn-rose" style="background-color: #016672"
+            (click)="onClickComision('escalonada')">
+              Escalonada
+            </button>
+          </div>
+
+        </div>
+        <mat-divider></mat-divider>
+        <div class="row" *ngIf="comisionArray.fija">
+          <div class="col-12">
+            <form>
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Comisión</mat-label>
+                    <input matInput placeholder="Fijo">
+                  </mat-form-field>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="row" *ngIf="comisionArray.provisional">
+          <div class="col-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th colspan="4" class="text-center custom-font">PROVISIONAL</th>
+                </tr>
+                <tr>
+                  <th colspan="2" class="text-center custom-font">SOBRE COMISIÓN</th>
+                  <th colspan="2" class="text-center custom-font">SINIESTRALIDAD</th>
+                </tr>
+                <tr>
+                  <th class="text-center custom-font">MAX</th>
+                  <th class="text-center custom-font">MIN</th>
+                  <th class="text-center custom-font">MAX</th>
+                  <th class="text-center custom-font">MIN</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="noWrap">
+                    <mat-form-field appearance="outline" >
+                      <mat-checkbox><input class="customForm" matInput></mat-checkbox>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" >
+                      <mat-checkbox><input matInput class="customForm"></mat-checkbox>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" >
+                      <mat-checkbox><input matInput class="customForm"></mat-checkbox>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" >
+                      <mat-checkbox><input matInput class="customForm"></mat-checkbox>
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row" *ngIf="comisionArray.escalonada">
+          <div class="col-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th colspan="4" class="text-center custom-font">ESCALONADA</th>
+                </tr>
+                <tr>
+                  <th  class="text-center custom-font">% Com</th>
+                  <th  class="text-center custom-font">% Sin</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="noWrap">
+                    <mat-form-field appearance="outline" >
+                      <mat-checkbox><input class="customForm" matInput></mat-checkbox>
+                    </mat-form-field>
+                  </td>
+                  <td>
+                    <mat-form-field appearance="outline" >
+                      <mat-checkbox><input matInput class="customForm" matInput></mat-checkbox>
+                    </mat-form-field>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn custom-button">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal  Depósito Retenido-->
+<div class="modal fade" id="depositoRetenidoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="text-center" id="exampleModalLabel">Depósito Retenido</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="card-body">
+            <form class="form">
+              <div class="row">
+
+                <div class="col-12"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Moneda</mat-label>
+                    <mat-select>
+                      <mat-option *ngFor="let item of currency" value=" {{item.a}} ">{{item.c}}</mat-option>
+                    </mat-select>
+                    
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Periodo de Retención de Depósitos</mat-label>
+                    <input matInput placeholder="selecciona un periodo" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-6"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Periodo Tiempo</mat-label>
+                    <mat-select disableRipple>
+                      <mat-option value="1">Meses</mat-option>
+                      <mat-option value="2">año</mat-option>
+                    </mat-select>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-12"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Porcentaje de Retención de Depósitos</mat-label>
+                    <input matInput placeholder="Porcentaje" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-12"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Porcentaje intereses sobre liberación de depósitos</mat-label>
+                    <input matInput placeholder="Porcentaje" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-12"> <!--C-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Garantía de pago</mat-label>
+                    <input matInput placeholder="Porcentaje" type="text">
+                    <mat-icon matSuffix>person_outline</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-12"> <!--C-->
+                  <div class="space">
+                    <mat-checkbox>Reserva Asumida</mat-checkbox>
+                  </div>
+                  
+                </div>
+                
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn custom-button">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal  Garantia de pago-->
+<div class="modal fade" id="garantiaPagoModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="text-center" id="exampleModalLabel">Depósito Retenido</h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12">
+            <table class="table">
+              <thead>
+                <th>No. Pagos</th>
+                <th>Fechas Pagos</th>
+                <th>Moneda</th>
+                <th>Valor</th>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

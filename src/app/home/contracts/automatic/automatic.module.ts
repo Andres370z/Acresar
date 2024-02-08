@@ -2,10 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AutomaticRoutingModule } from './automatic-routing.module';
+import { AutomaticComponent } from './automatic.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [AutomaticComponent],
   imports: [
     CommonModule,
     AutomaticRoutingModule

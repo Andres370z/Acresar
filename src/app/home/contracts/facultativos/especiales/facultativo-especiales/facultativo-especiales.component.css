@@ -1,0 +1,31 @@
+table {
+    width: 100%;
+}
+
+.custom-cell {
+    text-align: center;
+    /* border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0; */
+    padding: 3px;
+
+}
+
+.custom-cello {
+    text-align: center;
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
+    padding: 3px;
+
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+    padding-left: 0px;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+    padding-right: 0px;
+}

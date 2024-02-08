@@ -28,8 +28,8 @@ export class AlertService {
   }
    loading() {
     Swal.fire({
-      title: '',
-      imageUrl: 'assets/img/Cube-1s-200px.gif',
+      title: 'Cargando',
+      imageUrl: 'https://systemresolution.com/assets/img/Cube-1s-200px.gif',
       imageAlt: 'Custom image',
       showConfirmButton: false,
       toast: true

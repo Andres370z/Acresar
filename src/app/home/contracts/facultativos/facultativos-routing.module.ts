@@ -4,7 +4,10 @@ import { FacultativosComponent } from './facultativos.component';
 
 const routes: Routes = [{path: '', component: FacultativosComponent},{
   path: 'proporcionales', loadChildren: () => import ('./proporcionales/proporcionales.module').then (m => m.ProporcionalesModule)
-}];
+},{
+  path: 'especiales', loadChildren: () => import ('./especiales/especiales.module').then (m => m.EspecialesModule)
+}
+];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

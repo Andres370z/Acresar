@@ -1,0 +1,35 @@
+form {
+    width: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    /* Ajusta la altura según tus necesidades */
+}
+
+.custom-font {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.customForm {
+    margin-left: 10px;
+    font-weight: bold;
+    font: black;
+}
+
+.custom-button {
+    background-color: #016672
+}
+.modal-dialog .modal-body {
+    padding-top: 0px;
+    
+  }
+.space {
+    margin-top: 8px;
+    height: 20px;
+    display: block;
+}

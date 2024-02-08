@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Menssage } from 'src/app/models/router';
 
 @Component({
   selector: 'app-especiales',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EspecialesComponent implements OnInit {
 
-  constructor() { }
+  public form: FormGroup
+  constructor(
+    private myFormBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+    
   }
+  
 
 }

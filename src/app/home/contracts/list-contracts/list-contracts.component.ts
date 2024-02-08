@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
@@ -17,7 +18,8 @@ export class ListContractsComponent implements OnInit {
   public dataSource: MatTableDataSource<any>
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private alert: AlertService
   ) { }
 
   ngOnInit(): void {
@@ -25,8 +27,10 @@ export class ListContractsComponent implements OnInit {
   }
 
   getDta() {
+    this.alert.loading()
     this.authService.getDtaContracts().then(
       res => {
+        this.alert.messagefin()
         console.log('esta es tu respuesta', res);
         this.data = res;
         this.dataSource = new MatTableDataSource(res),
