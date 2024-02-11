@@ -285,7 +285,7 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
       this.alert.error('Error', 'Participacion igual al 100% ya no puedes seguir agregando mas nomina')
     } else {
       sessionStorage.setItem('id', JSON.stringify(item));
-      this.router.navigate(['']);
+      this.router.navigate(['/home/contracts/Automaticos/proporcionales/cuota-parte/detalle']);
     }
   }
 }
