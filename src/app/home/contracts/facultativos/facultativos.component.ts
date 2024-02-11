@@ -81,7 +81,17 @@ export class FacultativosComponent implements OnInit {
   admonProvedores: boolean = false;
   detalle: boolean = false;
   creacion: boolean = false;
-
+  munuList: any = {
+    path: "/home/content",
+    title: "Home",
+    type: "link",
+    icontype: "home",
+    collapse: null,
+    children: null,
+    imgMenu: null,
+    idRol: 1,
+    idUsers: 2
+}
   /*Reportes */
   reportes: boolean = false;
   constructor(
@@ -107,91 +117,115 @@ export class FacultativosComponent implements OnInit {
 
       if (this.companias) {
         const optionscompanies = {
+          path: "/home/companias",
           title: "Compañias",
-          subMenuCompanies: []
+          type: "link",
+          icontype: "dashboard",
+          collapse: null,
+          children: [],
+          imgMenu: null,
+          idRol: 1,
+          idUsers: 2
         }
         myMenu.mainContent.mainOptions.push(optionscompanies)
         //opcion reasegurador
         if (this.companiasReasegurador) {
           const companiasReaseguradorOptions = {
             name: "Reasegurador",
+            url: "home/companias/reinsurer",
             subMenu: []
           }
-          optionscompanies.subMenuCompanies.push(companiasReaseguradorOptions)
+          optionscompanies.children.push(companiasReaseguradorOptions)
         }
         //Opcion Corredor
         if (this.companiasCorredor) {
           const compamiesCorredor = {
             name: "Corredor",
+            url: "home/companias/corredor",
             subMneu: []
           }
-          optionscompanies.subMenuCompanies.push(compamiesCorredor)
+          optionscompanies.children.push(compamiesCorredor)
         }
         //Opcion Aseguradora
         if (this.companiasAsegurador) {
           const companiesAsegurador = {
             name: "Aseguradora",
+            url: "home/companias/insurance-carrier",
             subMenu: []
           }
-          optionscompanies.subMenuCompanies.push(companiesAsegurador)
+          optionscompanies.children.push(companiesAsegurador)
         }
         //Opcion Intermediario
         if (this.companiasIntermediario) {
           const companiesIntermediary = {
             name: "Intermediario",
+            url: "home/companias/intermediary",
             subMenu: []
           }
-          optionscompanies.subMenuCompanies.push(companiesIntermediary)
+          optionscompanies.children.push(companiesIntermediary)
         }
         //Opcion Info
         if (this.companiasInfo) {
           const companiesInfo = {
             name: "Info",
+            url: "home/companias/info/directorio",
             subMenu: []
           }
-          optionscompanies.subMenuCompanies.push(companiesInfo)
+          optionscompanies.children.push(companiesInfo)
         }
         //Opcion Clientes y Proveedores
         if (this.companiasClientesyProveedores) {
           const companiesClientsandSuppliers = {
             name: "Clientes y Proveedores",
+            url: "home/companias/clients",
             subMenu: []
           }
-          optionscompanies.subMenuCompanies.push(companiesClientsandSuppliers)
+          optionscompanies.children.push(companiesClientsandSuppliers)
         }
         //Reacoex
         if (this.companiasReacoex) {
           const companiesReacoex = {
             name: "Reacoex",
+            url: "home/companias/reacoex",
             subMenu: []
           }
-          optionscompanies.subMenuCompanies.push(companiesReacoex)
+          optionscompanies.children.push(companiesReacoex)
         }
 
 
       }
       if (this.contratos) {
         const optionsContrats = {
+          path: "/home/companias",
           title: "Contratos",
-          subMenuContracts: []
+          type: "link",
+          icontype: "dashboard",
+          collapse: null,
+          children: [],
+          imgMenu: null,
+          idRol: 1,
+          idUsers: 2
         }
         myMenu.mainContent.mainOptions.push(optionsContrats)
         //automaticos
         if (this.automaticos) {
           const contratosAutomaticosOptions = {
-            name: "Automaticos",
+            name: "Automatico",
+            url: "home/contracts/Automaticos",
             subMenu: []
           }
-          optionsContrats.subMenuContracts.push(contratosAutomaticosOptions)
+          optionsContrats.children.push(contratosAutomaticosOptions)
           if (this.contratosProporcionales) {
             const proporcionalesOptions = {
               name: "Proporcionales",
+              url: "home/contracts/Automaticos/proporcionales",
               subMenuProporcionales: []
             }
             contratosAutomaticosOptions.subMenu.push(proporcionalesOptions)
             if (this.contratosProporcionalesCuotaAparte) {
               const proporcionalesCuotaOptions = {
                 name: "Cuota Aparte",
+                url: "home/contracts/Automaticos/proporcionales/cuota-parte",
                 subMenu: []
               }
               proporcionalesOptions.subMenuProporcionales.push(proporcionalesCuotaOptions)
@@ -200,6 +234,7 @@ export class FacultativosComponent implements OnInit {
           if(this.contratosAutomaticos){
             const automaticosOptions = {
               name: "Automaticos",
+              url: "home/companias/clients",
               subMenuAutomaticos: []
             }
             contratosAutomaticosOptions.subMenu.push(automaticosOptions)
@@ -208,11 +243,57 @@ export class FacultativosComponent implements OnInit {
         //Facultativos
         if(this.facultativos){
           const contratosFacultativosOptions = {
-            name: "Facultativos",
-            subMenu: []
+            path: "home/contracts/Facultativos",
+            title: "Contratos",
+            type: "link",
+            icontype: "dashboard",
+            collapse: null,
+            children: [],
+            imgMenu: null,
+            idRol: 1,
+            idUsers: 2
           }
-          optionsContrats.subMenuContracts.push(contratosFacultativosOptions);
-          
+          contratosFacultativosOptions.children.push(contratosFacultativosOptions);
+          if (this.facultativosProporcionales) {
+            const proporcionalesOptions = {
+              name: "Proporcionales",
+              url: "home/contracts/Facultativos/proporcionales",
+              subMenuProporcionales: []
+            }
+            contratosFacultativosOptions.children.push(proporcionalesOptions)
+            if (this.facultativosProporcionales) {
+              const proporcionalesCuotaOptions = {
+                name: "Cuota Aparte",
+                url: "home/contracts/Facultativos/proporcionales/facultativos",
+                subMenu: []
+              }
+              proporcionalesOptions.subMenuProporcionales.push(proporcionalesCuotaOptions)
+            }
+            if (this.facultativosEspeciales) {
+              const proporcionalesCuotaOptions = {
+                name: "Facultativos",
+                url: "home/reinsuranceAdministration/primas/new-distribuition",
+                subMenu: []
+              }
+              proporcionalesOptions.subMenuProporcionales.push(proporcionalesCuotaOptions)
+            }
+          }
+          if (this.facultativosEspeciales) {
+            const proporcionalesOptions = {
+              name: "Proporcionales",
+              url: "home/reinsuranceAdministration/primas/new-distribuition",
+              subMenuProporcionales: []
+            }
+            contratosFacultativosOptions.children.push(proporcionalesOptions)
+            if (this.facultativosEspecialesesFaculta) {
+              const proporcionalesCuotaOptions = {
+                name: "Facultativos",
+                url: "home/reinsuranceAdministration/primas/new-distribuitio",
+                subMenu: []
+              }
+              proporcionalesOptions.subMenuProporcionales.push(proporcionalesCuotaOptions)
+            }
+          }
         }
         
       }

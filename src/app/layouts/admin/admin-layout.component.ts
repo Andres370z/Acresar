@@ -6,10 +6,11 @@ import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import PerfectScrollbar from 'perfect-scrollbar';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Menssage, idRol } from 'src/app/models/router';
 import { LocalstoreService } from 'src/app/service/localstore.service';
-import { Menssage } from 'src/app/models/router';
 import { AuthService } from 'src/app/service/auth.service';
 import { AlertService } from 'src/app/service/alert.service';
+
 
 declare const $: any;
 
@@ -43,11 +44,10 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       this.usersData = this.localStore.getSuccessLogin();
       this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
       var data =  this.localStore.getItem(Menssage.menu)
-      this.menuItemsStore = data == null ? []: data
-      if (this.menuItemsStore.length == 0) {
-          this.getMenu(this.usersData.user.idrol);
-      }else{
-          this.menuItems = this.menuItemsStore.filter(menuItem => menuItem);
+      if (this.usersData.user.id_rol == idRol.admin) {
+        this.getMenu(this.usersData.user.id_rol );
+      } else {
+        //this.getMenu(this.usersData.user.idrol);
       }
     }
     ngOnInit() {
@@ -70,8 +70,11 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
            }
         });
         this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+          if (elemMainPanel != null) {
              elemMainPanel.scrollTop = 0;
              elemSidebar.scrollTop = 0;
+          }
+             
         });
         const html = document.getElementsByTagName('html')[0];
         if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
@@ -164,13 +167,55 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     getMenu(item: number){
       this._https.getmenu(item).then((resulta: any)=>{
         if (resulta.length != 0) {
-          this.menuItems = resulta.filter(menuItem => menuItem);
+          this.menuItems = [];
+          this.subMenu(resulta)
         } else {
           this.menuItems = [];
         }
           
       }).catch((err: any)=>{
         console.log(err)
+        if (err.error.message == "Unauthenticated.") {
+          this._https.logout()
+        }
       });
+    }
+
+    subMenu(resulta:any){
+      resulta.forEach(element => {
+        console.log(element)
+        if (element.r2) {
+          console.log(JSON.stringify(element.r2.toString().trim()))
+          this.menuItems.push(
+            {
+              id:element.a,
+              path:element.c.toString().trim(),
+              title:element.r,
+              type:element.e,
+              icontype:element.s,
+              collapse:element.a2,
+              children: JSON.parse(element.r2.toString().trim()),
+              imgMenu:element.r3,
+              active:element.e2,
+            },
+          )
+        }else{
+          this.menuItems.push(
+            {
+              id:element.a,
+              path:element.c.toString().trim(),
+              title:element.r,
+              type:element.e,
+              icontype:element.s,
+              collapse:element.a2,
+              children: element.r2,
+              imgMenu:element.r3,
+              active:element.e2,
+            },
+          )
+        }
+      });
+      this.menuItems = this.menuItems.filter(menuItem => menuItem);
+      console.log(this.menuItems)
     }
 }

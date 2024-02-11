@@ -1,26 +1,19 @@
 <div class="body" id="particles-js">
-  <div class="wrapper wrapper-full-page">
-    <div class="page-header login-page header-filter" filter-color="black"
-      style="background-image: url('../../../assets/img/login.jpg'); background-size: cover; background-position: top center;">
-      <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
-            <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
-              <div class="card card-login card-hidden">
-                <div class="card-header card-header-rose text-center" *ngIf="customerDetail.length != 0"
-                  [style]="'background-color: #016672 !important;'">
-                  <img class="img-login" src="./../../../assets/img/logo_login.png"
-                    alt="softsaenz">
-                  <h4 class="card-title">Acresar</h4>
-                </div>
-                <div class="card-header card-header-rose text-center" *ngIf="customerDetail.length == 0">
-                  <img class="img-login" src="../../../assets/img/logo1.png" alt="Acresar">
-                  <h4 class="card-title">ACRESAR</h4>
-                </div>
-                <div class="card-body ">
-                  <p class="card-description text-center">Acresar Consultores</p>
-                  <span class="bmd-form-group">
+    <div class="wrapper wrapper-full-page">
+        <div class="page-header login-page header-filter" filter-color="black" style="background-image: url('../../../assets/img/login.jpg'); background-size: cover; background-position: top center;">
+            <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-4 col-md-6 col-sm-6 ml-auto mr-auto">
+                        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                            <div class="card card-login card-hidden">
+                                <div class="card-header card-header-rose text-center" [style]="'background-color: #016672 !important;'">
+                                    <img class="img-login" src="./../../../assets/img/logo_login.png" alt="softsaenz">
+                                    <h4 class="card-title">Acresar</h4>
+                                </div>
+                                <div class="card-body ">
+                                    <p class="card-description text-center">Acresar Consultores</p>
+                                    <span class="bmd-form-group">
                     <!-- <div class="input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">
@@ -36,42 +29,39 @@
                         <span class="input-group-text">
                           <i class="material-icons">email</i>
                         </span>
-                      </div>
-                      <input type="email" formControlName="email" class="form-control" id="exampleInputEmail5"
-                        placeholder="Correo">
-                      <span class="p-error" *ngIf="!form.controls['email'].valid && form.controls['email']?.touched">
+                    </div>
+                    <input type="email" formControlName="email" class="form-control" id="exampleInputEmail5" placeholder="Correo">
+                    <span class="p-error" *ngIf="!form.controls['email'].valid && form.controls['email']?.touched">
                         {{textAlert.email}}
                       </span>
-                    </div>
-                  </span>
-                  <span class="bmd-form-group">
+                </div>
+                </span>
+                <span class="bmd-form-group">
                     <div class="input-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
                           <i class="material-icons">lock_outline</i>
                         </span>
-                      </div>
-                      <input type="password" formControlName="password" class="form-control for mb-3"
-                        id="exampleInputEmail6" placeholder="Contraseña">
-                      <span class="p-error"
-                        *ngIf="!form.controls['password'].valid && form.controls['password']?.touched">
+            </div>
+            <input type="password" formControlName="password" class="form-control for mb-3" id="exampleInputEmail6" placeholder="Contraseña">
+            <span class="p-error" *ngIf="!form.controls['password'].valid && form.controls['password']?.touched">
                         {{textAlert.password}}
                       </span>
-                    </div>
-                  </span>
-                </div>
-                <div class="card-footer justify-content-center">
-                  <button href="#pablo" class="btn btn-rose btn-link btn-lg" [disabled]="form.invalid">
+        </div>
+        </span>
+    </div>
+    <div class="card-footer justify-content-center">
+        <button href="#pablo" class="btn btn-rose btn-link btn-lg" [disabled]="form.invalid">
                     <h4>Entrar</h4>
                   </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
+</form>
+</div>
+</div>
+</div>
+</div>
+</div>
 </div>
 <canvas class="particles-js-canvas-el" width="937" height="902" style="width: 100%; height: 100%;">
 </canvas>

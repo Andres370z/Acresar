@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { Menssage } from 'src/app/models/router';
+import { Menssage, idRol } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
@@ -176,10 +176,10 @@ export class ContentComponent implements OnInit {
       this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
       var data =  this.localStore.getItem(Menssage.menu)
       this.menuItemsStore = data == null ? []: data
-      if (this.menuItemsStore.length == 0) {
-          this.getMenu(this.usersData.user.idrol);
-      }else{
-          this.menuItems = this.menuItemsStore.filter(menuItem => menuItem);
+      if (this.usersData.user.id_rol == idRol.admin) {
+        this.getMenu(this.usersData.user.id_rol );
+      } else {
+        //this.getMenu(this.usersData.user.idrol);
       }
     }
 

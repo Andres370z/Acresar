@@ -7,7 +7,7 @@ export const PagesRoutes: Routes = [
     {
         path: '',
         children: [ {
-            path: 'login/:token',
+            path: 'login',
             component: LoginComponent
         }]
     }

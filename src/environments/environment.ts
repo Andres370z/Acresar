@@ -5,7 +5,7 @@
 
 export const environment = {
   production: false,
-  api: 'https://api.scanapp.com.co/api/auth/',
+  api: 'https://systemresolutiondesarrollo.softsaenz.com.co/api/',
   api2: 'https://systemresolution.softsaenz.com.co/api',
   apiRespaldo: 'systemresolutiondesarrollo.softsaenz.com.co/api'
   //api3: 'ttps://api.systemresolution.com/api'

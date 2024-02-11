@@ -5,6 +5,8 @@ import { RoutersLink } from '../models/router';
 import { AlertService } from './alert.service';
 import { HttpsService } from './https.service';
 import {Observable} from 'rxjs'
+import { LocalstoreService } from './localstore.service';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -13,7 +15,8 @@ export class AuthService {
     private registeresquest: HttpsService,
     private route: Router, 
     private alert: AlertService,
-    private http: HttpClient
+    private http: HttpClient,
+    private localStore: LocalstoreService,
   ) { }
 
   create(inform:any){
@@ -180,10 +183,10 @@ export class AuthService {
   }
   /*ANDRES*/
   getData(){
-    return this.registeresquest.GETER('/reaseguradoras')
+    return this.registeresquest.GETER('reaseguradoras')
   } 
   getDtaContracts(){
-    return this.registeresquest.GETER('/rsltncntrts')
+    return this.registeresquest.GETER('rsltncntrts')
     .catch((error: any)=>{
       console.log(error)
     })
@@ -297,4 +300,9 @@ export class AuthService {
   getMenu(){
     return this.http.get('./assets/json/menu.json')
   }
+
+  logout(){
+    this.localStore.clear();
+    this.route.navigate([RoutersLink.login]);
+  } 
 }

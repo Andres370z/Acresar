@@ -1,4 +1,3 @@
-
 body,
 h1,
 h2,
@@ -12,6 +11,7 @@ h6,
 .h4 {
     font-family: 'Myriad Pro Regular';
 }
+
 .item-exit {
     position: absolute;
     bottom: 46px;
@@ -88,9 +88,34 @@ h6,
     font-weight: bold;
 }
 
-
 .card-header.card-header-rose.text-center {
     background: linear-gradient(60deg, #016672, #016672) !important;
+}
+
+i.home .mat-icon {
+    height: 45px !important;
+    width: 45px !important;
+    margin-left: 0px !important;
+}
+
+i.home {
+    font-size: 60px !important;
+}
+
+.mat-icon {
+    height: 10px !important;
+    width: 10px !important;
+    margin-left: 5px !important;
+}
+
+th.mat-header-cell:last-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type {
+    padding: 5px !important;
+}
+
+.material-icons {
+    font-size: 16px !important;
 }
 
 .p-error {

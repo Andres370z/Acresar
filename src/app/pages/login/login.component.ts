@@ -14,41 +14,30 @@ declare var particlesJS: any;
 })
 
 export class LoginComponent implements OnInit, OnDestroy {
-  test: Date = new Date();
-  public textAlert: any;
-  public customerDetail: any = [];
-  public toggleButton: any;
-  public sidebarVisible: boolean;
-  public nativeElement: Node;
-  public form: FormGroup;
-  constructor(private element: ElementRef,
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    public formBuilder: FormBuilder,
-    private _https: AuthService,
-    private alert: AlertService,
-    private localStore: LocalstoreService) {
-    this.nativeElement = element.nativeElement;
-    this.sidebarVisible = false;
-    this.textAlert = Menssage;
-
-    let reload = this.localStore.getItem("reload")
-    if (reload != "reload") {
-      this.localStore.setItem("reload", "reload")
-      window.location.reload()
+    test: Date = new Date();
+    public textAlert: any;
+    public customerDetail: any = [];
+    public toggleButton: any;
+    public sidebarVisible: boolean;
+    public nativeElement: Node;
+    public form: FormGroup;
+    constructor(private element: ElementRef,
+      private activatedRoute: ActivatedRoute,
+        private router: Router,
+        public formBuilder: FormBuilder,
+        private _https:AuthService,
+        private alert: AlertService,
+        private localStore: LocalstoreService) {
+        this.nativeElement = element.nativeElement;
+        this.sidebarVisible = false;
+        this.textAlert = Menssage;
+        
+        let reload =  this.localStore.getItem("reload")
+        if (reload != "reload") {
+          this.localStore.setItem("reload", "reload")
+          window.location.reload()
+        }
     }
-    this.activatedRoute.paramMap.subscribe((parametros: ParamMap) => {
-      let token = parametros.get("token");
-      console.log(token)
-      // if (token != null) {
-      //   console.log(token)
-      //   this.getCustomerDetail(token)
-      // } else {
-      //   let token = "ErLCUZBtopFI7hfx4ShACW8OROgHhL2h6eh4RVKQas02QaMn5w";
-      //   this.getCustomerDetail(token)
-      // }
-    })
-  }
 
   ngOnInit() {
     //this.alert.loading();
