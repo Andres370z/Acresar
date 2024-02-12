@@ -59,7 +59,7 @@ export class AuthService {
   }
 
   getUsers(){
-    return  this.registeresquest.GET("user")
+    return  this.registeresquest.GET(RoutersLink.getUsers)
   }
 
   getUsersData(item: number){
@@ -300,7 +300,6 @@ export class AuthService {
   getMenu(){
     return this.http.get('./assets/json/menu.json')
   }
-
   logout(){
     this.localStore.clear();
     this.route.navigate([RoutersLink.login]);

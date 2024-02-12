@@ -1,133 +1,62 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      
-      <div class="col-md-12">
-        <div class="card ">
-          <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" style="background: #016672;">
-              <i class="material-icons">dashboard</i>
-            </div>
-            <h4 class="card-title">HOME</h4>
-          </div>
-          
-          <div class="card-body ">
-            <div class="row" *ngIf="menuItems.length != 0">
-              <div class="col-sm-6 col-lg-3">
-                <a (click)="navigate('home/companias')">
-                  <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
-                    <div class="fondoItem"
-                      style="background-image: url('./../../../assets/img/logo_login1 - copia.png'); --bubble-color: #006571;">
-                    </div>
-                    <div class="card-body text-center">
-                      <i class="material-icons home"><mat-icon>dashboard</mat-icon></i>
-                      <h4>Compañias</h4>
-                    </div>
-                  </div>
-                </a>
-              </div>
+    <div class="container-fluid">
+        <div class="row">
 
-              <div class="col-sm-6 col-lg-3">
-                <a (click)="navigate('home/contracts')">
-                  <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
-                    <div class="fondoItem"
-                      style="background-image: url('./../../../assets/img/logo_login1 - copia.png'); --bubble-color: #006571;">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background: #016672;">
+                            <i class="material-icons">dashboard</i>
+                        </div>
+                        <h4 class="card-title">HOME</h4>
                     </div>
-                    <div class="card-body text-center">
-                      <i class="material-icons home"><mat-icon>assignment</mat-icon></i>
-                      <h4>Contratos</h4>
+
+                    <div class="card-body ">
+                        <div class="row" *ngIf="menuItems.length != 0">
+                            <div class="col-xs-12 col-sm-6 col-lg-3 col-md-3" *ngFor="let menuitem of menuItems">
+                                <a (click)="navigate(menuitem.c)">
+                                    <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
+                                        <div class="fondoItem" [style]="'background-image: url('+img+'menu/'+menuitem.r3+'); --bubble-color: #006571;'">
+                                        </div>
+                                        <div class="card-body text-center">
+                                            <i class="material-icons home"><mat-icon>{{menuitem.s}}</mat-icon></i>
+                                            <h4>{{menuitem.r}}</h4>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <a (click)="navigate('home/asociacion/contratos')">
-                  <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
-                    <div class="fondoItem"
-                      style="background-image: url('./../../../assets/img/logo_login1 - copia.png'); --bubble-color: #006571;">
-                    </div>
-                    <div class="card-body text-center">
-                      <i class="material-icons home"><mat-icon>people</mat-icon></i>
-                      <h4>Asociasion de contratos</h4>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <a (click)="navigate('home/reinsuranceAdministration/primas')">
-                  <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
-                    <div class="fondoItem"
-                      style="background-image: url('./../../../assets/img/logo_login1 - copia.png'); --bubble-color: #006571;">
-                    </div>
-                    <div class="card-body text-center">
-                      <i class="material-icons home"><mat-icon>work</mat-icon></i>
-                      <h4>Administracion Reaseguros</h4>
-                    </div>
-                  </div>
-                </a>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
-                  <div class="fondoItem"
-                    style="background-image: url('./../../../assets/img/logo_login1 - copia.png'); --bubble-color: #006571;">
-                  </div>
-                  <div class="card-body text-center">
-                    <i class="material-icons home"><mat-icon>settings</mat-icon></i>
-                    <h4>Coaseguros</h4>
-                  </div>
                 </div>
-              </div>
-              <div class="col-sm-6 col-lg-3">
-                <a (click)="navigate('home/')">
-                  <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
-                    <div class="fondoItem"
-                      style="background-image: url('./../../../assets/img/logo_login1 - copia.png'); --bubble-color: #006571;">
+            </div>
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background: #016672;">
+                            <i class="material-icons">storage</i>
+                        </div>
+                        <h4 class="card-title">Estadisticas</h4>
                     </div>
-                    <div class="card-body text-center">
-                      <i class="material-icons home"><mat-icon>assessment</mat-icon></i>
-                      <h4>Reportes</h4>
+                    <div class="card-body">
+                        <div class="row">
+                            <h4 class="text-center mx-auto">GLOBALES</h4>
+                            <div class="mx-auto">
+                                <ngx-charts-pie-grid [view]="view" [scheme]="colorScheme" [results]="single" (select)="onSelect($event)">
+                                </ngx-charts-pie-grid>
+                            </div>
+                            <div class="mx-auto">
+                                <ngx-charts-bubble-chart [view]="view" [scheme]="colorScheme" [results]="bubbleData" [xAxis]="showXAxis" [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel" [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
+                                    [xScaleMin]="xScaleMin" [xScaleMax]="xScaleMax" [yScaleMin]="yScaleMin" [yScaleMax]="yScaleMax" [minRadius]="minRadius" [maxRadius]="maxRadius" (select)="onSelect($event)" (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
+                                </ngx-charts-bubble-chart>
+                            </div>
+                        </div>
                     </div>
-                  </div>
-                </a>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-12">
-        <div class="card ">
-          <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" style="background: #016672;">
-              <i class="material-icons">storage</i>
-            </div>
-            <h4 class="card-title">Estadisticas</h4>
-          </div>
-          <div class="card-body">
-            <div class="row">
-              <h4 class="text-center mx-auto">GLOBALES</h4>
-              <div class="mx-auto">
-                <ngx-charts-pie-grid [view]="view" [scheme]="colorScheme" [results]="single"
-                  (select)="onSelect($event)">
-                </ngx-charts-pie-grid>
-              </div>
-              <div class="mx-auto">
-                <ngx-charts-bubble-chart [view]="view" [scheme]="colorScheme" [results]="bubbleData" [xAxis]="showXAxis"
-                  [yAxis]="showYAxis" [legend]="showLegend" [showXAxisLabel]="showXAxisLabel"
-                  [showYAxisLabel]="showYAxisLabel" [xAxisLabel]="xAxisLabel" [yAxisLabel]="yAxisLabel"
-                  [xScaleMin]="xScaleMin" [xScaleMax]="xScaleMax" [yScaleMin]="yScaleMin" [yScaleMax]="yScaleMax"
-                  [minRadius]="minRadius" [maxRadius]="maxRadius" (select)="onSelect($event)"
-                  (activate)="onActivate($event)" (deactivate)="onDeactivate($event)">
-                </ngx-charts-bubble-chart>
-              </div>
-            </div>
-          </div>
 
 
+
+                </div>
+            </div>
 
         </div>
-      </div>
-
     </div>
-  </div>
 </div>

@@ -185,7 +185,6 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       resulta.forEach(element => {
         console.log(element)
         if (element.r2) {
-          console.log(JSON.stringify(element.r2.toString().trim()))
           this.menuItems.push(
             {
               id:element.a,
@@ -194,7 +193,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
               type:element.e,
               icontype:element.s,
               collapse:element.a2,
-              children: JSON.parse(element.r2.toString().trim()),
+              children: element.r2,
               imgMenu:element.r3,
               active:element.e2,
             },

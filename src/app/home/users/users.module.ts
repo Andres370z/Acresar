@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ContentRoutingModule } from './content-routing.module';
-import { ContentComponent } from './content.component';
-import {NgxChartsModule} from '@swimlane/ngx-charts'
-import { MenuComponent } from '../reinsurance-companies/menu/menu.component';
+import { UsersRoutingModule } from './users-routing.module';
+import { UsersComponent } from './users.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -19,14 +17,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+
 @NgModule({
   declarations: [
-    ContentComponent
+    UsersComponent
   ],
   imports: [
     CommonModule,
-    ContentRoutingModule,
-    NgxChartsModule,
+    UsersRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -46,4 +44,4 @@ import { MatCardModule } from '@angular/material/card';
     MatCardModule
   ]
 })
-export class ContentModule { }
+export class UsersModule { }

@@ -1,105 +1,88 @@
 <div class="logo">
 
-  <a href="https://www.creative-tim.com" class="simple-text logo-normal" style="--dropdown-color: #fff;">
-    <h4>Acresar</h4>
-  </a>
-  <div class="photoPerfil" style="text-align: center;">
-    <img src="./../../assets/img/logo_original.png" alt=""
-      style="max-width: 200px; max-height: 100px; width: auto; height: auto;">
-  </div>
+    <a href="https://www.systemresolution.com" class="simple-text logo-normal" style="--dropdown-color: #fff;">
+        <h4>System Resolution</h4>
+    </a>
+    <div class="photoPerfil" style="text-align: center;">
+        <img src="./../../assets/img/logo_login.png" alt="" style="max-width: 200px; max-height: 100px; width: auto; height: auto;">
+    </div>
 </div>
 
 
 <div class="sidebar-wrapper">
 
-  <div class="user">
-    <div class="photo">
-      <img src="./../../../assets/img/logo_login1 - copia.png" />
-    </div>
-    <div class="user-info">
-      <a data-toggle="collapse" href="#collapseExample" class="collapsed" style="--dropdown-color: #fff;">
-        <span>
-          admin@acresar.com
-          <b class="caret"></b>
-        </span>
-      </a>
-      <div class="collapse" id="collapseExample">
-        <ul class="nav">
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link">
-              <span class="sidebar-mini">MP</span>
-              <span class="sidebar-normal">Mi perfil</span>
+    <div class="user">
+        <div class="photo">
+            <img src="./../../../assets/img/logo_login1 - copia.png" />
+        </div>
+        <div class="user-info">
+            <a data-toggle="collapse" href="#collapseExample" class="collapsed" style="--dropdown-color: #fff;">
+                <span>
+                          {{usersData.user.name}} {{usersData.user.surname}} <br>
+                          {{usersData.user.email}}
+                          <b class="caret"></b>
+                      </span>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="javascript:void(0)" class="nav-link">
-              <span class="sidebar-mini">EP</span>
-              <span class="sidebar-normal">Editar perfil</span>
-            </a>
-          </li>
-          <!--                     <li class="nav-item">
+            <div class="collapse" id="collapseExample">
+                <ul class="nav">
+                    <li class="nav-item">
                         <a href="javascript:void(0)" class="nav-link">
-                            <span class="sidebar-mini">S</span>
-                            <span class="sidebar-normal">Settings</span>
+                            <span class="sidebar-mini">MP</span>
+                            <span class="sidebar-normal">Mi perfil</span>
                         </a>
-                    </li> -->
-        </ul>
-      </div>
+                    </li>
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link">
+                            <span class="sidebar-mini">EP</span>
+                            <span class="sidebar-normal">Editar perfil</span>
+                        </a>
+                    </li>
+                    <!--                     <li class="nav-item">
+                      <a href="javascript:void(0)" class="nav-link">
+                          <span class="sidebar-mini">S</span>
+                          <span class="sidebar-normal">Settings</span>
+                      </a>
+                  </li> -->
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
-  <div *ngIf="isMobileMenu()">
-  </div>
-  <ul class="nav" *ngIf="menuItems.length !== 0">
-    <li class="nav-item">
-      <!-- Single link -->
-      <a (click)="navigate('home/companias')" class="nav-link" style="--dropdown-color: #fff;">
-        <i class="material-icons" style="--dropdown-color: #fff;"><mat-icon>dashboard</mat-icon></i>
-        <p>Compañías</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <!-- Single link -->
-      <a (click)="navigate('home/contracts')" class="nav-link" style="--dropdown-color: #fff;">
-        <i class="material-icons" style="--dropdown-color: #fff;"><mat-icon>assignment</mat-icon></i>
-        <p>Contratos</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <!-- Single link -->
-      <a (click)="navigate('home/asociacion/contratos')" class="nav-link" style="--dropdown-color: #fff;">
-        <i class="material-icons" style="--dropdown-color: #fff;"><mat-icon>people</mat-icon></i>
-        <p>Asociación contratos</p>
-      </a>
-    </li>
-  
-    <li class="nav-item">
-      <!-- Single link -->
-      <a (click)="navigate('home/reinsuranceAdministration/primas')" class="nav-link" style="--dropdown-color: #fff;">
-        <i class="material-icons" style="--dropdown-color: #fff;"><mat-icon>work</mat-icon></i>
-        <p>Administración reaseguros</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <!-- Single link -->
-      <a (click)="navigate('home/')" class="nav-link" style="--dropdown-color: #fff;">
-        <i class="material-icons" style="--dropdown-color: #fff;"><mat-icon>settings</mat-icon></i>
-        <p>Coaseguros</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <!-- Single link -->
-      <a (click)="navigate('home/')" class="nav-link" style="--dropdown-color: #fff;">
-        <i class="material-icons" style="--dropdown-color: #fff;"><mat-icon>assessment</mat-icon></i>
-        <p>Reportes</p>
-      </a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" style="--dropdown-color: #fff;" (click)="logout()">
-        <i class="material-icons" style="--dropdown-color: #fff;">logout</i>
-        <p>Salir</p>
-      </a>
-    </li>
-  </ul>
-  
+    <div *ngIf="isMobileMenu()">
+    </div>
+    <ul class="nav" *ngIf="menuItems.length != 0">
+        <li routerLinkActive="active" *ngFor="let menuitem of menuItems" class="nav-item">
+            <!--If is a single link-->
+            <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'" class="nav-link" style="--dropdown-color: #fff;">
+                <i class="material-icons" style="--dropdown-color: #fff;">{{menuitem.icontype}}</i>
+                <p>{{menuitem.title}}</p>
+            </a>
+            <!--If it have a submenu-->
+            <a data-toggle="collapse" href="#{{menuitem.collapse}}" *ngIf="menuitem.type === 'sub'" (click)="updatePS()" class="nav-link" style="--dropdown-color: #fff;">
+                <i class="material-icons" style="--dropdown-color: #fff;">{{menuitem.icontype}}</i>
+                <p>{{menuitem.title}}<b class="caret"></b></p>
+            </a>
 
+            <!--Display the submenu items-->
+            <div id="{{menuitem.collapse}}" class="collapse" *ngIf="menuitem.type === 'sub'">
+                <ul class="nav">
+                    <li routerLinkActive="active" *ngFor="let childitem of menuitem.children" class="nav-item">
+                        <a [routerLink]="[menuitem.path, childitem.path]" class="nav-link">
+                            <span class="sidebar-mini">{{childitem.ab}}</span>
+                            <span class="sidebar-normal">{{childitem.title}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+    <div class="item-exit" (click)="logout()">
+        <ul class="nav">
+            <li class="nav-item">
+                <a class="nav-link" style="--dropdown-color: #fff;">
+                    <i class="material-icons" style="--dropdown-color: #fff;">logout</i>
+                    <p>Salir</p>
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>

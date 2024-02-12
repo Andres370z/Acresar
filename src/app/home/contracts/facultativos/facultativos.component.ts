@@ -8,7 +8,7 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 
 export class FacultativosComponent implements OnInit {
-  isLinear: boolean = false
+  isLinear: boolean = false 
   myMenuNew: boolean = false;
   public menuComplet: any
   public nuevoMenu: any
@@ -296,6 +296,85 @@ export class FacultativosComponent implements OnInit {
           }
         }
         
+      }
+      if (this.companias) {
+        const optionscompanies = {
+          path: "/home/companias",
+          title: "Compañias",
+          type: "link",
+          icontype: "dashboard",
+          collapse: null,
+          children: [],
+          imgMenu: null,
+          idRol: 1,
+          idUsers: 2
+        }
+        myMenu.mainContent.mainOptions.push(optionscompanies)
+        //opcion reasegurador
+        if (this.companiasReasegurador) {
+          const companiasReaseguradorOptions = {
+            name: "Reasegurador",
+            url: "home/companias/reinsurer",
+            subMenu: []
+          }
+          optionscompanies.children.push(companiasReaseguradorOptions)
+        }
+        //Opcion Corredor
+        if (this.companiasCorredor) {
+          const compamiesCorredor = {
+            name: "Corredor",
+            url: "home/companias/corredor",
+            subMneu: []
+          }
+          optionscompanies.children.push(compamiesCorredor)
+        }
+        //Opcion Aseguradora
+        if (this.companiasAsegurador) {
+          const companiesAsegurador = {
+            name: "Aseguradora",
+            url: "home/companias/insurance-carrier",
+            subMenu: []
+          }
+          optionscompanies.children.push(companiesAsegurador)
+        }
+        //Opcion Intermediario
+        if (this.companiasIntermediario) {
+          const companiesIntermediary = {
+            name: "Intermediario",
+            url: "home/companias/intermediary",
+            subMenu: []
+          }
+          optionscompanies.children.push(companiesIntermediary)
+        }
+        //Opcion Info
+        if (this.companiasInfo) {
+          const companiesInfo = {
+            name: "Info",
+            url: "home/companias/info/directorio",
+            subMenu: []
+          }
+          optionscompanies.children.push(companiesInfo)
+        }
+        //Opcion Clientes y Proveedores
+        if (this.companiasClientesyProveedores) {
+          const companiesClientsandSuppliers = {
+            name: "Clientes y Proveedores",
+            url: "home/companias/clients",
+            subMenu: []
+          }
+          optionscompanies.children.push(companiesClientsandSuppliers)
+        }
+        //Reacoex
+        if (this.companiasReacoex) {
+          const companiesReacoex = {
+            name: "Reacoex",
+            url: "home/companias/reacoex",
+            subMenu: []
+          }
+          optionscompanies.children.push(companiesReacoex)
+        }
+
+
       }
 
     }

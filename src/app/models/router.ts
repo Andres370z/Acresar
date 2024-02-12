@@ -22,6 +22,7 @@ export const RoutersLink = {
     category:"category",
     status:"status/",
     getUsersData:"getUsersData/",
+    getUsers:"configuracion/usuarios",
     benefits:"benefits",
     scale:"scale",
     challenges:"challenges",

@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit {
     }
     logout(){
         this.localStore.clear();
-        this.router.navigate([RoutersLink.login+this.customerDetail.api_token]);
+        this.router.navigate([RoutersLink.login]);
         this.menuItemsStore = []
     } 
     navigate(item: any){

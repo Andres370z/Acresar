@@ -4,6 +4,7 @@ import { Menssage, idRol } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-content',
@@ -27,6 +28,7 @@ export class ContentComponent implements OnInit {
   yAxisLabel: string = 'Country';
   showYAxisLabel: boolean = true;
   xAxisLabel = 'Population';
+  img = environment.img;
   maxRadius: number = 20;
   minRadius: number = 5;
   yScaleMin: number = 70;

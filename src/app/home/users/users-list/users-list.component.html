@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background-color: #016672;">
+                            <i class="material-icons">people</i>
+                        </div>
+                        <h4 class="card-title">Listado de Usuarios </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <mat-form-field>
+                                <mat-label>Buscar...</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
+                            </mat-form-field>
+                            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                                <ng-container matColumnDef="nombre">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell"> Nombre </th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.name}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="apellidos">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell">Apellidos</th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.lastName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="correo">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell">Correo </th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.email}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="perfil">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell">Perfil</th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.rol}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="pais">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell">País</th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.rslnpss}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="estado">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell">Estado</th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell">{{element.state == 1 ? 'Activo ': 'Inactivo'}} </td>
+                                </ng-container>
+
+
+                                <ng-container matColumnDef="accion">
+                                    <th mat-header-cell *matHeaderCellDef class="custom-cell">Accion</th>
+                                    <td mat-cell *matCellDef="let element" class="custom-cell">
+                                        <a (click)="delete(element.a)">
+                                            <mat-icon>delete</mat-icon>
+                                        </a>
+                                        <a (click)="edit(element)">
+                                            <mat-icon>edit</mat-icon>
+                                        </a>
+                                        <a (click)="addMenu(element)">
+                                            <mat-icon>view_headline</mat-icon>
+                                        </a>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+
+                            <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
+                            </mat-paginator>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
