@@ -1044,6 +1044,26 @@ export class CistomMenuComponent implements OnInit {
         case "Asociación de Contratos":
           this.contratosAsociacion = true
           break;
+        case "Primas":
+          this.primas = true
+          this.primasReporte = true
+          break;
+        case "Siniestro":
+          this.sinistro = true
+          this.siniestrosReportes = true
+          break;
+        case "Administración":
+          this.administracion = true
+          break;
+        case "Negocio":
+          this.negocio = true
+          break;
+        case "Cartera":
+          this.cartera = true
+          break;
+        case "Informes":
+          this.informes = true
+          break;
         default:
           break;
       }
@@ -1069,31 +1089,172 @@ export class CistomMenuComponent implements OnInit {
         case "Especiales":
           this.facultativosEspeciales = true
           break;
+        case "Reaseguro Manual":
+          this.reaseguroManual = true
+          this.siniestroManual = true
+          break;
+        case "Reaseguro Automatico":
+          this.reaseguroAutomatico = true
+          this.siniestroAutomatico = true
+          break;
+        case "Borrar Distribucion Rea":
+          this.borrarRea = true
+          break;
+        case "Especiales":
+          this.facultativosEspeciales = true
+          break;
+        case "Admon Proveedores":
+          this.admonProveedores = true
+          break;
+        case "Aignacion de proveedores":
+          this.asigproveedores = true
+          break;
+        case "Detalle":
+          this.detalle = true
+          break;
+        case "Resumen de cesión":
+          this.reporCesion = true
+          break;
+        case "Bordereaux de prima":
+          this.reauxPrima = true
+          break;
+        case "Reporte de contrato automatico":
+          this.reporteAutomatico = true
+          break;
+        case "Reporte de contrato Facultativo":
+          this.reporteFacultativo = true
+          break;
+        case "Resumen de sinistros":
+          this.resumenSinistros = true
+          break;
+        case "Bordereaux de sinistros":
+          this.reauxSinistro = true
+          break;
+        case "Sinistros de reasegurador":
+          this.reaseguroSinistro = true
+          break;
+        case "Reasegurador":
+          this.reaseguradorCartera = true
+          break;
+        case "Compañia":
+          this.companiaCartera = true
+          break;
+        case "Proveedor":
+          this.proveedorCartera = true
+          break;
+        case "Pagos":
+          this.pagosCartera = true
+          break;
+        case "Vencimientos":
+          this.vencimientoCartera = true
+          break;
         default:
           break;
       }
+      if (element.subMenu != undefined) {
+        if (element.subMenu.length != 0) {
+          this.subMenuListSub(element.subMenu)
+        }
+      }
     });
+    
   }
 
   subMenuListSub(subMenuListSub: any[]) {
     subMenuListSub.forEach(element => {
       switch (element.name) {
-        case "Proporcionales":
-          this.contratosProporcionales = true
-          this.facultativosProporcionales = true
+        case "Cuota Aparte":
+          this.contratosProporcionalesCuotaAparte = true
           break;
-        case "Automaticos":
-          this.contratosAutomaticos = true
+        case "Facultativos":
+          this.facultativosProporcionalesFaculta = true
+          this.facultativosEspecialesesFaculta = true
           break;
         case "Especiales":
-          this.facultativosEspeciales = true
+          this.facultativosEspecialesesFaculta = true
+          break;
+        case "Borrar Ajuste":
+          this.borrarAjuste = true
+          this.manualBorrarAjuste = true
+          break;
+        case "Nuevo Ajuste":
+          this.nuevoAjuste = true
+          this.manualNuevoAjuste = true
+          break;
+        case "Modificar Distribución":
+          this.modificarDistribucion = true
+          this.manualModificarDistribucion = true
+          break;
+        case "Nueva Distribución":
+          this.nuevaDistribucion = true
+          this.manualDistribucion = true
+          break;
+        case "Cargar Sinistros Pagados":
+          this.siniestroAutomaticoCargar = true
+          break;
+        case "Procesar Sinistros Pagados":
+          this.siniestroAutomaticoProcesar = true
+          break;
+        case "Cargar reserva de siniestros":
+          this.siniestroAutomaticoCargarReserva = true
+          break;
+        case "Procesar Reserva de pagados":
+          this.siniestroAutomaticoProcesarReserva = true
+          break;
+        case "Cargar":
+          this.reaseguroAutomaticoCargar = true
+          break;
+        case "Procesar":
+          this.reaseguroAutomaticoProcesar = true
+          break;
+        case "Creación":
+          this.creacion = true
+          break;  
+        default:
+          break;
+      }
+      if (element.subMenu != undefined) {
+        if (element.subMenu.length != 0) {
+          this.subMenuSub(element.subMenu)
+        }
+      }
+    });
+  }
+
+  subMenuSub(subMenuSub: any[]) {
+    subMenuSub.forEach(element => {
+      switch (element.name) {
+        case "Facultativos Especial":
+          this.nuevaDistribucionEspecial = true
+          break;
+        case "Facultativos":
+          this.nuevaDistribucionFacultativos = true
+          this.manualDistribucionFacultativos = true
+          break;
+        case "Automaticos":
+          this.nuevaDistribucionAutomaticos = true
+          this.manualDistribucionAutomaticos = true
+          break;
+        case "Prorroga":
+          this.modificarDistribucionProrroga = true
+          break;
+        case "Modificar Facultativo":
+          this.modificarDistribucionFaculta = true
+          break;
+        case "Modificar Automaticos":
+          this.modificarDistribucionAutomaticos = true
+          break;
+        case "Ajuste Facultativos":
+          this.nuevoAjusteFacultativo = true
+          break;
+        case "Ajuste Automaticos":
+          this.nuevoAjusteAutomaticos = true
           break;
         default:
           break;
       }
     });
   }
-
   editMenu(item: any[]) {
     const menuList = {
       mainOptions: []
