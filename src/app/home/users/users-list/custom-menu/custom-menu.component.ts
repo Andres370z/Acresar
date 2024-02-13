@@ -1,7 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
+import { Menssage } from 'src/app/models/router';
 import { SafeUrl } from '@angular/platform-browser';
 import { AlertService } from 'src/app/service/alert.service';
+import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
+import { MenuService } from 'src/app/service/menu.service';
 import html2canvas from "html2canvas";
 
 @Component({
@@ -10,6 +14,10 @@ import html2canvas from "html2canvas";
   styleUrls: ['./custom-menu.component.css']
 })
 export class CistomMenuComponent implements OnInit {
+  @ViewChild('screen') screen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('downloadLink') downloadLink: ElementRef;
+  public menuItems: any[] = [];
   isLinear: boolean = false
   //menu completo
   companias: boolean = false;
@@ -104,28 +112,10 @@ export class CistomMenuComponent implements OnInit {
   /* Monitoreo de Contratos */
   monitoreoAutomaticos: boolean = false;
   monitoreoFacultativos: boolean = false;
-  /* Menu lateral */
-  resolutionLateral: boolean = false;
-  reasegurosLateral: boolean = false;
-  configuracionLateral: boolean = false;
-  reportesLateral: boolean = false;
-  seguridadLateral: boolean = false;
-  servicedeskLateral: boolean = false;
-  inicioLateral: boolean = false;
-  ayudaLateral: boolean = false;
-  ajusteReaseguroLateral: boolean = false;
-  asociacionReaseguroLateral: boolean = false;
-  contratosReaseguroLateral: boolean = false;
-  companiasReaseguroLateral: boolean = false;
-  cumulusReaseguroLateral: boolean = false;
-  eliminarReaseguroLateral: boolean = false;
-  lineasReaseguroLateral: boolean = false;
-  reaseguroReaseguroLateral: boolean = false;
-  contratosconfiguracionLateral: boolean = false;
-  charJsreportesLateral: boolean = false;
-  morrisreportesLateral: boolean = false;
-  flotreportesLateral: boolean = false;
-  inlineChartsreportesLateral: boolean = false;
+  /* Usuarios */
+  usuarios: boolean = false;
+  userList: boolean = false;
+  userRegister: boolean = false;
   myDta: any;
   public nameUser: any
   public menuCompletOne: any
@@ -143,13 +133,16 @@ export class CistomMenuComponent implements OnInit {
   img: boolean = false;
   imgCreate: any;
   constructor(
+    private menuService: MenuService,
+    private router: Router,
+    private _https: AuthService,
     private alert: AlertService,
     private localStore: LocalstoreService,
   ) {
     this.dataUsers = this.localStore.getItem("usersList")
     console.log(this.dataUsers.id)
-    this.myDta = JSON.parse(localStorage.getItem('usersList'))
-    let idBase = btoa(this.myDta.id.toString())
+    this.getMenu(this.dataUsers.id);
+    let idBase = btoa(this.dataUsers.id.toString())
     this.myAngularxQrCode = `https://card.systemresolution.com/${idBase}`;
   }
 
@@ -157,23 +150,38 @@ export class CistomMenuComponent implements OnInit {
     this.qrCodeDownloadLink = url;
   }
 
-  
+
   ngOnInit(): void {
-    if (localStorage.getItem('usersList')) {
-      
-      this.nameUser = this.myDta.name;
+    if (this.dataUsers) {
+      this.nameUser = this.dataUsers.name;
     }
-    
-    
+
+
   }
+
   dowloadImg() {
-    html2canvas(document.querySelector("#myImage")).then(canvas => {
-      this.imgCreate = canvas.toDataURL();
+    html2canvas(this.screen.nativeElement).then(canvas => {
+      var dataURL = canvas.toDataURL();
+      this.canvas.nativeElement.src = dataURL;
+      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+      this.downloadLink.nativeElement.download = 'card-atlantic.png';
+      this.downloadLink.nativeElement.click();
     });
+
     this.img = true;
   }
   saveDta() {
     const myFirstMenu = {
+      path: "home/",
+      title: "Home",
+      type: "link",
+      icontype: "home",
+      collapse: null,
+      imgMenu: null,
+      idRol: this.dataUsers.id_rol,
+      idUsers: this.dataUsers.id,
+      children: [],
+      id: null,
       mainOptions: []
     }
 
@@ -182,12 +190,13 @@ export class CistomMenuComponent implements OnInit {
         path: "home/companias",
         title: "Compañias",
         type: "link",
-        icontype: "dashboard",
+        icontype: "business_center",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
         idUsers: this.dataUsers.id,
-        children: []
+        children: [],
+        id: null
       }
       myFirstMenu.mainOptions.push(optionscompanies)
       //opcion reasegurador
@@ -261,7 +270,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/contracts",
         title: "Contratos",
         type: "link",
-        icontype: "dashboard",
+        icontype: "location_city",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -362,7 +371,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/asociacion/contratos",
         title: "Asociación de Contratos",
         type: "link",
-        icontype: "dashboard",
+        icontype: "people",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -393,7 +402,8 @@ export class CistomMenuComponent implements OnInit {
       const myMenu = {
         path: "home/reinsuranceAdministration/primas",
         title: "Administración de reaseguros",
-        icontype: "dashboard",
+        icontype: "poll",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -685,7 +695,8 @@ export class CistomMenuComponent implements OnInit {
       const gerencial = {
         path: "home/gerencial",
         title: "Gerencial",
-        icontype: "dashboard",
+        icontype: "category",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -757,7 +768,8 @@ export class CistomMenuComponent implements OnInit {
       const myMenu = {
         path: "home/reportes",
         title: "Reportes",
-        icontype: "dashboard",
+        icontype: "equalizer",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -946,7 +958,8 @@ export class CistomMenuComponent implements OnInit {
       const myMenuMoni = {
         path: "home/monitoreo",
         title: "Monitoreo Contratos",
-        icontype: "dashboard",
+        icontype: "trending_up",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -966,28 +979,403 @@ export class CistomMenuComponent implements OnInit {
         const myMenu = {
           name: "Facultativos",
           url: "",
-          subMenuReportes: []
+          subMenu: []
         };
         myMenuMoni.children.push(myMenu)
       }
     }
-
-    if (this.menuLateral) {
-      const menuLateral = {
-        path: "home/dashboard1",
-        title: "Menu Lateral",
-        icontype: "dashboard",
+    if(this.usuarios){
+      const myMenuUsuarios = {
+        path: "home/usuarios",
+        title: "Usuarios",
+        icontype: "library_add",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
         idUsers: this.dataUsers.id,
         children: []
+      };
+      myFirstMenu.mainOptions.push(myMenuUsuarios)
+      if(this.userList){
+        const myMenu = {
+          name: "Lista de Usuarios",
+          url: "home/usuarios/lista",
+          subMenu: []
+        };
+        myMenuUsuarios.children.push(myMenu)
+      }
+      if(this.userRegister){
+        const myMenu = {
+          name: "Crear Usuario",
+          url: "home/usuarios/registrar",
+          subMenu: []
+        };
+        myMenuUsuarios.children.push(myMenu)
+      }
+    }
+    //this.alert.success('En hora buena', 'Tu menú personalizado ha sido guardado')
+    //this.menuComplet = myFirstMenu;
+    if (this.menuItems.length != 0) {
+      this.editMenu(myFirstMenu.mainOptions)
+    } else {
+      this.resgisterMenu(myFirstMenu)
+    }
+
+  }
+
+  resgisterMenu(item: any) {
+    this.alert.loading()
+    this.menuService.resgisterMenu(item).then(
+      res => {
+        this.alert.success(Menssage.exito, Menssage.succesMenu)
+      }
+    ).catch((err: any) => {
+      this.alert.error(Menssage.error, Menssage.errorMenu);
+    });
+  }
+
+  getMenu(item: number) {
+    this.alert.loading();
+    this._https.getMenuIdUsers(item).then((resulta: any[]) => {
+      this.menuItems = resulta.filter(menuItem => menuItem);
+      if (this.menuItems.length != 0) {
+        console.log("compani")
+        this.menuEdit(this.menuItems)
+      }
+      this.alert.messagefin()
+    }).catch((err: any) => {
+      console.log(err)
+      this.alert.error(Menssage.error, Menssage.server);
+    });
+  }
+
+  menuEdit(menuItems: any[]) {
+    menuItems.forEach(element => {
+      switch (element.r) {
+        case "Compañias":
+          this.companias = true
+          break;
+        case "Contratos":
+          this.contratos = true
+          break;
+        case "Asociación de Contratos":
+          this.asociacionContratos = true
+          break;
+        case "Administración de reaseguros":
+          this.adminreaseguros = true
+          break;
+        case "Gerencial":
+          this.gerencial = true
+          break;
+        case "Reportes":
+          this.resportes = true
+          break;
+        case "Monitoreo Contratos":
+          this.monitoreoContracs = true
+          break;
+        default:
+          break;
+      }
+      if (element.r2 != null) {
+        this.subMenuEdit(element.r2);
       }
 
+    });
+  }
+
+  subMenuEdit(subMenuEdit: any[]) {
+    subMenuEdit.forEach(element => {
+      switch (element.name) {
+        case "Reasegurador":
+          this.companiasReasegurador = true
+          break;
+        case "Corredor":
+          this.companiasCorredor = true
+          break;
+        case "Aseguradora":
+          this.companiasAsegurador = true
+          break;
+        case "Intermediario":
+          this.companiasIntermediario = true
+          break;
+        case "Info":
+          this.companiasInfo = true
+          break;
+        case "Clientes y Proveedores":
+          this.companiasClientesyProveedores = true
+          break;
+        case "Reacoex":
+          this.companiasReacoex = true
+          break;
+        case "Automaticos":
+          this.automaticos = true
+          break;
+        case "Facultativos":
+          this.facultativos = true
+          break;
+        case "Cotización":
+          this.cotizacion = true
+          break;
+        case "Ramos":
+          this.ramos = true
+          break;
+        case "Asociación de Contratos":
+          this.contratosAsociacion = true
+          break;
+        case "Primas":
+          this.primas = true
+          this.primasReporte = true
+          break;
+        case "Siniestro":
+          this.sinistro = true
+          this.siniestrosReportes = true
+          break;
+        case "Administración":
+          this.administracion = true
+          break;
+        case "Negocio":
+          this.negocio = true
+          break;
+        case "Cartera":
+          this.cartera = true
+          break;
+        case "Informes":
+          this.informes = true
+          break;
+        default:
+          break;
+      }
+      if (element.subMenu != undefined) {
+        if (element.subMenu.length != 0) {
+          this.subMenuList(element.subMenu)
+        }
+      }
+
+    });
+  }
+
+  subMenuList(subMenuList: any[]) {
+    subMenuList.forEach(element => {
+      switch (element.name) {
+        case "Proporcionales":
+          this.contratosProporcionales = true
+          this.facultativosProporcionales = true
+          break;
+        case "Automaticos":
+          this.contratosAutomaticos = true
+          break;
+        case "Especiales":
+          this.facultativosEspeciales = true
+          break;
+        case "Reaseguro Manual":
+          this.reaseguroManual = true
+          this.siniestroManual = true
+          break;
+        case "Reaseguro Automatico":
+          this.reaseguroAutomatico = true
+          this.siniestroAutomatico = true
+          break;
+        case "Borrar Distribucion Rea":
+          this.borrarRea = true
+          break;
+        case "Especiales":
+          this.facultativosEspeciales = true
+          break;
+        case "Admon Proveedores":
+          this.admonProveedores = true
+          break;
+        case "Aignacion de proveedores":
+          this.asigproveedores = true
+          break;
+        case "Detalle":
+          this.detalle = true
+          break;
+        case "Resumen de cesión":
+          this.reporCesion = true
+          break;
+        case "Bordereaux de prima":
+          this.reauxPrima = true
+          break;
+        case "Reporte de contrato automatico":
+          this.reporteAutomatico = true
+          break;
+        case "Reporte de contrato Facultativo":
+          this.reporteFacultativo = true
+          break;
+        case "Resumen de sinistros":
+          this.resumenSinistros = true
+          break;
+        case "Bordereaux de sinistros":
+          this.reauxSinistro = true
+          break;
+        case "Sinistros de reasegurador":
+          this.reaseguroSinistro = true
+          break;
+        case "Reasegurador":
+          this.reaseguradorCartera = true
+          break;
+        case "Compañia":
+          this.companiaCartera = true
+          break;
+        case "Proveedor":
+          this.proveedorCartera = true
+          break;
+        case "Pagos":
+          this.pagosCartera = true
+          break;
+        case "Vencimientos":
+          this.vencimientoCartera = true
+          break;
+        default:
+          break;
+      }
+      if (element.subMenu != undefined) {
+        if (element.subMenu.length != 0) {
+          this.subMenuListSub(element.subMenu)
+        }
+      }
+    });
+
+  }
+
+  subMenuListSub(subMenuListSub: any[]) {
+    subMenuListSub.forEach(element => {
+      switch (element.name) {
+        case "Cuota Aparte":
+          this.contratosProporcionalesCuotaAparte = true
+          break;
+        case "Facultativos":
+          this.facultativosProporcionalesFaculta = true
+          this.facultativosEspecialesesFaculta = true
+          break;
+        case "Especiales":
+          this.facultativosEspecialesesFaculta = true
+          break;
+        case "Borrar Ajuste":
+          this.borrarAjuste = true
+          this.manualBorrarAjuste = true
+          break;
+        case "Nuevo Ajuste":
+          this.nuevoAjuste = true
+          this.manualNuevoAjuste = true
+          break;
+        case "Modificar Distribución":
+          this.modificarDistribucion = true
+          this.manualModificarDistribucion = true
+          break;
+        case "Nueva Distribución":
+          this.nuevaDistribucion = true
+          this.manualDistribucion = true
+          break;
+        case "Cargar Sinistros Pagados":
+          this.siniestroAutomaticoCargar = true
+          break;
+        case "Procesar Sinistros Pagados":
+          this.siniestroAutomaticoProcesar = true
+          break;
+        case "Cargar reserva de siniestros":
+          this.siniestroAutomaticoCargarReserva = true
+          break;
+        case "Procesar Reserva de pagados":
+          this.siniestroAutomaticoProcesarReserva = true
+          break;
+        case "Cargar":
+          this.reaseguroAutomaticoCargar = true
+          break;
+        case "Procesar":
+          this.reaseguroAutomaticoProcesar = true
+          break;
+        case "Creación":
+          this.creacion = true
+          break;
+        case "Reasegurador":
+          this.vencimientoCarteraReasegurador = true
+          break;
+        case "Compañia":
+          this.vencimientoCarteraCmpania = true
+          break;
+        case "Proveedor":
+          this.vencimientoCarteraProveedor = true
+          break;
+        default:
+          break;
+      }
+      if (element.subMenu != undefined) {
+        if (element.subMenu.length != 0) {
+          this.subMenuSub(element.subMenu)
+        }
+      }
+    });
+  }
+
+  subMenuSub(subMenuSub: any[]) {
+    subMenuSub.forEach(element => {
+      switch (element.name) {
+        case "Facultativos Especial":
+          this.nuevaDistribucionEspecial = true
+          break;
+        case "Facultativos":
+          this.nuevaDistribucionFacultativos = true
+          this.manualDistribucionFacultativos = true
+          break;
+        case "Automaticos":
+          this.nuevaDistribucionAutomaticos = true
+          this.manualDistribucionAutomaticos = true
+          break;
+        case "Prorroga":
+          this.modificarDistribucionProrroga = true
+          break;
+        case "Modificar Facultativo":
+          this.modificarDistribucionFaculta = true
+          break;
+        case "Modificar Automaticos":
+          this.modificarDistribucionAutomaticos = true
+          break;
+        case "Ajuste Facultativos":
+          this.nuevoAjusteFacultativo = true
+          break;
+        case "Ajuste Automaticos":
+          this.nuevoAjusteAutomaticos = true
+          break;
+        default:
+          break;
+      }
+    });
+  }
+  editMenu(item: any[]) {
+    const menuList = {
+      mainOptions: []
     }
-    this.alert.success('En hora buena', 'Tu menú personalizado ha sido guardado')
-    this.menuComplet = myFirstMenu;
-    const menuJson = JSON.stringify(this.menuComplet)
-    console.log('este es tu menu json', menuJson)
+    item.forEach(elnt => {
+      this.menuItems.forEach(element => {
+        if (elnt.title == element.r) {
+          menuList.mainOptions.push({
+            id: element.a,
+            path: elnt.path,
+            title: elnt.title,
+            type: elnt.type,
+            icontype: elnt.icontype,
+            collapse: element.a2,
+            imgMenu: element.r3,
+            idRol: elnt.idRol,
+            idUsers: elnt.idUsers,
+            children: elnt.children
+          })
+        }
+      });
+    });
+
+    console.log(menuList);
+    this.alert.loading()
+    this.menuService.editMenu(menuList).then(
+      res => {
+        this.alert.success(Menssage.exito, Menssage.editMenu)
+      }
+    ).catch((err: any) => {
+      this.alert.error(Menssage.error, Menssage.errorMenu);
+    });
+
+    
   }
 }

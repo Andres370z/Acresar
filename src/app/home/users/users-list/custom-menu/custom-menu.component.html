@@ -15,17 +15,33 @@
                 <mat-stepper [linear]="isLinear" #stepper>
                   <mat-step>
                     <ng-template matStepLabel>Menu Principal</ng-template>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="companias">Compañias</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="contratos">Contratos</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="asociacionContratos">Asociación de
-                        Contratos</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="adminreaseguros">Administración de
-                        reaseguros</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="gerencial">Gerencial</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="resportes">Reportes</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="monitoreoContracs">Monitoreo de
-                        contratos</mat-checkbox></p>
-                    <p><mat-checkbox class="example-margin" [(ngModel)]="menuLateral">Menu Lateral</mat-checkbox></p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="companias">Compañias</mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="contratos">Contratos</mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="asociacionContratos">Asociación de Contratos
+                      </mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="adminreaseguros">Administración de reaseguros
+                      </mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="gerencial">Gerencial</mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="resportes">Reportes</mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="monitoreoContracs">Monitoreo de contratos
+                      </mat-checkbox>
+                    </p>
+                    <p>
+                      <mat-checkbox class="example-margin" [(ngModel)]="usuarios">Usuarios</mat-checkbox>
+                    </p>
                   </mat-step>
                   <!-- Compañias -->
                   <mat-step *ngIf="companias">
@@ -48,8 +64,8 @@
                           <mat-checkbox [(ngModel)]="companiasInfo">Info</mat-checkbox>
                         </li>
                         <li>
-                          <mat-checkbox [(ngModel)]="companiasClientesyProveedores">Clientes y
-                            Proveedores</mat-checkbox>
+                          <mat-checkbox [(ngModel)]="companiasClientesyProveedores">Clientes y Proveedores
+                          </mat-checkbox>
                         </li>
                         <li>
                           <mat-checkbox [(ngModel)]="companiasReacoex">Reacoex</mat-checkbox>
@@ -83,8 +99,8 @@
                               <mat-checkbox [(ngModel)]="contratosProporcionales">Proporcionales</mat-checkbox>
                               <ul *ngIf="contratosProporcionales">
                                 <li>
-                                  <mat-checkbox [(ngModel)]="contratosProporcionalesCuotaAparte">Cuota
-                                    Aparte</mat-checkbox>
+                                  <mat-checkbox [(ngModel)]="contratosProporcionalesCuotaAparte">Cuota Aparte
+                                  </mat-checkbox>
                                 </li>
                               </ul>
                             </li>
@@ -141,8 +157,8 @@
                                         [(ngModel)]="nuevaDistribucionFacultativos">Facultativos</mat-checkbox>
                                     </li>
                                     <li>
-                                      <mat-checkbox [(ngModel)]="nuevaDistribucionEspecial">Facultativos
-                                        Especial</mat-checkbox>
+                                      <mat-checkbox [(ngModel)]="nuevaDistribucionEspecial">Facultativos Especial
+                                      </mat-checkbox>
                                     </li>
                                     <li>
                                       <mat-checkbox
@@ -151,19 +167,19 @@
                                   </ul>
                                 </li>
                                 <li>
-                                  <mat-checkbox [(ngModel)]="modificarDistribucion">Modificar
-                                    Distrubución</mat-checkbox>
+                                  <mat-checkbox [(ngModel)]="modificarDistribucion">Modificar Distrubución
+                                  </mat-checkbox>
                                   <ul *ngIf="modificarDistribucion">
                                     <li>
                                       <mat-checkbox [(ngModel)]="modificarDistribucionProrroga">Prorroga</mat-checkbox>
                                     </li>
                                     <li>
-                                      <mat-checkbox [(ngModel)]="modificarDistribucionFaculta">Modificar
-                                        Facultativo</mat-checkbox>
+                                      <mat-checkbox [(ngModel)]="modificarDistribucionFaculta">Modificar Facultativo
+                                      </mat-checkbox>
                                     </li>
                                     <li>
-                                      <mat-checkbox [(ngModel)]="modificarDistribucionAutomaticos">Modificar
-                                        Automaticos</mat-checkbox>
+                                      <mat-checkbox [(ngModel)]="modificarDistribucionAutomaticos">Modificar Automaticos
+                                      </mat-checkbox>
                                     </li>
                                   </ul>
                                 </li>
@@ -171,12 +187,12 @@
                                   <mat-checkbox [(ngModel)]="nuevoAjuste">Nuevo Ajuste</mat-checkbox>
                                   <ul *ngIf="nuevoAjuste">
                                     <li>
-                                      <mat-checkbox [(ngModel)]="nuevoAjusteFacultativo">Ajuste
-                                        Facultativos</mat-checkbox>
+                                      <mat-checkbox [(ngModel)]="nuevoAjusteFacultativo">Ajuste Facultativos
+                                      </mat-checkbox>
                                     </li>
                                     <li>
-                                      <mat-checkbox [(ngModel)]="nuevoAjusteAutomaticos">Ajuste
-                                        Automaticos</mat-checkbox>
+                                      <mat-checkbox [(ngModel)]="nuevoAjusteAutomaticos">Ajuste Automaticos
+                                      </mat-checkbox>
                                     </li>
                                   </ul>
                                 </li>
@@ -221,8 +237,8 @@
                                   </ul>
                                 </li>
                                 <li>
-                                  <mat-checkbox [(ngModel)]="manualModificarDistribucion">Modificar
-                                    Distribución</mat-checkbox>
+                                  <mat-checkbox [(ngModel)]="manualModificarDistribucion">Modificar Distribución
+                                  </mat-checkbox>
                                 </li>
                                 <li>
                                   <mat-checkbox [(ngModel)]="manualNuevoAjuste">Nuevo Ajuste</mat-checkbox>
@@ -236,20 +252,22 @@
                               <mat-checkbox [(ngModel)]="siniestroAutomatico">Reaseguro Automatico</mat-checkbox>
                               <ul *ngIf="siniestroAutomatico">
                                 <li>
-                                  <mat-checkbox [(ngModel)]="siniestroAutomaticoCargar">Cargar Sinistros
-                                    Pagados</mat-checkbox>
+                                  <mat-checkbox [(ngModel)]="siniestroAutomaticoCargar">Cargar Sinistros Pagados
+                                  </mat-checkbox>
                                 </li>
                                 <li>
-                                  <mat-checkbox [(ngModel)]="siniestroAutomaticoProcesar">Procesar Sinistros
-                                    Pagados</mat-checkbox>
+                                  <mat-checkbox [(ngModel)]="siniestroAutomaticoProcesar">Procesar Sinistros Pagados
+                                  </mat-checkbox>
                                 </li>
                                 <li>
                                   <mat-checkbox [(ngModel)]="siniestroAutomaticoCargarReserva">Cargar siniestro de
-                                    reservas</mat-checkbox>
+                                    reservas
+                                  </mat-checkbox>
                                 </li>
                                 <li>
                                   <mat-checkbox [(ngModel)]="siniestroAutomaticoProcesarReserva">Procesar Reserva de
-                                    pagados</mat-checkbox>
+                                    pagados
+                                  </mat-checkbox>
                                 </li>
                               </ul>
                             </li>
@@ -266,9 +284,12 @@
                         <li>
                           <mat-checkbox [(ngModel)]="administracion">Administración</mat-checkbox>
                           <ul *ngIf="administracion">
-                            <li><mat-checkbox [(ngModel)]="asigproveedores">Asignación de Proveedores</mat-checkbox>
+                            <li>
+                              <mat-checkbox [(ngModel)]="asigproveedores">Asignación de Proveedores</mat-checkbox>
                             </li>
-                            <li><mat-checkbox [(ngModel)]="admonProveedores">Admon Proveedores</mat-checkbox></li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="admonProveedores">Admon Proveedores</mat-checkbox>
+                            </li>
                           </ul>
                         </li>
                         <li>
@@ -277,7 +298,9 @@
                             <li>
                               <mat-checkbox [(ngModel)]="detalle">Detalle</mat-checkbox>
                               <ul *ngIf="detalle">
-                                <li><mat-checkbox [(ngModel)]="creacion">Creación</mat-checkbox></li>
+                                <li>
+                                  <mat-checkbox [(ngModel)]="creacion">Creación</mat-checkbox>
+                                </li>
                               </ul>
                             </li>
                           </ul>
@@ -293,43 +316,70 @@
                         <li>
                           <mat-checkbox [(ngModel)]="primasReporte">Primas</mat-checkbox>
                           <ul *ngIf="primasReporte">
-                            <li><mat-checkbox [(ngModel)]="reporCesion">Resumen de cesión</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="reauxPrima">Bordereaux de prima</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="reporteAutomatico">Reporte de contrato
-                                automatico</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="reporteFacultativo">Reporte de contrato
-                                Facultativo</mat-checkbox></li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reporCesion">Resumen de cesión</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reauxPrima">Bordereaux de prima</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reporteAutomatico">Reporte de contrato automatico
+                              </mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reporteFacultativo">Reporte de contrato Facultativo
+                              </mat-checkbox>
+                            </li>
                           </ul>
                         </li>
                         <li>
                           <mat-checkbox [(ngModel)]="siniestrosReportes">Sinistros</mat-checkbox>
                           <ul *ngIf="siniestrosReportes">
-                            <li><mat-checkbox [(ngModel)]="resumenSinistros">Resumen de sinistros</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="reauxSinistro">Bordereaux de sinistros</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="reaseguroSinistro">Sinistros de reasegurador</mat-checkbox>
+                            <li>
+                              <mat-checkbox [(ngModel)]="resumenSinistros">Resumen de sinistros</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reauxSinistro">Bordereaux de sinistros</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reaseguroSinistro">Sinistros de reasegurador</mat-checkbox>
                             </li>
                           </ul>
                         </li>
                         <li>
                           <mat-checkbox [(ngModel)]="cartera">Cartera</mat-checkbox>
                           <ul *ngIf="cartera">
-                            <li><mat-checkbox [(ngModel)]="reaseguradorCartera">Reasegurador</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="companiaCartera">Copa&ntilde;ia</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="proveedorCartera">Proveedor</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="vencimientoCartera">Vencimientos</mat-checkbox>
+                            <li>
+                              <mat-checkbox [(ngModel)]="reaseguradorCartera">Reasegurador</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="companiaCartera">Copa&ntilde;ia</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="proveedorCartera">Proveedor</mat-checkbox>
+                            </li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="vencimientoCartera">Vencimientos</mat-checkbox>
                               <ul *ngIf="vencimientoCartera">
-                                <li><mat-checkbox
-                                    [(ngModel)]="vencimientoCarteraReasegurador">Reasegurador</mat-checkbox></li>
-                                <li><mat-checkbox [(ngModel)]="vencimientoCarteraCmpania">Compa&ntilde;ia</mat-checkbox>
+                                <li>
+                                  <mat-checkbox [(ngModel)]="vencimientoCarteraReasegurador">Reasegurador</mat-checkbox>
                                 </li>
-                                <li><mat-checkbox [(ngModel)]="vencimientoCarteraProveedor">Proveedor</mat-checkbox>
+                                <li>
+                                  <mat-checkbox [(ngModel)]="vencimientoCarteraCmpania">Compa&ntilde;ia</mat-checkbox>
+                                </li>
+                                <li>
+                                  <mat-checkbox [(ngModel)]="vencimientoCarteraProveedor">Proveedor</mat-checkbox>
                                 </li>
                               </ul>
                             </li>
-                            <li><mat-checkbox [(ngModel)]="pagosCartera">Pagos</mat-checkbox></li>
+                            <li>
+                              <mat-checkbox [(ngModel)]="pagosCartera">Pagos</mat-checkbox>
+                            </li>
                           </ul>
                         </li>
-                        <li><mat-checkbox [(ngModel)]="informes">Informes</mat-checkbox></li>
+                        <li>
+                          <mat-checkbox [(ngModel)]="informes">Informes</mat-checkbox>
+                        </li>
                       </ul>
                     </div>
                   </mat-step>
@@ -338,54 +388,22 @@
                     <ng-template matStepLabel>Monitoreo de Contratos</ng-template>
                     <div class="col-md-12">
                       <ul>
-                        <li><mat-checkbox [(ngModel)]="monitoreoAutomaticos">Automaticos</mat-checkbox></li>
-                        <li><mat-checkbox [(ngModel)]="monitoreoFacultativos">Facultativos</mat-checkbox></li>
+                        <li>
+                          <mat-checkbox [(ngModel)]="monitoreoAutomaticos">Automaticos</mat-checkbox>
+                        </li>
+                        <li>
+                          <mat-checkbox [(ngModel)]="monitoreoFacultativos">Facultativos</mat-checkbox>
+                        </li>
                       </ul>
                     </div>
                   </mat-step>
                   <!-- Menu lateral -->
-                  <mat-step *ngIf="menuLateral">
-                    <ng-template matStepLabel>Menu Lateral</ng-template>
+                  <mat-step *ngIf="usuarios">
+                    <ng-template matStepLabel>Usuario</ng-template>
                     <div class="col-md-12">
                       <ul>
-                        <li><mat-checkbox [(ngModel)]="resolutionLateral">Re-Solution</mat-checkbox></li>
-                        <ul *ngIf="resolutionLateral">
-                          <li><mat-checkbox [(ngModel)]="inicioLateral">Inicio</mat-checkbox></li>
-                          <li><mat-checkbox [(ngModel)]="ayudaLateral">Servicio Ayuda</mat-checkbox></li>
-                        </ul>
-                        <li><mat-checkbox [(ngModel)]="reasegurosLateral">Reaseguros</mat-checkbox></li>
-                        <ul *ngIf="reasegurosLateral">
-                          <li><mat-checkbox [(ngModel)]="ajusteReaseguroLateral">Ajuste Reaseguro</mat-checkbox></li>
-                          <li><mat-checkbox [(ngModel)]="asociacionReaseguroLateral">Asoiación Lineas</mat-checkbox>
-                          </li>
-                          <li><mat-checkbox [(ngModel)]="contratosReaseguroLateral">Contratos</mat-checkbox></li>
-                          <li><mat-checkbox [(ngModel)]="companiasReaseguroLateral">Compañias</mat-checkbox></li>
-                          <li><mat-checkbox [(ngModel)]="cumulusReaseguroLateral">Cumulus</mat-checkbox></li>
-                          <li><mat-checkbox [(ngModel)]="eliminarReaseguroLateral">Eliminar Reaseguros</mat-checkbox>
-                          </li>
-                          <li><mat-checkbox [(ngModel)]="lineasReaseguroLateral">Linieas Contratos</mat-checkbox></li>
-                          <li><mat-checkbox [(ngModel)]="reaseguroReaseguroLateral">Reaseguro Poliza</mat-checkbox></li>
-                        </ul>
-                        <li><mat-checkbox [(ngModel)]="configuracionLateral">Configuración</mat-checkbox></li>
-                        <ul *ngIf="configuracionLateral">
-                          <li><mat-checkbox [(ngModel)]="contratosconfiguracionLateral">Configuracion del
-                              sitio</mat-checkbox></li>
-                        </ul>
-                        <li><mat-checkbox [(ngModel)]="reportesLateral">Reportes</mat-checkbox></li>
-                        <ul *ngIf="reportesLateral">
-                          <ul *ngIf="reportesLateral">
-                            <li><mat-checkbox [(ngModel)]="charJsreportesLateral">CharJs</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="morrisreportesLateral">Morris</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="flotreportesLateral">Flot</mat-checkbox></li>
-                            <li><mat-checkbox [(ngModel)]="inlineChartsreportesLateral">Inline Charts</mat-checkbox>
-                            </li>
-                          </ul>
-                        </ul>
-                        <li><mat-checkbox [(ngModel)]="seguridadLateral">Seguridad</mat-checkbox></li>
-                        <ul *ngIf="seguridadLateral">
-                          <li><mat-checkbox [(ngModel)]="charJsreportesLateral">CharJs</mat-checkbox></li>
-                        </ul>
-                        <li><mat-checkbox [(ngModel)]="servicedeskLateral">Entrar Servicedesk</mat-checkbox></li>
+                        <li><mat-checkbox [(ngModel)]="userList">Lista de Usuarios</mat-checkbox></li>
+                        <li><mat-checkbox [(ngModel)]="userRegister">Registro de Usuarios</mat-checkbox></li>
                       </ul>
                     </div>
                   </mat-step>
@@ -393,12 +411,11 @@
 
                 </mat-stepper>
                 <div class="col-sm-12 col-md-12">
-                  <div class="col-4">
-                    <button class="btn btn-primary" (click)="saveDta()">Guardar Información</button>
-                  </div>
-                  <div *ngIf="menuComplet" class="col-12">
-                    <h2>Nuevo Menu</h2>
-                    <pre> {{menuComplet | json}} </pre>
+                  <div class="col-12">
+                    <button class="btn btn-primary" (click)="saveDta()" *ngIf="menuItems.length == 0">Guardar
+                      Información</button>
+                    <button class="btn btn-primary" (click)="saveDta()" *ngIf="menuItems.length != 0">Editar
+                      Información</button>
                   </div>
                 </div>
               </div>
@@ -419,22 +436,26 @@
           <div class="card-body">
             <div class="table-responsive center-content">
               <div class="col-12">
-                <div class="container" >
-                  <div class="card" id="myImage">
+                <div class="container">
+                  <div class="card" id="myImage" #screen>
                     <div class="circle">
                       <img src="../../../../../assets/img/LOGO-ATLANTIC-3-removebg-preview.png" alt="">
-                      <i class="material-icons">keyboard_arrow_down</i><!-- Ícono de Angular -->
-                      <i class="material-icons">keyboard_arrow_down</i><!-- Ícono de Angular -->
-                      <h2 class="name">  {{nameUser}} </h2>
+                      <i class="material-icons">keyboard_arrow_down</i>
+                      <!-- Ícono de Angular -->
+                      <i class="material-icons">keyboard_arrow_down</i>
+                      <!-- Ícono de Angular -->
+                      <h2 class="name"> {{nameUser}} </h2>
                     </div>
                     <div class="content">
-                      
-                        <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="150"
-                          [errorCorrectionLevel]="'M'"></qrcode>
-                      <a href="{{imgCreate}}" download (click)="dowloadImg()">Download</a>
+                      <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="200"
+                        [errorCorrectionLevel]="'M'"></qrcode>
                     </div>
                   </div>
-
+                  <div class="content">
+                    <a type="buttom" (click)="dowloadImg()">Download</a>
+                  </div>
+                  <img #canvas style="display: none;">
+                  <a #downloadLink></a>
                 </div>
 
 
