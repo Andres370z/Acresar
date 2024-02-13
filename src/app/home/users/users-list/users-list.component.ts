@@ -80,4 +80,7 @@ export class UsersListComponent implements OnInit {
     console.log(item);
     this.router.navigate(['/home/usuarios/lista/menu-setting']);
   }
+
+  
+  
 }

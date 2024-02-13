@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
+import { AuthService } from 'src/app/service/auth.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
+import { MenuService } from 'src/app/service/menu.service';
 
 @Component({
   selector: 'app-cistom-menu',
@@ -8,6 +12,7 @@ import { LocalstoreService } from 'src/app/service/localstore.service';
   styleUrls: ['./custom-menu.component.css']
 })
 export class CistomMenuComponent implements OnInit {
+  public menuItems: any[] = [];
   isLinear: boolean = false
   //menu completo
   companias: boolean = false;
@@ -113,11 +118,15 @@ export class CistomMenuComponent implements OnInit {
   public dataUsers : any;
 
   constructor(
+    private menuService: MenuService,
+    private router: Router,
+    private _https:AuthService,
     private alert: AlertService,
     private localStore: LocalstoreService,
   ) {
     this.dataUsers = this.localStore.getItem("usersList")
     console.log(this.dataUsers.id)
+    this.getMenu(this.dataUsers.id);
    }
 
   ngOnInit(): void {
@@ -137,7 +146,8 @@ export class CistomMenuComponent implements OnInit {
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
         idUsers: this.dataUsers.id,
-        children: []
+        children: [],
+        id:null
       }
       myFirstMenu.mainOptions.push(optionscompanies)
       //opcion reasegurador
@@ -344,6 +354,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/reinsuranceAdministration/primas",
         title: "Administración de reaseguros",
         icontype: "dashboard",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -636,6 +647,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/gerencial",
         title: "Gerencial",
         icontype: "dashboard",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -708,6 +720,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/reportes",
         title: "Reportes",
         icontype: "dashboard",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -897,6 +910,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/monitoreo",
         title: "Monitoreo Contratos",
         icontype: "dashboard",
+        type: "link",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -921,9 +935,196 @@ export class CistomMenuComponent implements OnInit {
         myMenuMoni.children.push(myMenu)
       }
     }
-    this.alert.success('En hora buena', 'Tu menú personalizado ha sido guardado')
-    this.menuComplet = myFirstMenu;
-    const menuJson = JSON.stringify(this.menuComplet)
-    console.log('este es tu menu json', menuJson)
+    //this.alert.success('En hora buena', 'Tu menú personalizado ha sido guardado')
+    //this.menuComplet = myFirstMenu;
+    if (this.menuItems.length != 0) {
+      this.editMenu(myFirstMenu.mainOptions)
+    } else {
+      this.resgisterMenu(myFirstMenu)
+    }
+    
+  }
+
+  resgisterMenu(item: any) {
+    this.alert.loading()
+    this.menuService.resgisterMenu(item).then(
+      res => {
+        this.alert.success(Menssage.exito, Menssage.succesMenu)
+      }
+    ).catch((err: any)=>{
+      this.alert.error(Menssage.error, Menssage.errorMenu);
+    });
+  }
+
+  getMenu(item: number){
+    this.alert.loading();
+    this._https.getMenuIdUsers(item).then((resulta: any[])=>{
+          this.menuItems = resulta.filter(menuItem => menuItem);
+          if (this.menuItems.length != 0) {
+            console.log("compani")
+            this.menuEdit(this.menuItems)
+          }
+          this.alert.messagefin()
+    }).catch((err: any)=>{
+      console.log(err)
+      this.alert.error(Menssage.error, Menssage.server);
+    });
+  }
+
+  menuEdit(menuItems: any[]) {
+    menuItems.forEach(element => {
+      switch (element.r) {
+        case "Compañias":
+          this.companias = true
+          break;
+        case "Contratos":
+          this.contratos = true
+          break;
+        case "Asociación de Contratos":
+          this.asociacionContratos = true
+          break;
+        case "Administración de reaseguros":
+          this.adminreaseguros = true
+          break;
+        case "Gerencial":
+          this.gerencial = true
+          break;
+        case "Reportes":
+          this.resportes = true
+          break;
+        case "Monitoreo Contratos":
+          this.monitoreoContracs = true
+          break;
+        default:
+          break;
+      }
+      if (element.r2 != null) {
+        this.subMenuEdit(element.r2);
+      }
+      
+    });
+  }
+
+  subMenuEdit(subMenuEdit: any[]) {
+    subMenuEdit.forEach(element => {
+      switch (element.name) {
+        case "Reasegurador":
+          this.companiasReasegurador = true
+          break;
+        case "Corredor":
+          this.companiasCorredor = true
+          break;
+        case "Aseguradora":
+          this.companiasAsegurador = true
+          break;
+        case "Intermediario":
+          this.companiasIntermediario = true
+          break;
+        case "Info":
+          this.companiasInfo = true
+          break;
+        case "Clientes y Proveedores":
+          this.companiasClientesyProveedores = true
+          break;
+        case "Reacoex":
+          this.companiasReacoex = true
+          break;
+        case "Automaticos":
+          this.automaticos = true
+          break;
+        case "Facultativos":
+          this.facultativos = true
+          break;
+        case "Cotización":
+          this.cotizacion = true
+          break;
+        case "Ramos":
+          this.ramos = true
+          break;
+        case "Asociación de Contratos":
+          this.contratosAsociacion = true
+          break;
+        default:
+          break;
+      }
+      if (element.subMenu != undefined) {
+        if (element.subMenu.length != 0) {
+          this.subMenuList(element.subMenu)
+        }
+      }
+      
+    });
+  }
+
+  subMenuList(subMenuList: any[]) {
+    subMenuList.forEach(element => {
+      switch (element.name) {
+        case "Proporcionales":
+          this.contratosProporcionales = true
+          this.facultativosProporcionales = true
+          break;
+        case "Automaticos":
+          this.contratosAutomaticos = true
+          break;
+        case "Especiales":
+          this.facultativosEspeciales = true
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  subMenuListSub(subMenuListSub: any[]) {
+    subMenuListSub.forEach(element => {
+      switch (element.name) {
+        case "Proporcionales":
+          this.contratosProporcionales = true
+          this.facultativosProporcionales = true
+          break;
+        case "Automaticos":
+          this.contratosAutomaticos = true
+          break;
+        case "Especiales":
+          this.facultativosEspeciales = true
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  editMenu(item: any[]) {
+    const menuList = {
+      mainOptions: []
+    }
+    item.forEach(elnt => {
+      this.menuItems.forEach(element => {
+        if (elnt.title == element.r) {
+          menuList.mainOptions.push({
+            id: element.a,
+            path: elnt.path,
+            title: elnt.title,
+            type: elnt.type,
+            icontype: elnt.icontype,
+            collapse: element.a2,
+            imgMenu: element.r3,
+            idRol:elnt.idRol,
+            idUsers: elnt.idUsers,
+            children: elnt.children
+          })
+        }
+      });
+    });
+    
+    console.log(menuList);
+    this.alert.loading()
+    this.menuService.editMenu(menuList).then(
+      res => {
+        this.alert.success(Menssage.exito, Menssage.editMenu)
+      }
+    ).catch((err: any)=>{
+      this.alert.error(Menssage.error, Menssage.errorMenu);
+    });
   }
 }

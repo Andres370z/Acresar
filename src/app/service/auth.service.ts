@@ -77,6 +77,10 @@ export class AuthService {
   getmenu(item: number, ){
     return  this.registeresquest.GET(RoutersLink.menu+item)
   }
+  getMenuIdUsers(item: number, ){
+    return  this.registeresquest.GET(RoutersLink.getMenuIdUsers+item)
+  }
+
 
   gettotaldatagallery(item: number, ){
     return  this.registeresquest.GET(RoutersLink.gettotaldatagallery+item)

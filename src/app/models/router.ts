@@ -28,6 +28,7 @@ export const RoutersLink = {
     challenges:"challenges",
     customerDetail:"customerDetail/",
     menu:"menu/",
+    getMenuIdUsers:"menu/idUsers/",
     gettotal:"gettotal?id=",
     createEventosGetfinal:"create_eventos_getfinal?idClientsProjects=",
     getEvent:"create_eventos_getfinal?idClientsProjects=",
@@ -66,7 +67,10 @@ export const RoutersLink = {
     postFacultativoContra: 'facultativo/contrato',
     postFacultativoContratb: 'facultativo/contrato/tb',
     postSearchProporcionalesCuotaAparte: 'contratos/automaticos/proporcionales/cuotaparte/buscar',
-    postContratoCuotaAparte: 'contratos/automaticos/proporcionales/cuotaparte/contrato'
+    postContratoCuotaAparte: 'contratos/automaticos/proporcionales/cuotaparte/contrato',
+    menuList:"menuList",
+    getMenu:"menu",
+    editList:"editList"
     
 };
 
@@ -107,6 +111,9 @@ export const Menssage = {
     monthlyBudget:"El presupuesto mensual es obligatorio",
     contactPerson:"La persona de contacto es obligatorio",
     successExpo: "El registrado se ralizó correctamente",
+    errorMenu:"No se pudo asignar el menu",
+    succesMenu:"Menus asigandos correctamente",
+    editMenu:"Menus editado correctamente",
 };
 
 export const idRol = {
