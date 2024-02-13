@@ -77,7 +77,7 @@ export class UsersListComponent implements OnInit {
 
   addMenu(item: any){
     this.localStore.setItem(item, "usersList")
-    console.log(item);
+    console.log('addMenu',item);
     this.router.navigate(['/home/usuarios/lista/menu-setting']);
   }
 
