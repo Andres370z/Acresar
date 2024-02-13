@@ -1209,7 +1209,16 @@ export class CistomMenuComponent implements OnInit {
           break;
         case "Creación":
           this.creacion = true
-          break;  
+          break;
+        case "Reasegurador":
+          this.vencimientoCarteraReasegurador = true
+          break;
+        case "Compañia":
+          this.vencimientoCarteraCmpania = true
+          break;
+        case "Proveedor":
+          this.vencimientoCarteraProveedor = true
+          break; 
         default:
           break;
       }
