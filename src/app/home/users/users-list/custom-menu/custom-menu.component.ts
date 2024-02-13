@@ -1074,6 +1074,9 @@ export class CistomMenuComponent implements OnInit {
         case "Monitoreo Contratos":
           this.monitoreoContracs = true
           break;
+        case "Usuarios":
+          this.usuarios = true
+          break;
         default:
           break;
       }
@@ -1110,9 +1113,11 @@ export class CistomMenuComponent implements OnInit {
           break;
         case "Automaticos":
           this.automaticos = true
+          this.monitoreoAutomaticos = true
           break;
         case "Facultativos":
           this.facultativos = true
+          this.monitoreoFacultativos = true
           break;
         case "Cotización":
           this.cotizacion = true
@@ -1142,6 +1147,12 @@ export class CistomMenuComponent implements OnInit {
           break;
         case "Informes":
           this.informes = true
+          break;
+        case "Lista de Usuarios":
+          this.userList = true
+          break;
+        case "Crear Usuario":
+          this.userRegister = true
           break;
         default:
           break;
@@ -1178,9 +1189,6 @@ export class CistomMenuComponent implements OnInit {
           break;
         case "Borrar Distribucion Rea":
           this.borrarRea = true
-          break;
-        case "Especiales":
-          this.facultativosEspeciales = true
           break;
         case "Admon Proveedores":
           this.admonProveedores = true
