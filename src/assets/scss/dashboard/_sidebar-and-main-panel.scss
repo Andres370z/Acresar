@@ -188,6 +188,8 @@
         padding-right: 10px;
         text-transform: capitalize;
         font-size: $font-paragraph - 1;
+        white-space: nowrap;
+        overflow: hidden;
     }
     .sidebar-background {
         position: absolute;
