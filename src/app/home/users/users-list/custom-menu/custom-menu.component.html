@@ -25,6 +25,7 @@
                     <p><mat-checkbox class="example-margin" [(ngModel)]="resportes">Reportes</mat-checkbox></p>
                     <p><mat-checkbox class="example-margin" [(ngModel)]="monitoreoContracs">Monitoreo de
                         contratos</mat-checkbox></p>
+                    <p><mat-checkbox class="example-margin" [(ngModel)]="menuLateral">Menu Lateral</mat-checkbox></p>
                   </mat-step>
                   <!-- Compañias -->
                   <mat-step *ngIf="companias">
@@ -342,9 +343,57 @@
                       </ul>
                     </div>
                   </mat-step>
+                  <!-- Menu lateral -->
+                  <mat-step *ngIf="menuLateral">
+                    <ng-template matStepLabel>Menu Lateral</ng-template>
+                    <div class="col-md-12">
+                      <ul>
+                        <li><mat-checkbox [(ngModel)]="resolutionLateral">Re-Solution</mat-checkbox></li>
+                        <ul *ngIf="resolutionLateral">
+                          <li><mat-checkbox [(ngModel)]="inicioLateral">Inicio</mat-checkbox></li>
+                          <li><mat-checkbox [(ngModel)]="ayudaLateral">Servicio Ayuda</mat-checkbox></li>
+                        </ul>
+                        <li><mat-checkbox [(ngModel)]="reasegurosLateral">Reaseguros</mat-checkbox></li>
+                        <ul *ngIf="reasegurosLateral">
+                          <li><mat-checkbox [(ngModel)]="ajusteReaseguroLateral">Ajuste Reaseguro</mat-checkbox></li>
+                          <li><mat-checkbox [(ngModel)]="asociacionReaseguroLateral">Asoiación Lineas</mat-checkbox>
+                          </li>
+                          <li><mat-checkbox [(ngModel)]="contratosReaseguroLateral">Contratos</mat-checkbox></li>
+                          <li><mat-checkbox [(ngModel)]="companiasReaseguroLateral">Compañias</mat-checkbox></li>
+                          <li><mat-checkbox [(ngModel)]="cumulusReaseguroLateral">Cumulus</mat-checkbox></li>
+                          <li><mat-checkbox [(ngModel)]="eliminarReaseguroLateral">Eliminar Reaseguros</mat-checkbox>
+                          </li>
+                          <li><mat-checkbox [(ngModel)]="lineasReaseguroLateral">Linieas Contratos</mat-checkbox></li>
+                          <li><mat-checkbox [(ngModel)]="reaseguroReaseguroLateral">Reaseguro Poliza</mat-checkbox></li>
+                        </ul>
+                        <li><mat-checkbox [(ngModel)]="configuracionLateral">Configuración</mat-checkbox></li>
+                        <ul *ngIf="configuracionLateral">
+                          <li><mat-checkbox [(ngModel)]="contratosconfiguracionLateral">Configuracion del
+                              sitio</mat-checkbox></li>
+                        </ul>
+                        <li><mat-checkbox [(ngModel)]="reportesLateral">Reportes</mat-checkbox></li>
+                        <ul *ngIf="reportesLateral">
+                          <ul *ngIf="reportesLateral">
+                            <li><mat-checkbox [(ngModel)]="charJsreportesLateral">CharJs</mat-checkbox></li>
+                            <li><mat-checkbox [(ngModel)]="morrisreportesLateral">Morris</mat-checkbox></li>
+                            <li><mat-checkbox [(ngModel)]="flotreportesLateral">Flot</mat-checkbox></li>
+                            <li><mat-checkbox [(ngModel)]="inlineChartsreportesLateral">Inline Charts</mat-checkbox>
+                            </li>
+                          </ul>
+                        </ul>
+                        <li><mat-checkbox [(ngModel)]="seguridadLateral">Seguridad</mat-checkbox></li>
+                        <ul *ngIf="seguridadLateral">
+                          <li><mat-checkbox [(ngModel)]="charJsreportesLateral">CharJs</mat-checkbox></li>
+                        </ul>
+                        <li><mat-checkbox [(ngModel)]="servicedeskLateral">Entrar Servicedesk</mat-checkbox></li>
+                      </ul>
+                    </div>
+                  </mat-step>
+                  <!-- Monitoreo de Contratos -->
+
                 </mat-stepper>
                 <div class="col-sm-12 col-md-12">
-                  <div class="col-12">
+                  <div class="col-4">
                     <button class="btn btn-primary" (click)="saveDta()">Guardar Información</button>
                   </div>
                   <div *ngIf="menuComplet" class="col-12">
@@ -352,6 +401,44 @@
                     <pre> {{menuComplet | json}} </pre>
                   </div>
                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Tarjeta de presentación</h4>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive center-content">
+              <div class="col-12">
+                <div class="container" >
+                  <div class="card" id="myImage">
+                    <div class="circle">
+                      <img src="../../../../../assets/img/LOGO-ATLANTIC-3-removebg-preview.png" alt="">
+                      <i class="material-icons">keyboard_arrow_down</i><!-- Ícono de Angular -->
+                      <i class="material-icons">keyboard_arrow_down</i><!-- Ícono de Angular -->
+                      <h2 class="name">  {{nameUser}} </h2>
+                    </div>
+                    <div class="content">
+                      
+                        <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="150"
+                          [errorCorrectionLevel]="'M'"></qrcode>
+                      <a href="{{imgCreate}}" download (click)="dowloadImg()">Download</a>
+                    </div>
+                  </div>
+
+                </div>
+
+
+
               </div>
             </div>
           </div>

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { SafeUrl } from '@angular/platform-browser';
 import { AlertService } from 'src/app/service/alert.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
+import html2canvas from "html2canvas";
 
 @Component({
   selector: 'app-cistom-menu',
@@ -17,6 +19,7 @@ export class CistomMenuComponent implements OnInit {
   gerencial: boolean = false;
   resportes: boolean = false;
   monitoreoContracs: boolean = false;
+  menuLateral: boolean = false;
   //menu compañias
   companiasReasegurador: boolean = false;
   companiasCorredor: boolean = false;
@@ -101,6 +104,30 @@ export class CistomMenuComponent implements OnInit {
   /* Monitoreo de Contratos */
   monitoreoAutomaticos: boolean = false;
   monitoreoFacultativos: boolean = false;
+  /* Menu lateral */
+  resolutionLateral: boolean = false;
+  reasegurosLateral: boolean = false;
+  configuracionLateral: boolean = false;
+  reportesLateral: boolean = false;
+  seguridadLateral: boolean = false;
+  servicedeskLateral: boolean = false;
+  inicioLateral: boolean = false;
+  ayudaLateral: boolean = false;
+  ajusteReaseguroLateral: boolean = false;
+  asociacionReaseguroLateral: boolean = false;
+  contratosReaseguroLateral: boolean = false;
+  companiasReaseguroLateral: boolean = false;
+  cumulusReaseguroLateral: boolean = false;
+  eliminarReaseguroLateral: boolean = false;
+  lineasReaseguroLateral: boolean = false;
+  reaseguroReaseguroLateral: boolean = false;
+  contratosconfiguracionLateral: boolean = false;
+  charJsreportesLateral: boolean = false;
+  morrisreportesLateral: boolean = false;
+  flotreportesLateral: boolean = false;
+  inlineChartsreportesLateral: boolean = false;
+  myDta: any;
+  public nameUser: any
   public menuCompletOne: any
   public menuComplet: any
   public menuCompletTwo: any
@@ -110,17 +137,40 @@ export class CistomMenuComponent implements OnInit {
   public menuCompletSix: any
   public nuevoMenu: any
   mostrarMenu: boolean = false;
-  public dataUsers : any;
-
+  public dataUsers: any;
+  public myAngularxQrCode: string = "";
+  public qrCodeDownloadLink: SafeUrl = "";
+  img: boolean = false;
+  imgCreate: any;
   constructor(
     private alert: AlertService,
     private localStore: LocalstoreService,
   ) {
     this.dataUsers = this.localStore.getItem("usersList")
     console.log(this.dataUsers.id)
-   }
+    this.myDta = JSON.parse(localStorage.getItem('usersList'))
+    let idBase = btoa(this.myDta.id.toString())
+    this.myAngularxQrCode = `https://card.systemresolution.com/${idBase}`;
+  }
 
+  onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
+  }
+
+  
   ngOnInit(): void {
+    if (localStorage.getItem('usersList')) {
+      
+      this.nameUser = this.myDta.name;
+    }
+    
+    
+  }
+  dowloadImg() {
+    html2canvas(document.querySelector("#myImage")).then(canvas => {
+      this.imgCreate = canvas.toDataURL();
+    });
+    this.img = true;
   }
   saveDta() {
     const myFirstMenu = {
@@ -153,7 +203,7 @@ export class CistomMenuComponent implements OnInit {
       if (this.companiasCorredor) {
         const compamiesCorredor = {
           name: "Corredor",
-          url:"home/companias/corredor",
+          url: "home/companias/corredor",
           subMneu: []
         }
         optionscompanies.children.push(compamiesCorredor)
@@ -406,7 +456,7 @@ export class CistomMenuComponent implements OnInit {
           if (this.modificarDistribucion) {
             const modificarDistribucionOptions = {
               name: "Modificar Distribución",
-              url:"home/administracion/reaseguros",
+              url: "home/administracion/reaseguros",
               subMenu: []
             };
             reaseguroManualOptions.subMenu.push(modificarDistribucionOptions);
@@ -503,7 +553,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Borrar Distribucion Rea",
             url: "",
             subMenu: [],
-            
+
           });
         }
       }
@@ -586,7 +636,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Reaseguro Automatico",
             url: "",
             subMenu: [],
-            
+
           };
           optionsSinistro.subMenu.push(siniestroAutomaticoOptions);
 
@@ -594,9 +644,9 @@ export class CistomMenuComponent implements OnInit {
           if (this.siniestroAutomaticoCargar) {
             siniestroAutomaticoOptions.subMenu.push({
               name: "Cargar Sinistros Pagados",
-               url: "",
+              url: "",
               subMenu: [],
-             
+
             });
           }
           if (this.siniestroAutomaticoProcesar) {
@@ -604,7 +654,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Procesar Sinistros Pagados",
               url: "",
               subMenu: [],
-              
+
             });
           }
           if (this.siniestroAutomaticoCargarReserva) {
@@ -612,7 +662,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Cargar reserva de siniestros",
               url: "",
               subMenu: [],
-              
+
             });
           }
           if (this.siniestroAutomaticoProcesarReserva) {
@@ -620,7 +670,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Procesar Reserva de pagados",
               url: "",
               subMenu: [],
-              
+
             });
           }
         }
@@ -649,7 +699,7 @@ export class CistomMenuComponent implements OnInit {
           name: "Administración",
           url: "home/gerencial",
           subMenu: [],
-          
+
         }
         gerencial.children.push(administracion)
         if (this.admonProveedores) {
@@ -657,7 +707,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Admon Proveedores",
             url: "home/gerencial/admonProveedor",
             subMenu: [],
-            
+
           }
           administracion.subMenu.push(admonProveedores)
         }
@@ -666,7 +716,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Aignacion de proveedores",
             url: "home/gerencial/asignacion",
             subMenu: [],
-            
+
           }
           administracion.subMenu.push(asigproveedores)
         }
@@ -677,7 +727,7 @@ export class CistomMenuComponent implements OnInit {
           name: "Negocio",
           url: "gerencial/corredor_rea",
           subMenu: [],
-          
+
         }
         gerencial.children.push(negocio)
         if (this.detalle) {
@@ -685,7 +735,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Detalle",
             url: "home/gerencial/reporte",
             subMenu: [],
-            
+
           }
           negocio.subMenu.push(detalle)
           if (this.creacion) {
@@ -693,7 +743,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Creación",
               url: "home/corredor_rea/reportes",
               subMenu: [],
-              
+
             }
             detalle.subMenu.push(creacion)
           }
@@ -722,7 +772,7 @@ export class CistomMenuComponent implements OnInit {
           name: "Primas",
           url: "home/reportes/boderaux",
           subMenu: [],
-          
+
         };
         myMenu.children.push(optionsPrimas);
 
@@ -732,7 +782,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Resumen de cesión",
             url: "",
             subMenu: [],
-            
+
           });
         }
         if (this.reauxPrima) {
@@ -740,7 +790,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Bordereaux de prima",
             url: "home/reportes/boderaux",
             subMenu: [],
-            
+
           });
         }
         if (this.reporteAutomatico) {
@@ -748,7 +798,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Reporte de contrato automatico",
             url: "home/reportes/contratos",
             subMenu: [],
-            
+
           });
         }
         if (this.reporteFacultativo) {
@@ -756,7 +806,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Reporte de contrato Facultativo",
             url: "home/reportes/contratos/fact",
             subMenu: [],
-            
+
           });
         }
       }
@@ -767,7 +817,7 @@ export class CistomMenuComponent implements OnInit {
           name: "Sinistros",
           url: "home/reportes/reporte-siniestro",
           subMenu: [],
-          
+
         };
         myMenu.children.push(optionsSinistros);
 
@@ -777,7 +827,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Resumen de sinistros",
             url: "",
             subMenu: [],
-            
+
           });
         }
         if (this.reauxSinistro) {
@@ -785,7 +835,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Bordereaux de sinistros",
             url: "home/reportes/reporte-siniestro",
             subMenu: [],
-            
+
           });
         }
         if (this.reaseguroSinistro) {
@@ -793,7 +843,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Sinistros de reasegurador",
             url: "home/reportes/siniestro/rea",
             subMenu: [],
-            
+
           });
         }
       }
@@ -804,7 +854,7 @@ export class CistomMenuComponent implements OnInit {
           name: "Cartera",
           url: "home/reportes/reasegurador",
           subMenu: [],
-          
+
         };
         myMenu.children.push(optionsCartera);
 
@@ -814,7 +864,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Reasegurador",
             url: "home/reportes/reasegurador",
             subMenu: [],
-            
+
           });
         }
         if (this.companiaCartera) {
@@ -822,7 +872,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Compañia",
             url: "home/reportes/compania",
             subMenu: [],
-            
+
           });
         }
         if (this.proveedorCartera) {
@@ -830,7 +880,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Proveedor",
             url: "home/reportes/proveedor",
             subMenu: [],
-            
+
           });
         }
 
@@ -840,7 +890,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Vencimientos",
             url: "",
             subMenu: [],
-            
+
           };
           optionsCartera.subMenu.push(optionsVencimientos);
 
@@ -849,7 +899,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Reasegurador",
               url: "home/reportes/reasegurador",
               subMenu: [],
-              
+
             });
           }
           if (this.vencimientoCarteraCmpania) {
@@ -857,7 +907,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Compañia",
               url: "home/reportes/compania",
               subMenu: [],
-              
+
             });
           }
           if (this.vencimientoCarteraProveedor) {
@@ -865,7 +915,7 @@ export class CistomMenuComponent implements OnInit {
               name: "Proveedor",
               url: "home/reportes/proveedor",
               subMenu: [],
-              
+
             });
           }
         }
@@ -875,7 +925,7 @@ export class CistomMenuComponent implements OnInit {
             name: "Pagos",
             url: "home/reportes/pagos",
             subMenu: [],
-            
+
           });
         }
       }
@@ -886,7 +936,7 @@ export class CistomMenuComponent implements OnInit {
           name: "Informes",
           url: "home/reportes/estadocuenta",
           subMenu: [],
-          
+
         };
         myMenu.children.push(optionsInformes);
       }
@@ -920,6 +970,20 @@ export class CistomMenuComponent implements OnInit {
         };
         myMenuMoni.children.push(myMenu)
       }
+    }
+
+    if (this.menuLateral) {
+      const menuLateral = {
+        path: "home/dashboard1",
+        title: "Menu Lateral",
+        icontype: "dashboard",
+        collapse: null,
+        imgMenu: null,
+        idRol: this.dataUsers.id_rol,
+        idUsers: this.dataUsers.id,
+        children: []
+      }
+
     }
     this.alert.success('En hora buena', 'Tu menú personalizado ha sido guardado')
     this.menuComplet = myFirstMenu;

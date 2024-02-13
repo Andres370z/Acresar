@@ -9,6 +9,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatStepperModule } from '@angular/material/stepper';
+import { QRCodeModule } from 'angularx-qrcode';
+import { MatCardModule } from '@angular/material/card';
 
 
 @NgModule({
@@ -21,7 +23,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatMenuModule,
     MatDividerModule,
     MatCheckboxModule,
-    MatStepperModule
+    MatStepperModule,
+    QRCodeModule,
+    MatCardModule
   ]
 })
 export class CistomMenuModule { }
