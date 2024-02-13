@@ -43,6 +43,8 @@ export class FacultativoComponent implements OnInit, OnDestroy {
   listareasu: any;
   temporal: any;
   reasegurador: string;
+  fechaAlmacenda: any
+  fechaAlmacendaFin: any
   public rta: boolean = false
   private item = { c: '', e: '', r: '' };
   private _pct = new Procentajes();
@@ -127,26 +129,23 @@ export class FacultativoComponent implements OnInit, OnDestroy {
       const day = data.getDate();
       const month = data.getMonth() + 1;
       const year = data.getFullYear();
-
-      const fechaAlmacenada = { day, month, year };
-
-      console.log(fechaAlmacenada);
+      this.fechaAlmacenda = { day, month, year };
+      console.log(this.fechaAlmacenda);
+    }
+    const dataOne = this.form.controls.endDate.value;
+    if (dataOne) {
+      const day = dataOne.getDate();
+      const month = dataOne.getMonth() + 1;
+      const year = dataOne.getFullYear();
+      this.fechaAlmacendaFin = { day, month, year };
+      console.log(this.fechaAlmacendaFin);
     }
     if (!sessionStorage.getItem('formCuotaP')) {
       console.log('aqui llega 1')
       const form = this.form.value;
       var d = new Date(form.starHours);
       var e = new Date(form.endHours);
-      const fecha1 = {
-        "day": 22,
-        "month": 1,
-        "year": 2024
-      }
-      const fecha2 =  {
-        "day": 22,
-        "month": 1,
-        "year": 2024
-      }
+      
       sessionStorage.setItem('formCuotaP', JSON.stringify(form));
       // tslint:disable-next-line:no-debugger ..≤
       const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
@@ -174,8 +173,8 @@ export class FacultativoComponent implements OnInit, OnDestroy {
                 tipocontrato: 10,
                 codigocontrato: this.cod,
                 descripcion: form2['descripcion'],
-                fechaInicio : fecha1,
-                fechaFin: fecha2,
+                fechaInicio : this.fechaAlmacenda,
+                fechaFin: this.fechaAlmacendaFin,
                 moneda: form2['money'],
                 siniestroContrato: this._pct.removerDesimal(form2['sinistros']),
                 observacion: form2['observations'],
@@ -248,6 +247,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
         this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
         this.statefinal = true;
       }
+      this.storageClear()
       this.alertService.success('Formulario Enviado', 'Ok')
     } else {
       this.alertService.error('El formulario no se ha podido enviar', 'Error')
