@@ -112,28 +112,10 @@ export class CistomMenuComponent implements OnInit {
   /* Monitoreo de Contratos */
   monitoreoAutomaticos: boolean = false;
   monitoreoFacultativos: boolean = false;
-  /* Menu lateral */
-  resolutionLateral: boolean = false;
-  reasegurosLateral: boolean = false;
-  configuracionLateral: boolean = false;
-  reportesLateral: boolean = false;
-  seguridadLateral: boolean = false;
-  servicedeskLateral: boolean = false;
-  inicioLateral: boolean = false;
-  ayudaLateral: boolean = false;
-  ajusteReaseguroLateral: boolean = false;
-  asociacionReaseguroLateral: boolean = false;
-  contratosReaseguroLateral: boolean = false;
-  companiasReaseguroLateral: boolean = false;
-  cumulusReaseguroLateral: boolean = false;
-  eliminarReaseguroLateral: boolean = false;
-  lineasReaseguroLateral: boolean = false;
-  reaseguroReaseguroLateral: boolean = false;
-  contratosconfiguracionLateral: boolean = false;
-  charJsreportesLateral: boolean = false;
-  morrisreportesLateral: boolean = false;
-  flotreportesLateral: boolean = false;
-  inlineChartsreportesLateral: boolean = false;
+  /* Usuarios */
+  usuarios: boolean = false;
+  userList: boolean = false;
+  userRegister: boolean = false;
   myDta: any;
   public nameUser: any
   public menuCompletOne: any
@@ -153,7 +135,7 @@ export class CistomMenuComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     private router: Router,
-    private _https:AuthService,
+    private _https: AuthService,
     private alert: AlertService,
     private localStore: LocalstoreService,
   ) {
@@ -168,13 +150,13 @@ export class CistomMenuComponent implements OnInit {
     this.qrCodeDownloadLink = url;
   }
 
-  
+
   ngOnInit(): void {
     if (this.dataUsers) {
       this.nameUser = this.dataUsers.name;
     }
-    
-    
+
+
   }
 
   dowloadImg() {
@@ -185,11 +167,21 @@ export class CistomMenuComponent implements OnInit {
       this.downloadLink.nativeElement.download = 'card-atlantic.png';
       this.downloadLink.nativeElement.click();
     });
-    
+
     this.img = true;
   }
   saveDta() {
     const myFirstMenu = {
+      path: "home/",
+      title: "Home",
+      type: "link",
+      icontype: "home",
+      collapse: null,
+      imgMenu: null,
+      idRol: this.dataUsers.id_rol,
+      idUsers: this.dataUsers.id,
+      children: [],
+      id: null,
       mainOptions: []
     }
 
@@ -198,13 +190,13 @@ export class CistomMenuComponent implements OnInit {
         path: "home/companias",
         title: "Compañias",
         type: "link",
-        icontype: "dashboard",
+        icontype: "business_center",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
         idUsers: this.dataUsers.id,
         children: [],
-        id:null
+        id: null
       }
       myFirstMenu.mainOptions.push(optionscompanies)
       //opcion reasegurador
@@ -278,7 +270,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/contracts",
         title: "Contratos",
         type: "link",
-        icontype: "dashboard",
+        icontype: "location_city",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -379,7 +371,7 @@ export class CistomMenuComponent implements OnInit {
         path: "home/asociacion/contratos",
         title: "Asociación de Contratos",
         type: "link",
-        icontype: "dashboard",
+        icontype: "people",
         collapse: null,
         imgMenu: null,
         idRol: this.dataUsers.id_rol,
@@ -410,7 +402,7 @@ export class CistomMenuComponent implements OnInit {
       const myMenu = {
         path: "home/reinsuranceAdministration/primas",
         title: "Administración de reaseguros",
-        icontype: "dashboard",
+        icontype: "poll",
         type: "link",
         collapse: null,
         imgMenu: null,
@@ -703,7 +695,7 @@ export class CistomMenuComponent implements OnInit {
       const gerencial = {
         path: "home/gerencial",
         title: "Gerencial",
-        icontype: "dashboard",
+        icontype: "category",
         type: "link",
         collapse: null,
         imgMenu: null,
@@ -776,7 +768,7 @@ export class CistomMenuComponent implements OnInit {
       const myMenu = {
         path: "home/reportes",
         title: "Reportes",
-        icontype: "dashboard",
+        icontype: "equalizer",
         type: "link",
         collapse: null,
         imgMenu: null,
@@ -966,7 +958,7 @@ export class CistomMenuComponent implements OnInit {
       const myMenuMoni = {
         path: "home/monitoreo",
         title: "Monitoreo Contratos",
-        icontype: "dashboard",
+        icontype: "trending_up",
         type: "link",
         collapse: null,
         imgMenu: null,
@@ -987,9 +979,39 @@ export class CistomMenuComponent implements OnInit {
         const myMenu = {
           name: "Facultativos",
           url: "",
-          subMenuReportes: []
+          subMenu: []
         };
         myMenuMoni.children.push(myMenu)
+      }
+    }
+    if(this.usuarios){
+      const myMenuUsuarios = {
+        path: "home/usuarios",
+        title: "Usuarios",
+        icontype: "library_add",
+        type: "link",
+        collapse: null,
+        imgMenu: null,
+        idRol: this.dataUsers.id_rol,
+        idUsers: this.dataUsers.id,
+        children: []
+      };
+      myFirstMenu.mainOptions.push(myMenuUsuarios)
+      if(this.userList){
+        const myMenu = {
+          name: "Lista de Usuarios",
+          url: "home/usuarios/lista",
+          subMenu: []
+        };
+        myMenuUsuarios.children.push(myMenu)
+      }
+      if(this.userRegister){
+        const myMenu = {
+          name: "Crear Usuario",
+          url: "home/usuarios/registrar",
+          subMenu: []
+        };
+        myMenuUsuarios.children.push(myMenu)
       }
     }
     //this.alert.success('En hora buena', 'Tu menú personalizado ha sido guardado')
@@ -999,7 +1021,7 @@ export class CistomMenuComponent implements OnInit {
     } else {
       this.resgisterMenu(myFirstMenu)
     }
-    
+
   }
 
   resgisterMenu(item: any) {
@@ -1008,21 +1030,21 @@ export class CistomMenuComponent implements OnInit {
       res => {
         this.alert.success(Menssage.exito, Menssage.succesMenu)
       }
-    ).catch((err: any)=>{
+    ).catch((err: any) => {
       this.alert.error(Menssage.error, Menssage.errorMenu);
     });
   }
 
-  getMenu(item: number){
+  getMenu(item: number) {
     this.alert.loading();
-    this._https.getMenuIdUsers(item).then((resulta: any[])=>{
-          this.menuItems = resulta.filter(menuItem => menuItem);
-          if (this.menuItems.length != 0) {
-            console.log("compani")
-            this.menuEdit(this.menuItems)
-          }
-          this.alert.messagefin()
-    }).catch((err: any)=>{
+    this._https.getMenuIdUsers(item).then((resulta: any[]) => {
+      this.menuItems = resulta.filter(menuItem => menuItem);
+      if (this.menuItems.length != 0) {
+        console.log("compani")
+        this.menuEdit(this.menuItems)
+      }
+      this.alert.messagefin()
+    }).catch((err: any) => {
       console.log(err)
       this.alert.error(Menssage.error, Menssage.server);
     });
@@ -1058,7 +1080,7 @@ export class CistomMenuComponent implements OnInit {
       if (element.r2 != null) {
         this.subMenuEdit(element.r2);
       }
-      
+
     });
   }
 
@@ -1129,7 +1151,7 @@ export class CistomMenuComponent implements OnInit {
           this.subMenuList(element.subMenu)
         }
       }
-      
+
     });
   }
 
@@ -1214,7 +1236,7 @@ export class CistomMenuComponent implements OnInit {
         }
       }
     });
-    
+
   }
 
   subMenuListSub(subMenuListSub: any[]) {
@@ -1275,7 +1297,7 @@ export class CistomMenuComponent implements OnInit {
           break;
         case "Proveedor":
           this.vencimientoCarteraProveedor = true
-          break; 
+          break;
         default:
           break;
       }
@@ -1336,36 +1358,24 @@ export class CistomMenuComponent implements OnInit {
             icontype: elnt.icontype,
             collapse: element.a2,
             imgMenu: element.r3,
-            idRol:elnt.idRol,
+            idRol: elnt.idRol,
             idUsers: elnt.idUsers,
             children: elnt.children
           })
         }
       });
     });
-    
+
     console.log(menuList);
     this.alert.loading()
     this.menuService.editMenu(menuList).then(
       res => {
         this.alert.success(Menssage.exito, Menssage.editMenu)
       }
-    ).catch((err: any)=>{
+    ).catch((err: any) => {
       this.alert.error(Menssage.error, Menssage.errorMenu);
     });
 
-    if (this.menuLateral) {
-      const menuLateral = {
-        path: "home/dashboard1",
-        title: "Menu Lateral",
-        icontype: "dashboard",
-        collapse: null,
-        imgMenu: null,
-        idRol: this.dataUsers.id_rol,
-        idUsers: this.dataUsers.id,
-        children: []
-      }
-
-    }
+    
   }
 }

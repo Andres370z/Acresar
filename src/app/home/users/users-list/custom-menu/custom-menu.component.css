@@ -19,15 +19,12 @@
     margin: 20px;
     border-radius: 20px;
     -webkit-transition: all 0.3s ease-in-out;
-    /* Smooth transition for all properties */
     transition: all 0.3s ease-in-out;
 }
 
 .container .card:hover {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    /* Subtle shadow on hover */
     background-color: #016672;
-    /* Light yellow background on hover */
 }
 
 .container .card .circle {
@@ -46,7 +43,7 @@
 
 .circle .material-icons {
     font-size: 20px;
-    /* Ajusta el tamaño a tu gusto */
+    
 }
 
 .container .card .circle h2 {
