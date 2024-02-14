@@ -23,7 +23,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     console.log(this.menu)
   }
   ngOnDestroy(): void {
-    this.localStore.removeEnd(Menssage.menuSelect);
+    //this.localStore.removeEnd(Menssage.menuSelect);
   }
 
   ngOnInit(): void {
