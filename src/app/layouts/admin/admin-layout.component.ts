@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener, AfterViewInit } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener, AfterViewInit, ElementRef } from '@angular/core';
 import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { NavItem, NavItemType } from '../../md/md.module';
 import { Location, LocationStrategy, PathLocationStrategy, PopStateEvent } from '@angular/common';
@@ -39,6 +39,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       location: Location, 
       private localStore: LocalstoreService,
       private _https:AuthService,
+      private elRef: ElementRef,
       private alert: AlertService) {
       this.location = location;
       this.usersData = this.localStore.getSuccessLogin();
@@ -70,8 +71,8 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
            }
         });
         this._router = this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
-          if (elemMainPanel != null) {
-             elemMainPanel.scrollTop = 0;
+          if (elemMainPanel) {
+            elemMainPanel.scrollTop = 0;
              elemSidebar.scrollTop = 0;
           }
              

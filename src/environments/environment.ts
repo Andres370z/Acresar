@@ -6,13 +6,8 @@
 export const environment = {
   production: false,
   api: 'https://systemresolutiondesarrollo.softsaenz.com.co/api/',
-<<<<<<< HEAD
   api2: 'https://systemresolution.softsaenz.com.co/api',
-  apiRespaldo: 'systemresolutiondesarrollo.softsaenz.com.co/api/',
-=======
-  api2: 'https://systemresolutiondesarrollo.softsaenz.com.co/api/',
   apiRespaldo: 'https://systemresolutiondesarrollo.softsaenz.com.co/api/',
->>>>>>> d84022128309cf4a75fbf984eb904b465cadaf2d
   img: 'https://systemresolutiondesarrollo.softsaenz.com.co/img/'
   //api3: 'ttps://api.systemresolution.com/api'
 };

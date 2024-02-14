@@ -14,7 +14,7 @@
                     <div class="card-body ">
                         <div class="row" *ngIf="menuItems.length != 0">
                             <div class="col-xs-12 col-sm-6 col-lg-3 col-md-3" *ngFor="let menuitem of menuItems">
-                                <a (click)="navigate(menuitem.c)">
+                                <a (click)="navigate(menuitem.c, menuitem)">
                                     <div class="card" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">
                                         <div class="fondoItem" [style]="'background-image: url('+img+'menu/'+menuitem.r3+'); --bubble-color: #006571;'">
                                         </div>

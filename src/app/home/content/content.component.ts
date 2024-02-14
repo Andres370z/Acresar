@@ -202,7 +202,8 @@ export class ContentComponent implements OnInit {
   routerList(item: string){
     this.router.navigate([item]);
   }
-  navigate(item: string){
+  navigate(item: string, data: any){
+    this.localStore.setItem(data, Menssage.menuSelect)
     this.router.navigate([item])
   }
   /**GRAFICAS **/

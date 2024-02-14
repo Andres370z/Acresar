@@ -84,6 +84,7 @@ export const Menssage = {
     token:"token",
     customerDetail:"customerDetail",
     menu:"menu",
+    menuSelect:"menuSelect",
     server:"En la conexión del servidor",
     userValid:"El correo ya se encuentra registrado",
     emailValid:"El Email ingresado no se encuentra registrado",

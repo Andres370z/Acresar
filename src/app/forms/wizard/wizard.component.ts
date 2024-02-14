@@ -177,7 +177,7 @@ export class WizardComponent implements OnInit, OnChanges, AfterViewInit {
             onTabShow: function(tab: any, navigation: any, index: any) {
                 let $total = navigation.find('li').length;
                 let $current = index + 1;
-                elemMainPanel.scrollTop = 0;
+                (this.refs.mainPanel || {}).scrollTop = 0;
                 const $wizard = navigation.closest('.card-wizard');
 
                 // If it's the last tab then hide the last button and show the finish instead
