@@ -6,6 +6,8 @@ const routes: Routes = [{path: '', component: FacultativosComponent},{
   path: 'proporcionales', loadChildren: () => import ('./proporcionales/proporcionales.module').then (m => m.ProporcionalesModule)
 },{
   path: 'especiales', loadChildren: () => import ('./especiales/especiales.module').then (m => m.EspecialesModule)
+}, {
+  path: 'edit', loadChildren: () => import ('./facultativo-edit/facultativo-edit.module').then (m => m.FacultativoEditModule)
 }
 ];
 

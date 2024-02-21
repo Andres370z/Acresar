@@ -51,6 +51,7 @@ export const RoutersLink = {
     getPrimas: "aseguradoras/facultativo/reportenomina/get",
     deleted: 'contratos/automaticos/proporcionales/cuotaparte/',
     getDtaForm: 'contratos/automaticos/proporcionales/cuotaparte/',
+    getDtaFormFacultativo: 'contratos/facultativos/proporcionales/facultativo/',
     getCurrency: 'monedas',
     getDtaRamos: 'contratos/automaticos/proporcionales/cuotaparte/ramos/',
     getLoadRamos: 'facultativo/contrato/comision/',
@@ -68,6 +69,9 @@ export const RoutersLink = {
     postFacultativoContratb: 'facultativo/contrato/tb',
     postSearchProporcionalesCuotaAparte: 'contratos/automaticos/proporcionales/cuotaparte/buscar',
     postContratoCuotaAparte: 'contratos/automaticos/proporcionales/cuotaparte/contrato',
+    postEditContrato: 'final/contratos/no/proporcionales/cuotaparte/edit/contrato',
+    postEditContratoFacultativo: 'contratos/facultativo/edit/contrato',
+    postSearchIdcontracs: 'contratos/search',
     menuList:"menuList",
     getMenu:"menu",
     editList:"editList"

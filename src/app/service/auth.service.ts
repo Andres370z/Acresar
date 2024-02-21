@@ -243,6 +243,9 @@ export class AuthService {
   getDtaForm(id: any){
     return this.registeresquest.GETER(RoutersLink.getDtaForm + id + '/edit')
   }
+  getDtaFormFacultativo(id: any){
+    return this.registeresquest.GETER(RoutersLink.getDtaFormFacultativo + id + '/edit')
+  }
   getCurrency(){
     return this.registeresquest.GETER(RoutersLink.getCurrency)
   }
@@ -299,6 +302,15 @@ export class AuthService {
   }
   postContratoCuotaAparte(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparte, {item})
+  }
+  postEditContrato(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContrato, {item})
+  }
+  postEditContratoFacultativo(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContratoFacultativo, {item})
+  }
+  postSearchIdcontracs(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postSearchIdcontracs, {item})
   }
   // preuba menu
   getMenu(){

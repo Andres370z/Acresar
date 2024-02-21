@@ -46,7 +46,10 @@ const routes: Routes = [
   {path: 'asociacion/asociacion-contratos', loadChildren: () => import ('./contract-association/contract-association-contract-form/contract-association-contract-form.module').then(m => m.ContractAssociationContractFormModule)},
   {path: 'reinsuranceAdministration/primas', loadChildren: () => import ('./reinsuranceAdministration/primas/primas.module').then(m => m.PrimasModule)},
   /* Menu */
-  { path: 'usuarios', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) }
+  { path: 'usuarios', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
+  /* Gerencial */
+  {path: 'gerencial', loadChildren: () => import('./gerencial/gerencial.module').then(m => m.GerencialModule)},
+  { path: 'gerencialTwo', loadChildren: () => import('./gerencial-two/gerencial-two.module').then(m => m.GerencialTwoModule) },
 ];
 
 

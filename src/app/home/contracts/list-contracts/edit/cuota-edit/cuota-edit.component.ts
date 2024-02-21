@@ -3,9 +3,11 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { Procentajes } from "src/app/home/commos/porcentajes";
+import { SessionUser } from "src/app/home/global/sessionUser";
 import { Menssage } from "src/app/models/router";
 import { AlertService } from "src/app/service/alert.service";
 import { AuthService } from "src/app/service/auth.service";
+import { PercentageService } from "src/app/service/percentage.service";
 
 interface NgbDateStruct {
   year: number;
@@ -38,7 +40,11 @@ export class CuotaEditComponent implements OnInit {
   fechaOne: string
   fechaTwo: string
   horainicio: any;
-  horafin: any
+  horafin: any;
+  statefinal: boolean;
+  user: any;
+  cod: any;
+  dataEdicion: any
   public selectedOption: any;
   public money: any;
   private porcentajes = new Procentajes();
@@ -46,8 +52,12 @@ export class CuotaEditComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private myFormBuilder: FormBuilder,
-    private alert: AlertService
-  ) { }
+    private alert: AlertService,
+    private percentaje: PercentageService,
+  ) {
+    this.user = new SessionUser(this.router);
+    this.user.getAuthUser();
+  }
 
   ngOnInit(): void {
     //this.alert.loading();
@@ -59,35 +69,36 @@ export class CuotaEditComponent implements OnInit {
     this.authService.getCorredor().then((res) => {
       this.corredorList = res;
       //this.dataSource = res
-      console.log("esta es tu respuesta de los corredores ", res);
     });
     const id = JSON.parse(sessionStorage.getItem("cp"));
     this.authService.getDtaForm(id.a).then((res) => {
+      console.log('res -> ', res)
       let cnt = res.cnt;
+      this.dataEdicion = res.cnt;
       const fIni = cnt.r.split("-");
-      const fFin = cnt.e.split("-");
+      const fFin = cnt.e.split("-"); 
       this.cuota = cnt.o;
       this.fecha1 = { year: fIni[0], month: fIni[1], day: fIni[2] };
       this.fecha2 = { year: fFin[0], month: fFin[1], day: fFin[2] };
       this.horainicio = cnt.hrn;
       this.horafin = cnt.hrf;
-
+      this.cod = cnt.o;
       this.fechaOne = this.getFecha(this.fecha1)
       this.fechaTwo = this.getFecha(this.fecha2)
       //Trae datos formulario
-      this.form.controls.hour.setValue(this.horainicio)
-      this.form.controls.hourTwo.setValue(this.horafin)
-      this.form.controls.descripcion.setValue(cnt.c)
-      this.form.controls.observacion.setValue(cnt.r2)
-      this.form.controls.codigoContrato.setValue(cnt.o)
-      this.form.controls.starDate.setValue(this.fechaOne)
-      this.form.controls.endDate.setValue(this.fechaTwo)
-      this.form.controls.siniestros.setValue(this.desimal(this.removerSiniestro(cnt.sin_con)))
+      this.form.controls.hour.setValue(this.horainicio);
+      this.form.controls.hourTwo.setValue(this.horafin);
+      this.form.controls.descripcion.setValue(cnt.c);
+      this.form.controls.observacion.setValue(cnt.r2);
+      this.form.controls.codigoContrato.setValue(cnt.o);
+      this.form.controls.starDate.setValue(this.fechaOne);
+      this.form.controls.endDate.setValue(this.fechaTwo);
+      this.form.controls.siniestros.setValue(this.desimal(this.removerSiniestro(cnt.sin_con)));
+
       if (cnt.pro_id) {
         this.authService.getDtaRamos(cnt.pro_id).then(
           (res) => {
             this.dataSource = res;
-            console.log("esta es tu respuesta ", res);
           },
           (err) => {
             console.log("en efecto se dañó", err);
@@ -113,7 +124,46 @@ export class CuotaEditComponent implements OnInit {
       observacion: ['', Validators.compose([Validators.required])],
     });
   }
+  create() {
+    if (!this.statefinal) {
+      const form = this.form.value;
+      sessionStorage.setItem('formCuotaP', JSON.stringify(form));
+      const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
 
+      if (this.form.invalid) {
+        this.alert.error('Error', 'Formulario Invalido')
+      } else if (form2) {
+        const data = {
+          idusers: this.user.authUser.id,
+          id: this.dataEdicion.a,
+          codigocontrato: this.cod,
+          descripcion: form2['descripcion'],
+          fechaInicio: form2['starDate'],
+          fechaFin: form2['endDate'],
+          moneda: form2['currency'],
+          siniestroContrato: this.percentaje.removerDesimal(form2['siniestros']),
+          observacion: form2['observacion'],
+          horainicio: form2['hour'],
+          horafin: form2['hourTwo']
+        };
+        this.alert.loading();
+        this.authService.postEditContrato(data).then(
+          res => {
+            this.statefinal = true;
+            console.log('res create -> ', res)
+            this.alert.messagefin()
+          },
+          err => {
+            console.log(err)
+            this.alert.messagefin()
+            this.alert.error('Error', 'No se pudo realizar la solicitud')
+          }
+        )
+      }
+    }else{
+      console.log('No')
+    }
+  }
   getFecha(date: any): string {
     const year = date["year"];
     const month = date["month"];
@@ -169,7 +219,6 @@ export class CuotaEditComponent implements OnInit {
     this.authService
       .getCurrency()
       .then((resulta: any) => {
-        console.log("esta son las monedas: ", resulta);
         this.money = resulta;
       })
       .catch((err) => {
