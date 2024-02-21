@@ -1,1 +1,86 @@
-<p>users-register works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background: #016672;">
+                            <i class="material-icons">people</i>
+                        </div>
+                        <h4 class="card-title">Usuarios</h4>
+                    </div>
+
+                    <div class="card-body ">
+                        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="name" placeholder="Nombres" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="surname" placeholder="Apellidos" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="telephone" placeholder="Número de teléfono" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="jobTitle" placeholder="Cargo" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="identificationCard" placeholder="Número de identidad" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="shippingAddress" placeholder="Dirección" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="email" formControlName="email" placeholder="Correo" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="password" formControlName="password" placeholder="Contraseña" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccciona el rol de usuarios</mat-label>
+                                        <mat-select formControlName="idrol">
+                                            <mat-option class="ajust" *ngFor="let item of listRol" [value]="item.id" [style]="'--background-color:'+customerDetail.color+' !important;'">
+                                                {{item.nameRol}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-icon> place</mat-icon>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="password" formControlName="passwordVerifi" placeholder="Verificar Contraseña" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-12 card-footer ">
+                                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;">Crear Supervisor</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
