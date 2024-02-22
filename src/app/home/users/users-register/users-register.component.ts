@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SafeUrl } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import html2canvas from 'html2canvas';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
@@ -16,6 +18,28 @@ export class UsersRegisterComponent implements OnInit {
   public validType: boolean = true;
   public form: FormGroup;
   public listRol: any = [];
+  public file: File;
+  public myAngularxQrCode: string = "";
+  public qrCodeDownloadLink: SafeUrl = "";
+  @ViewChild('screen') screen: ElementRef;
+  @ViewChild('canvas') canvas: ElementRef;
+  @ViewChild('downloadLink') downloadLink: ElementRef;
+  perfil: any = [
+    { id: 1, name: 'Administrador' },
+    { id: 2, name: 'Gerente' },
+    { id: 3, name: 'Coordinador' },
+    { id: 4, name: 'Analista facultativos' },
+    { id: 5, name: 'Analista contratos' }
+  ];
+  pais: any = [
+    { id: 10, name: 'Colombia' },
+    { id: 30, name: 'Mexico' },
+    { id: 42, name: 'U.S.A' },
+  ];
+  status: any = [
+    { id: 1, name: 'Activo' },
+    { id: 0, name: 'Inactivo' },
+  ];
   constructor(
     private router: Router,
     private alert: AlertService,
@@ -24,21 +48,38 @@ export class UsersRegisterComponent implements OnInit {
     private authService: AuthService,
   ) { 
     this.dataUsers = this.localStore.getItem("usersEdit")
+    this.initial()
     if (this.dataUsers) {
       this.validType = false;
       this.editAdd(this.dataUsers)
+      let idBase = btoa(this.dataUsers.id.toString())
+      this.myAngularxQrCode = `https://card.systemresolution.com/${idBase}`;
     }
   }
+  dowloadImg() {
+    html2canvas(this.screen.nativeElement).then(canvas => {
+      var dataURL = canvas.toDataURL();
+      this.canvas.nativeElement.src = dataURL;
+      this.downloadLink.nativeElement.href = canvas.toDataURL('image/png');
+      this.downloadLink.nativeElement.download = 'card-atlantic.png';
+      this.downloadLink.nativeElement.click();
+    });
+  }
+  onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
+  }
   editAdd(dataUsers: any) {
+    console.log("hola",dataUsers)
     this.form.controls.name.setValue(dataUsers.name);
-    this.form.controls.surname.setValue(dataUsers.last_name);
+    this.form.controls.surname.setValue(dataUsers.lastName);
     this.form.controls.telephone.setValue(dataUsers.telephone);
     this.form.controls.identificationCard.setValue(dataUsers.name);
     this.form.controls.email.setValue(dataUsers.email);
-    this.form.controls.pais.setValue(dataUsers.pais);
+    this.form.controls.pais.setValue(dataUsers.idPais);
     this.form.controls.jobTitle.setValue(dataUsers.jobTitle);
     this.form.controls.shippingAddress.setValue(dataUsers.shippingAddress);
-    this.form.controls.idrol.setValue(dataUsers.perfil);
+    this.form.controls.idrol.setValue(dataUsers.id_rol);
+    this.form.controls.state.setValue(dataUsers.state);
   }
 
   ngOnInit(): void {
@@ -69,6 +110,9 @@ export class UsersRegisterComponent implements OnInit {
       pais: [Menssage.empty, Validators.compose([
         Validators.required,
       ])],
+      state: [Menssage.empty, Validators.compose([
+        Validators.required,
+      ])],
       shippingAddress: [Menssage.empty],
       password: [Menssage.empty, Validators.compose([
         Validators.required,
@@ -85,10 +129,25 @@ export class UsersRegisterComponent implements OnInit {
   }
   onSubmit(item: any){
     console.log(item)
+    const list ={
+      name: item.name,
+      surname: item.surname,
+      telephone: item.telephone,
+      identificationCard: item.identificationCard,
+      email: item.email,
+      jobTitle: item.jobTitle,
+      pais: item.pais,
+      shippingAddress: item.shippingAddress,
+      password: item.password,
+      state:item.state,
+      passwordVerifi: item.passwordVerifi,
+      idrol: item.idrol,
+      file:this.file
+    }
     if (this.validType) {
-      this.save(item)
+      this.save(list)
     } else {
-      this.editSave(item)
+      this.editSave(list)
     }
   }
   save(item: any){
@@ -96,11 +155,9 @@ export class UsersRegisterComponent implements OnInit {
       this.alert.loading();
       this.authService.create(item).then((resulta: any)=>{
           this.form.reset();
+          this.router.navigate(['/home/usuarios/lista']);
       }).catch((err: any)=>{
         console.log(err)
-        if (err.error.message != undefined) {
-          this.authService.logout()
-        }
         this.alert.error(Menssage.error, Menssage.server);
       });
   }
@@ -108,16 +165,18 @@ export class UsersRegisterComponent implements OnInit {
   editSave(item: any){
     if (this.valid(item)) {
       this.alert.loading();
-      this.authService.create(item).then((resulta: any)=>{
-          this.form.reset();
+      this.authService.usersUpdate(item, this.dataUsers.id).then((resulta: any)=>{
+          console.log(resulta)
+          this.alert.success("Exitoso", resulta.mensaje)
       }).catch((err: any)=>{
         console.log(err)
-        if (err.error.message != undefined) {
-          this.authService.logout()
-        }
         this.alert.error(Menssage.error, Menssage.server);
       });
+    }
   }
+  fileEvent(e) {
+    this.file = e.target.files[0];
+    console.log(this.file);
   }
   valid(item: any): boolean{
     let valid = true

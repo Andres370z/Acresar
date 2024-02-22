@@ -1,0 +1,21 @@
+<div class="menuOne">
+    <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Administración</button>
+    <mat-menu #matMenu="matMenu">
+      <button mat-menu-item (click)="navigate('home/gerencial/asignacion')">Asignacion de Proveedores</button>
+      <button mat-menu-item (click)="navigate('home/gerencial/admonProveedor')">Admon Proveedores</button>
+    </mat-menu>
+    <mat-menu #proporcionales="matMenu">
+      <button mat-menu-item (click)="navigate('home/contracts/Automaticos/proporcionales/cuota-parte')">Cuota
+        Parte</button>
+    </mat-menu>
+    <!-- ESTA ES LA OTRA OPCION -->
+    <button mat-button [matMenuTriggerFor]="facultativos" class="myButton">Negocio</button>
+    <mat-menu #facultativos="matMenu">
+      <button mat-menu-item [matMenuTriggerFor]="proporcionales2" (click)="navigate('home/contracts/Facultativos/proporcionales')">Detalle</button>
+    </mat-menu>
+    <mat-menu #proporcionales2="matMenu">
+      <button mat-menu-item
+        (click)="navigate('/home/gerencial/negocio')">Creación</button>
+    </mat-menu>
+    
+  </div>

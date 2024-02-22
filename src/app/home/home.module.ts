@@ -7,7 +7,7 @@ import { MenuModule } from './reinsurance-companies/menu/menu.module';
 
 @NgModule({
   declarations: [
-    HomeComponent
+    HomeComponent,
     
     
   ],

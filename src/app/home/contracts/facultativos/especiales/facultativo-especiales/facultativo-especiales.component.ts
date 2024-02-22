@@ -106,7 +106,7 @@ export class FacultativoEspecialesComponent implements OnInit, OnDestroy {
     const data = this.form.controls.starDate.value;
     if (data) {
       const day = data.getDate();
-      const month = data.getMonth() + 1;
+      const month = data.getMonth() + 1; 
       const year = data.getFullYear();
       this.fechaAlmacenda = { day, month, year };
       console.log(this.fechaAlmacenda);
@@ -290,6 +290,18 @@ export class FacultativoEspecialesComponent implements OnInit, OnDestroy {
       }
     } else {
       this.alertService.error('Error', 'Error en la conexión con el servidor')
+    }
+  }
+  fecha(data: any) {
+    console.log('esta es la fecha ', data)
+    if (data) {
+      const day = data.getDate();
+      const month = data.getMonth() + 1;
+      const year = data.getFullYear();
+
+      const fechaAlmacenada = { day, month, year };
+
+      console.log(fechaAlmacenada);
     }
   }
 }

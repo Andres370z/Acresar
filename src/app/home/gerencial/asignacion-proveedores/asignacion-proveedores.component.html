@@ -1,0 +1,133 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Asociación de Contratos</h4>
+          </div>
+          <div class="card-body">
+            <form class="form mb-4" [formGroup]="form">
+              <div class="row d-flex justify-content-center align-items-center">
+                <!--Buscador con autocomplete-->
+                <div class="col-6 ">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Identificación del contrato</mat-label>
+                    <!-- PARA QUE EL AUTOCOMPLETE FUNCIONE AL TECLEAR AGREGA ESTE METODO AL INPUT: (ngModelChange)="contratosfacultativos()" -->
+                    <input type="text" matInput [matAutocomplete]="auto" formControlName="tipoContrato"
+                      (ngModelChange)="searchContracs()">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let item of options" [value]="item.o" (click)="upload(item)">
+                        {{item.o}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon matSuffix (click)="searchContracs()">search</mat-icon>
+                    <mat-hint>preciona el icono para buscar *</mat-hint>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="click" class="row">
+
+
+                <div class="col-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>ID contrato</mat-label>
+                    <input matInput placeholder="ingresa el id de contrato" formControlName="idContrato" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Descripción de contrato</mat-label>
+                    <input matInput placeholder="ingresa una descripción" formControlName="descriContrato"
+                      type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Inicio</mat-label>
+                    <input matInput placeholder="inicio" formControlName="starDate" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Fin</mat-label>
+                    <input matInput placeholder="fin" formControlName="endDate" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Otros gastos</mat-label>
+                    <input matInput placeholder="ingresa otros gastos" formControlName="gastosContrato" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor asignado al proveedor</mat-label>
+                    <input matInput placeholder="valor asiganado" formControlName="valorContrato" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Proveedores</mat-label>
+                    <input matInput placeholder="proveedor" formControlName="proveedorContrato" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                
+              </div>
+              <div *ngIf="click" class="row" >
+                  <div class="col-3">
+                  <!--BOTON-->
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" 
+                    style="background-color: #016672">
+                    Guardar
+                  </button>
+                </div>
+
+                <div class="col-3">
+                  <!--BOTON-->
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" 
+                    style="background-color: #016672">
+                    Adicionar
+                  </button>
+                </div>
+
+                <div class="col-3">
+                  <!--BOTON-->
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" 
+                    style="background-color: #016672">
+                    Cancelar
+                  </button>
+                </div>
+                
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

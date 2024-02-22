@@ -51,7 +51,7 @@ export class ListContractsComponent implements OnInit {
         console.log('ok good 3')
         break;
       case 10:
-        // this.router.navigate(['']);
+        this.router.navigate(['/home/contracts/Facultativos/edit']);
         console.log('ok good 10')
         break;
       case 13:

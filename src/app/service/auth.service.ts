@@ -20,18 +20,42 @@ export class AuthService {
   ) { }
 
   create(inform:any){
-    const data = {
-      businessName: inform.businessName,
-      identificationCard: inform.identificationCard,
-      idCategoryToRegister: inform.idCategoryToRegister,
-      address: inform.address,
-      phone: inform.phone,
-      email: inform.email,
-      password: "sumateClaro",
-      password_confirmation : "sumateClaro",
-      idCity: inform.idCity
-    };
-    return  this.registeresquest.POST(RoutersLink.register, data)
+    const fm = new FormData;
+    
+    fm.append('name', inform.name);
+    fm.append('last_name', inform.surname);
+    fm.append('telephone', inform.telephone);
+    fm.append('identificationCard', inform.identificationCard);
+    fm.append('shippingAddress', inform.shippingAddress);
+    fm.append('jobTitle', inform.jobTitle);
+    fm.append('email', inform.email);
+    fm.append('email_confirmation', inform.email);
+    fm.append('password', inform.password);
+    fm.append('password_confirmation', inform.passwordVerifi);
+    fm.append('photo', inform.file);
+    fm.append('state', inform.state);
+    fm.append('perfil', inform.idrol);
+    fm.append('pais', inform.pais);
+    return  this.registeresquest.POST(RoutersLink.userCreate, fm)
+  }
+
+  usersUpdate(inform:any, id: number){
+    const fm = new FormData;
+    fm.append('name', inform.name);
+    fm.append('last_name', inform.surname);
+    fm.append('telephone', inform.telephone);
+    fm.append('identificationCard', inform.identificationCard);
+    fm.append('shippingAddress', inform.shippingAddress);
+    fm.append('jobTitle', inform.jobTitle);
+    fm.append('email', inform.email);
+    fm.append('email_confirmation', inform.email);
+    fm.append('password', inform.password);
+    fm.append('password_confirmation', inform.passwordVerifi);
+    fm.append('photo', inform.file);
+    fm.append('state', inform.state);
+    fm.append('perfil', inform.idrol);
+    fm.append('pais', inform.pais);
+    return  this.registeresquest.POST(RoutersLink.userCreate+'/'+id, fm)
   }
 
   resgisterImageEvents(inform:any){
@@ -243,6 +267,9 @@ export class AuthService {
   getDtaForm(id: any){
     return this.registeresquest.GETER(RoutersLink.getDtaForm + id + '/edit')
   }
+  getDtaFormFacultativo(id: any){
+    return this.registeresquest.GETER(RoutersLink.getDtaFormFacultativo + id + '/edit')
+  }
   getCurrency(){
     return this.registeresquest.GETER(RoutersLink.getCurrency)
   }
@@ -299,6 +326,15 @@ export class AuthService {
   }
   postContratoCuotaAparte(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparte, {item})
+  }
+  postEditContrato(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContrato, {item})
+  }
+  postEditContratoFacultativo(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContratoFacultativo, {item})
+  }
+  postSearchIdcontracs(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postSearchIdcontracs, {item})
   }
   // preuba menu
   getMenu(){
