@@ -1,1 +1,160 @@
-<p>users-register works!</p>
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card ">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background: #016672;">
+                            <i class="material-icons">people</i>
+                        </div>
+                        <h4 class="card-title">Usuario</h4>
+                    </div>
+
+                    <div class="card-body ">
+                        <form class="form" [formGroup]="form" (ngSubmit)="onSubmit(form.value)">
+                            <div class="row" style="width: 100%;">
+                                <div class="col-12 ajust-content" *ngIf="dataUsers">
+                                    <img [src]="'https://systemresolutiondesarrollo.softsaenz.com.co/'+dataUsers.photo" alt="">
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="name" placeholder="Nombres" />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="surname" placeholder="Apellidos" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="telephone" placeholder="Número de teléfono" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="jobTitle" placeholder="Cargo" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="identificationCard" placeholder="Número de identidad" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="text" formControlName="shippingAddress" placeholder="Dirección" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="email" formControlName="email" placeholder="Correo" />
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="password" formControlName="password" placeholder="Contraseña" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="password" formControlName="passwordVerifi" placeholder="Verificar Contraseña" />
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccciona el rol de usuarios</mat-label>
+                                        <mat-select formControlName="idrol">
+                                            <mat-option class="ajust" *ngFor="let item of perfil" [value]="item.id">
+                                                {{item.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccciona el país</mat-label>
+                                        <mat-select formControlName="pais">
+                                            <mat-option class="ajust" *ngFor="let item of pais" [value]="item.id">
+                                                {{item.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field class="example-full-width">
+                                        <input matInput class="form-control" type="file" (change)="fileEvent($event)" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Seleccciona el país</mat-label>
+                                        <mat-select formControlName="state">
+                                            <mat-option class="ajust" *ngFor="let item of status" [value]="item.id">
+                                                {{item.name}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-hint align="end">Aquí está la flecha desplegable ^</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-12 card-footer ">
+                                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background: #016672; border-radius: 6px; opacity: 0.8; color: #fff;"> {{dataUsers == null ? 'Crear Usuario' : 'Editar Usuario'}}</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" *ngIf="dataUsers">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background-color: #016672;">
+                            <i class="material-icons">storage</i>
+                        </div>
+                        <h4 class="card-title">Tarjeta de presentación</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive center-content">
+                            <div class="col-12">
+                                <div class="container">
+                                    <div class="card" id="myImage" #screen>
+                                        <div class="circle">
+                                            <img src="../../../../../assets/img/LOGO-ATLANTIC-3-removebg-preview.png" alt="">
+                                            <i class="material-icons">keyboard_arrow_down</i>
+                                            <!-- Ícono de Angular -->
+                                            <i class="material-icons">keyboard_arrow_down</i>
+                                            <!-- Ícono de Angular -->
+                                            <h2 class="name"> {{dataUsers.name}} </h2>
+                                        </div>
+                                        <div class="content">
+                                            <qrcode (qrCodeURL)="onChangeURL($event)" [qrdata]="myAngularxQrCode" [width]="200" [errorCorrectionLevel]="'M'"></qrcode>
+                                        </div>
+                                    </div>
+                                    <div class="content">
+                                        <a type="buttom" (click)="dowloadImg()">Download</a>
+                                    </div>
+                                    <img #canvas style="display: none;">
+                                    <a #downloadLink></a>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>

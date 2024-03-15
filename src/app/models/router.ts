@@ -6,6 +6,7 @@ export const RoutersLink = {
     gettotaldata:"gettotaldata/",
     assistantDetail:"home/assistantList/assistantDetail/",
     register: "register",
+    userCreate:"configuracion/usuarios",
     registerUpdate: "registerUpdate",
     imgUpdate:"imgUpdate",
     registerChallenge:"registerChallenge",
@@ -89,6 +90,11 @@ export const RoutersLink = {
 };
 
 export const Menssage = {
+    telephone:"",
+    name:"",
+    surname:"",
+    passwordVerifi:"",
+    idrol:"",
     idImg:"No haz agregado una imagen",
     idEvents:"No haz seleccionado un evento",
     nameEvents:"softsaenz",

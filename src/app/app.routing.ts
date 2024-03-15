@@ -5,11 +5,11 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { AuthGuard } from './shared/auth.guard';
 
 export const AppRoutes: Routes = [
-    {
-      path: '',
-      redirectTo: 'home',
-      pathMatch: 'full',
-    },
+  {
+    path: '',
+    redirectTo: 'pages',
+    pathMatch: 'full',
+  },
     
     {
       path: '',

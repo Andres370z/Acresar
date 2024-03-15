@@ -71,16 +71,13 @@ export class UsersListComponent implements OnInit {
   }
 
   edit(item: any){
-    console.log(item);
-    this.alert.error("Error", "Pagina en construcción")
+    this.localStore.setItem(item, "usersEdit")
+    this.router.navigate(['/home/usuarios/registrar']);
   }
 
   addMenu(item: any){
     this.localStore.setItem(item, "usersList")
-    console.log('addMenu',item);
     this.router.navigate(['/home/usuarios/lista/menu-setting']);
   }
 
-  
-  
 }

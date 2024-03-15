@@ -219,3 +219,9 @@ td.mat-footer-cell:last-of-type {
         position: absolute;
     }
 }
+
+@media (max-width: 750px) {
+    .particles-js-canvas-el {
+        z-index: -1 !important;
+    }
+}

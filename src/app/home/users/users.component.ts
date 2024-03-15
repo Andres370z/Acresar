@@ -29,6 +29,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
   }
   navigate(item: string){
-    this.router.navigate([item])
+    this.router.navigate([item]);
   }
 }
