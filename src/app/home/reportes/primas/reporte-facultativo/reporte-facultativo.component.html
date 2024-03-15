@@ -1,0 +1,45 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Reporte contratos facultativos </h4>
+          </div>
+          <div class="card-body">
+            <form class="form mb-4" [formGroup]="form">
+              <div class="row d-flex justify-content-center align-items-center">
+                <!--Buscador con autocomplete-->
+
+                <div class="col-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Identificación del contrato</mat-label>
+                    <!-- PARA QUE EL AUTOCOMPLETE FUNCIONE AL TECLEAR AGREGA ESTE METODO AL INPUT: (ngModelChange)="contratosfacultativos()" -->
+                    <input type="text" matInput [matAutocomplete]="auto" formControlName="tipoContrato"
+                      (ngModelChange)="searchContracs()">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let item of options" [value]="item.o" (click)="upload(item)">
+                        {{item.o}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-icon matSuffix (click)="searchContracs()">search</mat-icon>
+                    <mat-hint>preciona el icono para buscar *</mat-hint>
+                  </mat-form-field>
+                </div>
+                <div class="col-12">
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                    style="background-color: #016672" (click)="descargarfinal()">
+                    Descargar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

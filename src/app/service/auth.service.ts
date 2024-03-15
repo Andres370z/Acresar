@@ -204,6 +204,9 @@ export class AuthService {
   getCorredor(){
     return this.registeresquest.GETER(RoutersLink.getCorredor)
   }
+  getAsegurado(){
+    return this.registeresquest.GETER(RoutersLink.getAsegurado)
+  }
   getAseguradoras(){
     return this.registeresquest.GETER(RoutersLink.getAseguradoras)
   }
@@ -262,6 +265,15 @@ export class AuthService {
   getFacultativoContra(inform: any){
     return this.registeresquest.GETER(RoutersLink.getFacultativoContra + inform)
   }
+  getContratoExcel(item: any){
+    return this.registeresquest.GETER(RoutersLink.getContratoExcel + item )
+  }
+  getPoliza(){
+    return this.registeresquest.GETER(RoutersLink.getPoliza)
+  }
+  getContratoExcelFaculta(item: any){
+    return this.registeresquest.GETER(RoutersLink.getContratoExcelFaculta + item )
+  }
   /** POST **/
   postFacultativosContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosContrato, {item})
@@ -312,6 +324,22 @@ export class AuthService {
   postSearchIdcontracs(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postSearchIdcontracs, {item})
   }
+  postReporteNomina(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postReporteNomina, {item})
+  }
+  postSinistroReporteNomina(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postSinistroReporteNomina, {item})
+  }
+  postPolizaReporteNomina(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postPolizaReporteNomina, {item})
+  }
+  postExcel(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postExcel, {item})
+  }
+  postPolizaReasegurador(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postPolizaReasegurador, {item})
+  }
+  
   // preuba menu
   getMenu(){
     return this.http.get('./assets/json/menu.json')

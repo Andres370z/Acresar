@@ -36,9 +36,10 @@ export const RoutersLink = {
     deleteRegisterImageEvent:"deleteRegisterImageEvent/",
     resgisterImageEvents:"resgisterImageEvents",
     /*Andres*/
-    reaseguradoresList: "/reaseguradoras",
+    reaseguradoresList: "reaseguradoras",
     getEntities: "entidades",
     getCorredor: "corredores",
+    getAsegurado: "aseguradoras/facultativo/client/total",
     getAseguradoras: "aseguradoras",
     getIntermediarios: "intermediarios",
     getDirectorios: "contactos/list/full",
@@ -57,6 +58,9 @@ export const RoutersLink = {
     getLoadRamos: 'facultativo/contrato/comision/',
     getFacultativoContrato: 'facultativo/contrato/especial/',
     getFacultativoContra: 'facultativo/contrato/',
+    getContratoExcel: 'contratos/automaticos/get/excel/',
+    getContratoExcelFaculta: 'facultativo/contrato/count/faculta/',
+    getPoliza: 'contratos/automaticos/poliza/get/contratos',
     /** POSTS **/
     postFacultativos: 'contratos/asociacion/search',
     postFacultativosContrato: 'contratos/facultativo/search',
@@ -72,6 +76,12 @@ export const RoutersLink = {
     postEditContrato: 'final/contratos/no/proporcionales/cuotaparte/edit/contrato',
     postEditContratoFacultativo: 'contratos/facultativo/edit/contrato',
     postSearchIdcontracs: 'contratos/search',
+    postReporteNomina: 'aseguradoras/facultativo/reportenomina',
+    postSinistroReporteNomina: 'aseguradoras/facultativo/proceso/siniestro/reportenomina',
+    postPolizaReporteNomina: 'contratos/automaticos/poliza/get/reporte',
+    postExcel: 'contratos/automaticos/poliza/get/excel',
+    postPolizaReasegurador: 'contratos/automaticos/poliza/get/reasegurador',
+    
     menuList:"menuList",
     getMenu:"menu",
     editList:"editList"

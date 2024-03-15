@@ -1,0 +1,52 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Reporte Siniestros</h4>
+          </div>
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <!-- ACA VA EL MENU -->
+          </div>
+          <div class="card-body">
+            <form class="form mb-4" [formGroup]="form">
+              <div class="row">
+
+                <div class="col-6 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Ramos</mat-label>
+                    <mat-select [(ngModel)]="selectedOption" formControlName="ramos">
+                      <mat-option *ngFor="let item of ramos" value="{{ item.a }}">{{ item.a2 }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Reasegurador</mat-label>
+                    <mat-select [(ngModel)]="selectedOption" formControlName="reasegurador">
+                      <mat-option *ngFor="let item of reasegradores" value="{{ item.a }}">{{item.cod}}
+                        {{item.e}}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div class="col-4"></div>
+
+                <div class="col-4" style="text-align: center;">
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                    style="background-color: #016672" (click)="downloadData()">
+                    Descargar
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+<div class="menuOne">
+
+  <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Primas</button>
+  <mat-menu #matMenu="matMenu">
+    <button mat-menu-item (click)="navigate('')">Resumen de cesión</button>
+    <button mat-menu-item (click)="navigate('home/reportes/boderaux')">Bordereaux de prima</button>
+    <button mat-menu-item (click)="navigate('home/reportes/contratos-automaticos')">Reporte de contrato Automatico</button>
+    <button mat-menu-item (click)="navigate('home/reportes/contratos-facultativos')">Reporte de contrato Facultativo</button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="matMenuTwo" class="myButton">Siniestros</button>
+  <mat-menu #matMenuTwo="matMenu">
+    <button mat-menu-item (click)="navigate('')">Resumen de siniestrsos</button>
+    <button mat-menu-item (click)="navigate('home/reportes/reporte-siniestro')">Bordereaux de siniestros</button>
+    <button mat-menu-item (click)="navigate('home/reportes/siniestro-rea')">Siniestros de Reasegurador</button>
+  </mat-menu>
+
+  <button mat-button [matMenuTriggerFor]="matMenuTree" class="myButton">Cartera</button>
+  <mat-menu #matMenuTree="matMenu">
+    <button mat-menu-item (click)="navigate('home/reportes/reasegurador')">Reasegurador</button>
+    <button mat-menu-item (click)="navigate('home/reportes/compania')">Compañia</button>
+    <button mat-menu-item (click)="navigate('home/reportes/proveedor')">Proveedor</button>
+    <button mat-menu-item (click)="navigate('home/reportes/pagos')">Pagos</button>
+  </mat-menu>
+  <!-- ESTA ES LA OTRA OPCION -->
+  <button mat-button [matMenuTriggerFor]="matMenuFour" class="myButton">Informes</button>
+  <mat-menu #matMenuFour="matMenu">
+    <button mat-menu-item (click)="navigate('home/reportes/informes')">Estado de Cuenta</button>
+  </mat-menu>
+  <mat-menu #proporcionales2="matMenu">
+    <button mat-menu-item (click)="navigate('')">Creación</button>
+  </mat-menu>
+
+</div>
