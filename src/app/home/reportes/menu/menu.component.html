@@ -21,6 +21,7 @@
     <button mat-menu-item (click)="navigate('home/reportes/compania')">Compañia</button>
     <button mat-menu-item (click)="navigate('home/reportes/proveedor')">Proveedor</button>
     <button mat-menu-item (click)="navigate('home/reportes/pagos')">Pagos</button>
+    <button mat-menu-item [matMenuTriggerFor]="vencimientos">Vencimientos</button>
   </mat-menu>
   <!-- ESTA ES LA OTRA OPCION -->
   <button mat-button [matMenuTriggerFor]="matMenuFour" class="myButton">Informes</button>
@@ -29,6 +30,12 @@
   </mat-menu>
   <mat-menu #proporcionales2="matMenu">
     <button mat-menu-item (click)="navigate('')">Creación</button>
+  </mat-menu>
+
+  <mat-menu #vencimientos="matMenu">
+    <button mat-menu-item (click)="navigate('home/reportes/vencimientos/reasegurador')">Reasegurador</button>
+    <button mat-menu-item (click)="navigate('home/reportes/vencimientos/compania')">Compañía</button>
+    <button mat-menu-item (click)="navigate('home/reportes/vencimientos/proveedor')">Proveedor</button>
   </mat-menu>
 
 </div>

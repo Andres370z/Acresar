@@ -1,53 +1,41 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { ExcelService } from 'src/app/service/excel.service';
-import { PercentageService } from 'src/app/service/percentage.service';
 
 @Component({
-  selector: 'app-proveedor',
-  templateUrl: './proveedor.component.html',
-  styleUrls: ['./proveedor.component.css']
+  selector: 'app-reasegurador',
+  templateUrl: './reasegurador.component.html',
+  styleUrls: ['./reasegurador.component.css']
 })
-export class ProveedorComponent implements OnInit {
-  money: any;
-  ramos: any;
-  reasegradores: any;
-  asegurado: any;
+export class ReaseguradorComponent implements OnInit {
   form: FormGroup;
-  idreas: any;
-  ramo: any;
-  idbroker: any;
-  idmone: any;
-  reseasegurador: any;
-  corredor: any;
+  ramos: any
+  reasegradores: any;
+  reporte: any;
+  asegurado: any;
+  selectedOptionramos: any;
+  selectedOption: any;
+  selectedOptionreporte: any;
   resultado: any;
-  public selectedOption: any;
-  public selectedOptionasegurado: any;
-  public selectedOptionramos: any;
-  public selectedOptioncurrency: any;
-
   constructor(
-    private authService: AuthService,
-    private alert: AlertService,
-    private myFormBuilder: FormBuilder,
-    private porcentajes: PercentageService,
-    private router: Router,
-    private excelService: ExcelService
+    public myFormBuilder: FormBuilder,
+    public authService: AuthService,
+    public excelService: ExcelService,
+    public alert: AlertService,
   ) { }
-
+  
   ngOnInit(): void {
-    this.initial()
+    this.initial();
   }
   initial() {
     this.form = this.myFormBuilder.group({
       ramos: [Menssage.empty, Validators.compose([Validators.required])],
       reasegurador: [Menssage.empty, Validators.compose([Validators.required])],
       asegurado: [Menssage.empty, Validators.compose([Validators.required])],
-      currency: [Menssage.empty, Validators.compose([Validators.required])],
+      reporte: [Menssage.empty, Validators.compose([Validators.required])],
       startDate: [Menssage.empty, Validators.compose([Validators.required])],
       endDate: [Menssage.empty, Validators.compose([Validators.required])],
     });
@@ -63,15 +51,15 @@ export class ProveedorComponent implements OnInit {
     }).catch((err) => {
       console.log(err);
     });
-    //Trae asegurado
-    this.authService.getAsegurado().then((resulta: any) => {
-      this.asegurado = resulta
+    //Trae reporte
+    this.authService.getCurrency().then((resulta: any) => {
+      this.reporte = resulta
     }).catch((err) => {
       console.log(err);
     });
-    //Trae Monedas
-    this.authService.getCurrency().then((resulta: any) => {
-      this.money = resulta;
+    //Trae asegurado
+    this.authService.getAsegurado().then((resulta: any) => {
+      this.asegurado = resulta;
     }).catch((err) => {
       console.log(err);
     });
@@ -80,12 +68,12 @@ export class ProveedorComponent implements OnInit {
   downloadData() {
     if (this.form.valid) {
       const data = {
-        ramos: this.ramo,
-        reas: this.idreas,
+        ramos: this.ramos,
+        reas: this.reasegradores,
         fInicio: this.form.controls.startDate.value,
         ciudad: this.form.controls.endDate.value,
-        broker: this.idbroker,
-        moneda: this.idmone,
+        broker: this.asegurado,
+        moneda: this.reporte,
       };
       console.log('UNO', data);
       this.authService.postSinistroReporteNomina(data).then((res: any) => {
@@ -98,7 +86,7 @@ export class ProveedorComponent implements OnInit {
           this.convertir(this.resultado)
         }
       })
-    }else{
+    }else {
       this.alert.error('Falta algo', 'Todavia no llenas el formulario')
     }
 

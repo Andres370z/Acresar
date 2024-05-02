@@ -31,7 +31,7 @@
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Asegurado</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="asegurado">
+                    <mat-select [(ngModel)]="selectedOptionasegurado" formControlName="asegurado">
                       <mat-option *ngFor="let item of asegurado" value="{{ item.a }}">{{item.a2}}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -40,7 +40,7 @@
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Ramos</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="ramos">
+                    <mat-select [(ngModel)]="selectedOptionramos" formControlName="ramos">
                       <mat-option *ngFor="let item of ramos" value="{{ item.a }}">{{ item.a2 }}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -49,7 +49,7 @@
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Tipo de reporte</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="currency">
+                    <mat-select [(ngModel)]="selectedOptioncurrency" formControlName="currency">
                       <mat-option *ngFor="let item of money" value="{{ item.a }}">{{ item.c }}</mat-option>
                     </mat-select>
                   </mat-form-field>

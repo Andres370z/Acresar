@@ -26,6 +26,9 @@ export class ReaseguradorComponent implements OnInit {
   corredor: any;
   resultado: any;
   public selectedOption: any;
+  public selectedOptionasegurado: any;
+  public selectedOptionramos: any;
+  public selectedOptioncurrency: any;
   constructor( 
     private authService: AuthService,
     private alert: AlertService,

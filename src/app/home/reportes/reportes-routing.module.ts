@@ -16,6 +16,11 @@ const routes: Routes = [{path: '', component: ReportesComponent},
   {path: 'pagos', loadChildren: ()=> import('./cartera/pagos/pagos.module').then(m => m.PagosModule)},
   //INFORMES
   {path: 'informes', loadChildren: ()=> import('./informes/informes.module').then(m => m.InformesModule)},
+  //VENCIMIENTOS
+  {path: 'vencimientos/compania', loadChildren: ()=> import('./vencimientos/compania/compania.module').then(m => m.CompaniaModule)},
+  {path: 'vencimientos/proveedor', loadChildren: ()=> import('./vencimientos/proveedor/proveedor.module').then(m => m.ProveedorModule)},
+  {path: 'vencimientos/reasegurador', loadChildren: ()=> import('./vencimientos/reasegurador/reasegurador.module').then(m => m.ReaseguradorModule)},
+
 
 ];
 

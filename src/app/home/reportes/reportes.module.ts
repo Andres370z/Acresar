@@ -5,15 +5,12 @@ import { ReportesComponent } from './reportes.component';
 import { MenuModule } from './menu/menu.module';
 import { ReportesRoutingModule } from './reportes-routing.module';
 
-
 @NgModule({
-  declarations: [ReportesComponent ],
+  declarations: [ReportesComponent],
   imports: [
     CommonModule,
     ReportesRoutingModule,
     MenuModule,
-
-    
   ]
 })
 export class ReportesModule { }

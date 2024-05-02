@@ -7,7 +7,7 @@
             <div class="card-icon" style="background-color: #016672;">
               <i class="material-icons">storage</i>
             </div>
-            <h4 class="card-title">Reporte de Prima</h4>
+            <h4 class="card-title">Reporte Compañía</h4>
           </div>
           <div style="display: flex; justify-content: center; align-items: center;">
             <!-- ACA VA EL MENU -->
@@ -17,7 +17,16 @@
             <form class="form mb-4" [formGroup]="form">
               <div class="row">
 
-                <div class="col-4 mb-2"> 
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Ramos</mat-label>
+                    <mat-select [(ngModel)]="selectedOptionramos" formControlName="ramos">
+                      <mat-option *ngFor="let item of ramos" value="{{ item.a }}">{{ item.a2 }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Reasegurador</mat-label>
                     <mat-select [(ngModel)]="selectedOption" formControlName="reasegurador">
@@ -31,16 +40,8 @@
                   <mat-form-field appearance="fill">
                     <mat-label>Asegurado</mat-label>
                     <mat-select [(ngModel)]="selectedOption" formControlName="asegurado">
-                      <mat-option *ngFor="let item of asegurado" value="{{ item.a }}">{{item.a2}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-4 mb-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Ramos</mat-label>
-                    <mat-select [(ngModel)]="selectedOptionramos" formControlName="ramos">
-                      <mat-option *ngFor="let item of ramos" value="{{ item.a }}">{{ item.a2 }}</mat-option>
+                      <mat-option *ngFor="let item of asegurado" value="{{ item.a }}">{{item.cod}}
+                        {{item.a2}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -48,8 +49,8 @@
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Tipo de reporte</mat-label>
-                    <mat-select [(ngModel)]="selectedOptioncurrency" formControlName="currency">
-                      <mat-option *ngFor="let item of money" value="{{ item.a }}">{{ item.c }}</mat-option>
+                    <mat-select [(ngModel)]="selectedOptionreporte" formControlName="reporte">
+                      <mat-option *ngFor="let item of reporte" value="{{ item.a }}">{{ item.c }}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>

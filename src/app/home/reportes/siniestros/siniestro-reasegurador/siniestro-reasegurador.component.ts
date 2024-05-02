@@ -24,6 +24,7 @@ export class SiniestroReaseguradorComponent implements OnInit {
   corredor: any;
   resultado: any;
   public selectedOption: any;
+  public selectedOptionreasegurador: any;
   constructor(
     private myFormBuilder: FormBuilder,
     private authService: AuthService,

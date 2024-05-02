@@ -51,7 +51,7 @@ export class BorderauxComponent implements OnInit {
     this.authService.getRamos().then((resulta: any) => {
       this.ramos = resulta;
     }).catch((err) => {
-      console.log(err);
+      console.log(err, 'estos son tus datos');
     });
     //Trae Reasegurador
     this.authService.getReinsurer().then((resulta: any) => {

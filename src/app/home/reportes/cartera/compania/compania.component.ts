@@ -26,6 +26,9 @@ export class CompaniaComponent implements OnInit {
   corredor: any;
   resultado: any;
   public selectedOption: any;
+  public selectedOptionasegurado: any;
+  public selectedOptionramos: any;
+  public selectedOptioncurrency: any;
   constructor(
     private authService: AuthService,
     private alert: AlertService,
@@ -50,24 +53,31 @@ export class CompaniaComponent implements OnInit {
     //Trae Ramoss
     this.authService.getRamos().then((resulta: any) => {
       this.ramos = resulta;
+      console.log('estos son los ramos', this.ramos);
     }).catch((err) => {
       console.log(err);
     });
     //Trae Reasegurador
     this.authService.getReinsurer().then((resulta: any) => {
       this.reasegradores = resulta;
+      console.log('estos son los reasegradores', this.reasegradores);
+
     }).catch((err) => {
       console.log(err);
     });
     //Trae asegurado
     this.authService.getAsegurado().then((resulta: any) => {
       this.asegurado = resulta
+      console.log('estos son los asegurado', this.asegurado);
+
     }).catch((err) => {
       console.log(err);
     });
     //Trae Monedas
     this.authService.getCurrency().then((resulta: any) => {
       this.money = resulta;
+      console.log('estos son los money', this.money);
+
     }).catch((err) => {
       console.log(err);
     });
