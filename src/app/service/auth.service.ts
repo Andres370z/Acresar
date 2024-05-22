@@ -53,7 +53,7 @@ export class AuthService {
     fm.append('password_confirmation', inform.passwordVerifi);
     fm.append('photo', inform.file);
     fm.append('state', inform.state);
-    fm.append('perfil', inform.idrol);
+    fm.append('perfil', inform.idrol); 
     fm.append('pais', inform.pais);
     return  this.registeresquest.POST(RoutersLink.userCreate+'/'+id, fm)
   }
@@ -318,6 +318,9 @@ export class AuthService {
   postBuscarContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postBuscarContra, {item})
   }
+  postBuscarSiniestro(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postBuscarSiniestro, {item})
+  }
   
 
   /**SOLICITUDES DE RESPALDO */
@@ -341,6 +344,15 @@ export class AuthService {
   }
   postEditContrato(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContrato, {item})
+  }
+  postEditCorredores(item: any, id: any){
+    return this.registeresquest.POSTRESPALDO( `${RoutersLink.postCorredores}/${id}`, {item}, )
+  }
+  postEditClientes(item: any, id: any){
+    return this.registeresquest.POSTRESPALDO( `${RoutersLink.postClientes}/${id}`, {item}, )
+  }
+  postEditAseguradores(item: any, id: any){
+    return this.registeresquest.POSTRESPALDO( `${RoutersLink.postAseguradoras}/${id}`, {item}, )
   }
   postEditContratoFacultativo(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContratoFacultativo, {item})

@@ -86,6 +86,7 @@ import * as $ from 'jquery';
   imports: [BrowserAnimationsModule],
   declarations: [
     
+  
   ],
 })
 export class MaterialModule {}

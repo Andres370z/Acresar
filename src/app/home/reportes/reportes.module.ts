@@ -6,7 +6,7 @@ import { MenuModule } from './menu/menu.module';
 import { ReportesRoutingModule } from './reportes-routing.module';
 
 @NgModule({
-  declarations: [ReportesComponent],
+  declarations: [ReportesComponent, ],
   imports: [
     CommonModule,
     ReportesRoutingModule,

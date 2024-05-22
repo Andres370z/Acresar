@@ -47,8 +47,8 @@
                 </ng-container>
                 <!-- accion Column -->
                 <ng-container matColumnDef="Acción">
-                  <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                  <td mat-cell *matCellDef="let element" class="centered-cell"><mat-icon> border_color</mat-icon></td>
+                  <th mat-header-cell *matHeaderCellDef >Acciones</th>
+                  <td mat-cell *matCellDef="let element" class="centered-cell" (click)="edit(element)  "><mat-icon> border_color</mat-icon></td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -59,7 +59,7 @@
             </div>
             <div class="col-12"> <!--BOTON-->
               <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background-color: #016672;"
-                (click)="navigate('/home/companias/insurance-carrier/update-insurer')">Actualizar Aseguradora</button>
+                (click)="navigate('home/companias/insurance-carrier/update-insurer')">Actualizar Aseguradora</button>
               <button mat-raised-button type="button" class="btn btn-fill btn-rose"
                 style="background-color: #016672; margin: 25px;" (click)="navigate('/home/companias/insurance-carrier/create-insurer')"
                 >Crear Aseguradoras</button> 

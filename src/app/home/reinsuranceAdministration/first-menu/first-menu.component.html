@@ -47,9 +47,9 @@
     <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition/primas-automaticos')">Automaticos</button>
   </mat-menu>
   <mat-menu #modifyDistribution="matMenu">
-    <button mat-menu-item>Prorroga</button>
-    <button mat-menu-item>Modificar Facultativos</button>
-    <button mat-menu-item>Modificar Automaticos</button>
+    <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/modify-distribuition/prorroga')">Prorroga</button>
+    <button mat-menu-item >Modificar Facultativos</button>
+    <button mat-menu-item (click)="navigate('home/reinsuranceAdministration/primas/modify-distribuition/modificar-automaticos')">Modificar Automaticos</button>
   </mat-menu>
   <mat-menu #newSetting="matMenu">
     <button mat-menu-item>Ajuste Facultativo</button>

@@ -36,6 +36,12 @@ export class CorredorComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  edit(item: any){ 
+    sessionStorage.setItem('companiaC',JSON.stringify(item))
+    console.log(item);
+    const ruta = 'home/companias/corredor/registar'
+    this.navigate(ruta)
+  }
   navigate(item: any){
     this.router.navigate([item])
   }

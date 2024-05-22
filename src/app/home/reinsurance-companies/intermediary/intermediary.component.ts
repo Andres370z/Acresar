@@ -30,5 +30,14 @@ export class IntermediaryComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     })
   }
+  edit(item: any){ 
+    sessionStorage.setItem('companiaI',JSON.stringify(item))
+    console.log(item);
+    const ruta = 'home/companias/intermediary/edit'
+    this.navigate(ruta)
+  }
+  navigate(item: any){
+    this.router.navigate([item])
+  }
 
 }

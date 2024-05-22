@@ -1,0 +1,144 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Actualizar Intermediario</h4>
+          </div>
+
+          <div class="card-body">
+            <form class="form mb-4" [formGroup]="form" (ngSubmit)="create(form.value)">
+              <div class="row">
+                <!-- ENTIDAD -->
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Entidad</mat-label>
+                    <mat-select [(ngModel)]="selectedOption" formControlName="entidad">
+                      <mat-option *ngFor="let item of entidades" value="{{ item.a }}">{{ item.c }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+
+                <div class="col-4">
+                  <!--Razon social-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Razón Social</mat-label>
+                    <input matInput placeholder="ingresa un dato" formControlName="razonSocial" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4">
+                  <!--Nombre Abreviado-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Nombre Abreviado</mat-label>
+                    <input matInput placeholder="ingresa el nombre" formControlName="nombreAbreviado" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4">
+                  <!--NIT-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>NIT</mat-label>
+                    <input matInput placeholder="ingresa el nit" formControlName="nit" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <!-- Cod -->
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Cod</mat-label>
+                    <select matNativeControl required formControlName="cod">
+                      <option [value]="item" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]">{{item}}</option>
+
+                    </select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4">
+                  <!--Teléfono-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput placeholder="ingresa el Teléfono" formControlName="telefono" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6">
+                  <!--Dirección-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput placeholder="ingresa la Dirección" formControlName="direccion" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6">
+                  <!--Contacto-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Contacto</mat-label>
+                    <input matInput placeholder="ingresa la Dirección" formControlName="contacto" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6">
+                  <!--País Origen-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>País Origen</mat-label>
+                    <input matInput placeholder="ingresa la Dirección" formControlName="paisOrigen" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <!-- <div class="col-4">
+                  
+                  <mat-form-field appearance="fill">
+                    <mat-label>Estado</mat-label>
+                    <input matInput placeholder="ingresa la Dirección" formControlName="estado" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div> -->
+
+                <div class="col-6">
+                  <!--Región-->
+                  <mat-form-field appearance="fill">
+                    <mat-label>Región</mat-label>
+                    <input matInput placeholder="ingresa la Dirección" formControlName="region" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4">
+                  <!--BOTON-->
+                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
+                    style="background-color: #016672">
+                    EDITAR
+                  </button>
+                </div>
+              </div>
+            </form>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

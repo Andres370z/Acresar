@@ -39,4 +39,10 @@ export class InsuranceCarrierComponent implements OnInit {
   navigate(item: any){
     this.router.navigate([item])
   }
+  edit(item: any){ 
+    sessionStorage.setItem('companiaA',JSON.stringify(item))
+    console.log(item);
+    const ruta = 'home/companias/insurance-carrier/edit'
+    this.navigate(ruta)
+  }
 }

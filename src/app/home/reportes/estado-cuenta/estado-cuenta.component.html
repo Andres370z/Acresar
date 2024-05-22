@@ -1,0 +1,68 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Reporte de Compañia</h4>
+          </div>
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <!-- ACA VA EL MENU -->
+          </div>
+
+          <div class="card-body">
+            <form class="form mb-4" [formGroup]="form">
+              <div class="row">
+
+                <div class="col-12 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Ramos</mat-label>
+                    <mat-select [(ngModel)]="selectedOption" formControlName="contratos">
+                      <mat-option *ngFor="let item of poliza" value="{{ item.c }}">{{ item.cnt }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+
+
+                <div class="col-6 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Fecha Emision Desde</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="startDate"
+                      placeholder="ingresa una fecha">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-6 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Fecha Emision Hasta</mat-label>
+                    <input matInput [matDatepicker]="picker2" formControlName="endDate" placeholder="ingresa una fecha">
+                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    <mat-datepicker #picker2></mat-datepicker>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4"></div>
+
+                <div class="col-4" style="text-align: center;">
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                    style="background-color: #016672" (click)="downloadData()">
+                    Descargar
+                  </button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

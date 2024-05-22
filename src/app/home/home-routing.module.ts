@@ -30,10 +30,14 @@ const routes: Routes = [
   {path: 'contracts', loadChildren: () => import('./contracts/list-contracts/list-contracts.module').then(m=>m.ListContractsModule)},
   {path: 'companias/reinsurer', loadChildren: ()=> import('./reinsurance-companies/reinsurer/reinsurer.module').then(m => m.ReinsurerModule)},
   {path: 'companias/corredor', loadChildren: ()=> import('./reinsurance-companies/corredor/corredor.module').then(m=> m.CorredorModule)},
+  {path: 'companias/corredor/registar', loadChildren: ()=> import('./reinsurance-companies/registrar/registrar.module').then(m=> m.RegistrarModule)},
+  {path: 'companias/insurance-carrier/edit', loadChildren: ()=> import('./reinsurance-companies/actualizar-aseguradoras/actualizar-aseguradoras.module').then(m=> m.ActualizarAseguradorasModule)},
   {path: 'companias/insurance-carrier', loadChildren:() => import('./reinsurance-companies/insurance-carrier/insurance-carrier.module').then(m=>m.InsuranceCarrierModule)},
   {path: 'companias/intermediary', loadChildren:() => import('./reinsurance-companies/intermediary/intermediary.module').then(m=>m.IntermediaryModule)},
+  {path: 'companias/intermediary/edit', loadChildren:() => import('./reinsurance-companies/actualizar-intermediario/actualizar-intermediario.module').then(m=>m.ActualizarIntermediarioModule)},
   {path: 'companias/info/directorio', loadChildren:()=>import('./reinsurance-companies/info/directory/directory.module').then(m => m.DirectoryModule)},
   {path: 'companias/clients', loadChildren:() => import('./reinsurance-companies/clients-and-suppliers/clients/clients.module').then(m => m.ClientsModule)},
+  {path: 'companias/clients/edit', loadChildren:() => import('./reinsurance-companies/actualizar-cliente/actualizar-cliente.module').then(m => m.ActualizarClienteModule)},
   {path: 'companias/reacoex', loadChildren:() => import ('./reinsurance-companies/reacodex/reacodex.module').then(m => m.ReacodexModule)},
 
   /*CONTRATOS*/
