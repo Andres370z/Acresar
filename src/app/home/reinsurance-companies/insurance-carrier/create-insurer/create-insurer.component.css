@@ -1,0 +1,8 @@
+.horizontal-list {
+  display: flex;
+  flex-direction: row; /* Para alinear los elementos horizontalmente */
+}
+
+.horizontal-list mat-list-item {
+  margin-right: 10px; /* Ajusta el espacio entre los elementos si es necesario */
+}

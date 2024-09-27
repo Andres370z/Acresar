@@ -38,6 +38,7 @@ export const RoutersLink = {
     resgisterImageEvents:"resgisterImageEvents",
     /*Andres*/
     reaseguradoresList: "reaseguradoras",
+    reasegurador: "reaseguradoras/",
     getEntities: "entidades",
     getCorredor: "corredores",
     getAsegurado: "aseguradoras/facultativo/client/total",
@@ -63,6 +64,7 @@ export const RoutersLink = {
     getContratoExcelFaculta: 'facultativo/contrato/count/faculta/',
     getPoliza: 'contratos/automaticos/poliza/get/contratos',
     /** POSTS **/
+    postRazonSocial: 'razonSocial',
     postFacultativos: 'contratos/asociacion/search',
     postFacultativosContrato: 'contratos/facultativo/search',
     postFacultativosAseguradoras: 'aseguradoras/facultativo',

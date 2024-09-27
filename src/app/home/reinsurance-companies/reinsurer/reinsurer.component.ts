@@ -36,13 +36,15 @@ export class ReinsurerComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  updateRecors(item: any){
-    if (item != ""){
-      this.dataEdit = item;
-      this.router.navigate(['/home/companias/reinsurer/register-reinsurer'])
-    }
-  }
+ 
   navigate(item: any){
-    this.router.navigate([item])
+    this.router.navigate([item]) 
+  }
+  updateRecors(data: any){
+    if(data != null || data != ''){}
+    sessionStorage.setItem('companiaR',JSON.stringify(data))
+    console.log(data);
+    const ruta = 'home/companias/reinsurer/register-reinsurer'
+    this.navigate(ruta)
   }
 }

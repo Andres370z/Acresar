@@ -252,6 +252,10 @@ export class AuthService {
   RegisterForm(inform: any){
     return this.registeresquest.POSTS(RoutersLink.reaseguradoresList, inform)
   }
+  postRazonsocial(inform: any){
+    return this.registeresquest.POSTS(RoutersLink.postRazonSocial, inform)
+
+  }
   getReacoex(){
     return this.registeresquest.GETER(RoutersLink.getReacoex)
   }
@@ -269,6 +273,10 @@ export class AuthService {
   }
   getDtaForm(id: any){
     return this.registeresquest.GETER(RoutersLink.getDtaForm + id + '/edit')
+  }
+
+  getReaseguradoras(id: any){
+    return this.registeresquest.GETER(RoutersLink.reasegurador + id + '/edit')
   }
   getDtaFormFacultativo(id: any){
     return this.registeresquest.GETER(RoutersLink.getDtaFormFacultativo + id + '/edit')
@@ -298,6 +306,10 @@ export class AuthService {
   getContratoExcelFaculta(item: any){
     return this.registeresquest.GETER(RoutersLink.getContratoExcelFaculta + item )
   }
+  getEditReinsurer(id: any){
+    return this.registeresquest.GETER(`reaseguradoras/${id}/edit`)
+  }
+
   /** POST **/
   postFacultativosContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosContrato, {item})
@@ -314,6 +326,9 @@ export class AuthService {
   postFacultativosRamos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosRamos, {item})
   }
+
+
+
   //hice un cambio
   postBuscarContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postBuscarContra, {item})

@@ -25,8 +25,8 @@ const routes: Routes = [
   { path: 'report', loadChildren: () => import('./report/report.module').then(m => m.ReportModule) },
   
   /*ANDRES */
-  {path: 'companias', loadChildren: ()=> import ('./reinsurance-companies/company-list/company-list.module').then(m => m.CompanyListModule)},
-  {path: 'companias/upload', loadChildren: ()=>import ('./reinsurance-companies/reinsurance-upload/reinsurance-upload.module').then(m => m.ReinsuranceUploadModule)},
+  {path: 'companias', loadChildren: ()=> import ('./reinsurance-companies/reinsurer/reinsurer.module').then(m => m.ReinsurerModule)},
+  {path: 'companias-edit', loadChildren: ()=> import ('./reinsurance-companies/company-list/edit-companies/edit-companies.module').then(m => m.EditCompaniesModule)},
   {path: 'contracts', loadChildren: () => import('./contracts/list-contracts/list-contracts.module').then(m=>m.ListContractsModule)},
   {path: 'companias/reinsurer', loadChildren: ()=> import('./reinsurance-companies/reinsurer/reinsurer.module').then(m => m.ReinsurerModule)},
   {path: 'companias/corredor', loadChildren: ()=> import('./reinsurance-companies/corredor/corredor.module').then(m=> m.CorredorModule)},

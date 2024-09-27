@@ -33,20 +33,26 @@ export class CompanyListComponent implements OnInit {
         this.dataSource = new MatTableDataSource(res)
         this.dataSource.paginator = this.paginator;
       }
-    ); 
-    
+    );
+
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  updateRecors(item: any){
-    if (item != ""){
+  updateRecors(item: any) {
+    if (item != "") {
       this.dataEdit = item;
       this.router.navigate(['/home/companias/reinsurer/register-reinsurer'])
     }
   }
-  navigate(item: string){
+  navigate(item: string) {
     this.router.navigate([item])
+  }
+  edit(item: any) {
+    if (item) {
+      sessionStorage.setItem('companiaR', JSON.stringify(item))
+      this.router.navigate(['/home/companias/company-edit']);
+    }
   }
 }

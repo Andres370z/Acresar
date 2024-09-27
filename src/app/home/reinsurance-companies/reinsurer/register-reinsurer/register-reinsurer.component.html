@@ -23,7 +23,8 @@
                 <div class="col-4">
                   <mat-form-field appearance="fill">
                     <mat-label>Selecciona una Entidad</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="entities">
+                    <mat-select [(ngModel)]="selectedOptionEntities" formControlName="entities">
+
                       <mat-option *ngFor="let item of entities" value="{{item.a}}">{{item.c}}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -87,7 +88,7 @@
                 <div class="col-4"> <!--Calificación-->
                   <mat-form-field appearance="fill">
                     <mat-label>Calificacíon</mat-label> 
-                    <input matInput placeholder="ingresa una calificacion" formControlName="Qualification"  type="text">
+                    <input matInput placeholder="ingresa una calificacion" formControlName="qualification"  type="text">
                     <mat-icon matSuffix>equalizer</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
