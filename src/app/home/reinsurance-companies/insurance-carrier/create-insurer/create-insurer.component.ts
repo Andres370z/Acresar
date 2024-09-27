@@ -30,6 +30,7 @@ export class CreateInsurerComponent implements OnInit {
   ngOnInit(): void {
     this.getEntidades()
     this.createForm()
+    //c
     //this.initial()
 
 
