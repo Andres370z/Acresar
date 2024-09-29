@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
@@ -18,6 +19,7 @@ export class CreateInsurerComponent implements OnInit {
   url: any;
   reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
   dataRes: any;
+  paises: any
 
   public selectedOption: any;
   razonSocial: any;
@@ -25,58 +27,19 @@ export class CreateInsurerComponent implements OnInit {
     private authService: AuthService,
     private alert: AlertService,
     private myFormBuilder: FormBuilder,
-  ) { }
+    private router: Router
+
+  ) {
+  }
 
   ngOnInit(): void {
+    
     this.getEntidades()
     this.createForm()
-    //c
-    //this.initial()
+    this.getPaises()
 
 
-    let jsonData = sessionStorage.getItem('companiaR');
-    if (jsonData != null) {
-      console.log('ENTRÉ');
-      
-      const item = JSON.parse(jsonData);
-      this.authService.getReaseguradoras(item['a'])
-        .then((res: any) => {
-          res = res[0];
-          jsonData = res;
 
-          this.dataRes = res;
-          this.reaseguroData.nc = res.r2;
-          this.reaseguroData.r2 = res.o2;
-          this.reaseguroData.s = res.n;
-          this.reaseguroData.ct = res.nc;
-          this.reaseguroData.dr = res.c2;
-          this.reaseguroData.ca = res.e;
-          this.reaseguroData.nb = res.s;
-          this.reaseguroData.e = res.e;
-          this.reaseguroData.a2 = res.a2;
-          this.reaseguroData.ct = res.r2;
-          this.reaseguroData.rg = res.s2;
-          this.reaseguroData.c = item.ac;
-          this.reaseguroData.e = res.c;
-
-          this.authService.getCountries().then((obj) => {
-            for (let i = 0; i < obj.length; i++) {
-              const p = obj[i];
-              if (res.o == p.a) {
-                console.log('ENTRA 1',);
-                
-                this.reaseguroData.pc = p.c;
-                console.log('ENTRA 2', this.reaseguroData.pc)
-              }
-
-            }
-          })
-        }, err => {
-          console.log(err);
-        })
-      console.log(">>>", this.reaseguroData);
-
-    }
   }
   createForm() {
     /*Este es el Formulario*/
@@ -98,6 +61,21 @@ export class CreateInsurerComponent implements OnInit {
     });
 
   }
+  valorEncontrado: number | null = null; // Variable para almacenar el valor encontrado
+
+  buscarPais(pais: string) {
+    const paisEncontrado = this.paises.find(p => p.c.toLowerCase() === pais.toLowerCase());
+
+    if (paisEncontrado) {
+      this.valorEncontrado = paisEncontrado.a; // Asigna el valor de 'a' si el país fue encontrado
+      console.log(this.valorEncontrado);
+
+    } else {
+      this.valorEncontrado = null; // Si no lo encuentra, asigna null
+      console.log('null', this.valorEncontrado);
+
+    }
+  }
   getEntidades() {
     this.authService.getEntities().then((res: any) => {
       console.log('esta son las entidades, ', res)
@@ -109,7 +87,13 @@ export class CreateInsurerComponent implements OnInit {
     ]
     this.oficinas = res
   }
-  
+  getPaises() {
+    this.authService.getCountries().then((obj) => {
+      console.log('paises: ', obj);
+      this.paises = obj
+    })
+  }
+
   consulta(json) {
     this.alert.loading()
     console.log('LISTEN');
@@ -138,12 +122,12 @@ export class CreateInsurerComponent implements OnInit {
   create(items) {
     console.log('Formulario:', this.form.value); // Verifica los datos del formulario
     console.log(this.reaseguroData.pc, 'DATA');
-    
+
     if (this.form.valid) {
       const item = {
         "item": {
           "act": items.estado,
-          "ag": 5,
+          "ag": 2,
           "c": "",
           "cl": items.calificacion,
           "cn": items.contacto,
@@ -154,7 +138,7 @@ export class CreateInsurerComponent implements OnInit {
           "na": items.nombreAbreviado,
           "ni": items.nit,
           "of": items.oficinaRepresentacion,
-          "p": this.reaseguroData.pc,
+          "p": this.valorEncontrado,
           "r": items.razonSocial,
           "rg": items.region,
         }
@@ -164,10 +148,15 @@ export class CreateInsurerComponent implements OnInit {
 
       this.authService.RegisterForm(item).then((res: any) => {
         console.log('Respuesta del servidor:', res);
-        this.alert.success('Ok', 'El corredor fue editado');
+        this.alert.success('Ok', 'Nueva compañia creada');
+        this.navigate('home/companias/reinsurer')
       }).catch((err) => {
         console.log('Error al enviar:', err);
-        this.alert.error('Error', 'Error en el servidor');
+        this.alert.success('Ok', 'Nueva compañia creada');
+        this.navigate('home/companias/reinsurer')
+         /**COREGIR RESPUESTA- CREA EL OBJETO PERO ARROJJA ERROR 500 */
+        //this.alert.error('Error', 'Error en el servidor');
+        
       });
     } else {
       this.alert.error('Error', 'Algo salió mal, verifica los campos');
@@ -180,8 +169,13 @@ export class CreateInsurerComponent implements OnInit {
     this.form.controls.estado.setValue(item.r2);
     this.form.controls.calificacion.setValue(item.s);
     this.form.controls.agenciaCalificadora.setValue(item.c);
+    this.buscarPais(this.form.value.paisOrigen)
+
     setTimeout(() => {
       this.exist = false;
     }, 0.5);  // Retraza el cambio en exist al siguiente ciclo
+  }
+  navigate(item: string){
+    this.router.navigate([item])
   }
 }

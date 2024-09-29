@@ -99,11 +99,29 @@ export class RegisterReinsurerComponent implements OnInit {
     this.alert.messagefin() 
   }
   //Actualizar data
-  saveData(item: any) {
-    console.log('listen 11 ', item)
-    const data = {
-      "act":item.state
+  saveData(items: any) {
+    if (this.form.valid) {
+      const item = {
+        "item": {
+          "act": items.estado,
+          "ag": 2,
+          "c": "",
+          "cl": items.calificacion,
+          "cn": items.contacto,
+          "cod": items.cod,
+          "d": items.direccion,
+          "e": items.entidad,
+          "es": items.estado,
+          "na": items.nombreAbreviado,
+          "ni": items.nit,
+          "of": items.oficinaRepresentacion,
+          "p": items.paisOrigen,
+          "r": items.razonSocial,
+          "rg": items.region,
+        }
+      };
     }
-    console.log('listen 12', data)
+    
+    console.log('listen 12', items)
   }
 }
