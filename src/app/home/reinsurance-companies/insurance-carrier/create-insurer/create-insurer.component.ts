@@ -20,8 +20,9 @@ export class CreateInsurerComponent implements OnInit {
   reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
   dataRes: any;
   paises: any
-
+  cx: any
   public selectedOption: any;
+  public selectedOptions: any
   razonSocial: any;
   constructor(
     private authService: AuthService,
@@ -92,7 +93,7 @@ export class CreateInsurerComponent implements OnInit {
       console.log('paises: ', obj);
       this.paises = obj
     })
-  }
+  } 
 
   consulta(json) {
     this.alert.loading()
@@ -108,7 +109,7 @@ export class CreateInsurerComponent implements OnInit {
     this.authService.postRazonsocial(item).then((res: any) => {
       this.exist = true
       console.log('ESTE ES: ', this.exist);
-
+      // ESTO ES TEMPORAL
       this.reaseguroData = res
       this.alert.messagefin()
     },
@@ -120,27 +121,37 @@ export class CreateInsurerComponent implements OnInit {
   }
 
   create(items) {
+    console.log('esta es entidad ', items.entidad);
+    
+    console.log('ESTO ES reaseguro',this.reaseguroData);
+    
     console.log('Formulario:', this.form.value); // Verifica los datos del formulario
     console.log(this.reaseguroData.pc, 'DATA');
 
     if (this.form.valid) {
+      items.ag = this.reaseguroData.cxa;
+      items.p = this.reaseguroData.sa;
+      items.r = this.reaseguroData.ca;
+      items.act = this.reaseguroData.act;
       const item = {
+        
         "item": {
-          "act": items.estado,
-          "ag": 2,
-          "c": "",
-          "cl": items.calificacion,
-          "cn": items.contacto,
-          "cod": items.cod,
-          "d": items.direccion,
           "e": items.entidad,
-          "es": items.estado,
+          "c": "",
+          "r": items.razonSocial,
           "na": items.nombreAbreviado,
           "ni": items.nit,
-          "of": items.oficinaRepresentacion,
+          "cod": items.cod,
+          "cn": items.contacto,
+          "d": items.direccion,
+          "es": items.estado,
           "p": this.valorEncontrado,
-          "r": items.razonSocial,
+          "cl": items.calificacion,
           "rg": items.region,
+          "ag": 1,
+          "of": items.oficinaRepresentacion,
+          "act": items.estado,
+
         }
       };
 
@@ -152,10 +163,9 @@ export class CreateInsurerComponent implements OnInit {
         this.navigate('home/companias/reinsurer')
       }).catch((err) => {
         console.log('Error al enviar:', err);
-        this.alert.success('Ok', 'Nueva compañia creada');
-        this.navigate('home/companias/reinsurer')
+        //this.navigate('home/companias/reinsurer')
          /**COREGIR RESPUESTA- CREA EL OBJETO PERO ARROJJA ERROR 500 */
-        //this.alert.error('Error', 'Error en el servidor');
+        this.alert.error('Error', 'Error en el servidor');
         
       });
     } else {
@@ -169,6 +179,7 @@ export class CreateInsurerComponent implements OnInit {
     this.form.controls.estado.setValue(item.r2);
     this.form.controls.calificacion.setValue(item.s);
     this.form.controls.agenciaCalificadora.setValue(item.c);
+
     this.buscarPais(this.form.value.paisOrigen)
 
     setTimeout(() => {

@@ -390,7 +390,14 @@ export class AuthService {
   postPolizaReasegurador(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postPolizaReasegurador, {item})
   }
-  
+  //DELETE
+  deleteRea(id: any){
+    return this.registeresquest.DELETED(RoutersLink.deleteReaseguradoras+id)
+  }
+  //PUT
+  putCorredor(id: any, item: any){
+    return this.registeresquest.PUTO(`${RoutersLink.postCorredores}/${id}`, {item})
+  }
   // preuba menu
   getMenu(){
     return this.http.get('./assets/json/menu.json')

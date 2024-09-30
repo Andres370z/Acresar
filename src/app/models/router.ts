@@ -89,6 +89,7 @@ export const RoutersLink = {
     postAseguradoras: 'aseguradoras',
     postClientes: 'clientes',
     
+    deleteReaseguradoras: "reaseguradoras/",
     menuList:"menuList",
     getMenu:"menu",
     editList:"editList"

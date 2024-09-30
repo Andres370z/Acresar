@@ -3,6 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/service/auth.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-reinsurer',
@@ -36,15 +37,49 @@ export class ReinsurerComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
- 
-  navigate(item: any){
-    this.router.navigate([item]) 
+
+  navigate(item: any) {
+    this.router.navigate([item])
   }
-  updateRecors(data: any){
-    if(data != null || data != ''){}
-    sessionStorage.setItem('companiaR',JSON.stringify(data))
+  updateRecors(data: any) {
+    if (data != null || data != '') { }
+    sessionStorage.setItem('companiaR', JSON.stringify(data))
     console.log(data);
     const ruta = 'home/companias/reinsurer/register-reinsurer'
     this.navigate(ruta)
+  }
+  deleteRea(id: any) {
+    console.log('ESTE ES', id);
+
+    Swal.fire({
+      title: "Estas seguro?",
+      text: "Estas apunto de borrar este registro!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Si, eliminalo!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        this.auth.deleteRea(id).then((res: any) => {
+          console.log('eliminado', res);
+
+          Swal.fire({
+            title: "Se ha ido!",
+            text: "Tu archivo ha sido borrado.",
+            icon: "success"
+          });
+          setTimeout(() => {
+            window.location.reload()
+          }, 3000);
+
+        }, err => {
+          console.log(err);
+
+        })
+
+      }
+    });
   }
 }

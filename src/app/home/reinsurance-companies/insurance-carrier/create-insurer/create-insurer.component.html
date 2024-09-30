@@ -17,8 +17,11 @@
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Entidad</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="entidad">
-                      <mat-option *ngFor="let item of entidades" value="{{ item.a }}">{{ item.c }}</mat-option>
+                    <mat-select [(ngModel)]="selectedOptions" formControlName="entidad" [(ngModel)]="reaseguroData.e">
+                      <mat-option *ngFor="let item of entidades" value="{{item.a}}">{{ item.c }}</mat-option>
+                      <!-- <mat-option value="1">Generales</mat-option> -->
+                      <!-- <mat-option value="2">Vida</mat-option> -->
+
                     </mat-select>
                   </mat-form-field>
                 </div>
@@ -29,7 +32,7 @@
                   <mat-form-field appearance="fill">
                     <mat-label>Razón Social</mat-label>
                     <input matInput placeholder="ingresa un dato" formControlName="razonSocial" type="text"
-                      (blur)="consulta(form.value.razonSocial)" />
+                      (blur)="consulta(form.value.razonSocial)" [(ngModel)]="reaseguroData.ca" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -72,7 +75,8 @@
                   <!--NIT-->
                   <mat-form-field appearance="fill">
                     <mat-label>NIT</mat-label>
-                    <input matInput placeholder="ingresa el nit" formControlName="nit" type="text" />
+                    <input matInput placeholder="ingresa el nit" formControlName="nit" type="text"
+                      [(ngModel)]="reaseguroData.a2" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -103,7 +107,8 @@
                   <!--Dirección-->
                   <mat-form-field appearance="fill">
                     <mat-label>Dirección</mat-label>
-                    <input matInput placeholder="ingresa la Dirección" formControlName="direccion" type="text" />
+                    <input matInput placeholder="ingresa la Dirección" formControlName="direccion" type="text"
+                      [(ngModel)]="reaseguroData.dr" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -113,7 +118,8 @@
                   <!--Estado-->
                   <mat-form-field appearance="fill">
                     <mat-label>Estado</mat-label>
-                    <input matInput placeholder="ingresa el Estado" formControlName="estado" type="text" />
+                    <input matInput placeholder="ingresa el Estado" formControlName="estado" type="text"
+                      [(ngModel)]="reaseguroData.r2" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -125,7 +131,8 @@
                   <!--Contacto-->
                   <mat-form-field appearance="fill">
                     <mat-label>Contacto</mat-label>
-                    <input matInput placeholder="ingresa la Dirección" formControlName="contacto" type="text" />
+                    <input matInput placeholder="ingresa la Dirección" formControlName="contacto" type="text"
+                      [(ngModel)]="reaseguroData.ct" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -135,7 +142,8 @@
                   <!--País Origen-->
                   <mat-form-field appearance="fill">
                     <mat-label>País Origen</mat-label>
-                    <input matInput placeholder="ingresa el País Origen" formControlName="paisOrigen" type="text" />
+                    <input matInput placeholder="ingresa el País Origen" formControlName="paisOrigen" type="text"
+                      [(ngModel)]="reaseguroData.pc" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -147,7 +155,8 @@
                   <!--Región-->
                   <mat-form-field appearance="fill">
                     <mat-label>Región</mat-label>
-                    <input matInput placeholder="ingresa la Región" formControlName="region" type="text" />
+                    <input matInput placeholder="ingresa la Región" formControlName="region" type="text"
+                      [(ngModel)]="reaseguroData.rg" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -159,8 +168,8 @@
                     <mat-label>
                       Agencia Calificadora
                     </mat-label>
-                    <input matInput placeholder="ingresa la Dirección" formControlName="agenciaCalificadora"
-                      type="text" />
+                    <input matInput placeholder="ingresa la Dirección" formControlName="agenciaCalificadora" type="text"
+                      [(ngModel)]="reaseguroData.c" id="ag" name="ag" #ag [(ngModel)]="reaseguroData.ag" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -171,8 +180,8 @@
                   <mat-form-field appearance="fill">
                     <mat-label>
                       Calificación </mat-label>
-                    <input matInput placeholder="ingresa la calificacion" formControlName="calificacion"
-                      type="text" />
+                    <input matInput placeholder="ingresa la calificacion" formControlName="calificacion" type="text"
+                      [(ngModel)]="reaseguroData.s" />
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -183,7 +192,8 @@
                   <mat-form-field appearance="fill">
                     <mat-label> Oficina de Representación </mat-label>
                     <mat-select [(ngModel)]="selectedOption" formControlName="oficinaRepresentacion">
-                      <mat-option *ngFor="let item of oficinas" value="{{ item.a }}">{{ item.c }}</mat-option>
+                      <mat-option value="1">Si</mat-option>
+                      <mat-option value="0">No</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
