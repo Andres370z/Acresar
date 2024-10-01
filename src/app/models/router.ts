@@ -87,6 +87,7 @@ export const RoutersLink = {
     postPolizaReasegurador: 'contratos/automaticos/poliza/get/reasegurador',
     postCorredores: 'corredores',
     postAseguradoras: 'aseguradoras',
+    putReaseguradoras: 'reaseguradoras',
     postClientes: 'clientes',
     
     deleteReaseguradoras: "reaseguradoras/",

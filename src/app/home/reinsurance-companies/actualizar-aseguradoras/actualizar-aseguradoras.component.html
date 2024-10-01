@@ -17,7 +17,7 @@
                 <div class="col-4 mb-2">
                   <mat-form-field appearance="fill">
                     <mat-label>Entidad</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="entidad">
+                    <mat-select [(ngModel)]="selectedOptions" formControlName="entidad">
                       <mat-option *ngFor="let item of entidades" value="{{ item.a }}">{{ item.c }}</mat-option>
                     </mat-select>
                   </mat-form-field>
@@ -109,7 +109,10 @@
                   <!--Estado-->
                   <mat-form-field appearance="fill">
                     <mat-label>Estado</mat-label>
-                    <input matInput placeholder="ingresa la Dirección" formControlName="estado" type="text" />
+                    <mat-select [(ngModel)]="selectedOption" formControlName="estado">
+                      <mat-option value="1">Activo</mat-option>
+                      <mat-option value="2">Inacativo</mat-option>
+                    </mat-select>
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>

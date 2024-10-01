@@ -398,6 +398,12 @@ export class AuthService {
   putCorredor(id: any, item: any){
     return this.registeresquest.PUTO(`${RoutersLink.postCorredores}/${id}`, {item})
   }
+  putRea(id: any, item: any){
+    return this.registeresquest.PUTO(`${RoutersLink.putReaseguradoras}/${id}`, {item})
+  }
+  putAse(id: any, item: any){
+    return this.registeresquest.PUTO(`${RoutersLink.postAseguradoras}/${id}`, {item})
+  }
   // preuba menu
   getMenu(){
     return this.http.get('./assets/json/menu.json')
