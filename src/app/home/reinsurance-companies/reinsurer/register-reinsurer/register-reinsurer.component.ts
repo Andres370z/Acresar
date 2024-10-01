@@ -233,7 +233,7 @@ export class RegisterReinsurerComponent implements OnInit {
         }
       };
       console.log('listen 12', item)
-      //l
+      //listen
     }
 
   }
