@@ -187,18 +187,21 @@ export class ContentComponent implements OnInit {
 
   ngOnInit(): void {
   }
-  getMenu(item: number){
-      this.alert.loading();
-      this._https.getmenu(item).then((resulta: any)=>{
-          console.log(resulta); 
-            this.menuItems = resulta.filter(menuItem => menuItem);
-            this.localStore.setItem(resulta, Menssage.menu)
-            this.alert.messagefin();
-      }).catch((err: any)=>{
-        console.log(err)
-        this.alert.error(Menssage.error, Menssage.server);
-      });
+  getMenu(item: number) {
+    this.alert.loading();
+    this._https.getmenu(item).then((resulta: any) => {
+      console.log(resulta);
+      // Filtrar los objetos donde la propiedad 'a' no sea igual a 1
+      this.menuItems = resulta.filter(menuItem => menuItem.a !== 1);
+      this.localStore.setItem(this.menuItems, Menssage.menu); // Guardar los elementos filtrados
+      this.alert.messagefin();
+    }).catch((err: any) => {
+      console.log(err);
+      this.alert.error(Menssage.error, Menssage.server);
+    });
   }
+  
+  
   routerList(item: string){
     this.router.navigate([item]);
   }
