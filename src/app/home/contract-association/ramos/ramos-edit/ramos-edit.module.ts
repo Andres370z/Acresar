@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { RamosRoutingModule } from './ramos-routing.module';
+import { RamosEditRoutingModule } from './ramos-edit-routing.module';
+import { RamosEditComponent } from './ramos-edit.component';
+import { MenuModule } from '../../menu/menu.module';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -13,16 +15,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RamosComponent } from './ramos.component';
-import { MenuModule } from '../menu/menu.module';
-import { RamosEditComponent } from './ramos-edit/ramos-edit.component';
-
 
 @NgModule({
-  declarations: [RamosComponent],
+  declarations: [RamosEditComponent],
   imports: [
     CommonModule,
-    RamosRoutingModule,
+    RamosEditRoutingModule,
+    MenuModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -38,4 +37,4 @@ import { RamosEditComponent } from './ramos-edit/ramos-edit.component';
     MenuModule
   ]
 })
-export class RamosModule { }
+export class RamosEditModule { }

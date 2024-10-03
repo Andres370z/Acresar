@@ -14,7 +14,7 @@ export class CreateInsurerComponent implements OnInit {
   exist: boolean = false
   form: FormGroup;
   entidades: any;
-  oficinas: any;
+  oficinas: any; 
   idEdit: number = 0;
   url: any;
   reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };

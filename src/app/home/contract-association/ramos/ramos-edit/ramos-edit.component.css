@@ -1,0 +1,22 @@
+form {
+    width: 100%;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+    padding: 2px;
+    padding-left: 2px;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+th.mat-header-cell:first-of-type,
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type {
+    padding-left: 14px;
+}
+.mat-button.btn, .mat-raised-button.btn, .mat-raised-button.btn:not([class*="mat-elevation-z"]), .btn{
+    padding: 13px 10px;
+    margin-bottom: 23px;
+}

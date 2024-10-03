@@ -63,6 +63,8 @@ export const RoutersLink = {
     getContratoExcel: 'contratos/automaticos/get/excel/',
     getContratoExcelFaculta: 'facultativo/contrato/count/faculta/',
     getPoliza: 'contratos/automaticos/poliza/get/contratos',
+    getNumRamos: 'ramos/list/superintendencia',
+    getSuper: 'ramos/list/superintendencia?order=code',
     /** POSTS **/
     postRazonSocial: 'razonSocial',
     postFacultativos: 'contratos/asociacion/search',

@@ -268,6 +268,10 @@ export class AuthService {
   getRamos(){
     return this.registeresquest.GETER(RoutersLink.getRamos)
   }
+  getRamosEdit(id: any){
+    return this.registeresquest.GETER(`ramos/${id}/edit`)
+    
+  }
   delete(id: any){
     return this.registeresquest.DELETED(RoutersLink.deleted + id)
   }
@@ -283,6 +287,13 @@ export class AuthService {
   }
   getCurrency(){
     return this.registeresquest.GETER(RoutersLink.getCurrency)
+  }
+
+  getSuper(){
+    return this.registeresquest.GETER(RoutersLink.getSuper)
+  }
+  getSuperCodigos(){
+    return this.registeresquest.GETER(RoutersLink.getNumRamos)
   }
   getDtaRamos(id: any){
     return this.registeresquest.GETER(RoutersLink.getDtaRamos + id)
@@ -403,6 +414,9 @@ export class AuthService {
   }
   putAse(id: any, item: any){
     return this.registeresquest.PUTO(`${RoutersLink.postAseguradoras}/${id}`, {item})
+  }
+  putRam(id: any, item: any){
+    return this.registeresquest.PUTO(`${RoutersLink.getRamos}/${id}`, {item})
   }
   // preuba menu
   getMenu(){

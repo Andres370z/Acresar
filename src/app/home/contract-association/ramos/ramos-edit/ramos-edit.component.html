@@ -1,0 +1,266 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">people_outline</i>
+            </div>
+            <h4 class="card-title">Listado Ramos edit</h4>
+          </div>
+          <!-- MENU -->
+          <div style="display: flex; justify-content: center; align-items: center;">
+            <app-menu></app-menu>
+          </div>
+          <div class="card-body">
+            <form class="form" [formGroup]="form" (ngSubmit)="saveData(form.value)">
+              <div class="row">
+
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Entidad</mat-label>
+                    <mat-select formControlName="entidad">
+                      <mat-option *ngFor="let item of entidades" [value]="item.a">{{ item.c }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Ramo Super Cod. </mat-label>
+                    <mat-select formControlName="codramo">
+                      <mat-option *ngFor="let item of superRamoNumeros" [value]="item.a">{{ item.c }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Ramo Super </mat-label>
+                    <mat-select formControlName="ramosu">
+                      <mat-option *ngFor="let item of superRamos" [value]="item.a">{{ item.r }}</mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Cod. Ramo Técnico </mat-label>
+                    <input matInput placeholder="ingresa el Cod" formControlName="codTecnico" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Abreviatura </mat-label>
+                    <input matInput placeholder="ingresa el Cod" formControlName="abreviatura" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-4 mb-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label> Ramo Técnico </mat-label>
+                    <input matInput placeholder="ingresa el Cod" formControlName="ramoTecnico" type="text" />
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+            </form>
+
+            <!-- Sub ramos -->
+            <div class="row mt-4 mb-2">
+              <div class="col-md-12">
+                <h1 class="text-center mt-6 title">Sub Ramos</h1>
+              </div>
+              <div class="col-md-12 mt-6">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table" style="width: 100%;">
+                  <!-- Código Column -->
+                  <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Cod Sub Ramo</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Codigo" [(ngModel)]="dataSource[i].codigo">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Abreviatura Column -->
+                  <ng-container matColumnDef="abrevia">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Abreviatura</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Abreviatura" [(ngModel)]="dataSource[i].abrevia">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Nombre Column -->
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Nombre</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Nombre" [(ngModel)]="dataSource[i].name">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Acción Column -->
+                  <ng-container matColumnDef="accion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Acción</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <div class="example-button-container">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteRow(i)">Borrar</button>
+                        <button type="button" class="btn btn-outline-success" (click)="addRow()">Agregar</button>
+                      </div>
+                    </td>
+                  </ng-container>
+                
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                
+                
+              </div>
+            </div>
+
+            
+
+            <!--  Productos -->
+            <div class="row mt-4 mb-2">
+              <div class="col-md-12 mt-6">
+                <h1 class="text-center mt-6">Productos</h1>
+              </div>
+              <div class="col-md-12 mt-6">
+                <table mat-table [dataSource]="dataSourceProducts" #productsTable class="mat-elevation-z8 demo-table" style="width: 100%;">
+                  <!-- Código Column -->
+                  <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Cod Sub Ramo</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Codigo" [(ngModel)]="dataSourceProducts[i].codigoProducts">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Abreviatura Column -->
+                  <ng-container matColumnDef="abrevia">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Abreviatura</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Abreviatura" [(ngModel)]="dataSourceProducts[i].abreviaProducts">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Nombre Column -->
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Nombre</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Nombre" [(ngModel)]="dataSourceProducts[i].nameProducts">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Acción Column -->
+                  <ng-container matColumnDef="accion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Acción</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <div class="example-button-container">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteRowProducts()">Borrar</button>
+                        <button type="button" class="btn btn-outline-success" (click)="addRowProducts()">Agregar</button>
+                      </div>
+                    </td>
+                  </ng-container>
+                
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                
+                
+              </div>
+            </div>
+
+            <!--  Coverturas -->
+            <div class="row mt-4 mb-2">
+              <div class="col-md-12 mt-6">
+                <h1 class="text-center mt-6">Coverturas</h1>
+              </div>
+              <div class="col-md-12 mt-6">
+                <table mat-table [dataSource]="dataSourceCoberturas"  #coberturasTable  class="mat-elevation-z8 demo-table" style="width: 100%;">
+                  <!-- Código Column -->
+                  <ng-container matColumnDef="codigo">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Cod Sub Ramo</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Codigo" [(ngModel)]="dataSourceCoberturas[i].codigoCobertura">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Abreviatura Column -->
+                  <ng-container matColumnDef="abrevia">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Abreviatura</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Abreviatura" [(ngModel)]="dataSourceCoberturas[i].abreviaCobertura">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Nombre Column -->
+                  <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Nombre</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline">
+                        <input matInput placeholder="Nombre" [(ngModel)]="dataSourceCoberturas[i].nameCobertura">
+                        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                      </mat-form-field>
+                    </td>
+                  </ng-container>
+                
+                  <!-- Acción Column -->
+                  <ng-container matColumnDef="accion">
+                    <th mat-header-cell *matHeaderCellDef class="text-center">Acción</th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                      <div class="example-button-container">
+                        <button type="button" class="btn btn-outline-danger" (click)="deleteRowCoberturas(i)">Borrar</button>
+                        <button type="button" class="btn btn-outline-success" (click)="addRowCoberturas()">Agregar</button>
+                      </div>
+                    </td>
+                  </ng-container>
+                
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                
+                
+              </div>
+            </div>
+
+
+
+            <button type="button" class="btn btn-outline-success" (click)="finishDta()">Guardar</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

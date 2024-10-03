@@ -26,7 +26,7 @@ const routes: Routes = [
   
   /*ANDRES */
   {path: 'companias', loadChildren: ()=> import ('./reinsurance-companies/reinsurer/reinsurer.module').then(m => m.ReinsurerModule)},
-  {path: 'companias-edit', loadChildren: ()=> import ('./reinsurance-companies/company-list/edit-companies/edit-companies.module').then(m => m.EditCompaniesModule)},
+  {path: 'companias-edit', loadChildren: ()=> import ('./reinsurance-companies/edit-companies/edit-companies.module').then(m => m.EditCompaniesModule)},
   {path: 'contracts', loadChildren: () => import('./contracts/list-contracts/list-contracts.module').then(m=>m.ListContractsModule)},
   {path: 'companias/reinsurer', loadChildren: ()=> import('./reinsurance-companies/reinsurer/reinsurer.module').then(m => m.ReinsurerModule)},
   {path: 'companias/corredor', loadChildren: ()=> import('./reinsurance-companies/corredor/corredor.module').then(m=> m.CorredorModule)},
