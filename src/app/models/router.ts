@@ -75,6 +75,10 @@ export const RoutersLink = {
     postBuscarContrato: 'contratos/facultativo/buscar/contrato',
     postBuscarContra: 'contratos/facultativo/buscar/contrato',
     postBuscarSiniestro: 'aseguradoras/facultativo/search/siniestro',
+    postFacultaRamosEdit: 'aseguradoras/facultativo/ramos/id',
+    postFacultativoGasto: 'aseguradoras/facultativo/getasegurado',
+
+
     postFacultativoContra: 'facultativo/contrato',
     postFacultativoContratb: 'facultativo/contrato/tb',
     postSearchProporcionalesCuotaAparte: 'contratos/automaticos/proporcionales/cuotaparte/buscar',
@@ -91,7 +95,9 @@ export const RoutersLink = {
     postAseguradoras: 'aseguradoras',
     putReaseguradoras: 'reaseguradoras',
     postClientes: 'clientes',
-    
+    postPrimas: 'primas/search/certf',
+    postAseguradoraSeach: 'aseguradoras/facultativo/search',
+    postAseguradoraClient: 'aseguradoras/facultativo/client',
     deleteReaseguradoras: "reaseguradoras/",
     menuList:"menuList",
     getMenu:"menu",

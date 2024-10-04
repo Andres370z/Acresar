@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Menssage } from 'src/app/models/router';
+import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,7 +17,7 @@ export class PrimasComponent implements OnInit {
   public createForm: any;
   constructor(
     private myFormBuilder: FormBuilder,
-
+    private authService: AuthService
 
   ) { }
 
@@ -73,4 +74,14 @@ export class PrimasComponent implements OnInit {
     console.log(this.form)
   }
 
+
+
+  changePoliza(){
+    const item = {
+      'pol' : this.form.value.poliza
+    }
+    this.authService.postPrima(item).then((res: any)=>{
+      console.log(res)
+    })
+  }
 }

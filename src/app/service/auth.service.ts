@@ -338,14 +338,23 @@ export class AuthService {
     return this.registeresquest.POSTS(RoutersLink.postFacultativosRamos, {item})
   }
 
+  postFacultativoGasto(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postFacultativoGasto, {item})
 
+  }
 
   //hice un cambio
   postBuscarContratos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postBuscarContra, {item})
   }
+  postBuscarAseguadora(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postAseguradoraSeach, {item})
+  }
   postBuscarSiniestro(item: any){
     return this.registeresquest.POSTS(RoutersLink.postBuscarSiniestro, {item})
+  }
+  postFacultativoClient(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postAseguradoraClient, {item})
   }
   
 
@@ -400,6 +409,14 @@ export class AuthService {
   }
   postPolizaReasegurador(item: any){
     return this.registeresquest.POSTRESPALDO(RoutersLink.postPolizaReasegurador, {item})
+  }
+  postFacultaRamosEdit(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultaRamosEdit, {item})
+    
+  }
+
+  postPrima(item: any){
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postPrimas, {item})
   }
   //DELETE
   deleteRea(id: any){

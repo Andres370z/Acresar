@@ -67,7 +67,7 @@
                 <div class="col-4"> <!--id-->
                   <mat-form-field appearance="fill">
                     <mat-label>Poliza</mat-label>
-                    <input matInput placeholder="ingresa la poliza" formControlName="poliza" type="text">
+                    <input matInput placeholder="ingresa la poliza" formControlName="poliza" type="text" (blur)="changePoliza()">
                     <mat-icon matSuffix>polymer</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
