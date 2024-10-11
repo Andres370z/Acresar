@@ -12,7 +12,7 @@ import { ModalComponent } from '../../modal/modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { PercentageService } from 'src/app/service/percentage.service';
 
-const ELEMENT_DATA = [{ data: '' },{position: 1,}];
+const ELEMENT_DATA = [{ data: '' }];
 @Component({
   selector: 'app-facultativo',
   templateUrl: './facultativo.component.html',
@@ -58,7 +58,8 @@ export class FacultativoComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     private percentageService: PercentageService
   ) {
-
+    this.user = new SessionUser(this.router)
+    this.user.getAuthUser()
     if (localStorage.getItem('rsltntmpcntrt') === null) {
       this.item.e = '';
       this.item.r = '';
@@ -71,19 +72,26 @@ export class FacultativoComponent implements OnInit, OnDestroy {
       this.item = JSON.parse(localStorage.getItem('rsltntmpcntrt'));
       this.item.e = this.item.r;
       this.cod = this.item.c + ' - ' + this.item.r;
+      console.log('-------> ', this.cod);
     }
+    this.authService.getDataObser().subscribe(data => {
+      if (data) {
+        this.cod = data.id + ' - ' + data.year;
+        console.log('Informacion pa', data, 'codigo: ', this.cod);
+      }
+    });
   }
 
   ngOnInit() {
-    this.onCreate()
-    this.user = new SessionUser(this.router)
-    this.user.getAuthUser()
+    this.localStorageService.clear();
+    this.initial()
     this.createFormReasegurador()
     if (sessionStorage.getItem('formCuotaP') != "" && sessionStorage.getItem('formCuotaP') != null) {
       this.formLoad();
+    } else {
+      this.onCreate()
     }
     if (localStorage.getItem('idcontrato')) {
-      console.log('aqui se daña');
 
       this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
       const contra = JSON.parse(localStorage.getItem('idcontrato'));
@@ -97,7 +105,15 @@ export class FacultativoComponent implements OnInit, OnDestroy {
         }
       )
     }
-    this.initial()
+    if (localStorage.getItem('rsltntmpcntrt') !== null) {
+      this.item = JSON.parse(localStorage.getItem('rsltntmpcntrt'));
+      this.item.e = this.item.r;
+      this.cod = this.item.c + ' - ' + this.item.r;
+
+
+      // Aquí estableces el valor de "codigoContrato" en el formulario reactivo
+      this.form.controls['codigoContrato'].setValue(this.cod);
+    }
   }
   initial() {
     this.form = this.myFormBuilder.group({
@@ -123,6 +139,12 @@ export class FacultativoComponent implements OnInit, OnDestroy {
     })
     this.user.getAuthUser()
   }
+
+  cargaCod() {
+    this.form.controls.codigoContrato.setValue(this.cod)
+    console.log('ejecutando');
+
+  }
   saveData(item: any) {
     const data = this.form.controls.starDate.value;
     if (data) {
@@ -145,7 +167,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
       const form = this.form.value;
       var d = new Date(form.starHours);
       var e = new Date(form.endHours);
-      
+
       sessionStorage.setItem('formCuotaP', JSON.stringify(form));
       // tslint:disable-next-line:no-debugger ..≤
       const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
@@ -173,24 +195,25 @@ export class FacultativoComponent implements OnInit, OnDestroy {
                 tipocontrato: 10,
                 codigocontrato: this.cod,
                 descripcion: form2['descripcion'],
-                fechaInicio : this.fechaAlmacenda,
+                fechaInicio: this.fechaAlmacenda,
                 fechaFin: this.fechaAlmacendaFin,
                 moneda: form2['money'],
                 siniestroContrato: this._pct.removerDesimal(form2['sinistros']),
                 observacion: form2['observations'],
                 horainicio: form2['starHours'],
-                horafin:  form2['endHours']
+                horafin: form2['endHours']
               };
               console.log('este es el objeto data,', data)
               this.authService.postFacultativoContra(data).then(
                 res => {
+                  
+                  this.alertService.success('Ok', 'Formulario Enviado')
                   console.log('esta es la respuesta del post', res);
-
                   localStorage.setItem('idcontrato', JSON.stringify(res));
                   this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
                   this.statefinal = true;
                   console.log(res);
-                  console.log('si llega')
+                  this.router.navigate(['home/contracts']);
 
                 }, err => {
                   console.log('error 1', err)
@@ -248,7 +271,6 @@ export class FacultativoComponent implements OnInit, OnDestroy {
         this.statefinal = true;
       }
       this.storageClear()
-      this.alertService.success('Formulario Enviado', 'Ok')
     } else {
       this.alertService.error('El formulario no se ha podido enviar', 'Error')
     }
@@ -284,7 +306,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     // Llamada al método storageClear al destruir el componente
-    this.storageClear();
+    //this.storageClear();
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -398,5 +420,9 @@ export class FacultativoComponent implements OnInit, OnDestroy {
 
       console.log(fechaAlmacenada);
     }
+  }
+
+  navigate(item: string) {
+    this.router.navigate([item])
   }
 }

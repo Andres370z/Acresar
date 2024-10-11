@@ -7,16 +7,16 @@
             <div class="card-icon" style="background-color: #016672;">
               <i class="material-icons">edit</i>
             </div>
-            <h4 class="card-title">Formulario Facultativo</h4>
+            <h4 class="card-title">Formulario Facultativos</h4>
           </div>
           <div class="card-body" *ngIf="rta">
-            <form class="form" [formGroup]="form" (ngSubmit)="saveData(form.value)">
+            <form class="form" [formGroup]="form">
               <div class="row">
 
                 <div class="col-4"> <!--C-->
                   <mat-form-field appearance="fill">
                     <mat-label>Código Contrato</mat-label>
-                    <input matInput placeholder="codigo" formControlName="codigoContrato" type="text">
+                    <input matInput placeholder="codigo" formControlName="codigoContrato" type="text" value="{{cod}}">
                     <mat-icon matSuffix>person_outline</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -96,21 +96,7 @@
                   </mat-form-field>
                 </div>
 
-                <div class="col-2">
-                  <!--BOTON 1-->
-                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
-                    style="background-color: #016672" [disabled]="!form.valid">
-                    Guardar
-                  </button>
-                  <!--BOTON 2-->
-
-                </div>
-                <div class="col-2">
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
-                    style="background-color: #016672" (click)="storageClear()">
-                    Cancelar
-                  </button>
-                </div>
+                
               </div>
             </form>
 
@@ -131,11 +117,13 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cello">Codigo <br> Ramo</th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
                       <mat-form-field appearance="outline">
+                        <mat-label>Codigo</mat-label>
                         <mat-select [(value)]="element.selectedRamoCod" style="min-width: 100px;" formControlName="codigo" (ngModelChange)="eventRamo('codigo')">
                           <mat-option *ngFor="let item of ramos" [value]="item.a">
                             {{ item.e }}
                           </mat-option>
                         </mat-select>
+                        <mat-hint>selecciona</mat-hint>
                       </mat-form-field>
                     </td>
                   </ng-container>
@@ -145,11 +133,13 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cello">Ramo</th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
                       <mat-form-field appearance="outline">
-                        <mat-select [(value)]="element.selectedRamo" style="min-width: 180px;" formControlName="ramos" (ngModelChange)="eventRamo('ramos')">
+                        <mat-label>Ramos</mat-label>
+                        <mat-select [(value)]="element.selectedRamo" style="min-width: 180px;" formControlName="ramos" (blur)="eventRamo('ramos')">
                           <mat-option *ngFor="let item of ramos" [value]="item.a">
                             {{ item.a2 }}
                           </mat-option>
                         </mat-select>
+                        <mat-hint>selecciona</mat-hint>
                       </mat-form-field>
                     </td>
                   </ng-container>
@@ -159,7 +149,9 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cello"> Suma Limite </th>
                     <td mat-cell class="custom-cell" *matCellDef="let element">
                       <mat-form-field appearance="outline">
-                        <input matInput placeholder="Suma" formControlName="sumaLimite" (change)="miles('formReaseguros', 'sumaLimite')">
+                        <mat-label>Suma Limite</mat-label>
+                        <input matInput placeholder="Suma" formControlName="sumaLimite" (blur)="miles('formReaseguros', 'sumaLimite')">
+                        <mat-hint>suma</mat-hint>
                       </mat-form-field>
                     </td>
                   </ng-container>
@@ -169,7 +161,9 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cell"> Cesión </th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
                       <mat-form-field appearance="outline">
-                        <input matInput placeholder="%" formControlName="seccion" (ngModelChange)="percentage('seccion', 'formReaseguros')">
+                        <mat-label>Porcentaje</mat-label>
+                        <input matInput placeholder="%" formControlName="seccion" (blur)="percentage('seccion', 'formReaseguros')">
+                        <mat-hint>*</mat-hint>
                       </mat-form-field>
                     </td>
                   </ng-container>
@@ -178,9 +172,11 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cello"> Nomina </th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
       
-                        <button mat-mini-fab style="background-color: #016672; margin-bottom: 20px;" aria-label="Example fab with a heart icon" (click)="onSubmit()">
-                          <mat-icon>add</mat-icon>
-                        </button>
+                      <button mat-raised-button class="btn btn-fill btn-rose"
+                      style="background-color: #016672" (click)="onSubmit()" type="button">
+                      +
+                    </button>
+                        
                     </td>
                   </ng-container>
 
@@ -206,6 +202,26 @@
 
 
 
+            </div>
+          </div>
+
+          <div class="card-body">
+            <div class="row">
+              <div class="col-2">
+                <!--BOTON 1-->
+                <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                  style="background-color: #016672" [disabled]="!form.valid" (click)="saveData(form.value)">
+                  Guardar
+                </button>
+                <!--BOTON 2-->
+
+              </div>
+              <div class="col-2">
+                <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                  style="background-color: #016672" (click)="storageClear()">
+                  Cancelar
+                </button>
+              </div>
             </div>
           </div>
         </div>

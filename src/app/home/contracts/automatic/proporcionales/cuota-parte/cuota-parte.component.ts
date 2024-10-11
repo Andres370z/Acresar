@@ -49,7 +49,7 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
         this.cod = data.id + ' - ' + data.year;
         console.log('Informacion pa', data, 'codigo: ', this.cod);
 
-
+ 
       }
     });
     if (localStorage.getItem('rsltntmpcntrt') === null) {
@@ -99,6 +99,16 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
           console.log(err);
         }
       )
+    }
+    if (localStorage.getItem('rsltntmpcntrt') !== null) {
+      this.item = JSON.parse(localStorage.getItem('rsltntmpcntrt'));
+      this.item.e = this.item.r;
+      this.cod = this.item.c + ' - ' + this.item.r;
+      
+      console.log('-------> ', this.cod);
+      
+      // Aquí estableces el valor de "codigoContrato" en el formulario reactivo
+      this.form.controls['codigoContrato'].setValue(this.cod);
     }
   }
   cargaCod(){
