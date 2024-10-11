@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { ModalComponent } from '../../../facultativos/modal/modal.component';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { PercentageService } from 'src/app/service/percentage.service';
 import { SessionUser } from 'src/app/home/global/sessionUser';
 import { Router } from '@angular/router';
+import { Procentajes } from 'src/app/home/commos/porcentajes';
 
 const ELEMENT_DATA = [{ data: '' }];
 
@@ -20,6 +21,7 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['contrato', 'sumaLimite', 'cesion', 'nomina', 'reas'];
   dataSource = ELEMENT_DATA;
   public form: FormGroup;
+  private _pct = new Procentajes();
   public cuotaParteFormreasegurador: FormGroup;
   currency: any;
   ramos: any;
@@ -29,6 +31,8 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
   temporal: any;
   cod = '';
   contrato: any;
+  item = { c: '', e: '', r: '' };
+
   listareasu: any;
   ramosrta: boolean = false
   public user: any;
@@ -39,16 +43,47 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
     private alert: AlertService,
     private percentageService: PercentageService,
     private router: Router,
-  ) { }
+  ) {
+    this.authService.getDataObser().subscribe(data => {
+      if (data) {
+        this.cod = data.id + ' - ' + data.year;
+        console.log('Informacion pa', data, 'codigo: ', this.cod);
+
+
+      }
+    });
+    if (localStorage.getItem('rsltntmpcntrt') === null) {
+      this.item.e = '';
+      this.item.r = '';
+      this.item.c = '';
+    } else {
+      this.item = JSON.parse(localStorage.getItem('rsltntmpcntrt'));
+      this.item.e = this.item.r;
+      this.cod = this.item.c + ' - ' + this.item.r;
+
+      //this.form.controls.codigoContrato.setValue(this.cod)
+    }
+  }
+
+
   ngOnDestroy(): void {
-    this.storageClear()
+    //this.storageClear()
   }
 
   ngOnInit(): void {
+    this.initial()
+
+    this.createFormreasegurador()
+    if (sessionStorage.getItem('formCuotaP') != '' && sessionStorage.getItem('formCuotaP') != null) {
+      this.formLoad();
+      this.formLoadreasegurador();
+
+    } else {
+      this.onCreate()
+      
+    }
     this.user = new SessionUser(this.router)
     this.user.getAuthUser()
-    this.initial()
-    this.onCreate()
     this.createFormreasegurador()
     if (localStorage.getItem('idcontrato')) {
       console.log('aqui se daña');
@@ -66,11 +101,16 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
       )
     }
   }
+  cargaCod(){
+    this.form.controls.codigoContrato.setValue(this.cod)
+  }
   onCreate() {
+    localStorage.removeItem('rsltntmpcntrt')
     const dialogConfig = new MatDialogConfig()
     dialogConfig.width = '30%',
       dialogConfig.disableClose = true
     this.dialog.open(ModalComponent, dialogConfig)
+
   }
 
   initial() {
@@ -89,6 +129,7 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
     this.authService.getCurrency().then((resulta: any) => {
       this.currency = resulta
       console.log('esta es las monedas', resulta)
+
     })
     this.authService.getRamos().then((resulta: any) => {
       this.ramos = resulta
@@ -155,14 +196,14 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
                 horainicio: form2['starHours'],
                 horafin: form2['endHours']
               };
-              
+
               this.authService.postContratoCuotaAparte(data).then(
                 res => {
                   this.alert.messagefin();
                   localStorage.setItem('idcontrato', JSON.stringify(res));
                   this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
                   console.log(res);
-                  this.ramosrta = true 
+                  this.ramosrta = true
                   this.alert.success('Formulario Registrado', 'El siguiente paso es que agregues un ramo a tu contrato')
                 }, err => {
                   this.alert.messagefin();
@@ -178,6 +219,9 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
           }
         )
       }
+    } else {
+      this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
+      this.ramosrta = true;
     }
     console.log(this.form)
   }
@@ -190,6 +234,8 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
     });
   }
   onSubmit() {
+    console.log('working');
+
     // TODO: Use EventEmitter with form value
     console.log(this.contrato);
     if (this.contrato) {
@@ -203,10 +249,29 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
     }
 
   }
-  goDetail(){
+  goDetail() {
     this.alert.loading();
     const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'))
-    let cont = + 0;
+    let contar = + 0;
+    var por = this._pct.removerPor(form1['cesion'])
+    var q = por.replace(",", ".");
+    const data = {
+      idusers: this.user.authUser.id,
+      secion: q,
+      sumaLimite: this._pct.removerDesimal(form1['sumaLimite']),
+      contrato: contar,
+      id: this.contrato.a,
+    };
+    console.log(data);
+    this.authService.postCuotaRamo(data).then((res: any) => {
+      this.alert.success('Ok', 'Validacion correcta puedes seguir')
+      sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
+      this.navigate('home/contracts/Automaticos/proporcionales/cuota-parte/detalle')
+    }, err => {
+
+      this.alert.error('Error', 'error en el servidor')
+    })
+
   }
   miles(form: string, key: string) {
     if (form === 'cuotaParteForm') {
@@ -232,7 +297,7 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
       const quitar = this.desimal(cortar);
       return quitar;
     }
-    
+
 
   }
   cortarDesimales(item: any) {
@@ -288,4 +353,82 @@ export class CuotaParteComponent implements OnInit, OnDestroy {
       this.router.navigate(['/home/contracts/Automaticos/proporcionales/cuota-parte/detalle']);
     }
   }
+
+  onchangedecimal(key: any) {
+    let data;
+    let decimalConver;
+    switch (key) {
+      case 'sumaLimite':
+        data = this.form.controls.tb1;
+        data = data.value;
+        decimalConver = this.desimal(this.removerDesimal(data[key]));
+        data[key] = decimalConver;
+        this.form.controls.tb1.setValue(data);
+        break;
+      case 'sumaLimite2':
+        data = this.form.controls.tb2;
+        data = data.value;
+        console.log(data);
+        decimalConver = this.desimal(data[key]);
+        data[key] = decimalConver;
+        this.form.controls.tb2.setValue(data);
+        break;
+      case 'sumaLimite3':
+        data = this.form.controls.tb3;
+        data = data.value;
+        decimalConver = this.desimal(data[key]);
+        data[key] = decimalConver;
+        this.form.controls.tb3.setValue(data);
+        break;
+      default:
+        const inp = this.form.controls[key].value
+        decimalConver = this.desimal(inp);
+        this.form.controls[key].setValue(decimalConver.toString());
+        break;
+    }
+  }
+  navigate(item: string) {
+    this.router.navigate([item])
+  }
+  formLoad() {
+    this.ramosrta = true
+    const form = JSON.parse(sessionStorage.getItem('formCuotaP'));
+    this.form.controls.codigoContrato.setValue(form['codigoContrato']);
+    this.form.controls.descripcion.setValue(form['descripcion']);
+    this.form.controls.epi.setValue(form['epi']);
+    this.form.controls.starDate.setValue(form['starDate']);
+    this.form.controls.endDate.setValue(form['endDate']);
+    this.form.controls.money.setValue(form['money']);
+    this.form.controls.sinistros.setValue(form['sinistros']);
+    this.form.controls.observations.setValue(form['observations']);
+    this.form.controls.starHours.setValue(form['starHours']);
+    this.form.controls.endHours.setValue(form['endHours']);
+  }
+  formLoadreasegurador() {
+    const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'));
+    this.cuotaParteFormreasegurador.controls.contrato.setValue(form1['contrato']);
+    this.cuotaParteFormreasegurador.controls.sumaLimite.setValue(form1['sumaLimite']);
+    this.cuotaParteFormreasegurador.controls.cesion.setValue(form1['cesion']);
+    this.cuotaParteFormreasegurador.controls.reas.setValue(form1['reas']);
+  }
+
+  verificar(){
+    this.alert.loading()
+    if (sessionStorage.getItem('formCuotaP') && sessionStorage.getItem('formCuotaP1')){
+      localStorage.removeItem('idcontrato')
+      sessionStorage.clear();
+      this.cod = '';
+      this.form.reset();
+      // tslint:disable-next-line:prefer-const
+      let res = 'Contrato creado exitosamente';
+      this.alert.success('Ok',res);
+      this.navigate('home/contracts');
+    // tslint:disable-next-line:one-line
+    }else{
+      this.alert.success('Ok', 'No agragaste un ramo al contrato');
+      this.navigate('home/contracts');
+    }
+  }
+
+
 }

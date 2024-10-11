@@ -1,40 +1,41 @@
-<h2 class="text-center">Registar Contrato</h2>
-<div class="row">
-  <div class="col-12">
-      <form (ngSubmit)="saveData(form.value)" [formGroup]="form">
-        <div class="row">
-          <div class="col-12">
-            <mat-form-field appearance="fill">
-              <mat-label>Fecha Inicio</mat-label>
-              <input matInput [matDatepicker]="pickerOne" placeholder="ingresa el año" formControlName="year"
-                [(ngModel)]="md.r">
-              <mat-datepicker-toggle matSuffix [for]="pickerOne"></mat-datepicker-toggle>
-              <mat-datepicker #pickerOne startView="multi-year" panelClass="example-month-picker"></mat-datepicker>
-              <mat-hint>este campo es obligatorio *</mat-hint>
-            </mat-form-field>
-          </div>
 
-          <div class="col-12">
-            <mat-form-field appearance="fill">
-              <mat-label>Código Contrato</mat-label>
-              <input matInput placeholder="codigo" formControlName="id" type="text" [(ngModel)]="md.c">
-              <mat-icon matSuffix>person_outline</mat-icon>
-              <mat-hint>este campo es obligatorio *</mat-hint>
-            </mat-form-field>
-          </div>
-        </div>
+  <h2 class="text-center">Registar Contrato</h2>
+  <div class="col-12 justify-content-center">
+    <form (ngSubmit)="saveData(form.value)" [formGroup]="form">
+      <div class="row justify-content-center">
         <div class="col-12">
-          <mat-dialog-actions align="end">
-            <button mat-raised-button type="button" (click)="cancel()">Cancelar</button>
-            <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background-color: #016672"
-              [disabled]="!form.valid">
-              Guardar
-            </button>
-          </mat-dialog-actions>
+          <mat-form-field appearance="fill" class="formCustom">
+            <mat-label>Código Contrato</mat-label>
+            <input matInput placeholder="codigo" formControlName="id" type="text" [(ngModel)]="md.c">
+            <mat-icon matSuffix>person_outline</mat-icon>
+            <mat-hint>este campo es obligatorio *</mat-hint>
+          </mat-form-field>
         </div>
-      </form>
+
+        <div class="col-12">   
+
+          <mat-form-field appearance="fill" class="formCustom">
+            <mat-label>Selecciona un año Contractual</mat-label>
+            <mat-select  formControlName="year" [(ngModel)]="md.r">
+              <mat-option *ngFor="let year of years" [value]="year">
+                {{ year }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="col-12 justify-content-center">
+        <mat-dialog-actions align="end">
+          <button mat-raised-button type="button" (click)="cancel()">Cancelar</button>
+          <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background-color: #016672"
+            [disabled]="!form.valid">
+            Guardar
+          </button>
+        </mat-dialog-actions>
+      </div>
+    </form>
   </div>
-</div>
 
 
 

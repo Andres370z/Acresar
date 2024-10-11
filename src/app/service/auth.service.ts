@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { RoutersLink } from '../models/router';
 import { AlertService } from './alert.service';
 import { HttpsService } from './https.service';
-import {Observable} from 'rxjs'
+import {BehaviorSubject, Observable} from 'rxjs'
 import { LocalstoreService } from './localstore.service';
 
 @Injectable({
@@ -19,6 +19,34 @@ export class AuthService {
     private localStore: LocalstoreService,
   ) { }
 
+  private dataSubject = new BehaviorSubject<any>(null); // Comportamiento inicial nulo
+  private carteraSubject = new BehaviorSubject<any>(null);
+  private comiSubject = new BehaviorSubject<any>(null);
+  setData(data: any) {
+    this.dataSubject.next(data); // Emitir el nuevo objeto
+  }
+
+  getDataObser() {
+    return this.dataSubject.asObservable(); // Retornar el observable
+  }
+
+  // Para traspaso de cartera
+  setCarteraData(data: any) {
+    this.carteraSubject.next(data);
+  }
+
+  getCarteraDataObser() {
+    return this.carteraSubject.asObservable();
+  }
+
+  // Para traspaso de comision
+  setComisionData(data: any) {
+    this.comiSubject.next(data);
+  }
+
+  getComisionDataObser() {
+    return this.comiSubject.asObservable();
+  }
   create(inform:any){
     const fm = new FormData;
     
@@ -328,6 +356,10 @@ export class AuthService {
   postFcultativos(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativos, {item})
   }
+  postCuotaparteNomina(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postCuotaparteNomina, {item})
+
+  }
   postFacultativosAseguradoras(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosAseguradoras, {item})
   }
@@ -340,6 +372,10 @@ export class AuthService {
 
   postFacultativoGasto(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativoGasto, {item})
+
+  }
+  postCuotaRamo(item: any){
+    return this.registeresquest.POSTS(RoutersLink.postCuotaRamo, {item})
 
   }
 

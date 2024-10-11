@@ -56,6 +56,7 @@ const routes: Routes = [
   { path: 'gerencialTwo', loadChildren: () => import('./gerencial-two/gerencial-two.module').then(m => m.GerencialTwoModule) },
   /* Reportes */
   { path: 'reportes', loadChildren: () => import('./reportes/reportes.module').then(m => m.ReportesModule) },
+  { path: 'select-mode', loadChildren: () => import('./select-mode/select-mode.module').then(m => m.SelectModeModule) },
 ];
 
 

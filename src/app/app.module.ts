@@ -50,6 +50,7 @@ import { AppRoutes } from './app.routing';
 import { InterceptorService } from './service/interceptor.service';
 import { MenuModule } from './home/reinsurance-companies/menu/menu.module';
 import * as $ from 'jquery';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -81,7 +82,7 @@ import * as $ from 'jquery';
     MatTabsModule,
     MatToolbarModule,
     MatTooltipModule,
-    MatNativeDateModule
+    MatNativeDateModule,
   ],
   imports: [BrowserAnimationsModule],
   declarations: [
@@ -105,7 +106,9 @@ export class MaterialModule {}
         NavbarModule,
         FooterModule,
         FixedpluginModule,
-        MenuModule
+        MenuModule,
+    NgxMaterialTimepickerModule
+
     ],
     declarations: [
         AppComponent,

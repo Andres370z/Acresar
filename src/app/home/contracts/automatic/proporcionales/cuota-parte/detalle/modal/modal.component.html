@@ -1,0 +1,161 @@
+<div class="col-12 justify-content-center" *ngIf="deposito">
+  <h2 class="text-center">Depósito Retenido</h2>
+
+  <form (ngSubmit)="saveData(form.value)" [formGroup]="form">
+    <div class="row justify-content-center">
+      <div class="col-12">
+        <mat-form-field appearance="fill" class="formCustom">
+          <mat-label>Periodo de Retención de Depósitos</mat-label>
+          <input matInput placeholder="periodo" formControlName="periodo" type="text">
+          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-hint>este campo es obligatorio *</mat-hint>
+        </mat-form-field>
+      </div>
+      <div class="col-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Selecciona una Moneda</mat-label>
+          <select matNativeControl required formControlName="money">
+            <option value="3">COP</option>
+            <option value="2">EUR</option>
+            <option value="1">US</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field appearance="fill">
+          <mat-label>Selecciona una Moneda</mat-label>
+          <select matNativeControl required formControlName="mes">
+            <option value="1">Meses</option>
+            <option value="2">Años</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field appearance="fill" class="formCustom">
+          <mat-label>Porcentaje de Retención de Depósitos</mat-label>
+          <input matInput placeholder="porcentaje" formControlName="porcenta" type="text" type="text"
+            [(ngModel)]="formT.deposito.PorcentajeR" (blur)="porcentajeR('PorcentajeR')">
+          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-hint>este campo es obligatorio *</mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field appearance="fill" class="formCustom">
+          <mat-label>Porcentaje intereses sobre liberación de depósitos</mat-label>
+          <input matInput placeholder="interes" formControlName="interes" [(ngModel)]="formT.deposito.PorcentajeI"
+            (blur)="porcentajeR('PorcentajeI')">
+          <mat-icon matSuffix>person_outline</mat-icon>
+          <mat-hint>este campo es obligatorio *</mat-hint>
+        </mat-form-field>
+      </div>
+
+
+
+    </div>
+    <div class="col-12 ">
+      <div class="form-group">
+        <div class="checkbox">
+          <label>
+            <input [(ngModel)]="formT.deposito.reservaAsumida" id="dtmd2rsv" name="dtmd2rsv" ngModel #dtmd2rsv="ngModel"
+              required class="bold-me" type="checkbox" value="1" (click)="reservaAsumida()">Reserva Asumida</label>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 justify-content-center">
+      <mat-dialog-actions align="end">
+        <button mat-raised-button type="button" (click)="cancel()">Cancelar</button>
+        <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background-color: #016672"
+          [disabled]="!form.valid">
+          Guardar
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+</div>
+
+<div class="col-12 justify-content-center" *ngIf="comsion">
+  <h2 class="text-center">Comisión</h2>
+  <button mat-raised-button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('fija')">Fija</button>
+  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+    style="background-color: #016672">Provisional</button>
+  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+    style="background-color: #016672">Escalonada</button>
+  <div *ngIf="fija">
+    <mat-form-field appearance="fill" class="formCustom">
+    <mat-label>Ingresa un valor</mat-label>
+    <input matInput placeholder="periodo" type="text" [(ngModel)]="formT.ModelComision.valueFija">
+    <mat-icon matSuffix>person_outline</mat-icon>
+    <mat-hint>este campo es obligatorio *</mat-hint>
+  </mat-form-field>
+  </div>
+  
+  <div class="col-12 justify-content-center">
+    <mat-dialog-actions align="end">
+      <button mat-raised-button type="button" (click)="cancel()">Cancelar</button>
+      <button mat-raised-button class="btn btn-fill btn-rose" style="background-color: #016672" type="button" (click)="sendModalCom()">
+        Guardar
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>
+
+
+<div class="col-12 justify-content-center" *ngIf="cartera">
+  <h2 class="text-center">Traspaso de Cartera</h2>
+
+  <form (ngSubmit)="sendModalTra(formCartera.value)" [formGroup]="formCartera">
+    <div class="row justify-content-center">
+
+      <div class="col-6">
+        <mat-form-field appearance="fill">
+          <mat-label> Traspaso </mat-label>
+          <select matNativeControl required formControlName="traspaso" [(ngModel)]="formT.traspasoCartera.traspaso" >
+            <option value="1">Primas</option>
+            <option value="2">Siniestros</option>
+            <option value="3">Depositos</option>
+            <option value="4">Primas, Siniestros</option>
+            <option value="5">Sin Traspaso</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-6">
+        <mat-form-field appearance="fill">
+          <mat-label> Cuentas </mat-label>
+          <select matNativeControl required formControlName="cuentas" [(ngModel)]="formT.traspasoCartera.Cuenta">
+            <option value="1">Sistemas</option>
+            <option value="2">Medios</option>
+            <option value="3">Octavos</option>
+            <option value="4">Porcentaje</option>
+            <option value="5">Venticuatroavos</option>
+            <option value="6">No aplica</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+
+
+
+
+
+    </div>
+    
+    <div class="col-12 justify-content-center">
+      <mat-dialog-actions align="end">
+        <button mat-raised-button type="button" (click)="cancel()">Cancelar</button>
+        <button mat-raised-button type="button" (click)="sendModalTra()" class="btn btn-fill btn-rose" style="background-color: #016672">
+          Guardar
+        </button>
+      </mat-dialog-actions>
+    </div>
+  </form>
+</div>
+
+
+
+<!-- Copyright 2024 Google LLC. All Rights Reserved.
+  Use of this source code is governed by an MIT-style license that
+  can be found in the LICENSE file at https://angular.io/license -->

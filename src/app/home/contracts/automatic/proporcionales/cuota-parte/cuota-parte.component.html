@@ -16,7 +16,7 @@
                 <div class="col-4"> <!--C-->
                   <mat-form-field appearance="fill">
                     <mat-label>Código Contrato</mat-label>
-                    <input matInput placeholder="codigo" formControlName="codigoContrato" type="text">
+                    <input matInput placeholder="codigo" formControlName="codigoContrato" type="text" value="{{cod}}">
                     <mat-icon matSuffix>person_outline</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -25,7 +25,7 @@
                 <div class="col-8"> <!--C-->
                   <mat-form-field appearance="fill">
                     <mat-label>Descripción</mat-label>
-                    <input matInput placeholder="ingresa una descripción" formControlName="descripcion" type="text">
+                    <input matInput placeholder="ingresa una descripción" formControlName="descripcion" type="text" (blur)="cargaCod()">
                     <mat-icon matSuffix>person_outline</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -45,6 +45,7 @@
                   <mat-form-field appearance="fill">
                     <mat-label>Hora inicio</mat-label>
                     <input matInput placeholder="ingresa una hora" formControlName="starHours" type="time">
+                    
                     <mat-icon matSuffix>access_time</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -73,15 +74,15 @@
                 <div class="col-4">
                   <mat-form-field appearance="fill">
                     <mat-label>Selecciona una Moneda</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="money">
-                      <mat-option *ngFor="let item of currency" value="{{item.a}}">{{item.c}}</mat-option>
-                    </mat-select>
+                    <select matNativeControl required formControlName="money">
+                      <option *ngFor="let item of currency" value="{{item.a}}">{{item.c}}</option>
+                    </select>
                   </mat-form-field>
                 </div>
                 <div class="col-4"> <!--C-->
                   <mat-form-field appearance="fill">
                     <mat-label>EPI</mat-label>
-                    <input matInput placeholder="EPI" formControlName="epi" type="text">
+                    <input matInput placeholder="COP - 180.0000.000.000 (solo numeros)" formControlName="epi" type="number" (blur)="onchangedecimal('epi')">
                     <mat-icon matSuffix>person_outline</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -89,7 +90,7 @@
                 <div class="col-4"> <!--C-->
                   <mat-form-field appearance="fill">
                     <mat-label>Siniestros de Contrato</mat-label>
-                    <input matInput placeholder="ingresa un Siniestro" formControlName="sinistros" type="text">
+                    <input matInput placeholder="ingresa un Siniestro" formControlName="sinistros" (change)="onchangedecimal('sinistros')" type="number">
                     <mat-icon matSuffix>person_outline</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -106,7 +107,7 @@
                 <div class="col-3">
                   <!--BOTON 1-->
                   <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
-                    style="background-color: #016672" [disabled]="!form.valid">
+                    style="background-color: #016672" [disabled]="form.invalid">
                     Agregar Nomina
                   </button>
                   <!--BOTON 2-->
@@ -141,7 +142,9 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cello">Suma Limite</th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
                       <mat-form-field appearance="outline">
+                        <mat-label>Suma Limite</mat-label>
                         <input matInput placeholder="Suma" formControlName="sumaLimite" (blur)="miles('cuotaParteFormreasegurador', 'sumaLimite')">
+                        <mat-hint>suma</mat-hint>
                       </mat-form-field>
                     </td>
                   </ng-container>
@@ -151,7 +154,9 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cell"> Cesión </th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
                       <mat-form-field appearance="outline">
+                        <mat-label>Porcentaje</mat-label>
                         <input matInput placeholder="%" formControlName="cesion"  (blur)="porcentaje('cesion', 'cuotaParteFormreasegurador')">
+                        <mat-hint>*</mat-hint>
                       </mat-form-field>
                     </td>
                   </ng-container>
@@ -160,9 +165,11 @@
                     <th mat-header-cell *matHeaderCellDef class="custom-cello"> Nomina </th>
                     <td mat-cell *matCellDef="let element" class="custom-cell">
       
-                        <button mat-mini-fab style="background-color: #016672; margin-bottom: 20px;" aria-label="Example fab with a heart icon" (click)="onSubmit()">
-                          <mat-icon>add</mat-icon>
-                        </button>
+                      <button mat-raised-button class="btn btn-fill btn-rose"
+                      style="background-color: #016672" (click)="onSubmit()" type="button">
+                      +
+                    </button>
+                        
                     </td>
                   </ng-container>
 
@@ -177,6 +184,16 @@
                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                 </table>
               </form>
+            </div>
+
+            <div class="col-3">
+              <!--BOTON 1-->
+              <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                style="background-color: #016672; margin-top: 10px;" [disabled]="form.invalid" (click)="verificar()">
+                Guardar Cambios
+              </button>
+              <!--BOTON 2-->
+
             </div>
           </div>
         </div>

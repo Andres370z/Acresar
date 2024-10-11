@@ -1,8 +1,6 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { DetalleRoutingModule } from './detalle-routing.module';
-import { DetalleComponent } from './detalle.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -17,33 +15,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
-import { ModalComponent } from './modal/modal.component';
-
+import { ModalComponent } from './modal.component';
 
 @NgModule({
-  declarations: [DetalleComponent, ModalComponent],
+  declarations: [ ],
   imports: [
     CommonModule,
-    DetalleRoutingModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatRadioModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonModule,
-    MatIconModule, 
-    MatFormFieldModule,
-    MatInputModule, 
-    DateTimePickerModule,
-    MatDialogModule,
-    MatCardModule
-  ],
-  entryComponents: [ModalComponent]
-
+    
+  ], schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
-export class DetalleModule { }
+export class ModalModule { }

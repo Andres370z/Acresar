@@ -160,6 +160,7 @@ export class FacultativosComponent implements OnInit {
         
       })
     }
+    //this.consultar(this.form.value.poliza1)
   }
 
   aseguradorfinal(){
@@ -193,13 +194,15 @@ export class FacultativosComponent implements OnInit {
     }
   }
   consultar(item: any){
+    console.log('ITEM ->',item);
+    
     const data2 = {
       word: item.a
     }
-    this.authService.postAseguradoraNomina(item).then((res: any)=>{
+    this.authService.postAseguradoraNomina(data2).then((res: any)=>{
       if (res.length === 0) {
         this.statefinal = true;
-        this.form.controls.poliza.setValue(item.c);
+        this.form.controls.poliza.setValue(item.w);
         this.form.controls.certificado.setValue(item.r);
         this.form.controls.date.setValue(item.e);
         this.form.controls.ciudad.setValue(item.s);
@@ -223,6 +226,9 @@ export class FacultativosComponent implements OnInit {
         this.cuotaParteFormreasegurador.disable();
         this.fromajustes.disable(); */
       }
+    }, err => {
+      console.log('Error en la consulta');
+      
     })
   }
   cargarpoliza(item) {
@@ -333,20 +339,28 @@ export class FacultativosComponent implements OnInit {
     }
   }
   procesar(){
-    if (this.polizacontrato = []) {
-      this.alertService.error('Error', 'Agrega una poliza')
+    console.log('ESTE ES POLIZA -->',this.polizacontrato);
+    
+    if (!this.form.get('poliza1').value) {
+      this.alertService.error('Error', 'Agrega una poliza');
     }
-    else if (this.selectcontrato = []) {
-      this.alertService.error('Error', 'Campo ramos es obligatorio')
+    else if (Array.isArray(this.selectcontrato) && this.selectcontrato.length === 0) {
+      this.alertService.error('Error', 'Campo ramos es obligatorio');
     }
-    // tslint:disable-next-line:one-line
-    else if (this.listareasu2 = []) {
-      this.alertService.error('Error', 'Campo suma limite es obligatorio')
+    else if (!this.form.get('years').value) {
+      this.alertService.error('Error', 'Campo año de la poliza es obligatorio');
+    }
+
+    else if (Array.isArray(this.listareasu2) && this.listareasu2.length === 0) {
+      this.alertService.error('Error', 'Campo suma limite es obligatorio');
     }
 
     else if (this.listareasu.length > 0 || this.listareasu2.length > 0) {
+      console.log('entra 2');
+      
       const data1 = {
-        word: this.idpoliza
+        word: this.idpoliza,
+        date: this.form.value.years
       }
       this.authService.postFacultativoGasto(data1).then((res: any) => {
         this.validar = res;
@@ -354,13 +368,15 @@ export class FacultativosComponent implements OnInit {
           if (this.validar.length != 0) {
             this.listareasu = [];
             this.listareasu2 = [];
-            this.form.reset();
+            this.form.reset(); 
           }else {
             const data = {
               poliza: this.polizacontrato,
               contrato: this.selectcontrato,
               ramopoliza: this.listareasu2,
-              ramocontratos: this.listareasu
+              ramocontratos: this.listareasu,
+              idsegurador: this.idsegurador,
+
             }
             console.log(data)
 

@@ -77,7 +77,8 @@ export const RoutersLink = {
     postBuscarSiniestro: 'aseguradoras/facultativo/search/siniestro',
     postFacultaRamosEdit: 'aseguradoras/facultativo/ramos/id',
     postFacultativoGasto: 'aseguradoras/facultativo/getasegurado',
-
+    postCuotaRamo: 'contratos/automaticos/proporcionales/cuotaparte/ramos',
+    postCuotaparteNomina: 'final/contratos/automaticos/no/proporcionales/cuotaparte/nominas',
 
     postFacultativoContra: 'facultativo/contrato',
     postFacultativoContratb: 'facultativo/contrato/tb',

@@ -1,7 +1,7 @@
 <div class="main-content">
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
+      <div class=" col-md-12">
         <div class="card">
           <div class="card-header card-header-rose card-header-icon">
             <div class="card-icon" style="background-color: #016672;">
@@ -10,19 +10,19 @@
             <h4 class="card-title">Prima Facultativos Especial</h4>
           </div>
           <div class="card-body">
-            <form class="form mb-4" [formGroup]="form" (ngSubmit)="sendForm(form.value)">
+            <form class="form mb-4" [formGroup]="form" (ngSubmit)="create()">
               <div class="row">
 
                 <div class="col-3"> <!--Name-->
                   <mat-form-field appearance="fill">
                     <mat-label>Poliza</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="poliza1" type="text">
+                    <input matInput placeholder="ingresa el ramo" formControlName="poliza1" type="text" (blur)="polizaBuscar()">
                     <mat-icon matSuffix>poll</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
                 </div>
 
-                
+
 
                 <div class="col-3"> <!--id-->
                   <mat-form-field appearance="fill">
@@ -55,7 +55,7 @@
                 <div class="col-4"> <!--id-->
                   <mat-form-field appearance="fill">
                     <mat-label>Asegurado</mat-label>
-                    <input matInput placeholder="ingresa la Fecha Emision" formControlName="asegurado" type="text">
+                    <input matInput placeholder="ingresa la Fecha Emision" formControlName="asegurado" type="text" (blur)="aseguradorfinal()">
                     <mat-icon matSuffix>calendar_today</mat-icon>
                     <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="col-12"> <!--BOTON-->
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" (click)="sendForm(form.value)"
+                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
                     [disabled]="form.invalid" style="background-color: #016672;">Agregar </button>
                   <button mat-raised-button type="button" class="btn btn-fill btn-rose" (click)="clearForm()"
                     style="background-color: #016672; margin-left: 10px;">Cancelar </button>
@@ -83,18 +83,21 @@
               <div class="row">
                 <!--Buscador con autocomplete-->
                 <div class="col-6 ">
-                  <mat-form-field appearance="outline">
+                  <mat-form-field appearance="fill">
                     <mat-label>Identificación del contrato</mat-label>
-                    <!-- PARA QUE EL AUTOCOMPLETE FUNCIONE AL TECLEAR AGREGA ESTE METODO AL INPUT: (ngModelChange)="contratosfacultativos()" -->
-                    <input type="text" matInput [matAutocomplete]="auto" formControlName="identyContract" (ngModelChange)="contratosfacultativos()">
-                    <mat-autocomplete #auto="matAutocomplete" >
-                      <mat-option  *ngFor="let item of options" [value]="item.o" (click)="upload(item)">
-                        {{item.o}}
+                    <input matInput placeholder="ingresa el ramo" formControlName="identyContract" type="text"
+                      (ngModelChange)="contratosfacultativos()" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let contrato of contratofinal" [value]="contrato.o"
+                        (click)="cargar(contrato)">
+                        {{ contrato.o }}
                       </mat-option>
                     </mat-autocomplete>
-                    <mat-icon matSuffix (click)="contratosfacultativos()">search</mat-icon>
-                    <mat-hint>preciona el icono para buscar *</mat-hint>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    <mat-hint>este campo es obligatorio *</mat-hint>
                   </mat-form-field>
+
+
                 </div>
                 <div class="col-6">
                   <mat-form-field appearance="fill">
@@ -137,39 +140,113 @@
                     <mat-label>Buscar...</mat-label>
                     <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
                   </mat-form-field>
-                  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="mostrarTabla">
 
                     <ng-container matColumnDef="codRamo">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Cod ramo
                       </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell" > {{element.ramos.nme}} </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Cod</mat-label>
+                          <select matNativeControl required>
+                            <option [value]="element.rm">{{element.nme}}</option>
+                          </select>
+                          <mat-hint>Cod</mat-hint>
+                        </mat-form-field>
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="ramos">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Ramos </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.ramos.nm}} </td>
+
+                      <td mat-cell *matCellDef="let element" class="custom-cell">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Ramos</mat-label>
+                          <select matNativeControl required>
+                            <option [value]="element.rm">{{element.nm}}</option>
+                          </select>
+                          <mat-hint>Ramos</mat-hint>
+
+                        </mat-form-field>
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="sumaLimite">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Suma Limite
                       </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{miles('tabel',element.ramos.c)}} </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell">
+
+                        <mat-form-field appearance="outline">
+                          <mat-label>Suma limite</mat-label>
+                          <input matInput disabled [value]="miles('tabel',element.c)">
+                          <mat-hint>Valor de suma limite</mat-hint>
+                        </mat-form-field>
+
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="primaReaseguradora">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Prima
                         Reaseguradores </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{miles('tabel',element.ramos.ttl)}} </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell">
+                        <mat-form-field appearance="outline">
+                          <mat-label>Prima Reaseguradores</mat-label>
+                          <input matInput disabled [value]="miles('tabel',element.ttl)">
+                          <mat-hint>Valor de prima</mat-hint>
+                        </mat-form-field>
+                      </td>
                     </ng-container>
 
                     <ng-container matColumnDef="cesion">
                       <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> % Cesión
                       </th>
-                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{porcentaje(element.ramos.r | number)}} </td>
+                      <td mat-cell *matCellDef="let element" class="custom-cell">
+
+                        <mat-form-field appearance="outline">
+                          <mat-label>Cesión</mat-label>
+                          <input matInput disabled [value]="porcentaje(element.r | number)">
+                          <mat-hint>Valor de cesion</mat-hint>
+                        </mat-form-field>
+                      </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+
+
+
+                </div>
+
+
+                <div class="table-responsive col-12 mb-4">
+                  <table mat-table [dataSource]="dataSourceTwo" class="mat-elevation-z8" *ngIf="mostrarTabla">
+
+                    <!-- Columna Reasegurador -->
+                    <ng-container matColumnDef="reasegurador">
+                      <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Reasegurador
+                      </th>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{ idReasegurador(element.cm.r |
+                        number) }} </td>
+                    </ng-container>
+
+                    <!-- Columna Participación -->
+                    <ng-container matColumnDef="participacion">
+                      <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;">
+                        Participación </th>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{ porcentaje(element.cm.s | number)
+                        }} </td>
+                    </ng-container>
+
+                    <!-- Columna Prima -->
+                    <ng-container matColumnDef="prima">
+                      <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Prima </th>
+                      <td mat-cell *matCellDef="let element" class="custom-cell"> {{ miles('tabel', element.tl) }} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsFour"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsFour;"></tr>
+
                   </table>
                 </div>
 
@@ -181,123 +258,7 @@
               </div>
             </form>
 
-            <div class="col-12">
-              <h2 class="text-center">Reaseguro</h2>
-              <div class="table-responsive col-12 mb-4">
-                <mat-form-field>
-                  <mat-label>Buscar...</mat-label>
-                  <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
-                </mat-form-field>
-                <table mat-table [dataSource]="dataSourceTwo" class="mat-elevation-z8">
 
-                  <ng-container matColumnDef="contrato">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Contratos
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="tramo">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Tramo </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="sumaRetenida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Suma Retenida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="sumaCedida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Suma Cedida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="primaRetenida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Prima Retenida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="primaCedida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Prima Cedida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTwo"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-              </div>
-
-              <h2 class="text-center" style="color: #016672;">Esta información se toma del detalle del contrato
-                facultativo especial por reasegurador</h2>
-              <div class="table-responsive col-12 mb-4">
-                <mat-form-field>
-                  <mat-label>Buscar...</mat-label>
-                  <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
-                </mat-form-field>
-                <table mat-table [dataSource]="dataSourceTree" class="mat-elevation-z8">
-
-                  <ng-container matColumnDef="corredor">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Corredor
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="reasegurador">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Reasegurador
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="sumaCedida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Suma Cedida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="primaCedida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Prima Cedida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="comision">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Comisión
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="depositosRetenidos">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Depositos
-                      Retenidos
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="impCedida">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Imp. P. Cedida
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="brokerage">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Brokerage
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="valorPagar">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell" style="font-weight: bold;"> Valor a pagar
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell"> DATA </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumnsTree"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-
-              </div>
-            </div>
 
 
           </div>

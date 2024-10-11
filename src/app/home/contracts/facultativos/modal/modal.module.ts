@@ -22,23 +22,7 @@ import { MatCardModule } from '@angular/material/card';
   declarations: [ ],
   imports: [
     CommonModule,
-    MatTableModule,
-    MatPaginatorModule,
-    MatRadioModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatButtonModule,
-    MatIconModule, 
-    MatFormFieldModule,
-    MatInputModule, 
-    DateTimePickerModule,
-    MatDialogModule,
-    MatCardModule
+    
   ],schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 })
 export class ModalModule { }

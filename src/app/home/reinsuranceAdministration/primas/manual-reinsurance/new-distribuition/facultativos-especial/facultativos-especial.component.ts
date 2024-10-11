@@ -2,7 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
+import { SessionUser } from 'src/app/home/global/sessionUser';
 import { Menssage } from 'src/app/models/router';
+import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 
@@ -35,21 +38,39 @@ export class FacultativosEspecialComponent implements OnInit {
   public idsegurador: any
   public idpoliza: any;
   public aseguradorpoliza: any;
+  public user: any;
+  reasegurador: any;
+  public sumaLi: any;
+  mostrarTabla: boolean = false;
+  aseguradornit: any;
+
   constructor(
     private myFormBuilder: FormBuilder,
     private myFormBuilderTwo: FormBuilder,
     private authService: AuthService,
-  ) { }
+    private alertService: AlertService,
+    private router: Router,
+
+  ) {
+    this.user = new SessionUser(this.router);
+    this.user.getAuthUser();
+  }
 
   ngOnInit(): void {
-    this.initial()
+    this.initial();
+    this.authService.getReinsurer().then((res: any) => {
+      this.reasegurador = res
+    })
   }
-  public dataSource: MatTableDataSource<any>
-  public dataSourceTwo: MatTableDataSource<any>
+  dataSource = [{ codRamo: '', ramos: '', sumaLimite: '', primaReaseguradora: '', cesion: '' }];
+  dataSourceTwo = [{ reasegurador: '', participacion: '', prima: '' }];
+
+  public dataSourceFour: MatTableDataSource<any>
   public dataSourceTree: MatTableDataSource<any>
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator; 
 
   displayedColumns: string[] = ['codRamo', 'ramos', 'sumaLimite', 'primaReaseguradora', 'cesion'];
+  displayedColumnsFour: string[] = ['reasegurador', 'participacion', 'prima'];
   displayedColumnsTwo: string[] = ['contrato', 'tramo', 'sumaRetenida', 'sumaCedida', 'primaRetenida', 'primaCedida'];
   displayedColumnsTree: string[] = ['corredor', 'reasegurador', 'sumaCedida', 'primaCedida', 'comision', 'depositosRetenidos', 'impCedida', 'brokerage', 'valorPagar'];
   myYears: NewType[] = [
@@ -76,10 +97,10 @@ export class FacultativosEspecialComponent implements OnInit {
       moneda: [Menssage.empty, Validators.compose([Validators.required])],
       inicio: [Menssage.empty, Validators.compose([Validators.required])],
       fin: [Menssage.empty, Validators.compose([Validators.required])],
-
     })
 
   }
+
   clearForm() {
     Swal.fire({
       title: 'Borrar?',
@@ -129,6 +150,8 @@ export class FacultativosEspecialComponent implements OnInit {
     )
     console.log(this.form)
     this.form.reset()
+
+
   }
   sendFormTwo(item: any) {
     Swal.fire(
@@ -146,8 +169,8 @@ export class FacultativosEspecialComponent implements OnInit {
         id: this.idpoliza
       }
       console.log(data);
-      this.authService.postFacultativosRamos(data). then(
-        res =>{
+      this.authService.postFacultativosRamos(data).then(
+        res => {
           //this.listareasu2 = res;
           console.log(res);
         }
@@ -155,49 +178,59 @@ export class FacultativosEspecialComponent implements OnInit {
     }
   }
   contratosfacultativos() {
-    this.lisRequest = true
+    this.lisRequest = true;
+    console.log(this.formTwo.controls.identyContract.value);
     if (this.formTwo.controls.identyContract.value) {
       const item = {
         word: this.formTwo.controls.identyContract.value,
-        type: 10,
-      };
-      console.log(item)
-      this.authService.postFacultativosContratos(item).then(
-        res => {
-          this.options = res;
-
-          console.log(this.options);
-        },
-        err => {
-          console.log(err);
-        }
-      )
-    }
-
-  }
-  upload(item: any) {
-    console.log(item)
-    this.formTwo.controls.descripcion.setValue(item.c)
-    this.formTwo.controls.inicio.setValue(item.r)
-    this.formTwo.controls.fin.setValue(item.e)
-    if (item.s == 3) {
-      this.formTwo.controls.moneda.setValue('COP');
-    } else if (item.s == 2) {
-      this.formTwo.controls.moneda.setValue('EUR');
-    } else {
-      this.formTwo.controls.moneda.setValue('USD');
-    }
-    this.lisRequest = false
-    this.selectcontrato = item
-    this.authService.getFacultativoContrato(item.pro_id).then(
-      res => {
-        this.dataSource = res;
-        console.log('aqui dtaSource', this.dataSource)
-      },
-      err => {
-        console.log(err);
+        type: 13
       }
-    )
+      console.log(item);
+      this.authService.postFacultativosContratos(item).then((res: any) => {
+        console.log(res);
+        this.contratofinal = res;
+
+      }, err => {
+
+        console.log(err);
+
+      })
+    }
+
+  } 
+  aseguradorfinal(){
+    if (this.form.value.asegurado) {
+      const item = {
+        word : this.form.value.asegurado,
+        date: '2019-01-04'
+      }
+      this.authService.postFacultativoClient(item).then((res: any)=>{
+        console.log(res);
+        this.aseguradornit = res
+      }, err =>{
+        console.log(err);
+        
+      })
+    }
+  }
+  polizaBuscar(){
+    this.lisRequest3 = true;
+    if (this.form.value.poliza1) {
+      const fechaFormateada = this.form.value.date.toISOString().split('T')[0];
+      const item = {
+        date: fechaFormateada,
+        word: this.form.value.poliza1
+      };
+      this.authService.postBuscarAseguadora(item).then((res: any)=>{
+        console.log(res);
+        this.aseguradorpoliza = res
+        
+      }, err => {
+        console.log(err);
+        
+      })
+    }
+    //this.consultar(this.form.value.poliza1)
   }
   desimal(key: any) {
     return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
@@ -236,6 +269,20 @@ export class FacultativosEspecialComponent implements OnInit {
       return quitar;
     }
   }
+
+  convertir(valor: string): string {
+    // Convertir el string a número
+    const numero = parseFloat(valor);
+
+    // Verificar si es un número válido
+    if (isNaN(numero)) {
+      return valor; // Si no es un número, devolvemos el valor original
+    }
+
+    // Usar Intl.NumberFormat para darle formato con separadores de miles
+    return new Intl.NumberFormat('es-ES').format(Math.floor(numero));
+  }
+
   create() {
     if (this.form.valid) {
       const data = {
@@ -243,8 +290,8 @@ export class FacultativosEspecialComponent implements OnInit {
         certificado: this.form.controls.certificado.value,
         fechaemision: this.form.controls.date.value,
         ciudad: this.form.controls.ciudad.value,
-        // idsegurador: this.idsegurador,
-        // idusers: this.user.authUser.id,
+        idsegurador: this.idsegurador,
+        idusers: this.user.authUser.id,
 
       }
       console.log(data)
@@ -255,6 +302,8 @@ export class FacultativosEspecialComponent implements OnInit {
           this.statefinal = true;
           //this.selectpoliza = JSON.parse(localStorage.getItem('idcontrato'));;
           console.log(res);
+        }, err => {
+          this.alertService.error('Modulo en actualizacion','Estamos trabajando para ofrecerte una mejor experiencia')
         }
       )
     }
@@ -291,6 +340,48 @@ export class FacultativosEspecialComponent implements OnInit {
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    //this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  cargar(item: any) {
+    this.alertService.loading();
+    this.formTwo.controls.identyContract.setValue(item.o);
+    this.formTwo.controls.descripcion.setValue(item.c);
+    this.formTwo.controls.inicio.setValue(item.r);
+    this.formTwo.controls.fin.setValue(item.e);
+    if (item.s == 3) {
+      this.formTwo.controls.moneda.setValue('COP');
+    } else if (item.s == 2) {
+      this.formTwo.controls.moneda.setValue('EUR');
+    } else {
+      this.formTwo.controls.moneda.setValue('USD');
+    }
+    this.selectcontrato = item;
+    this.authService.getFacultativoContrato(item.pro_id).then((res: any) => {
+      const dataTemp = res[0].ramos;
+      const dataTemp2 = res[0].comi;
+      this.dataSource = [dataTemp];
+      this.dataSourceTwo = dataTemp2;
+      console.log('------> data temp', this.dataSource);
+      console.log('------> data temp', this.dataSourceTwo);
+
+      setTimeout(() => {
+        this.alertService.messagefin()
+        this.mostrarTabla = true
+      }, 3000);
+    });
+
+
+  }
+  idReasegurador(id: number) {
+    if (this.reasegurador != undefined) {
+      if (id > 0 && id != null) {
+        for (let i = 0; i <= this.reasegurador.length; i++) {
+          const e = this.reasegurador[i];
+          if (id == e.a) {
+            return e.e
+          }
+        }
+      }
+    }
   }
 }
