@@ -17,7 +17,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { LOCALE_ID } from '@angular/core';
 @NgModule({
   declarations: [

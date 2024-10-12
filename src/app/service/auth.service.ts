@@ -363,6 +363,9 @@ export class AuthService {
   postFacultativosAseguradoras(item: any){
     return this.registeresquest.POSTS(RoutersLink.postFacultativosAseguradoras, {item})
   }
+  editRamos(item: any){
+    return this.registeresquest.POSTS(RoutersLink.editRamos, {item})
+  }
   postAseguradoraNomina(item: any){
     return this.registeresquest.POSTS(RoutersLink.postAseguradoraNomina, {item})
   }

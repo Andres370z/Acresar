@@ -3,10 +3,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import * as moment from 'moment';
+import { Observable } from 'rxjs';
 import { SessionUser } from 'src/app/home/global/sessionUser';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { Procentajes } from 'src/app/service/commos/porcentajes.service';
 import { PercentageService } from 'src/app/service/percentage.service';
 
 interface NgbDateStruct {
@@ -29,21 +31,35 @@ export class FacultativoEditComponent implements OnInit {
     "nomina",
     "reas",
   ];
+  idagregar: String;
+  List: any;
   public dataSource: MatTableDataSource<any>;
   fecha1: NgbDateStruct = { day: 0, month: 0, year: 0 };
   fecha2: NgbDateStruct = { day: 0, month: 0, year: 0 };
   fechaAlmacenda: any;
   fechaAlmacendaFin: any;
+  listNominas: any;
   form: FormGroup;
+  currency: Observable<any>;
+  cuotaParteForm: FormGroup;
+  newNomina: any;
+  cuotaParteFormreasegurador: FormGroup;
   dataEdicion: any;
+  listareasu2: any;
+  reasegurador: any;
   cuota: any;
+  ramos: any;
   horainicio: any;
   horafin: any;
+  resulta: any;
   cod: any;
   fechaOne: any;
   fechaTwo: any;
+  corredorList: any;
   statefinal: boolean;
   user: any;
+  ctb1: any; 
+  part: number; 
   public selectedOption: any;
   public money: any;
   constructor(
@@ -51,7 +67,8 @@ export class FacultativoEditComponent implements OnInit {
     private alert: AlertService,
     private myFormBuilder: FormBuilder,
     private porcentajes: PercentageService,
-    private router: Router
+    private router: Router,
+    private _pct: Procentajes
   ) { 
     this.user = new SessionUser(this.router);
     this.user.getAuthUser();
@@ -61,13 +78,33 @@ export class FacultativoEditComponent implements OnInit {
   ngOnInit(): void {
     this.createForm()
     this.initial()
-
+    this.ctb1 = '+';
   }
   initial() {
     this.getMoney();
+    this.authService.getRamos().then(
+      (res: any) => {
+        this.ramos = res;
+      }
+    );
+    const idsForm = sessionStorage.getItem('formCount');
+    this.authService.getCurrency().then((data:any)=>{
+      this.currency = data
+    });
+    this.createForm();
     const id = JSON.parse(sessionStorage.getItem('cp'));
+    console.log(id);
+    this.authService.getReinsurer().then(
+      (res: any) => {
+        this.reasegurador = res;
+      }
+    );
+
+    this.authService.getCorredor().then((res: any) => { this.corredorList = res; });
+    this.alert.loading();
     this.authService.getDtaFormFacultativo(id.a).then(
-      res => {
+      (res:any) => {
+        this.List = res;
         this.form.reset();
         let cnt = res.cnt;
         this.dataEdicion = res.cnt;
@@ -93,7 +130,7 @@ export class FacultativoEditComponent implements OnInit {
         if (cnt.pro_id) {
           this.authService.getDtaRamos(cnt.pro_id).then(
             (res) => {
-              this.dataSource = res;
+              this.listareasu2 = res;
             },
             (err) => {
               console.log("en efecto se dañó", err);
@@ -116,6 +153,58 @@ export class FacultativoEditComponent implements OnInit {
       hourTwo: [Menssage.empty, Validators.compose([Validators.required])],
       siniestros: [Menssage.empty, Validators.compose([Validators.required])],
       observacion: [Menssage.empty, Validators.compose([Validators.required])],
+    });
+    this.cuotaParteFormreasegurador = this.myFormBuilder.group({
+      codigo: [Menssage.empty, Validators.compose([Validators.required])],
+      sumaLimite: [Menssage.empty, Validators.compose([Validators.required])],
+      secion: [Menssage.empty, Validators.compose([Validators.required])],
+      id: [Menssage.empty, Validators.compose([Validators.required])],
+      ramos: [Menssage.empty, Validators.compose([Validators.required])],
+      reas: [Menssage.empty, Validators.compose([Validators.required])],
+      codigo0: [Menssage.empty, Validators.compose([Validators.required])],
+      sumaLimite0: [Menssage.empty, Validators.compose([Validators.required])],
+      secion0: [Menssage.empty, Validators.compose([Validators.required])],
+      id0: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo1: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite1: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion1: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id1: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo2: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite2: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion2: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id2: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo3: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite3: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion3: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id3: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo4: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite4: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion4: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id4: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo5: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite5: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion5: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id5: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo6: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite6: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion6: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id6: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo7: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite7: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion7: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id7: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo8: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite8: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion8: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id8: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo9: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite9: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion9: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id9: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      codigo10: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      sumaLimite10: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      secion10: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
+      id10: [{name: Menssage.empty, disabled:true}, Validators.compose([Validators.required])],
     });
   }
   create() {
@@ -245,6 +334,95 @@ export class FacultativoEditComponent implements OnInit {
       }
     } else {
       return '';
+    }
+  }
+  agregarnomina() {
+    const form1 = this.cuotaParteFormreasegurador.value;
+    console.log(this.listareasu2.length)
+    const data = {
+      idusers: this.user.authUser.id,
+      codigo: form1['codigo'],
+      secion: this._pct.removerDesimal(this._pct.removerPor(form1['secion'])),
+      sumaLimite: this._pct.removerDesimal(form1['sumaLimite']),
+      contrato: 0,
+      reas: this._pct.removerDesimal(this._pct.removerPor(form1['reas'])),
+      id: this.List.a,
+    };
+    console.log(data);
+    this.alert.loading();
+    this.authService.postFacultativoContratb(data).then(
+      (res: any) => {
+        console.log(res)
+        sessionStorage.setItem('idcrear', JSON.stringify(res));
+        this.router.navigate(['/home/contracts/Facultativos/edit/detalle']);
+        this.alert.messagefin()
+      });
+  }
+  nominasfinales(id: string, from: any, part: string){
+    sessionStorage.setItem('idramos', id);
+    this.idagregar = id;
+    this.part = this.cortarDesimales(part);
+    console.log(this.part)
+    const seccion = 'secion'+from;
+    this.editramos(id, seccion);
+    this.alert.loading();
+    if (id) {;
+      this.authService.getLoadRamos(id).then(
+        (res: any) => {
+          this.alert.messagefin()
+          this.listNominas = res;
+          console.log(this.listNominas);
+          this.updateramos()
+        },
+        err => {
+          console.log(err);
+        }
+      );
+      
+    }
+    
+  }
+  editramos(item: string, from: any) {
+    //console.log(from)
+    if (this.cuotaParteFormreasegurador.controls[from].value == "") {
+      //this.messegeInfofinal('No se pudo editar este ramo');
+      return false;
+      
+    } else {
+      this.resulta = this.cuotaParteFormreasegurador.controls[from].value;
+      //console.log(this.resulta )
+      ///console.log(this.listareasu2.length )
+      if (this.resulta  != ' ') {
+        const data = {
+          idusers: this.user.authUser.id,
+          id: item,
+          secion: this.removeProsentaje(this.resulta),
+        };
+        console.log(data)
+        //this.messageloading('Espera por favor');
+        this.authService.editRamos(data).then(
+          res => {
+            console.log(res);
+            //Swal.close()
+          },
+          err => {
+            console.log(err);
+          });
+       } else{
+        this.alert.info('Erro','No se pudo editar este ramo');
+      }
+    }
+  }
+  updateramos(){
+    this.cuotaParteFormreasegurador.value;
+    console.log(this.cuotaParteFormreasegurador.value)
+  }
+  removeProsentaje(e: any) {
+    if (e != "") {
+      if (typeof e == "string") {
+        const a = e.split("%");
+        return a[0];
+      }
     }
   }
 }

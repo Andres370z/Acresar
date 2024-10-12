@@ -17,6 +17,13 @@ export class AlertService {
     this.jsonConfig.icon = 'success';
     Swal.fire(this.jsonConfig);
   }
+
+  info(msj: string, title: string) {
+    this.jsonConfig.text = title;
+    this.jsonConfig.title = msj;
+    this.jsonConfig.icon = 'info';
+    Swal.fire(this.jsonConfig);
+  }
   error(msj: string, title: string) {
     this.jsonConfig.text = title;
     this.jsonConfig.title = msj;

@@ -66,6 +66,7 @@ export const RoutersLink = {
     getNumRamos: 'ramos/list/superintendencia',
     getSuper: 'ramos/list/superintendencia?order=code',
     /** POSTS **/
+    editRamos:"contratos/facultativo/edit/ramos",
     postRazonSocial: 'razonSocial',
     postFacultativos: 'contratos/asociacion/search',
     postFacultativosContrato: 'contratos/facultativo/search',
