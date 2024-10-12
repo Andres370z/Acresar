@@ -10,7 +10,7 @@ import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { Procentajes } from 'src/app/service/commos/porcentajes.service';
 import { PercentageService } from 'src/app/service/percentage.service';
-
+declare var $: any;
 interface NgbDateStruct {
   year: number;
 
@@ -45,7 +45,7 @@ export class FacultativoEditComponent implements OnInit {
   newNomina: any;
   cuotaParteFormreasegurador: FormGroup;
   dataEdicion: any;
-  listareasu2: any;
+  listareasu2: any [] = [];
   reasegurador: any;
   cuota: any;
   ramos: any;
@@ -128,9 +128,11 @@ export class FacultativoEditComponent implements OnInit {
         this.form.controls.endDate.setValue(this.fechaTwo);
         this.form.controls.siniestros.setValue(this.desimal(this.removerSiniestro(cnt.sin_con)));
         if (cnt.pro_id) {
-          this.authService.getDtaRamos(cnt.pro_id).then(
+          this.authService.getFacultativoContrato(cnt.pro_id).then(
             (res) => {
+              console.log("result",res)
               this.listareasu2 = res;
+              this.alert.messagefin();
             },
             (err) => {
               console.log("en efecto se dañó", err);
@@ -293,12 +295,14 @@ export class FacultativoEditComponent implements OnInit {
     return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   }
   procentaje(item: any) {
+    console.log("data",item)
     if (item != null && item != '') {
       const e = parseFloat(item);
+      console.log("data",e)
       return e + "%";
     }
   }
-  miles(form: string, key: any) {
+  miles(form: string, key: string) {
     if (form === "form") {
       let value = this.form.controls[key].value;
       if (value.split(".").length > 2) {
@@ -308,8 +312,10 @@ export class FacultativoEditComponent implements OnInit {
       this.form[key].setValue(val.toString());
     }
     if (form == "tabel") {
+
       const cortar = this.cortarDesimales(key)
       const quitar = this.desimal(cortar);
+      console.log("redsult",quitar)
       return quitar;
     } else {
       const myPorcentaje = this.procentaje(key);
@@ -424,5 +430,63 @@ export class FacultativoEditComponent implements OnInit {
         return a[0];
       }
     }
+    
+  }
+  porcentaje(key: any, form?){
+    console.log(key, form);
+    if (form) {
+      const value = this.cuotaParteFormreasegurador.controls[key].value;
+      this.cuotaParteFormreasegurador.controls[key].setValue(
+        this.procentaje(value)
+      );
+    } else {
+      const porcentaje = this.procentaje(key);
+      return porcentaje;
+    }
+    
+  }
+  idReasegurador(id: number) {
+    if (this.reasegurador != undefined) {
+      if (id > 0 && id != null) {
+        for (let i = 0; i <= this.reasegurador.length; i++) {
+          const e = this.reasegurador[i];
+          if (id == e.a) {
+            return e.e
+          }
+        }
+      }
+    }
+  }
+
+  idCorredor(id: number) {
+
+    if (id > 0 && id != null) {
+      for (let i = 0; i <= this.corredorList.length; i++) {
+        const e = this.corredorList[i];
+        if (id == e.a) {
+          return e.a2;
+        }
+      }
+      return ""
+    }
+  }
+  editar(item: any, vl: any, cp: string) {
+    console.log(item);
+    $("#myModal").click();
+    if (vl == 0) {
+      if (item != '') {
+        sessionStorage.setItem('v', "0");
+        sessionStorage.setItem('editarC', JSON.stringify(item));
+        
+        $("#myModal").click();
+         this.router.navigate(['/home/contracts/Facultativos/edit/detalle']);
+      }
+    } else if (vl == 1) {
+      sessionStorage.setItem('editarC', JSON.stringify(item));
+      sessionStorage.setItem('v', "1");
+      $("#myModal").click();
+       this.router.navigate(['/home/contracts/Facultativos/edit/detalle']);
+    }
+
   }
 }

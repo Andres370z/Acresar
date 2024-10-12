@@ -119,7 +119,7 @@
                             </div>
                         </form>
                         <div class="col-12">
-                            <div class="table-responsive">
+                            <div class="table-responsive" *ngIf="listareasu2.length != 0">
                                 <form [formGroup]="cuotaParteFormreasegurador">
                                     <table class="table hoverTable ">
                                         <thead>
@@ -134,7 +134,7 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr *ngIf=(statefinal)>
+                                            <tr *ngIf="statefinal">
                                                 <td>
                                                     <select formControlName="codigo" class="form-control" (change)="evenRamos('codigo')">
                         <option value="">Selecione un codigo </option>
@@ -154,7 +154,7 @@
                                                     <input class="form-control" formControlName="secion" (change)="porcentaje('secion','cuotaParteFormreasegurador')">
                                                 </td>
                                                 <td class="cursor_active">
-                                                    <button class=" btn btn-default btn-lg col-md-12" (click)="agregarnomina()">{{ctb1}}</button>
+                                                    <button class="btn btn-fill btn-rose" style="background-color: #016672" (click)="agregarnomina()">{{ctb1}}</button>
                                                 </td>
                                                 <td>
                                                     <input class="form-control" formControlName="reas" (change)="porcentaje('reas','cuotaParteFormreasegurador')">
@@ -166,32 +166,28 @@
                                             </tr>
                                             <tr *ngFor="let item of listareasu2; let i= index; ">
                                                 <td>
-                                                    <select class="form-control">
-                      <option  value="{{item.rm}}" selected>{{item.nme}}</option>
-                      <!-- <option *ngFor="let item of ramos" [value]="item.a">{{item.e}} </option> -->
-                    </select>
+                                                    <label class="form-control">{{item.ramos.nme}}</label>
                                                 </td>
                                                 <td>
-                                                    <select class="form-control">
-                      <option value="{{item.rm}}" selected>{{item.nm}}</option>
-                      <!-- <option *ngFor="let item of ramos" [value]="item.a">{{item.a2}} </option> -->
-                    </select>
+                                                    <label class="form-control">{{item.ramos.nm}}</label>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" formControlName="sumaLimite{{i}}" value="{{miles('tabel',item.c)}}">
-                                                    <input type="hidden" class="form-control" formControlName="id{{i}}" value="{{item.a}}">
+                                                    <label class="form-control">{{miles('tabel',item.ramos.c)}}</label>
+
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" formControlName="secion{{i}}" value="{{porcentaje(item.r | number)}}">
+                                                    <label class="form-control">{{porcentaje(item.ramos.r | number)}}</label>
+
                                                 </td>
                                                 <td class="cursor_active">
-                                                    <button data-target="#myModal" data-toggle="modal" (click)="nominasfinales(item.a,i,item.part)" class=" btn btn-default btn-lg col-md-12">{{item.cnt | number}}</button>
+                                                    <button data-target="#myModal" data-toggle="modal" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="nominasfinales(item.ramos.a,i,item.ramos.part)" class=" btn btn-default btn-lg col-md-12">{{item.ramos.cnt | number}}</button>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" value="{{porcentaje(item.part | number)}}">
+                                                    <label class="form-control">{{porcentaje(item.ramos.part | number)}}</label>
+
                                                 </td>
                                                 <td>
-                                                    <label class="form-control">{{miles('tabel',item.ttl)}}</label>
+                                                    <label class="form-control">{{miles('tabel',item.ramos.ttl)}}</label>
                                                 </td>
                                                 <td>
                                                 </td>

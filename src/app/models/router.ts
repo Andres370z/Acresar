@@ -65,9 +65,14 @@ export const RoutersLink = {
     getPoliza: 'contratos/automaticos/poliza/get/contratos',
     getNumRamos: 'ramos/list/superintendencia',
     getSuper: 'ramos/list/superintendencia?order=code',
+    getTraspasocartera : "/traspasocartera/tipos",
+    getTraspasocarteraCuenta: "traspasocartera/cuenta",
+    getComision: "facultativo/contrato/count/comision/",
+    
     /** POSTS **/
     editRamos:"contratos/facultativo/edit/ramos",
     postRazonSocial: 'razonSocial',
+    postNomina: "contratos/facultativo/edit/nomina",
     postFacultativos: 'contratos/asociacion/search',
     postFacultativosContrato: 'contratos/facultativo/search',
     postFacultativosAseguradoras: 'aseguradoras/facultativo',

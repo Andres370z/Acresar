@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Renderer2 } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, Renderer2 } from "@angular/core";
 import { Router } from "@angular/router";
 import { } from "jquery";
 import * as moment from "moment";
 import { CookieService } from 'ngx-cookie-service';
 import { SessionUser } from "src/app/home/global/sessionUser";
-import { HelperService } from "src/app/service/helper.service";
 import { AlertService } from "src/app/service/alert.service";
 import { Observable } from "rxjs";
+import { AuthService } from "src/app/service/auth.service";
 
 @Component({
   selector: 'app-facultativo-detalle-edit',
   templateUrl: './facultativo-detalle-edit.component.html',
   styleUrls: ['./facultativo-detalle-edit.component.css'],
-  providers: [HelperService]
+  providers: []
 })
 export class FacultativoDetalleEditComponent implements OnInit {
   @ViewChild('table') table: ElementRef;
@@ -26,6 +26,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
   _ls_trasp_cuen: any;
   rentaValue: any = [];
   monedaopt:any;
+  cuota: any;
   frmValues = {
     dtcr: "",
     dtrsg: "",
@@ -139,18 +140,30 @@ export class FacultativoDetalleEditComponent implements OnInit {
   constructor(
     private _rd: Renderer2,
     private router: Router,
-    private _service: HelperService,
+    private _service: AuthService,
     private cookieService: CookieService,
     private alert: AlertService,
   ) {
     this.user = new SessionUser(this.router);
     this.user.getAuthUser();
     this.userfinal = this.user.authUser;
-    this.rsltncr = _service.getQuery("/corredores");
-    this.rsltnrsgr = _service.getQuery("/reaseguradoras");
-    this.currency = _service.getQuery("/monedas");
-    this._ls_trasp_tip = _service.getQuery("/traspasocartera/tipos");
-    this._ls_trasp_cuen = _service.getQuery("/traspasocartera/cuentas");
+    _service.getCorredor().then((data: any)=>{
+      this.rsltncr = data 
+    });
+    _service.getReinsurer().then((data: any)=>{
+      this.rsltnrsgr  = data 
+    });
+    _service.getCurrency().then((data: any)=>{
+      this.currency = data;
+      this.monedaopt = data;
+    });
+    _service.getTraspasocartera().then((data: any)=>{
+      this._ls_trasp_tip = data;
+      this.validData = data;
+    });
+    _service.getTraspasocarteraCuenta().then((data: any)=>{
+      this._ls_trasp_cuen = data 
+    });
     if (this.userfinal.id_rol == '1' || this.userfinal.id_rol == '3' || this.userfinal.id_rol == '2') {
       this.active = false;
       console.log("lista"+this.userfinal.id_rol)
@@ -159,11 +172,6 @@ export class FacultativoDetalleEditComponent implements OnInit {
       console.log("lista1")
     }
     console.log(this.active)
-    _service.getQuery("/traspasocartera/tipos").subscribe(
-      res => {
-        this.validData = res;
-      }
-    );
 
     if (sessionStorage.getItem("dtcntrcp") === null) {
       this.frmValues = {
@@ -244,15 +252,6 @@ export class FacultativoDetalleEditComponent implements OnInit {
         }
       }
     }
-    this._service.getQuery('/monedas').subscribe(
-      res => {
-        this.monedaopt = res;
-        console.log(this.monedaopt);
-      },
-      err => {
-        console.log(err);
-      }
-    );
     if (jsonData != "1") {
       this.cargarFormulario(jsonData, sessionStorage.getItem('v'));
     }
@@ -284,7 +283,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
         this.form.arrastrePerdida = this.decimal(i.n);
         
         if (i.a) {
-          this._service.getQuery('/facultativo/contrato/count/comision/' + i.a).subscribe(
+          this._service.getComision(i.a).then(
             res => {
               const formlario = res["cps"]["nominas"];
               const formlariofinal = res["cps"]["nominas"]["deposito"];
@@ -765,7 +764,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
         if (jsonData == null) {
           let contra = JSON.parse(sessionStorage.getItem('idcontrato'));
           this.alert.loading();
-                this._service.getQuery('/facultativo/contrato/' + contra).subscribe(
+                this._service.getFacultativoContra(contra).then(
                   res => {
                     this.listareasu = res;
                     console.log(res);
@@ -786,7 +785,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
                     } 
                     else {
                       this.alert.loading();
-                      this._service.postQuery(JSON.parse(localStorage.getItem('comision')), '/facultativo/contrato/comision').subscribe(
+                      this._service.getLoadRamos(JSON.parse(localStorage.getItem('comision')),).then(
                         res => {
                           data = null;
                           console.log(res);
@@ -795,7 +794,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
                           this.removeElement();
                           if (sessionStorage.getItem('idcontrato')) {
                             let contra = JSON.parse(sessionStorage.getItem('idcontrato'));
-                            this._service.getQuery('/facultativo/contrato/' + contra).subscribe(
+                            this._service.getFacultativoContra(contra).then(
                               res => {
                                 this.listareasu = res[0];
                                 var parti: Number;
@@ -851,7 +850,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
         }else{
           let contra = JSON.parse(sessionStorage.getItem('idcontrato'));
           this.alert.loading();
-          this._service.getQuery('/facultativo/contrato/' + contra).subscribe(
+          this._service.getFacultativoContra(contra).then(
             res => {
               this.listareasu = res;
               var parti: Number;
@@ -869,7 +868,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
                 this.alert.error('error','El total de la participanción de las nominas supera el 100%');
               } else {
                 this.alert.loading();
-                this._service.postQuery(JSON.parse(localStorage.getItem('comision')),'/contratos/facultativo/edit/nomina').subscribe(
+                this._service.postNomina(JSON.parse(localStorage.getItem('comision'))).then(
                   res => {
                       //this.alert.success('Exito','Haz complertado el 100% de participación');
                       this.eliminarform();
