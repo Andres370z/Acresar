@@ -63,8 +63,8 @@
                                 <div class="col-4 mb-2">
                                     <mat-form-field appearance="fill">
                                         <mat-label>Moneda</mat-label>
-                                        <mat-select [(ngModel)]="selectedOption" formControlName="currency">
-                                            <mat-option *ngFor="let item of money" value="{{ item.a }}">{{ item.c }}</mat-option>
+                                        <mat-select formControlName="currency" name="a">
+                                            <mat-option *ngFor="let item of money" [value]="item.a">{{ item.c }}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -136,28 +136,39 @@
                                         <tbody>
                                             <tr *ngIf="statefinal">
                                                 <td>
-                                                    <select formControlName="codigo" class="form-control" (change)="evenRamos('codigo')">
-                        <option value="">Selecione un codigo </option>
-                        <option *ngFor="let item of ramos" [value]="item.a">{{item.e}} </option>
-                      </select>
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-select formControlName="codigo" (selectionChange)="evenRamos('codigo')">
+                                                            <mat-option *ngFor="let item of ramos" [value]="item.a">{{item.e}}</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
                                                 </td>
                                                 <td>
-                                                    <select id="ramos" name="ramos" formControlName="ramos" class="form-control" (change)="evenRamos('ramos')">
-                        <option value="">Selecione un ramo</option>
-                        <option *ngFor="let item of ramos" [value]="item.a">{{item.a2}} </option>
-                      </select>
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-select id="ramos" name="ramos" formControlName="ramos" (selectionChange)="evenRamos('ramos')">
+                                                            <mat-option *ngFor="let item of ramos" [value]="item.a">{{item.a2}} </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" formControlName="sumaLimite" (change)="miles('cuotaParteFormreasegurador','sumaLimite')">
+                                                    <mat-form-field appearance="fill">
+                                                        <input matInput class="form-control" formControlName="sumaLimite" (change)="miles('cuotaParteFormreasegurador','sumaLimite')">
+                                                        <mat-icon matSuffix>poll</mat-icon>
+                                                    </mat-form-field>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" formControlName="secion" (change)="porcentaje('secion','cuotaParteFormreasegurador')">
+                                                    <mat-form-field appearance="fill">
+                                                        <input matInput class="form-control" formControlName="secion" (change)="porcentaje('secion','cuotaParteFormreasegurador')">
+                                                        <mat-icon matSuffix>gavel</mat-icon>
+                                                    </mat-form-field>
                                                 </td>
                                                 <td class="cursor_active">
                                                     <button class="btn btn-fill btn-rose" style="background-color: #016672" (click)="agregarnomina()">{{ctb1}}</button>
                                                 </td>
                                                 <td>
-                                                    <input class="form-control" formControlName="reas" (change)="porcentaje('reas','cuotaParteFormreasegurador')">
+                                                    <mat-form-field appearance="fill">
+                                                        <input matInput class="form-control" formControlName="reas" (change)="porcentaje('reas','cuotaParteFormreasegurador')">
+                                                        <mat-icon matSuffix>confirmation_number</mat-icon>
+                                                    </mat-form-field>
                                                 </td>
                                                 <td>
                                                 </td>
@@ -176,7 +187,10 @@
 
                                                 </td>
                                                 <td>
-                                                    <label class="form-control">{{porcentaje(item.ramos.r | number)}}</label>
+                                                    <mat-form-field appearance="fill">
+                                                        <input matInput class="form-control" formControlName="secion{{i}}" value="{{porcentaje(item.ramos.r, 'secion'+i)}}">
+                                                        <mat-icon matSuffix>poll</mat-icon>
+                                                    </mat-form-field>
 
                                                 </td>
                                                 <td class="cursor_active">
@@ -195,7 +209,6 @@
                                         </tbody>
                                     </table>
                                 </form>
-
                             </div>
                             <div class="col-4">
                                 <!--BOTON-->

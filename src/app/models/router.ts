@@ -68,8 +68,8 @@ export const RoutersLink = {
     getPoliza: 'contratos/automaticos/poliza/get/contratos',
     getNumRamos: 'ramos/list/superintendencia',
     getSuper: 'ramos/list/superintendencia?order=code',
-    getTraspasocartera : "/traspasocartera/tipos",
-    getTraspasocarteraCuenta: "traspasocartera/cuenta",
+    getTraspasocartera : "traspasocartera/tipos",
+    getTraspasocarteraCuenta: "traspasocartera/cuentas",
     getComision: "facultativo/contrato/count/comision/",
     
     /** POSTS **/

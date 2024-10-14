@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2'
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,9 @@ export class AlertService {
     icon: '',
     confirmButtonText: 'Aceptar'
   }
-  constructor() { }
+  constructor(
+    private router: Router,
+  ) { }
   success(msj: string, title: string) {
     this.jsonConfig.text = title;
     this.jsonConfig.title = msj;
@@ -59,8 +62,38 @@ export class AlertService {
       cancelButtonText:
         '<i class="fa fa-thumbs-down"></i>',
       cancelButtonAriaLabel: 'Thumbs down'
-    })
+    }).then()
   }
+  messageInfo(msg: string, pach: string) {
+    Swal.fire({
+      title: '<strong>'+msg+'</strong>',
+      icon: 'info',
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText:
+        '<i class="fa fa-thumbs-up"></i> Regresar!',
+      cancelButtonText:
+        '<i class="fa fa-thumbs-down"></i> Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        sessionStorage.removeItem('editarC');
+        sessionStorage.removeItem('v');
+        sessionStorage.removeItem('idcrearfinal');
+        sessionStorage.removeItem('id');
+        sessionStorage.removeItem('idramos');
+        sessionStorage.removeItem('idcontratoreasegurador');
+        this.router.navigate([pach]);
+      // For more information about handling dismissals please visit
+      // https://sweetalert2.github.io/#handling-dismissals
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        Swal.fire(
+          'Cancelled',
+          'Por favor complete el formulario',
+          'success'
+        )
+      }
+    })
 
+  }
 
 }

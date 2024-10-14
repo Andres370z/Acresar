@@ -36,20 +36,24 @@
                                                         <div class="row">
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtcr">Corredor</label>
-                                                                    <select (ngModel)="form.corredor" class="form-control" id="dtcr" name="corredor" ngModel required [disabled]="active">
-                          <option value="">Sin Corredor</option>
-                          <option *ngFor="let item of rsltncr | async" value="{{item.a}}">{{item.cod}} {{item.a2}}</option>
-                        </select>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>Corredor</mat-label>
+                                                                        <mat-select [(ngModel)]="form.corredor" name="a" ngModel required [disabled]="active">
+                                                                            <mat-option value="">Sin Corredor</mat-option>
+                                                                            <mat-option *ngFor="let item of rsltncr " [value]="item.a">{{item.cod}} {{item.a2}}</mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtrsg">Reasegurador</label>
-                                                                    <select (ngModel)="form.reseasegurador" class="form-control" id="dtrsg" name="dtrsg" ngModel required [disabled]="active">
-                          <option *ngFor="let item of rsltnrsgr | async" value="{{item.a}}">{{item.cod}} {{item.e}}</option>
-                        </select>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>Reasegurador</mat-label>
+                                                                        <mat-select [(ngModel)]="form.reseasegurador" name="a" required [disabled]="active">
+                                                                            <mat-option *ngFor="let item of rsltnrsgr " [value]="item.a">{{item.cod}} {{item.e}}</mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -57,122 +61,87 @@
                                                         <div class="row">
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtpp">% Participación</label>
-                                                                    <input (ngModel)="form.participacion" type="text" (change)="valiarParticipacion()" class="form-control" placeholder="% Participación" id="dtpp" name="dtpp" ngModel required [disabled]="active">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>% Participación</mat-label>
+                                                                        <input matInput [(ngModel)]="form.participacion" type="text" (change)="valiarParticipacion()" class="form-control" placeholder="% Participación" id="dtpp" name="dtpp" ngModel required [disabled]="active" />
+                                                                        <mat-icon matSuffix>confirmation_number</mat-icon>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtpcm">% Comisión</label>
-                                                                    <input (ngModel)="form.comision" type="text" (change)="porcentaje('comision')" class="form-control" id="dtpcm" name="dtpcm" ngModel placeholder="%  Comisión" data-toggle="modal" data-target="#myModal" [disabled]="active">
-
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>% Comisión</mat-label>
+                                                                        <input matInput [(ngModel)]="form.comision" type="text" (change)="porcentaje('comision')" class="form-control" id="dtpcm" name="dtpcm" ngModel placeholder="%  Comisión" data-toggle="modal" data-target="#myModal" [disabled]="active" />
+                                                                        <mat-icon matSuffix>confirmation_number</mat-icon>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
-                                                            <!--<div class="col-xs-12 col-md-6">
-                      <div class="form-group">
-                        <label for="dtcu">% de Comisión Utilidades</label>
-                        <input (ngModel)="form.comisionUtilidad" (change)="porcentaje('comisionUtilidad')" type="text"
-                          class="form-control" placeholder="% de Comisión Utilidades" id="dtcu" name="dtcu" ngModel
-                           required>
-                        <div *ngIf="dtcu.errors?.required && dtcu.touched" class="alert alert-danger">
-                          Este campo es requerido
-                        </div>
-                      </div>
-                    </div>-->
                                                         </div>
 
                                                         <div class="row">
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtdpst">Depósitos Retenidos</label>
-                                                                    <input (ngModel)="form.depositoRetenido" type="text" value="{{form.depositoRetenido }}" class="form-control" id="dtdpst" name="dtdpst" ngModel placeholder="Depósitos Retenidos" data-toggle="modal" data-target="#myModal2" [disabled]="active">
-                                                                </div>
-                                                            </div>
-
-
-                                                            <!--  </div> modicicando la extructura
-
-                  <div class="row">
-                   <div class="col-xs-12 col-md-6">
-                      <div class="form-group">
-                        <label for="dtgst">% de Gastos</label>
-                        <input (ngModel)="form.gasto" type="text" (change)="porcentaje('gasto')" class="form-control" placeholder="% de Gastos"
-                          id="dtgst" name="dtgst" ngModel # required>
-                        <div *ngIf="dtgst.errors?.required && dtgst.touched" class="alert alert-danger">
-                          Este campo es requerido
-                        </div>
-                      </div>
-                    </div>-->
-                                                            <div class="col-xs-12 col-md-3">
-                                                                <div class="form-group">
-                                                                    <label for="dtipc">% de Impuesto sobre Primas cedidas</label>
-                                                                    <input (ngModel)="form.inpuestoPrimaCedidas" (change)="porcentaje('inpuestoPrimaCedidas')" type="text" class="form-control" placeholder="% de Impuesto sobre Primas cedidas" id="dtipc" name="dtipc" ngModel required [disabled]="active">
-
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>Depósitos Retenidos</mat-label>
+                                                                        <input matInput [(ngModel)]="form.depositoRetenido" type="text" value="{{form.depositoRetenido }}" class="form-control" id="dtdpst" name="dtdpst" ngModel placeholder="Depósitos Retenidos" data-toggle="modal" data-target="#myModal2" [disabled]="active"
+                                                                        />
+                                                                        <mat-icon matSuffix>confirmation_number</mat-icon>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
                                                             <div class="col-xs-12 col-md-3">
                                                                 <div class="form-group">
-                                                                    <label for="dtir">% de Impuesto Renta</label>
-                                                                    <input (ngModel)="form.inpuestoRenta" (change)="porcentaje('inpuestoRenta')" type="text" class="form-control" placeholder="% de Impuesto Renta" id="dtir" name="dtir" ngModel required [disabled]="active">
-
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>% de Impuesto sobre Primas cedidas</mat-label>
+                                                                        <input matInput [(ngModel)]="form.inpuestoPrimaCedidas" (change)="porcentaje('inpuestoPrimaCedidas')" type="text" class="form-control" placeholder="% de Impuesto sobre Primas cedidas" id="dtipc" name="dtipc" ngModel required [disabled]="active" />
+                                                                        <mat-icon matSuffix>gavel</mat-icon>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-xs-12 col-md-3">
+                                                                <div class="form-group">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>% de Impuesto Renta</mat-label>
+                                                                        <input matInput [(ngModel)]="form.inpuestoRenta" (change)="porcentaje('inpuestoRenta')" type="text" class="form-control" placeholder="% de Impuesto Renta" id="dtir" name="dtir" ngModel required [disabled]="active" />
+                                                                        <mat-icon matSuffix>gavel</mat-icon>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
                                                         </div>
 
                                                         <div class="row">
-                                                            <!--<div class="col-xs-12 col-md-6">
-                      <div class="form-group">
-                        <label for="dttps">Traspaso de Cartera</label>
-
-                        <input (ngModel)="form.cartera" type="text" class="form-control" placeholder="Traspaso de Cartera" id="dttps" name="dttps"
-                          # data-toggle="modal" data-target="#myModal3">
-                      </div>
-                    </div>-
-
-                    <div class="col-xs-12 col-md-6">
-                      <div class="form-group">
-                        <label for="dtap">Arrastre de perdidas</label>
-                        <input (ngModel)="form.arrastrePerdida" type="text" class="form-control" placeholder="Arrastre de perdidas"
-                          id="dtap" name="dtap" ngModel  required>
-                        <div *ngIf="dtap.errors?.required && dtap.touched" class="alert alert-danger">
-                          Este campo es requerido
-                        </div>
-                      </div>
-                    </div>-->
-                                                        </div>
-
-                                                        <div class="row">
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtcts">Cuentas</label>
-                                                                    <select (ngModel)="form.cuenta" class="form-control" id="dtcts" name="dtcts" ngModel required [disabled]="active">
-                          <option value="1">Mensual</option>
-                          <option value="2">Trimestral</option>
-                          <option value="3">Semanal</option>
-                          <option value="4">Anual</option>
-                        </select>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>Cuentas</mat-label>
+                                                                        <mat-select [(ngModel)]="form.cuenta" name="id">
+                                                                            <mat-option *ngFor="let item of money " [value]="item.id">{{ item.c }}</mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
                                                                 </div>
+
                                                             </div>
 
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="garantia">Garantia de pago</label>
-                                                                    <input (ngModel)="form.garantia" type="text" class="form-control" placeholder="" id="garantia" id="calendar" name="garantia" ngModel #gar data-toggle="modal" data-target="#comision" [disabled]="active">
-
-                                                                    <!--<div class="input-group-append">
-                            <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
-                              <i class="fa fa-calendar"></i>
-                            </button>
-                          </div>-->
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>Garantia de pago</mat-label>
+                                                                        <input matInput class="form-control" placeholder="" id="garantia" id="calendar" name="garantia" placeholder="Garantia de pago" [(ngModel)]="form.garantia" type="text" [disabled]="active" data-toggle="modal" data-target="#comision" />
+                                                                        <mat-icon matSuffix>access_time</mat-icon>
+                                                                    </mat-form-field>
 
                                                                 </div>
                                                             </div>
 
                                                             <div class="col-xs-12 col-md-6">
                                                                 <div class="form-group">
-                                                                    <label for="dtbrok">Brokerage</label>
-                                                                    <input (ngModel)="form.dtbrok" type="text" (change)="porcentaje('dtbrok')" class="form-control" id="dtpcm1" name="dtpcm1" ngModel placeholder="Brokerage" data-toggle="modal" data-target="#myModal20" [disabled]="active">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <mat-label>Brokerage</mat-label>
+                                                                        <input matInput (change)="porcentaje('dtbrok')" class="form-control" placeholder="" placeholder="Brokerage" [(ngModel)]="form.dtbrok" type="text" [disabled]="active" data-toggle="modal" data-target="#myModal20" />
+                                                                        <mat-icon matSuffix>broken_image</mat-icon>
+                                                                    </mat-form-field>
                                                                 </div>
                                                             </div>
 
@@ -197,14 +166,13 @@
 
 
                                                         <button type="button" class="btn btn-alert btn-md shadow-box-item" (click)="regresar()">
-                    Regresar
-                    <i class="favb fa fa-circle"></i>
-                  </button>
-                                                        <button class="btn btn-primary" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || userfinal.id_rol == '3'" (click)="guardar()" class="btn btn-info margin-left btn-md shadow-box-item">
-                    Guardar
-                    <i class="favb fa fa-circle">
-                    </i>
-                  </button>
+                                                            Regresar
+                                                            <mat-icon>arrow_back</mat-icon>
+                                                        </button>
+                                                        <button mat-raised-button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || userfinal.id_rol == '3'" (click)="guardar()">
+                                                            Guardar
+                                                            <mat-icon>save</mat-icon>
+                                                        </button>
 
                                                     </div>
 
@@ -234,24 +202,24 @@
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
-                                            <h4 class="modal-title font-header" id="myModalLabel">Comisión hola</h4>
+                                            <h4 class="modal-title font-header" id="myModalLabel">Comisión</h4>
                                         </div>
                                         <div class="modal-body">
 
                                             <div class="row">
                                                 <div class="col-xs-12 col-md-4 text-center">
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-primary semi-full-width" (click)="onClickComision('fija')">Fija</button>
+                                                        <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('fija')">Fija</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-md-4 text-center">
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-primary semi-full-width" (click)="onClickComision('provisional')">Provisional</button>
+                                                        <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('provisional')">Provisional</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-md-4 text-center">
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-primary semi-full-width" (click)="onClickComision('escalonada')">Escalonada</button>
+                                                        <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('escalonada')">Escalonada</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -259,8 +227,10 @@
                                             <div class="row ">
                                                 <div class="col-xs-12" *ngIf="form.comision">
                                                     <div class="form-group">
-                                                        hola
-                                                        <input (ngModel)="form.comision" id="dtmdfjcomision" name="dtmdfjcomision" ngModel #dtmdfjcom required type="text" class="form-control" placeholder="Fija">
+                                                        <mat-form-field appearance="fill">
+                                                            <input matInput [(ngModel)]="form.comision" id="dtmdfjcomision" name="dtmdfjcomision" ngModel #dtmdfjcom required type="text" class="form-control" placeholder="Fija" />
+                                                            <mat-icon matSuffix>local_atm</mat-icon>
+                                                        </mat-form-field>
                                                     </div>
                                                 </div>
                                             </div>
@@ -287,20 +257,44 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="sobrecomisionMaxCheck" value="1" (ngModel)="form.ModelComision.sobrecomisionMaxCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.sobrecomisionMaxVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput type="checkbox" name="sobrecomisionMaxCheck" value="1" [(ngModel)]="form.ModelComision.sobrecomisionMaxCheck" #dtm/>
+                                                                        <mat-icon matSuffix>check</mat-icon>
+                                                                    </mat-form-field>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMaxVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active" />
+                                                                        <mat-icon matSuffix>local_atm</mat-icon>
+                                                                    </mat-form-field>
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="sobrecomisionMinCheck" (ngModel)="form.ModelComision.sobrecomisionMinCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.sobrecomisionMinVal" id="dtmdprmncm1" name="sobrecomisionMinVal" #dtmdpr [disabled]="active">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput type="checkbox" name="sobrecomisionMinCheck" value="1" [(ngModel)]="form.ModelComision.sobrecomisionMinCheck" #dtm/>
+                                                                        <mat-icon matSuffix>check</mat-icon>
+                                                                    </mat-form-field>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMinVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active" />
+                                                                        <mat-icon matSuffix>local_atm</mat-icon>
+                                                                    </mat-form-field>
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="siniestralidadMaxCheck" (ngModel)="form.ModelComision.siniestralidadMaxCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.siniestralidadMaxVal" id="dtmdprmxsn1" name="siniestralidadMaxVal" #dtmdpr [disabled]="active">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput type="checkbox" name="siniestralidadMaxCheck" value="1" [(ngModel)]="form.ModelComision.siniestralidadMaxCheck" #dtm/>
+                                                                        <mat-icon matSuffix>check</mat-icon>
+                                                                    </mat-form-field>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMaxVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active" />
+                                                                        <mat-icon matSuffix>local_atm</mat-icon>
+                                                                    </mat-form-field>
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="siniestralidadMinCheck" (ngModel)="form.ModelComision.siniestralidadMinCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.siniestralidadMinVal" id="dtmdprmnsn1" name="siniestralidadMinVal" #dtmdpr [disabled]="active">
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput type="checkbox" name="siniestralidadMinCheck" value="1" [(ngModel)]="form.ModelComision.siniestralidadMinCheck" #dtm/>
+                                                                        <mat-icon matSuffix>check</mat-icon>
+                                                                    </mat-form-field>
+                                                                    <mat-form-field appearance="fill">
+                                                                        <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMinVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active" />
+                                                                        <mat-icon matSuffix>local_atm</mat-icon>
+                                                                    </mat-form-field>
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -326,12 +320,12 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="dtmdcmsl" (ngModel)="form.ModelComision.ComCheck" ngModel #dtmdc [disabled]="active">
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.ComVal" id="dtmdsccm1" name="dtmdsccm1" ngModel #dtmd [disabled]="active">
+                                                                    <input type="checkbox" name="dtmdcmsl" [(ngModel)]="form.ModelComision.ComCheck" ngModel #dtmdc [disabled]="active">
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.ComVal" id="dtmdsccm1" name="dtmdsccm1" ngModel #dtmd [disabled]="active">
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="dtmdcmsl" (ngModel)="form.ModelComision.SinChech" ngModel #dtmdc [disabled]="active">
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.SinVal" id="dtmdscsn1" name="dtmdscsn1" ngModel #dtmd [disabled]="active">
+                                                                    <input type="checkbox" name="dtmdcmsl" [(ngModel)]="form.ModelComision.SinChech" ngModel #dtmdc [disabled]="active">
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.SinVal" id="dtmdscsn1" name="dtmdscsn1" ngModel #dtmd [disabled]="active">
 
                                                                 </td>
                                                             </tr>
@@ -345,7 +339,7 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" (click)="sendModalCom()" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || userfinal.id_rol == '3'" data-dismiss="modal">Aceptar</button>
+                                            <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="sendModalCom()" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || userfinal.id_rol == '3'" data-dismiss="modal">Aceptar</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                         </div>
                                     </div>
@@ -369,17 +363,17 @@
                                             <div class="row">
                                                 <div class="col-xs-12 col-md-4 text-center">
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-primary semi-full-width" (click)="onClickComision('fija')">Fija</button>
+                                                        <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('fija')">Fija</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-md-4 text-center">
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-primary semi-full-width" (click)="onClickComision('provisional')">Provisional</button>
+                                                        <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('provisional')">Provisional</button>
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-12 col-md-4 text-center">
                                                     <div class="form-group">
-                                                        <button type="button" class="btn btn-primary semi-full-width" (click)="onClickComision('escalonada')">Escalonada</button>
+                                                        <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="onClickComision('escalonada')">Escalonada</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -387,7 +381,7 @@
                                             <div class="row ">
                                                 <div class="col-xs-12" *ngIf="comisionArray.fija">
                                                     <div class="form-group">
-                                                        <input (ngModel)="form.Modeldtbrok.dtbrokvalueFijados" id="dtmdfj" name="dtmdfj" ngModel #d required type="text" class="form-control" placeholder="Fija" [disabled]="active">
+                                                        <input [(ngModel)]="form.Modeldtbrok.dtbrokvalueFijados" id="dtmdfj" name="dtmdfj" ngModel #d required type="text" class="form-control" placeholder="Fija" [disabled]="active">
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,20 +408,20 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="sobrecomisionMaxCheck" value="1" (ngModel)="form.ModelComision.sobrecomisionMaxCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.sobrecomisionMaxVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active">
+                                                                    <input type="checkbox" name="sobrecomisionMaxCheck" value="1" [(ngModel)]="form.ModelComision.sobrecomisionMaxCheck" #dtm>
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMaxVal" id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdpr [disabled]="active">
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="sobrecomisionMinCheck" (ngModel)="form.ModelComision.sobrecomisionMinCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.sobrecomisionMinVal" id="dtmdprmncm1" name="sobrecomisionMinVal" #dtmdpr [disabled]="active">
+                                                                    <input type="checkbox" name="sobrecomisionMinCheck" [(ngModel)]="form.ModelComision.sobrecomisionMinCheck" #dtm>
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMinVal" id="dtmdprmncm1" name="sobrecomisionMinVal" #dtmdpr [disabled]="active">
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="siniestralidadMaxCheck" (ngModel)="form.ModelComision.siniestralidadMaxCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.siniestralidadMaxVal" id="dtmdprmxsn1" name="siniestralidadMaxVal" #dtmdpr [disabled]="active">
+                                                                    <input type="checkbox" name="siniestralidadMaxCheck" [(ngModel)]="form.ModelComision.siniestralidadMaxCheck" #dtm>
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMaxVal" id="dtmdprmxsn1" name="siniestralidadMaxVal" #dtmdpr [disabled]="active">
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="siniestralidadMinCheck" (ngModel)="form.ModelComision.siniestralidadMinCheck" #dtm>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.siniestralidadMinVal" id="dtmdprmnsn1" name="siniestralidadMinVal" #dtmdpr [disabled]="active">
+                                                                    <input type="checkbox" name="siniestralidadMinCheck" [(ngModel)]="form.ModelComision.siniestralidadMinCheck" #dtm>
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMinVal" id="dtmdprmnsn1" name="siniestralidadMinVal" #dtmdpr [disabled]="active">
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -453,12 +447,12 @@
                                                         <tbody>
                                                             <tr>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="dtmdcmsl" (ngModel)="form.ModelComision.ComCheck" ngModel #dtmdc>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.ComVal" id="dtmdsccm1" name="dtmdsccm1" ngModel #dtmd [disabled]="active">
+                                                                    <input type="checkbox" name="dtmdcmsl" [(ngModel)]="form.ModelComision.ComCheck" ngModel #dtmdc>
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.ComVal" id="dtmdsccm1" name="dtmdsccm1" ngModel #dtmd [disabled]="active">
                                                                 </td>
                                                                 <td class="noWrap">
-                                                                    <input type="checkbox" name="dtmdcmsl" (ngModel)="form.ModelComision.SinChech" ngModel #dtmdc>
-                                                                    <input class="input-phantom" (ngModel)="form.ModelComision.SinVal" id="dtmdscsn1" name="dtmdscsn1" ngModel #dtmd [disabled]="active">
+                                                                    <input type="checkbox" name="dtmdcmsl" [(ngModel)]="form.ModelComision.SinChech" ngModel #dtmdc>
+                                                                    <input class="input-phantom" [(ngModel)]="form.ModelComision.SinVal" id="dtmdscsn1" name="dtmdscsn1" ngModel #dtmd [disabled]="active">
 
                                                                 </td>
                                                             </tr>
@@ -472,7 +466,7 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" (click)="sendModalborker()" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '3' || userfinal.id_rol == '1'" data-dismiss="modal">Aceptar</button>
+                                            <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="sendModalborker()" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '3' || userfinal.id_rol == '1'" data-dismiss="modal">Aceptar</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                         </div>
                                     </div>
@@ -495,8 +489,8 @@
                                                 <div class="col-xs-12 ">
                                                     <div class="form-group">
                                                         <label for="dtmd2mn">Moneda </label>
-                                                        <select (ngModel)="form.deposito.moneda" class="form-control" id="dtmd2mn" name="dtmd2mn" ngModel #dt required [disabled]="active">
-                    <option *ngFor="let item of currency | async" value="{{item.a}}">{{item.c}}</option>
+                                                        <select [(ngModel)]="form.deposito.moneda" class="form-control" id="dtmd2mn" name="dtmd2mn" ngModel #dt required [disabled]="active">
+                    <option *ngFor="let item of currency " value="{{item.a}}">{{item.c}}</option>
                   </select>
                                                     </div>
                                                 </div>
@@ -505,13 +499,13 @@
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="dtmd2prd">Periodo de Retención de Depósitos</label>
-                                                        <input (ngModel)="form.deposito.periodoR" id="dtmd2prd" name="dtmd2prd" ngModel #dtm required type="text" class="form-control" placeholder="Periodo de Retención de Depósitos" [disabled]="active">
+                                                        <input [(ngModel)]="form.deposito.periodoR" id="dtmd2prd" name="dtmd2prd" ngModel #dtm required type="text" class="form-control" placeholder="Periodo de Retención de Depósitos" [disabled]="active">
                                                     </div>
                                                 </div>
                                                 <div class="col-xs-6">
                                                     <div class="form-group">
                                                         <label for="dtmd2pt">Periodo Tiempo</label>
-                                                        <select (ngModel)="form.deposito.periodoT" class="form-control" id="dtmd2pt" name="dtmd2pt" ngModel #dt required [disabled]="active">
+                                                        <select [(ngModel)]="form.deposito.periodoT" class="form-control" id="dtmd2pt" name="dtmd2pt" ngModel #dt required [disabled]="active">
                     <option selected>Selección</option>
                     <option value="1">Meses</option>
                     <option value="2">A&ntilde;o</option>
@@ -523,7 +517,7 @@
                                                 <div class="col-xs-12 ">
                                                     <div class="form-group">
                                                         <label for="dtmd2prtd">Porcentaje de Retención de Depósitos</label>
-                                                        <input (ngModel)="form.deposito.PorcentajeR" (change)="porcentajeR('PorcentajeR')" id="dtmd2prtd" name="dtmd2prtd" ngModel #dtmd required type="text" class="form-control" placeholder="Porcentaje de Retención de Depósitos" [disabled]="active">
+                                                        <input [(ngModel)]="form.deposito.PorcentajeR" (change)="porcentajeR('PorcentajeR')" id="dtmd2prtd" name="dtmd2prtd" ngModel #dtmd required type="text" class="form-control" placeholder="Porcentaje de Retención de Depósitos" [disabled]="active">
                                                     </div>
                                                 </div>
                                             </div>
@@ -531,7 +525,7 @@
                                                 <div class="col-xs-12 ">
                                                     <div class="form-group">
                                                         <label for="dtmd2pild">Porcentaje intereses sobre liberación de depósitos</label>
-                                                        <input (ngModel)="form.deposito.PorcentajeI" (change)="porcentajeR('PorcentajeI')" id="dtmd2pild" name="dtmd2pild" ngModel #dtmd required type="text" class="form-control" placeholder="Porcentaje intereses sobre liberación de depósitos" [disabled]="active">
+                                                        <input [(ngModel)]="form.deposito.PorcentajeI" (change)="porcentajeR('PorcentajeI')" id="dtmd2pild" name="dtmd2pild" ngModel #dtmd required type="text" class="form-control" placeholder="Porcentaje intereses sobre liberación de depósitos" [disabled]="active">
                                                     </div>
                                                 </div>
                                             </div>
@@ -540,7 +534,7 @@
                                                 <div class="col-xs-12 ">
                                                     <div class="form-group">
                                                         <label for="garantia">Garantia de pago</label>
-                                                        <input (ngModel)="form.deposito.garantia" id="garantia" name="garantia" ngModel #gar required type="text" class="form-control" placeholder="Porcentaje intereses sobre liberación de depósitos" ngbDatepicker [disabled]="active">
+                                                        <input [(ngModel)]="form.deposito.garantia" id="garantia" name="garantia" ngModel #gar required type="text" class="form-control" placeholder="Porcentaje intereses sobre liberación de depósitos" ngbDatepicker [disabled]="active">
 
                                                         <div class="input-group-append">
                                                             <button class="btn btn-outline-secondary" type="button">
@@ -556,7 +550,7 @@
                                                     <div class="form-group">
                                                         <div class="checkbox">
                                                             <label>
-                      <input (ngModel)="form.deposito.reservaAsumida" id="dtmd2rsv" name="dtmd2rsv" ngModel #dtm
+                      <input [(ngModel)]="form.deposito.reservaAsumida" id="dtmd2rsv" name="dtmd2rsv" ngModel #dtm
                         required class="bold-me" type="checkbox" value="1" (click)="reservaAsumida()" [disabled]="active">Reserva Asumida</label>
                                                         </div>
                                                     </div>
@@ -567,7 +561,7 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" (click)="sendModalDep(createForm.value)" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" data-dismiss="modal">Aceptar</button>
+                                            <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="sendModalDep(createForm.value)" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" data-dismiss="modal">Aceptar</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                         </div>
                                     </div>
@@ -591,8 +585,8 @@
                                                 <div class="col-xs-12 ">
                                                     <div class="form-group">
                                                         <label for="dtmdtrspcnts">Traspaso</label>
-                                                        <select name="dtmdtrspcnts" (ngModel)="form.traspasoCartera.traspaso" class="form-control" [disabled]="active">
-                    <option *ngFor="let item of _ls_trasp_tip | async" [value]="item.a">{{item.c}}</option>
+                                                        <select name="dtmdtrspcnts" [(ngModel)]="form.traspasoCartera.traspaso" class="form-control" [disabled]="active">
+                    <option *ngFor="let item of _ls_trasp_tip " [value]="item.a">{{item.c}}</option>
                   </select>
                                                     </div>
                                                 </div>
@@ -602,8 +596,8 @@
                                                 <div class="col-xs-12" *ngIf="form.traspasoCartera.traspaso != 5">
                                                     <div class="form-group">
                                                         <label for="dtmdtrspcnts">Cuentas</label>
-                                                        <select name="dtmdtrspcnts" (ngModel)="form.traspasoCartera.Cuenta" class="form-control" [disabled]="active">
-                    <option *ngFor="let item of _ls_trasp_cuen | async" value="{{item.a}}">{{item.c}}</option>
+                                                        <select name="dtmdtrspcnts" [(ngModel)]="form.traspasoCartera.Cuenta" class="form-control" [disabled]="active">
+                    <option *ngFor="let item of _ls_trasp_cuen " value="{{item.a}}">{{item.c}}</option>
                   </select>
                                                     </div>
                                                 </div>
@@ -614,7 +608,7 @@
 
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-primary" data-dismiss="modal" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" (click)="traspaso(form.traspasoCartera.traspaso)">Aceptar</button>
+                                            <button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" data-dismiss="modal" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" (click)="traspaso(form.traspasoCartera.traspaso)">Aceptar</button>
                                             <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
                                         </div>
                                     </div>
