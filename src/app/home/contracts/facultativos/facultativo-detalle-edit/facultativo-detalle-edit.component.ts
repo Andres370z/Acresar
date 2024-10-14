@@ -63,6 +63,25 @@ export class FacultativoDetalleEditComponent implements OnInit {
   modulo: string = "Detalle por Reasegurador - Facultativo";
   jsonDatafinal: any;
   jsonDatafinal2: any;
+  money: any = [
+      {
+        id: 1,
+        c: "Mensual"
+      },
+      {
+        id: 2,
+        c: "Trimestral"
+      },
+      {
+        id: 3,
+        c: "Semanal"
+      },
+      {
+        id: 4,
+        c: "Anual"
+      }
+  ]
+
   public form: any = {
     // cartera: '',
     //depositoRetenido: '',
@@ -73,6 +92,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
     garantia: '',
     garantia_list: [],
     totalPrima: '',
+    
     deposito: {
       moneda: '',
       periodoR: '',
@@ -152,6 +172,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
     });
     _service.getReinsurer().then((data: any)=>{
       this.rsltnrsgr  = data 
+      console.log("result",this.rsltnrsgr)
     });
     _service.getCurrency().then((data: any)=>{
       this.currency = data;
@@ -267,7 +288,8 @@ export class FacultativoDetalleEditComponent implements OnInit {
         this.form.idnomina = i.a;
         this.form.corredor = i.c;
         this.form.reseasegurador = i.r;
-        this.form.cuenta = i.s2;
+        this.form.cuenta =parseInt(i.s2)   ;
+        console.log(this.form.cuenta)
         this.form.totalPrima = this.decimal(i.pm);
         this.totalPrima = this.decimal(i.pm);
         this.form.dtbrok = this.porcentajeporciento(i.l)
@@ -519,7 +541,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
     sessionStorage.removeItem('idcrearfinal');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('idcontratoreasegurador');
-    this.alert.info('Antes de salir recuerde guardar los cambios.', 'admin/contratos/facultativos/proporcionales/facultativo/edit');
+    this.alert.messageInfo('Antes de salir recuerde guardar los cambios.', 'home/contracts/Facultativos/edit');
 
   }
 
