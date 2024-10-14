@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
@@ -18,250 +20,239 @@ export class RegisterReinsurerComponent implements OnInit {
   public createForm: any;
   paises: any
   idEdit: any
-  reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
 
   itemData: any;
+
+
+  id: number = 0;
+  Rsltnpss: Observable<any>;
+  Rsltngncsclfcdrs: Observable<any>;
+  Rsltnntdds: Observable<any>;
+  Rsltncrgrsgrdrsrcx: Observable<any>;
+  slgrsgrdrsrcx;
+  autocomplete: JQuery;
+  razonsocial: string;
+  of: any;
+  rl: any;
+  r: any ;
+  codigoNit: any;
+  modulo: string = "Registrar Reaseguradores";
+  reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
+  jsonSubmit = {
+    "e": "",
+    "c": "",
+    "r": "",
+    "na": "",
+    "ni": "",
+    "cn": "",
+    "d": "",
+    "es": "",
+    "p": "",
+    "cl": "",
+    "rg": "",
+    "ag": "",
+    "of": "",
+    "ofr": "",
+    "ofn": "",
+    "ofl": "",
+    "ofcr": "",
+    "ofci": "",
+    "ofd": "",
+    "oft": "",
+    "act": ""
+  }
   dataRes: any;
+  lisRequest = false;
+  formContatos: FormGroup;
 
   constructor(
     private myFormBuilder: FormBuilder,
     private authService: AuthService,
     private alert: AlertService,
-    private router: Router
+    private router: Router,
+    private auth: AuthService,
+    private _rd: Renderer2,
+    private _service: AuthService,
+    private cookieService: CookieService,
 
-  ) { }
+  ) {
+    this._service.getOne().then((res: any) => {
+      this.Rsltncrgrsgrdrsrcx = res
+    });
+
+  }
 
   ngOnInit(): void {
-    this.initial();
-    this.initialUpdate();
-    this.getPaises();
-    const dataJson = sessionStorage.getItem('companiaR');
-    if (dataJson != null) {
-      const data = JSON.parse(dataJson);
-      this.idEdit = data.a;
-      this.dataRes = data
-      this.reaseguroData.nc = data.r2;
-      this.reaseguroData.r2 = data.o2;
-      this.reaseguroData.s = data.n;
-      this.reaseguroData.ct = data.nc;
-      this.reaseguroData.dr = data.c2;
-      this.reaseguroData.ca = data.e;
-      this.reaseguroData.nb = data.s;
-      this.reaseguroData.e = data.e;
-      this.reaseguroData.a2 = data.a2;
-      this.reaseguroData.ct = data.r2;
-      this.reaseguroData.rg = data.s2;
-      this.reaseguroData.c = data.ac;
-      this.reaseguroData.e = data.c;
 
 
-      this.itemData = data;
+    this._service.getCountries().then((res: any) => {
+      this.Rsltnpss = res
+    });
+    this._service.getAgency().then((res: any) => {
+      this.Rsltngncsclfcdrs = res
+    });
+    this._service.getEntities().then((res: any) => {
+      this.Rsltnntdds = res
+    });
 
-    }
-  }
-  initial() {
-    this.form = this.myFormBuilder.group({
-      razon: [Menssage.empty, Validators.compose([Validators.required])],
-      entities: [Menssage.empty, Validators.compose([Validators.required])],
-      abbreviatedName: [Menssage.empty, Validators.compose([Validators.required])],
-      cod: [Menssage.empty, Validators.compose([Validators.required])],
-      nit: [Menssage.empty, Validators.compose([Validators.required])],
-      contac: [Menssage.empty, Validators.compose([Validators.required])],
-      adress: [Menssage.empty, Validators.compose([Validators.required])],
-      state: [Menssage.empty, Validators.compose([Validators.required])],
-      countryOrigin: [Menssage.empty, Validators.compose([Validators.required])],
-      qualification: [Menssage.empty, Validators.compose([Validators.required])],
-      region: [Menssage.empty, Validators.compose([Validators.required])],
-      ratingAgency: [Menssage.empty, Validators.compose([Validators.required])],
-      representativeOffice: [Menssage.empty, Validators.compose([Validators.required])],
-    })
-    this.getEntities()
 
-  }
 
-  getEntities() {
-    this.authService.getEntities().then((resunta: any) => {
-      //console.log(resunta);
-      this.entities = resunta
-    })
-  }
-  //Actualizar
-  initialUpdate() {
-    this.alert.loading();
-    let data = JSON.parse(sessionStorage.getItem('companiaR'));
-    if (data != null) {
-      //console.log('listem 9',data.a)
-      this.authService.getEditReinsurer(data.a).then((resTwo: any) => {
-        resTwo = resTwo[0];
-        data = resTwo;
-        //Trae los datos al form
-        this.form.controls.abbreviatedName.setValue(data.s);
-        this.form.controls.razon.setValue(data.e);
-        this.form.controls.nit.setValue(data.a2);
-        this.form.controls.contac.setValue(data.r2);
-        this.form.controls.adress.setValue(data.c2);
-        this.form.controls.state.setValue(data.o2);
-        //pais
-        this.authService.getCountries().then((res: any) => {
-          //console.log('listen 5', res)
-          for (let index = 0; index < res.length; index++) {
-            const p = res[index];
-            //console.log('listen ', p)
-            if (resTwo.o == p.a) {
-              let temp: any;
-              temp = this.form.controls.countryOrigin.setValue(p.c)
-              this.buscarPais(this.form.value.countryOrigin)
+    let jsonData = sessionStorage.getItem('companiaR');
+    if (jsonData != null) {
+      const item = JSON.parse(jsonData);
 
-              //console.log('listen 6', temp)
-            }
+      this._service.getReaseguradoras(item['a'])
+        .then(
+          res => {
+            res = res[0];
+            jsonData = res;
+
+            this.dataRes = res;
+            this.reaseguroData.nc = res.r2;
+            this.reaseguroData.r2 = res.o2;
+            this.reaseguroData.s = res.n;
+            this.reaseguroData.ct = res.nc;
+            this.reaseguroData.dr = res.c2;
+            this.reaseguroData.ca = res.e;
+            this.reaseguroData.nb = res.s;
+            this.reaseguroData.e = res.e;
+            this.reaseguroData.a2 = res.a2;
+            this.reaseguroData.ct = res.r2;
+            this.reaseguroData.rg = res.s2;
+            this.reaseguroData.c = item.ac;
+            this.reaseguroData.e = res.c;
+            this._service.getCountries().then(obj => {
+              for (let i = 0; i < obj.length; i++) {
+                const p = obj[i];
+                if (res.o == p.a) {
+                  this.reaseguroData.pc = p.c;
+                }
+
+              }
+            })
+          },
+          err => {
+
           }
-        }).catch(err => {
-          console.log(err)
-          this.alert.error('Error', 'algo falló')
-        })
-        //calificacion
-        this.form.controls.qualification.setValue(data.n);
-        this.form.controls.region.setValue(data.s2)
-        this.form.controls.ratingAgency.setValue(data.agencia);
-        //entidad
-        let entities = data.entidad;
-        this.form.controls.entities.setValue(entities);
-        console.log('listen 10', resTwo)
-      })
+        )
     } else {
-      this.alert.error('Error', 'No ems podido caragar la informacion')
-    }
-    this.alert.messagefin()
-  }
-  //Actualizar data
-  saveData(items: any) {
-    if (this.form.valid) {
-      const itemsT = {
-        "item": {
-          "act": items.state,
-          "ag": 2,
-          "c": "",
-          "cl": items.qualification,
-          "cn": items.contac,
-          "cod": items.cod,
-          "d": items.adress,
-          "e": items.entities,
-          "es": items.state,
-          "na": items.abbreviatedName,
-          "ni": items.nit,
-          "of": items.representativeOffice,
-          "p": this.valorEncontrado,
-          "r": items.razon,
-          "rg": items.region,
-        }
-      };
-      if (this.idEdit < 1) {
-        const item = {
-          "item": {
-            "act": items.state,
-            "ag": 2,
-            "c": "",
-            "cl": items.qualification,
-            "cn": items.contac,
-            "cod": items.cod,
-            "d": items.adress,
-            "e": items.entities,
-            "es": items.state,
-            "na": items.abbreviatedName,
-            "ni": items.nit,
-            "of": items.representativeOffice,
-            "p": this.valorEncontrado,
-            "r": items.razon,
-            "rg": items.region,
-          }
-        };
 
-      } else {
-        let jsonData = sessionStorage.getItem('companiaR');
-        jsonData = JSON.parse(jsonData);
-        console.log(">> else", itemsT);
-        const data = {
-          "e": "1",
-          "c": "",
-          "r": itemsT.item.r,
-          "na": itemsT.item.na,
-          "ni": itemsT.item.ni,
-          "cn": itemsT.item.cn,
-          "d": itemsT.item.d,
-          "es": itemsT.item.es,
-          "p": this.dataRes.r,
-          "cl": itemsT.item.cl,
-          "rg": itemsT.item.rg,
-          "ag": this.dataRes.u,
-          "of": itemsT.item.of,
-          "ofr": itemsT["ofr"],
-          "ofn": itemsT["ofn"],
-          "ofl": itemsT["ofl"],
-          "ofcr": itemsT["ofcr"],
-          "ofci": itemsT["ofci"],
-          "ofd": itemsT["ofd"],
-          "oft": itemsT["oft"],
-          "act": itemsT.item.act
-        };
-        console.log('data >>>>', data);
-        this.authService.putRea(this.idEdit, data).then(()=>{
-          this.alert.success('Ok', 'Haz actualizado con exito!!!')
-          this.navigate('home/companias/reinsurer/register-reinsurer');
-        }, err =>{
-          console.log(err);
-            this.alert.error('lo sentimo','pero por ahora no puedes actualizar, intenta con otro')
-        })
+    }
+    this.createFormContacto(jsonData);
+    console.log(">>>", this.reaseguroData);
+  }
+
+  createFormContacto(item: any) {
+
+    if (item == null) {
+      this.formContatos = this.myFormBuilder.group({
+        code_comp: [Menssage.empty, Validators.compose([Validators.required])],
+        nm: [Menssage.empty, Validators.compose([Validators.required])],
+        di: [Menssage.empty, Validators.compose([Validators.required])],
+        te: [Menssage.empty, Validators.compose([Validators.required])],
+        co: [Menssage.empty, Validators.compose([Validators.required])],
+        pa: [Menssage.empty, Validators.compose([Validators.required])],
+      });
+    } else if (item != null) {
+      item = JSON.parse(item);
+      console.log(item);
+      this.modulo = "Actualizar Reaseguradores";
+      this.id = item.a;
+
+      this.formContatos = this.myFormBuilder.group({
+        code_comp: [Menssage.empty, Validators.compose([Validators.required])],
+        nm: [Menssage.empty, Validators.compose([Validators.required])],
+        di: [Menssage.empty, Validators.compose([Validators.required])],
+        te: [Menssage.empty, Validators.compose([Validators.required])],
+        co: [Menssage.empty, Validators.compose([Validators.required])],
+        pa: [Menssage.empty, Validators.compose([Validators.required])],
+      });
+    }
+  }
+
+  create(item) {
+
+    if (this.id < 1) {
+      item.ag = this.reaseguroData.cxa;
+      item.p = this.reaseguroData.sa;
+      item.r = this.reaseguroData.ca;
+      item.act = this.reaseguroData.act;
+      this.rl = "/reaseguradoras";
+
+      this._service.RegisterForm(item).then(
+        item => {
+
+          //   console.log(item[0].mensaje);
+          this.alert.success('Ok', item.item.mensaje);
+          this.router.navigate(["home/companias/reinsurer"]);
+        },
+        error => console.log(<any>error)
+      );
+    } else {
+
+      let jsonData = sessionStorage.getItem('companiaR');
+      jsonData = JSON.parse(jsonData);
+      console.log(">>", item);
+      const data = {
+        "e": "1",
+        "c": "",
+        "r": item['r'],
+        "na": item['na'],
+        "ni": item['ni'],
+        "cn": item['cn'],
+        "d": item['d'],
+        "es": item['es'],
+        "p": this.dataRes['r'],
+        "cl": item['cl'],
+        "rg": item['rg'],
+        "ag": this.dataRes['u'],
+        "of": item["of"],
+        "ofr": item["ofr"],
+        "ofn": item["ofn"],
+        "ofl": item["ofl"],
+        "ofcr": item["ofcr"],
+        "ofci": item["ofci"],
+        "ofd": item["ofd"],
+        "oft": item["oft"],
+        "act": item['es']
+      };
+      this.rl = `/reaseguradoras/${this.id}`;
+      this._service.putRea(this.id, data).then(
+        item => {
+          //   console.log(item[0].mensaje);
+          this.alert.success('Ok', item.item.mensaje);
+          this.router.navigate(["/admin/companias"]);
+          sessionStorage.clear();
+        },
+        error => console.log(<any>error)
+      );
+
+    }
+
+  }
+
+  consulta(json: any) {
+
+    const item = {
+      'module': 'reaseguradores',
+      'razon': json,
+    };
+
+    this._service.postRazonsocial(item).then(
+      res => {
+        this.lisRequest = true;
+        this.reaseguroData = res;
+      },
+      err => {
+        console.log(err);
       }
-
-      const item = {
-        "item": {
-          "act": items.state,
-          "ag": 2,
-          "c": "",
-          "cl": items.qualification,
-          "cn": items.contac,
-          "cod": items.cod,
-          "d": items.adress,
-          "e": items.entities,
-          "es": items.state,
-          "na": items.abbreviatedName,
-          "ni": items.nit,
-          "of": items.representativeOffice,
-          "p": this.valorEncontrado,
-          "r": items.razon,
-          "rg": items.region,
-        }
-      };
-      console.log('listen 12', item)
-      //listen
-    }
+    );
 
   }
-  valorEncontrado: number | null = null; // Variable para almacenar el valor encontrado
 
-  buscarPais(pais: string) {
-    const paisEncontrado = this.paises.find(p => p.c.toLowerCase() === pais.toLowerCase());
+  cargar(item: any) {
+    this.lisRequest = false;
+    this.reaseguroData = item;
+  }
 
-    if (paisEncontrado) {
-      this.valorEncontrado = paisEncontrado.a; // Asigna el valor de 'a' si el país fue encontrado
-      console.log(this.valorEncontrado);
-
-    } else {
-      this.valorEncontrado = null; // Si no lo encuentra, asigna null
-      console.log('null', this.valorEncontrado);
-
-    }
-  }
-  getPaises() {
-    this.authService.getCountries().then((obj) => {
-      console.log('paises: ', obj);
-      this.paises = obj
-    })
-  }
-  navigate(item: string){
-    this.router.navigate([item])
-  }
-  cargar() {
-    this.buscarPais(this.form.value.paisOrigen)
-  }
 }

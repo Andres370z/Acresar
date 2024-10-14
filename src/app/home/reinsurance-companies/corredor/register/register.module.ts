@@ -1,26 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ReacodexRoutingModule } from './reacodex-routing.module';
-import { ReacodexComponent } from './reacodex.component';
+import { RegisterRoutingModule } from './register-routing.module';
+import { RegisterComponent } from './register.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MenuModule } from '../menu/menu.module';
 
 
 @NgModule({
-  declarations: [ReacodexComponent, ],
+  declarations: [RegisterComponent],
   imports: [
     CommonModule,
-    ReacodexRoutingModule,
+    RegisterRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -32,8 +33,6 @@ import { MenuModule } from '../menu/menu.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    MenuModule,
-
   ]
 })
-export class ReacodexModule { }
+export class RegisterModule { }

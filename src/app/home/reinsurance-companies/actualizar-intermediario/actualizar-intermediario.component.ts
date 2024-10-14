@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Renderer2 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 import { SessionUser } from 'src/app/home/global/sessionUser';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
@@ -12,6 +14,32 @@ import { PercentageService } from 'src/app/service/percentage.service';
   styleUrls: ['./actualizar-intermediario.component.css']
 })
 export class ActualizarIntermediarioComponent implements OnInit {
+  modulo: string = "Registrar Intermediarios";
+  Rsltnpss: Observable<any>;
+  Rsltnntdds: Observable<any>;
+  autocomplete: JQuery;
+  razonsocial: string;
+  of: string;
+  rl: string = "/intermediarios";
+  dataJson: any;
+  itemData = { c: '', pc: '', s: '', ca: '', sa: '', cxa: '', ra: '', e: '', cc: '', r: '' };
+  reaseguroData = { na: "", nt: "", te: "", cc: "", r: "", rg: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
+  selectEntidad: any;
+  dataEdit = {
+    e: "",
+    r: "",
+    na: "",
+    ni: "",
+    te: "",
+    d: "",
+    con: "",
+    p: "",
+    es: "",
+    rg: ""
+  };
+  selectPais: number;
+  codigoNit: any;
+
   form: FormGroup;
   entidades: any;
   idEdit: number = 0;
@@ -19,74 +47,125 @@ export class ActualizarIntermediarioComponent implements OnInit {
   public selectedOption: any;
   constructor(
     private authService: AuthService,
-    private alert: AlertService,
     private myFormBuilder: FormBuilder,
     private porcentajes: PercentageService,
-    private router: Router
+    private router: Router,
+    private _rd: Renderer2,
+    private _service: AuthService,
+    private cookieService: CookieService,
+    private alert: AlertService,
   ) { }
 
   ngOnInit(): void {
-    this.getEntidades()
-    this.createForm()
-    this.initial()
-  }
-  createForm() {
-    /*Este es el Formulario*/
-    this.form = this.myFormBuilder.group({
-      entidad: [Menssage.empty, Validators.compose([Validators.required])],
-      razonSocial: [Menssage.empty, Validators.compose([Validators.required])],
-      nombreAbreviado: [Menssage.empty, Validators.compose([Validators.required])],
-      nit: [Menssage.empty, Validators.compose([Validators.required])],
-      cod: [Menssage.empty, Validators.compose([Validators.required])],
-      telefono: [Menssage.empty, Validators.compose([Validators.required])],
-      direccion: [Menssage.empty, Validators.compose([Validators.required])],
-      contacto: [Menssage.empty, Validators.compose([Validators.required])],
-      paisOrigen: [Menssage.empty, Validators.compose([Validators.required])],
-      //estado: [Menssage.empty, Validators.compose([Validators.required])],
-      region: [Menssage.empty, Validators.compose([Validators.required])],
+    this._service.getCountries().then((res: any) => {
+      this.Rsltnpss = res
     });
 
-  }
-  getEntidades() {
-    this.authService.getEntities().then((res: any) => {
-      console.log('esta son las entidades, ', res)
-      this.entidades = res
-    })
-  }
-  initial() {
-    console.log('2 exist')
-    const data = JSON.parse(sessionStorage.getItem('companiaI'));
-    if (data != null) {
-      this.idEdit = data.a;
-      console.log('1 exist')
-      //Trae datos formulario
-      this.form.controls.entidad.setValue(data.nc);
-      this.form.controls.razonSocial.setValue(data.a2);
-      this.form.controls.nombreAbreviado.setValue(data.c);
-      this.form.controls.nit.setValue(data.r2);
-      //this.form.controls.cod.setValue(cnt.o);
-      this.form.controls.telefono.setValue(data.c2);
-      this.form.controls.direccion.setValue(data.o);
-      this.form.controls.contacto.setValue(data.n);
-      this.form.controls.paisOrigen.setValue(data.pc);
-      //this.form.controls.estado.setValue(data.l);
-      this.form.controls.region.setValue(data.s2);
+    this._service.getEntities().then((res: any) => {
+      this.Rsltnntdds = res
+    });
 
-      this.url = this.idEdit
-    }else{
-      this.url = "/corredores";
+    let dataj = sessionStorage.getItem('companiaI');
+
+    if (dataj != null) {
+      const data = JSON.parse(dataj);
+      this.idEdit = data.a;
+      this.modulo = "Actualizar Intermediario";
+      // { a2:"",c:"",c2:"",cc:"",r:"",rg:"",act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" }
+      this.reaseguroData.c = data.a2;
+      this.reaseguroData.na = data.c;
+      this.reaseguroData.nt = data.c2;
+      this.reaseguroData.te = data.r2;
+      this.reaseguroData.dr = data.o;
+      this.reaseguroData.c = data.n;
+      this.reaseguroData.cc = data.pc;
+      this.reaseguroData.rg = data.s2;
+      this.reaseguroData.r = data.a2;
+      const url = `/intermediarios/${data.a}/edit`
+      this._service.getIntermediariosEdit(data.a).then(
+        res => {
+          this.selectPais = res.r;
+        },
+        err => { }
+      )
+      this._service.getEntities().then(
+        res => {
+          res.forEach(i => {
+            if (i.c == data.nc) {
+              this.selectEntidad = i.a;
+            }
+          });
+        }
+      );
+
+      this.rl = `/intermediarios/${this.idEdit}`;
+
+    }
+    else {
+      this.rl = "/intermediarios";
+    }
+
+  }
+  create(item) {
+
+    item.es = 1;
+    if (this.idEdit > 0) {
+      console.log(item);
+      this.dataEdit.e = item.e;
+      this.dataEdit.r = item.r;
+      this.dataEdit.na = item.na;
+      this.dataEdit.ni = item.ni;
+      this.dataEdit.te = item.te;
+      this.dataEdit.d = item.d;
+      this.dataEdit.con = item.con;
+      this.dataEdit.p = item.p;
+      this.dataEdit.es = item.es;
+      this.dataEdit.rg = item.rg;
+
+      const idToSend = this.idEdit ? this.idEdit : null;
+
+      this._service.putIntermediarios(this.dataEdit,idToSend).then(
+        item => {
+          const msj = item.mensaje != undefined ? item.mensaje : "Se ha registrado con éxito."
+          this.alert.success('Ok',msj);
+          this.router.navigate(["home/companias/intermediary"]);
+        },
+        error => console.log(<any>error)
+      );
+    } else {
+      const idToSend = this.idEdit ? this.idEdit : null;
+
+      this._service.postEditIntermediarios(item, idToSend).then(
+        item => {
+          const msj = item.mensaje != undefined ? item.mensaje : "Se ha registrado con éxito."
+
+          this.alert.success('Ok',msj);
+          this.router.navigate(["home/companias/intermediary"]);
+        },
+        error => console.log(<any>error)
+      );
     }
   }
-  create(item){
-    if(this.form.valid){
-      this.authService.postEditCorredores(item,this.url).then((res: any)=>{
-        this.alert.success('Ok', 'El corredor fue editado')
-      }).catch((err) => {
+
+  consulta(json: any) {
+    console.log(json);
+    const item = {
+      'module': 'intermediario',
+      'razon': json,
+    };
+
+    this._service.postRazonsocial(item).then(
+      res => {
+        if (res != null || res != undefined) {
+          this.alert.success('Ok',res.mensaje);
+        } else {
+          this.alert.success('Ok','Se ha registrado con éxito.')
+        }
+      },
+      err => {
         console.log(err);
-        this.alert.error('Error', 'error en el servidor')
-      });
-    }else{
-      this.alert.error('Error', 'Algo salio mal')
-    }
+      }
+    );
+
   }
 }

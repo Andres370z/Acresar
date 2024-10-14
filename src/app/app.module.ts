@@ -84,8 +84,6 @@ import { MenuModule } from './home/reinsurance-companies/menu/menu.module';
   ],
   imports: [BrowserAnimationsModule],
   declarations: [
-    
-  
   ],
 })
 export class MaterialModule {}

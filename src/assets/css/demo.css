@@ -225,3 +225,11 @@ td.mat-footer-cell:last-of-type {
         z-index: -1 !important;
     }
 }
+
+
+.btn .save{
+    background-color: #016672 !important;
+}
+button.opaco {
+    opacity: 0.6; /* Ajusta el valor de opacidad entre 0 (completamente transparente) y 1 (completamente opaco) */
+}
