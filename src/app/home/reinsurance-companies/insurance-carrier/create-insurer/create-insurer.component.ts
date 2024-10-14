@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
+import { Observable } from 'rxjs';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { PercentageService } from 'src/app/service/percentage.service';
 
 @Component({
   selector: 'app-create-insurer',
@@ -11,13 +14,26 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./create-insurer.component.css']
 })
 export class CreateInsurerComponent implements OnInit {
+  modulo: string = 'Registrar Aseguradora';
+  type = "";
+  Rsltnpss: Observable<any>;
+  Rsltnntdds: Observable<any>;
+  autocomplete: JQuery;
+  razonsocial: string;
+  of: string;
+  rl: string = "/aseguradoras";
+  dataJson: any;
+  lisRequest = false;
+  reaseguroData = { na: "", nt: "", te: "", cc: "", r: "", rg: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
+  itemData = { c: '', pc: '', s: '', ca: '', sa: '', cxa: '', ra: '', e: '', cc: '', r: '' };
+  selectEntidad: any;
+  status = true;
   exist: boolean = false
   form: FormGroup;
   entidades: any;
-  oficinas: any; 
+  oficinas: any;
   idEdit: number = 0;
   url: any;
-  reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
   dataRes: any;
   paises: any
   cx: any
@@ -25,168 +41,144 @@ export class CreateInsurerComponent implements OnInit {
   public selectedOptions: any
   razonSocial: any;
   constructor(
+    private route: ActivatedRoute,
     private authService: AuthService,
     private alert: AlertService,
     private myFormBuilder: FormBuilder,
-    private router: Router
+    private router: Router,
+    private porcentajes: PercentageService,
+    private _service: AuthService,
+    private cookieService: CookieService,
 
   ) {
+    this.type = 'Seguros generales';
+    switch (this.type) {
+      case 'Cooperativas':
+        this.itemData.e = '3';
+        // alert(3);
+        break;
+      case 'Seguros de vida':
+        this.itemData.e = '2';
+        //  alert(2);
+        break;
+      case 'Seguros generales':
+        this.itemData.e = '1';
+        //alert(1);
+        break;
+
+    }
   }
 
   ngOnInit(): void {
-    
-    this.getEntidades()
-    this.createForm()
-    this.getPaises()
+    this._service.getEntities().then((res: any) => {
+      this.Rsltnntdds = res
+    });
+    const dataJson = sessionStorage.getItem('companiaAseguradora');
+    if (dataJson != null) {
+
+      this.modulo = "Actualizar Aseguradoras";
+      const data = JSON.parse(dataJson);
+      this.idEdit = data.a;
+      this.reaseguroData.c = data.a2;
+      this.reaseguroData.na = data.c;
+      this.reaseguroData.nt = data.r2;
+      this.reaseguroData.te = data.c2;
+      this.reaseguroData.dr = data.o;
+      this.reaseguroData.c = data.n;
+      this.reaseguroData.cc = data.pc;
+      this.reaseguroData.r = data.l;
+      this.reaseguroData.rg = data.s2;
+
+      this._service.getEntities().then(
+        res => {
+          res.forEach(i => {
+            if (i.c == data.nc) {
+              this.selectEntidad = i.a;
+            }
+          });
+        }
+      );
+
+      this.rl = `/aseguradoras/${this.idEdit}`;
+
+    }
+    else {
+      this.rl = "/aseguradoras";
+    }
 
 
-
-  }
-  createForm() {
-    /*Este es el Formulario*/
-    this.form = this.myFormBuilder.group({
-      entidad: [Menssage.empty, Validators.compose([Validators.required])],
-      razonSocial: [Menssage.empty, Validators.compose([Validators.required])],
-      nombreAbreviado: [Menssage.empty, Validators.compose([Validators.required])],
-      nit: [Menssage.empty, Validators.compose([Validators.required])],
-      cod: [Menssage.empty, Validators.compose([Validators.required])],
-      telefono: [Menssage.empty, Validators.compose([Validators.required])],
-      direccion: [Menssage.empty, Validators.compose([Validators.required])],
-      contacto: [Menssage.empty, Validators.compose([Validators.required])],
-      paisOrigen: [Menssage.empty, Validators.compose([Validators.required])],
-      estado: [Menssage.empty, Validators.compose([Validators.required])],
-      region: [Menssage.empty, Validators.compose([Validators.required])],
-      oficinaRepresentacion: [Menssage.empty, Validators.compose([Validators.required])],
-      agenciaCalificadora: [Menssage.empty, Validators.compose([Validators.required])],
-      calificacion: [Menssage.empty, Validators.compose([Validators.required])],
+    this._service.getCountries().then((res: any) => {
+      this.Rsltnpss = res
     });
 
   }
-  valorEncontrado: number | null = null; // Variable para almacenar el valor encontrado
 
-  buscarPais(pais: string) {
-    const paisEncontrado = this.paises.find(p => p.c.toLowerCase() === pais.toLowerCase());
 
-    if (paisEncontrado) {
-      this.valorEncontrado = paisEncontrado.a; // Asigna el valor de 'a' si el país fue encontrado
-      console.log(this.valorEncontrado);
+  create(item) {
+    //this.status = true;
+    console.log(item);
+    this.validate(item);
+    if (this.status) {
+      // Si hay un idEdit (dataJson no es null), se hace una edición.
+      // Caso contrario, es una creación.
+      const idToSend = this.idEdit ? this.idEdit : null;
+      this._service.postEditAseguradores(item, idToSend).then(
+        item => {
+          this.alert.success('Ok', item.item.mensaje);
+          this.reaseguroData = { na: "", nt: "", te: "", cc: "", r: "", rg: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
 
-    } else {
-      this.valorEncontrado = null; // Si no lo encuentra, asigna null
-      console.log('null', this.valorEncontrado);
-
-    }
-  }
-  getEntidades() {
-    this.authService.getEntities().then((res: any) => {
-      console.log('esta son las entidades, ', res)
-      this.entidades = res
-    })
-    const res = [
-      { a: 1, c: 'SI' },
-      { a: 1, c: 'NO' }
-    ]
-    this.oficinas = res
-  }
-  getPaises() {
-    this.authService.getCountries().then((obj) => {
-      console.log('paises: ', obj);
-      this.paises = obj
-    })
-  } 
-
-  consulta(json) {
-    this.alert.loading()
-    console.log('LISTEN');
-    const item = {
-      item: {
-        'module': 'reaseguradores',
-        'razon': json,
-      }
-
-    };
-    console.log('ITEM', item);
-    this.authService.postRazonsocial(item).then((res: any) => {
-      this.exist = true
-      console.log('ESTE ES: ', this.exist);
-      // ESTO ES TEMPORAL
-      this.reaseguroData = res
-      this.alert.messagefin()
-    },
-      err => {
-        this.alert.error('Error en la consulta ', 'No se han podido cargar los datos prueba con otro...')
-        console.log(err)
-      }
-    )
-  }
-
-  create(items) {
-    console.log('esta es entidad ', items.entidad);
-    
-    console.log('ESTO ES reaseguro',this.reaseguroData);
-    
-    console.log('Formulario:', this.form.value); // Verifica los datos del formulario
-    console.log(this.reaseguroData.pc, 'DATA');
-
-    if (this.form.valid) {
-      items.ag = this.reaseguroData.cxa;
-      items.p = this.reaseguroData.sa;
-      items.r = this.reaseguroData.ca;
-      items.act = this.reaseguroData.act;
-      const item = {
-        
-        "item": {
-          "e": items.entidad,
-          "c": "",
-          "r": items.razonSocial,
-          "na": items.nombreAbreviado,
-          "ni": items.nit,
-          "cod": items.cod,
-          "cn": items.contacto,
-          "d": items.direccion,
-          "es": items.estado,
-          "p": this.valorEncontrado,
-          "cl": items.calificacion,
-          "rg": items.region,
-          "ag": 1,
-          "of": items.oficinaRepresentacion,
-          "act": items.estado,
-
+          this.router.navigate(["home/companias/insurance-carrier"]);
+        },
+        error => {
+          console.log(<any>error)
+          this.alert.error('Error', this.modulo);
         }
-      };
-
-      console.log('Objeto a enviar:', item);
-
-      this.authService.RegisterForm(item).then((res: any) => {
-        console.log('Respuesta del servidor:', res);
-        this.alert.success('Ok', 'Nueva compañia creada');
-        this.navigate('home/companias/reinsurer')
-      }).catch((err) => {
-        console.log('Error al enviar:', err);
-        //this.navigate('home/companias/reinsurer')
-         /**COREGIR RESPUESTA- CREA EL OBJETO PERO ARROJJA ERROR 500 */
-        this.alert.error('Error', 'Error en el servidor');
-        
-      });
+      );
     } else {
-      this.alert.error('Error', 'Algo salió mal, verifica los campos');
+      this.alert.error('Falta algo', 'Por favor rellene todo los campos ');
+    }
+  }
+  validate(item: any) {
+    item = Object.keys(item);
+    let v = 0;
+    item.forEach(element => {
+      if (item[element] == '') {
+        this.status = false;
+        v = 1
+      }
+    });
+    if (v == 0) {
+      this.status = true;
     }
   }
 
-  cargar(item: any) {
-    this.form.controls.razonSocial.setValue(item.ca);
-    this.form.controls.paisOrigen.setValue(item.pc);
-    this.form.controls.estado.setValue(item.r2);
-    this.form.controls.calificacion.setValue(item.s);
-    this.form.controls.agenciaCalificadora.setValue(item.c);
+  consulta(json: any) {
 
-    this.buscarPais(this.form.value.paisOrigen)
+    const item = { module: "aseguradora", razon: json, type: this.itemData.e };
 
-    setTimeout(() => {
-      this.exist = false;
-    }, 0.5);  // Retraza el cambio en exist al siguiente ciclo
+    this._service.postRazonsocial({item}).then(
+      res => {
+        if (res.length > 0) {
+          this.lisRequest = true;
+          this.reaseguroData = res;
+          console.log(res);
+        }
+
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
   }
-  navigate(item: string){
-    this.router.navigate([item])
+  cargar(item: any) {
+    this.lisRequest = false;
+    this.reaseguroData = item;
+    this.reaseguroData.r = item.e;
+    this.reaseguroData.nt = item.s;
+    this.reaseguroData.te = item.s2;
+    this.reaseguroData.dr = item.o;
+    this.reaseguroData.c = item.a2 + " " + item.r2;
+    this.reaseguroData.rg = item.n;
   }
 }

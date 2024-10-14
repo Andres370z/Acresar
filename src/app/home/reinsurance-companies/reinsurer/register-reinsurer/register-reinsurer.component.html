@@ -3,129 +3,404 @@
     <div class="row">
       <div class="col-md-12">
         <div class="card ">
-          <div class="card-header card-header-rose card-header-icon" >
+          <div class="card-header card-header-rose card-header-icon">
             <div class="card-icon" style="background-color: #016672;">
               <i class="material-icons">edit</i>
             </div>
             <h4 class="card-title">Actualizar Reaseguradores</h4>
           </div>
           <div class="card-body">
-            <form class="form" [formGroup]="form" (ngSubmit)="saveData(form.value)">
+            <form novalidate (ngSubmit)="create(createForm.value)" #createForm="ngForm">
               <div class="row">
-                <div class="col-4"> <!--Name-->
+                <div class="col-md-6">
                   <mat-form-field appearance="fill">
-                    <mat-label>Razón Social</mat-label> 
-                    <input matInput placeholder="ingresa los nombres" formControlName="razon" type="text">
-                    <mat-icon matSuffix>person_outline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <mat-label>Entidad</mat-label>
+                    <select id="e" name="e" [(ngModel)]="reaseguroData.e" required matNativeControl>
+                      <option value="">Seleccione</option>
+                      <option *ngFor="let item of Rsltnntdds" value="{{item.a}}">{{item.c}}</option>
+                    </select>
                   </mat-form-field>
                 </div>
-                <div class="col-4">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Selecciona una Entidad</mat-label>
-                    <mat-select [(ngModel)]="selectedOptionEntities" formControlName="entities">
 
-                      <mat-option *ngFor="let item of entities" value="{{item.a}}">{{item.c}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Nombre Abreviado-->
+                <div class="col-md-6" style="display: none">
                   <mat-form-field appearance="fill">
-                    <mat-label>Nombre Abreviado</mat-label> 
-                    <input matInput placeholder="ingresa el nombres abreviado" formControlName="abbreviatedName"  type="text">
-                    <mat-icon matSuffix>person_outline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <mat-label>Cod. Reasegurador</mat-label>
+                    <input matInput type="number" id="c" name="c" placeholder="Código Reasegurador" ngModel>
                   </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Nit-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Nit</mat-label> 
-                    <input matInput placeholder="ingresa el nit" formControlName="nit"  type="text">
-                    <mat-icon matSuffix> business</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div> 
-                <div class="col-4">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Selecciona un Codigo</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="cod">
-                      <mat-option *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]" [value]="item">{{item}}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Contac-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Contacto</mat-label> 
-                    <input matInput placeholder="ingresa un contacto" formControlName="contac"  type="text">
-                    <mat-icon matSuffix> contacts</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Direccion-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Dirección</mat-label> 
-                    <input matInput placeholder="ingresa la dirección" formControlName="adress"  type="text">
-                    <mat-icon matSuffix> location_on</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Estado-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Estado</mat-label> 
-                    <input matInput placeholder="ingresa el estado" formControlName="state"  type="text">
-                    <mat-icon matSuffix>timeline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div> 
-                <div class="col-4"> <!--Pais Origen-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>País de Origen</mat-label> 
-                    <input matInput placeholder="ingresa el pais de origen" formControlName="countryOrigin"  type="text">
-                    <mat-icon matSuffix> location_on</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Calificación-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Calificacíon</mat-label> 
-                    <input matInput placeholder="ingresa una calificacion" formControlName="qualification"  type="text">
-                    <mat-icon matSuffix>equalizer</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Region-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Región</mat-label> 
-                    <input matInput placeholder="ingresa una Region" formControlName="region"  type="text">
-                    <mat-icon matSuffix> map</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Agencia Calificadora-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Agencia Calificadora</mat-label> 
-                    <input matInput placeholder="Agencia Calificadora" formControlName="ratingAgency"  type="text">
-                    <mat-icon matSuffix >location_city</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--Agencia Calificadora-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Oficina de Representación</mat-label> 
-                    <mat-select disableRipple formControlName="representativeOffice">
-                      <mat-option value="1" >Si</mat-option>
-                      <mat-option value="0">No</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-                <div class="col-12 card-footer "> <!--BOTON-->
-                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
-                    style="background-color: #016672">Modificar Compañía</button>
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Razón Social</mat-label>
+                    <input matInput type="text" id="r" (change)="consulta(r.value)" name="r" placeholder="Razón Social"
+                      [(ngModel)]="reaseguroData.ca" required>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Nombre Abreviado</mat-label>
+                    <input matInput type="text" id="na" name="na" placeholder="Nombre Abreviado"
+                      [(ngModel)]="reaseguroData.nb" required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class='row' *ngIf="lisRequest">
+                <li>
+                  <ul *ngFor="let item of reaseguroData">
+                    <span>{{item.ca}} </span>
+                    <span class='btn btn-default left' (click)="cargar(item)">Cargar</span>
+                  </ul>
+                </li>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label>NIT</mat-label>
+                    <input matInput type="text" id="ni" name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.a2"
+                      required>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Cod</mat-label>
+                    <select name="cod" [(ngModel)]="codigoNit" required matNativeControl>
+                      <option [value]="item" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Contacto</mat-label>
+                    <input matInput type="text" id="cn" name="cn" placeholder="Contacto" [(ngModel)]="reaseguroData.ct"
+                      required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput type="text" id="d" name="d" placeholder="Dirección" [(ngModel)]="reaseguroData.dr"
+                      required>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Estado</mat-label>
+                    <input matInput type="text" id="es" name="es" [(ngModel)]="reaseguroData.r2" required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>País Origen</mat-label>
+                    <input matInput type="text" id="p" name="p" [(ngModel)]="reaseguroData.pc" required>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Calificación</mat-label>
+                    <input matInput type="text" id="cl" name="cl" placeholder="Calificación"
+                      [(ngModel)]="reaseguroData.s" required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Región</mat-label>
+                    <input matInput type="text" id="rg" name="rg" placeholder="Región" [(ngModel)]="reaseguroData.rg"
+                      required>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Agencia Calificadora</mat-label>
+                    <input matInput id="ag" name="ag" [(ngModel)]="reaseguroData.c" required>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Oficina de Representación</mat-label>
+                    <select id="of" name="of" required id="of" name="of" ngModel #of="ngModel" required
+                      matNativeControl>
+                      <option value="">Seleccionar</option>
+                      <option value="1">Sí</option>
+                      <option value="0">No</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <!-- Oficina de representación -->
+              <div class="row" *ngIf="of.value == '1'">
+                <div class="col-md-12">
+                  <div class="box box-info">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">Oficina de Representación</h3>
+                    </div>
+                    <div class="box-body">
+                      <div class="table-responsive">
+                        <div class="content">
+                          <div class="row">
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Razón Social</mat-label>
+                                <input matInput type="text" id="ofr" name="ofr" placeholder="Razón Social" ngModel>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>NIT</mat-label>
+                                <input matInput type="text" id="ofn" name="ofn" placeholder="NIT" ngModel>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Representante Legal</mat-label>
+                                <input matInput type="text" id="ofl" name="ofl" placeholder="Representante Legal"
+                                  ngModel>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Cargo</mat-label>
+                                <input matInput type="text" id="ofcr" name="ofcr" placeholder="Cargo" ngModel>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Ciudad</mat-label>
+                                <input matInput type="text" id="ofci" name="ofci" placeholder="Ciudad" ngModel>
+                              </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Dirección</mat-label>
+                                <input matInput type="text" id="ofd" name="ofd" placeholder="Dirección" ngModel>
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="col-md-6">
+                              <mat-form-field appearance="fill">
+                                <mat-label>Teléfono</mat-label>
+                                <input matInput type="text" id="oft" name="oft" placeholder="Teléfono" ngModel>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+              </div>
+
+              <div class="row">
+                <button type="submit" class="btn" data-dismiss="modal"
+                  style="background-color: #016672 !important; margin-left: 7px;">Guardar</button>
+                <button type="button" class="btn btn-alert btn-md shadow-box-item"
+                  onclick="history.go(-1);">Cancelar</button>
+              </div>
             </form>
+
           </div>
-        </div>  
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Datos Bancarios</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Titular / Owner</mat-label>
+                <input matInput type="text" placeholder="Titular / Owner" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Número de cuenta / Account Number</mat-label>
+                <input matInput type="text" placeholder="Número de cuenta / Account Number" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Moneda / Currency</mat-label>
+                <input matInput type="text" placeholder="Moneda / Currency" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>ABA / SWIFT</mat-label>
+                <input matInput type="text" placeholder="ABA / SWIFT" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Banco / Bank</mat-label>
+                <input matInput type="text" placeholder="Banco / Bank" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>País / Country</mat-label>
+                <input matInput type="text" placeholder="País / Country" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Ciudad / City</mat-label>
+                <input matInput type="text" placeholder="Ciudad / City" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Certificación / Certification</mat-label>
+                <input matInput type="file" placeholder="Certificación">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Agregar Contacto</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="formContatos">
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre Contacto</mat-label>
+                <input matInput type="text" formControlName="nm" placeholder="Nombre Contacto" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" formControlName="di" placeholder="Dirección" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Teléfono</mat-label>
+                <input matInput type="text" formControlName="te" placeholder="Teléfono" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Correo Electrónico</mat-label>
+                <input matInput type="email" formControlName="co" placeholder="Correo Electrónico" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>País</mat-label>
+                <input matInput type="text" formControlName="pa" placeholder="País" required>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar Cambios</button>
       </div>
     </div>
   </div>

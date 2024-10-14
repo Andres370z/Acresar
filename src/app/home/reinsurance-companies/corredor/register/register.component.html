@@ -1,0 +1,345 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">edit</i>
+            </div>
+            <h4 class="card-title">Registrar Corredo</h4>
+          </div>
+          <div class="card-body">
+            <form novalidate (ngSubmit)="create(createForm.value)" #createForm="ngForm" class="form">
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Entidad</mat-label>
+                    <select matNativeControl [(ngModel)]="selectEntidad" required>
+                      <option value="">Seleccione</option>
+                      <option *ngFor="let item of Rsltnntdds" value="{{item.a}}">{{item.c}}</option>
+                    </select>
+                  </mat-form-field>
+
+                </div>
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="c">Cod. Corredor</mat-label>
+                    <input matInput type="number" placeholder="Código Corredor" id="c" name="c" ngModel #c="ngModel">
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="r">Razón Social</mat-label>
+                    <input type="text" matInput (change)="consulta(r.value)" id="r" name="r" placeholder="Razon Social"
+                      [(ngModel)]="reaseguroData.c" #r="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="na">Nombre Abreviado</mat-label>
+                    <input type="text" matInput id="na" name="na" placeholder="Nombre Abreviado"
+                      [(ngModel)]="reaseguroData.na" #na="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class='row' *ngIf="lisRequest">
+                <li>
+                  <ul *ngFor="let item of reaseguroData">
+                    <span>{{item.c}} </span>
+                    <span class='btn btn-default left' (click)="cargar(item)">Cargar</span>
+                  </ul>
+                </li>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-4">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="ni">NIT</mat-label>
+                    <input type="text" id="ni" matInput name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.nt"
+                      #ni="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+
+                </div>
+                <div class="col-xs-12 col-md-2">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="ni">Cod</mat-label>
+                    <select matNativeControl  name="cod" placeholder="" [(ngModel)]="codigoNit"
+                      required>
+                      <option [value]="item" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]">{{item}} </option>
+                    </select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="te">Teléfono</mat-label>
+                    <input matInput type="text"  id="te" name="te" placeholder="Teléfono"
+                      [(ngModel)]="reaseguroData.te" #te="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="d">Dirección</mat-label>
+                    <input type="text"  id="d" matInput name="d" placeholder="Dirección"
+                      [(ngModel)]="reaseguroData.dr" #d="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="con">Contacto</mat-label>
+                    <input type="text"  id="con" matInput name="con" placeholder="Contacto"
+                      [(ngModel)]="reaseguroData.c" #con="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="p">País Origen</mat-label>
+                    <input  matInput id="p" name="p" [(ngModel)]="reaseguroData.cc" #p="ngModel"
+                      required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="es">Estado</mat-label>
+                    <input matInput  id="es" name="es" [(ngModel)]="reaseguroData.r" #es="ngModel"
+                      required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label for="rg">Región</mat-label>
+                    <input type="text" matInput  id="rg" name="rg" placeholder="Región"
+                      [(ngModel)]="reaseguroData.rg" #rg="ngModel" required>
+                    <mat-icon matSuffix>poll</mat-icon>
+                    
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
+                Regresar
+              </button>
+              <button type="submit" class="btn save" [disabled]="createForm.invalid"
+                class="btn save" style="background-color: #016672 !important;">
+                Modificar Compa&ntilde;ia
+              </button>
+
+              <!-- <button type="button" class="btn btn-info margin-left btn-md shadow-box-item" data-toggle="modal"
+                    data-target="#myModal">
+                    Datos Bancarios
+                    <i class="favb fa fa-circle">
+                    </i>
+                  </button>
+
+                  <button type="button" class="btn btn-info margin-left btn-md shadow-box-item" data-toggle="modal"
+                    data-target="#myModal2">
+                    Agregar Contacto
+                    <i class="favb fa fa-circle">
+                    </i>
+                  </button>
+ -->
+            </form>
+          </div>
+
+
+
+
+          <!-- /.table-responsive -->
+
+          <!-- /.box-body -->
+
+          <!-- /.box-footer -->
+        </div>
+        <!-- /.box -->
+      </div>
+      <!-- /.col -->
+    </div>
+  </div>
+
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-mat-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Datos Bancarios</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Titular / Owner </mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Titular / Owner">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Número de cuenta / Account Number</mat-label>
+                <input type="text" class="form-control" id="inputEmail4"
+                  placeholder="Número de cuenta / Account Number">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Moneda / Currency</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Moneda / Currency">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">ABA / SWIFT</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="ABA / SWIFT">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Banco / Bank </mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Banco / Bank">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Pais / Country</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Pais / Country">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Ciudad / City</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Ciudad / City">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Certificación / Certification</mat-label>
+                <input type="file" class="form-control" id="inputEmail4" placeholder="Certificación">
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-mat-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Agregar Contacto</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Nombre Contacto</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Nombre Contacto">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Dirección</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Dirección">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Teléfono</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Correo Electrónico</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <mat-label for="inputEmail4">Pais</mat-label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Pais">
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color: #016672 !important; ">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

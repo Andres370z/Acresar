@@ -37,6 +37,8 @@ export const RoutersLink = {
     deleteRegisterImageEvent:"deleteRegisterImageEvent/",
     resgisterImageEvents:"resgisterImageEvents",
     /*Andres*/
+    get: 'rsltncrgrsgrdrsrcx',
+    getAgency: 'agenciacalificadora',
     reaseguradoresList: "reaseguradoras",
     reasegurador: "reaseguradoras/",
     getEntities: "entidades",
@@ -44,7 +46,8 @@ export const RoutersLink = {
     getAsegurado: "aseguradoras/facultativo/client/total",
     getAseguradoras: "aseguradoras",
     getIntermediarios: "intermediarios",
-    getDirectorios: "contactos/list/full",
+    getDirectorios: "contactos/list/full", 
+
     getClientes: "clientes/0",
     getPaises: "pais",
     getReacoex: "reaseguradoras/list/reacoex",
@@ -70,6 +73,7 @@ export const RoutersLink = {
     getComision: "facultativo/contrato/count/comision/",
     
     /** POSTS **/
+    postContactos: 'contactos',
     editRamos:"contratos/facultativo/edit/ramos",
     postRazonSocial: 'razonSocial',
     postNomina: "contratos/facultativo/edit/nomina",
@@ -108,7 +112,11 @@ export const RoutersLink = {
     deleteReaseguradoras: "reaseguradoras/",
     menuList:"menuList",
     getMenu:"menu",
-    editList:"editList"
+    editList:"editList",
+
+    deleteCorredor: 'corredores/',
+    deleteAse: 'aseguradoras/',
+    putAse: 'aseguradoras/'
     
 };
 
