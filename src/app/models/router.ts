@@ -47,7 +47,7 @@ export const RoutersLink = {
     getAseguradoras: "aseguradoras",
     getIntermediarios: "intermediarios",
     getDirectorios: "contactos/list/full", 
-
+    getReaco: "reaseguradoras/list/reacoex",
     getClientes: "clientes/0",
     getPaises: "pais",
     getReacoex: "reaseguradoras/list/reacoex",

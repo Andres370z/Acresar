@@ -22,6 +22,18 @@ export class AuthService {
   private dataSubject = new BehaviorSubject<any>(null); // Comportamiento inicial nulo
   private carteraSubject = new BehaviorSubject<any>(null);
   private comiSubject = new BehaviorSubject<any>(null);
+
+  checkSession():boolean{
+    return localStorage.getItem('rsltnsri')?true:false;
+  }
+
+  returnToken(): string {
+    let tk = localStorage.getItem('rsltnsrt');
+    return tk;
+  }
+
+
+
   setData(data: any) {
     this.dataSubject.next(data); // Emitir el nuevo objeto
   }
@@ -310,6 +322,9 @@ export class AuthService {
   }
   getRamos() {
     return this.registeresquest.GETER(RoutersLink.getRamos)
+  }
+  getReaco() {
+    return this.registeresquest.GETER(RoutersLink.getReaco)
   }
   getRamosEdit(id: any) {
     return this.registeresquest.GETER(`ramos/${id}/edit`)

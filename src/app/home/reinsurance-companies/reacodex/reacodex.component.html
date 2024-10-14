@@ -9,10 +9,6 @@
             </div>
             <h4 class="card-title">Actualización Reacoex</h4>
           </div>
-          <!-- MENU -->
-          <div style="display: flex; justify-content: center; align-items: center;">
-            <app-menu></app-menu>
-          </div>
           <div class="card-body">
             <form class="form" [formGroup]="form" (ngSubmit)="saveData()">
               <div class="row">
@@ -40,6 +36,11 @@
           </div>
         </div>
       </div>
+
+
+
+
+
       <div class="col-md-12">
         <div class="card">
           <div class="card-header card-header-rose card-header-icon">
@@ -56,38 +57,122 @@
               <br> LISTADO DE REASEGURADORES DEL EXTERIOR
             </h4>
           </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <mat-form-field>
-                <mat-label>Buscar...</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
-                <mat-icon matSuffix >search</mat-icon>
-              </mat-form-field>
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <ng-container matColumnDef="corredores">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell"> Corredores </th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.c}} </td>
-                </ng-container>
-                <ng-container matColumnDef="pais">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell"> País </th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.pc}} </td>
-                </ng-container>
-                <ng-container matColumnDef="actualizacion" >
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell"> Actualización </th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.r}} </td>
-                </ng-container>
-                <ng-container matColumnDef="fecha">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell"> Fecha Subida </th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.dt}} </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
-              </mat-paginator>
-            </div>
+
+          <div class="tab-container">
+            <mat-tab-group>
+              <mat-tab label="Reacoex-Corredor">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <mat-form-field>
+                      <mat-label>Buscar...</mat-label>
+                      <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
+                      <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                      <ng-container matColumnDef="corredores">
+                        <th mat-header-cell *matHeaderCellDef class="custom-cell"> Corredores </th>
+                        <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.c}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="pais">
+                        <th mat-header-cell *matHeaderCellDef class="custom-cell"> País </th>
+                        <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.pc}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="actualizacion">
+                        <th mat-header-cell *matHeaderCellDef class="custom-cell"> Actualización </th>
+                        <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.r}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="fecha">
+                        <th mat-header-cell *matHeaderCellDef class="custom-cell"> Fecha Subida </th>
+                        <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.dt}} </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                      itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
+                    </mat-paginator>
+                  </div>
+                </div>
+              </mat-tab>
+              <mat-tab label="Reacoex-Reaseguradora">
+                <div class="card-body">
+                  <div class="table-responsive">
+                    <mat-form-field>
+                      <mat-label>Buscar...</mat-label>
+                      <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
+                      <mat-icon matSuffix>search</mat-icon>
+                    </mat-form-field>
+                    <table id="reaseguradores" class="hover table table-striped table-bordered">
+                      <thead>
+                        <tr>
+                          <th class="text-center" rowspan="2">Corredores</th>
+                          <th class="text-center" rowspan="2">Pais</th>
+                          <th class="text-center" colspan="4"> Calificación</th>
+                          <th class="text-center" rowspan="2"> OR</th>
+                          <th class="text-center" rowspan="2">Actualización</th>
+                          <th class="text-center" rowspan="2">Fecha subida</th>
+                        </tr>
+                        <tr>
+                          <th class="text-center">1</th>
+                          <th class="text-center"> 2</th>
+                          <th class="text-center">3</th>
+                          <th class="text-center">4</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of reacodexResaguradores">
+                          <td width="397">{{item.c}}</td>
+                          <td width="96"> {{item.pc}} </td>
+                          <td width="80">
+                            <span *ngIf="item.e == 1">{{item.s}}</span>
+                            <span *ngIf="item.e != 1">&nbsp;</span>
+                          </td>
+                          <td width="80">
+                            <span *ngIf="item.e == 2">{{item.s}}</span>
+                            <span *ngIf="item.e != 2">&nbsp;</span>
+                          </td>
+                          <td width="89">
+                            <span *ngIf="item.e == 3">{{item.s}}</span>
+                            <span *ngIf="item.e != 3">&nbsp;</span>
+                          </td>
+                          <td width="80">
+                            <span *ngIf="item.e == 4">{{item.s}}</span>
+                            <span *ngIf="item.e != 4">&nbsp;</span>
+                          </td>
+                          <td width="80">
+                            <span *ngIf="item.e == 5">{{item.s}}</span>
+                            <span *ngIf="item.e != 5">&nbsp;</span>
+                          </td>
+                          <td width="113"> {{item.r2}} </td>
+                          <td width="113"> {{item.dt}} </td>
+                        </tr>
+
+                      </tbody>
+                      <tfoot>
+                        <tr>
+                          <th class="text-center" rowspan="2">Corredores</th>
+                          <th class="text-center" rowspan="2">Pais</th>
+                          <th class="text-center">1</th>
+                          <th class="text-center">2</th>
+                          <th class="text-center">3</th>
+                          <th class="text-center">4</th>
+                          <th class="text-center" rowspan="2"> OR</th>
+                          <th class="text-center" rowspan="2">Actualización</th>
+                        </tr>
+                        <tr>
+                          <th colspan="4" class="text-center">Calificación</th>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+              </mat-tab>
+            </mat-tab-group>
           </div>
+
+
+
+
 
 
         </div>

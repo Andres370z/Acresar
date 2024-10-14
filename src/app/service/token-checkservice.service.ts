@@ -1,29 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import { Http, RequestOptions } from '@angular/http';
 
 
-@Injectable()
+@Injectable(
+  {
+    providedIn: 'root'
+  }
+)
 export class TokenCheckserviceService {
 
-  constructor(private _http: Http, public _auth: AuthService, private router: Router) { }
+  constructor(private _http: HttpClient, public _auth: AuthService, private router: Router) { }
 
-  response:boolean = false;
+  response: boolean = false;
   headers: HttpHeaders = new HttpHeaders()
     .set('Authorization', 'Bearer ' + this._auth.returnToken())
-    .set('Content-Type', 'application/json'); 
-    //.set('Cache-Control', "no-cache");
-    
+    .set('Content-Type', 'application/json');
+  //.set('Cache-Control', "no-cache");
+
   headersFile: HttpHeaders = new HttpHeaders()
     .set('Authorization', 'Bearer ' + this._auth.returnToken());
-    
-    
+
+
   headersMulti: HttpHeaders = new HttpHeaders()
     .set('Authorization', 'Bearer ' + this._auth.returnToken())
     .set('Content-Type', []);
@@ -35,7 +34,7 @@ export class TokenCheckserviceService {
     return this.headersFile;
   }
 
-  public check_token_session():boolean{
+  public check_token_session(): boolean {
 /*
     this._auth.activeSession('Bearer ' + this._auth.returnToken()).subscribe(
       (resp) => {

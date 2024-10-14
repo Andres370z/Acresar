@@ -14,6 +14,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuModule } from '../menu/menu.module';
+import { HttpClientModule } from '@angular/common/http';
+import { MatTabsModule } from '@angular/material/tabs';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { MenuModule } from '../menu/menu.module';
     MatNativeDateModule,
     MatButtonModule,
     MenuModule,
-
+    HttpClientModule,
+    MatTableModule,
+    MatTabsModule
   ]
 })
 export class ReacodexModule { }
