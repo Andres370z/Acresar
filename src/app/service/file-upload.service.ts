@@ -123,4 +123,14 @@ export class FileUploadService {
     );
   }
 
+  getAll(): Observable<any> {
+    return this._http.get(`${environment.api}/entidades`, { headers: this._checkToken.returnHeaders() }).pipe(
+      map((response: any) => response), // Tipar el response según lo que devuelva tu API
+      catchError((error: any) => {
+        alert("Error: " + error.message || "Error del Servidor");
+        this.router.navigateByUrl('/');
+        return throwError(error);
+      })
+    );
+  }
 }

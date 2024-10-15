@@ -54,6 +54,7 @@ export const RoutersLink = {
     getCorredoresList: "corredores/list/reacoex",
     getAsociacionList: "asociaciondecontratos",
     getRamos: "ramos",
+    getAsoTipos: "asociaciondecontratos/tipos",
     getPrimas: "aseguradoras/facultativo/reportenomina/get",
     deleted: 'contratos/automaticos/proporcionales/cuotaparte/',
     getDtaForm: 'contratos/automaticos/proporcionales/cuotaparte/',
@@ -71,6 +72,7 @@ export const RoutersLink = {
     getTraspasocartera : "traspasocartera/tipos",
     getTraspasocarteraCuenta: "traspasocartera/cuentas",
     getComision: "facultativo/contrato/count/comision/",
+    getrsltncntrts: "rsltncntrts",
     
     /** POSTS **/
     postContactos: 'contactos',
@@ -97,6 +99,7 @@ export const RoutersLink = {
     postEditContrato: 'final/contratos/no/proporcionales/cuotaparte/edit/contrato',
     postEditContratoFacultativo: 'contratos/facultativo/edit/contrato',
     postSearchIdcontracs: 'contratos/search',
+    postContratosDetail: 'asociaciondecontratos/detail',
     postReporteNomina: 'aseguradoras/facultativo/reportenomina',
     postSinistroReporteNomina: 'aseguradoras/facultativo/proceso/siniestro/reportenomina',
     postPolizaReporteNomina: 'contratos/automaticos/poliza/get/reporte',

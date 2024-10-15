@@ -1,10 +1,12 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { style } from '@angular/animations';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTable } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { FileUploadService } from 'src/app/service/file-upload.service';
 
 
 @Component({
@@ -14,225 +16,394 @@ import { AuthService } from 'src/app/service/auth.service';
 })
 
 export class RamosEditComponent implements OnInit {
-  selectedOptionOne: any;
-  selectedOptionTwoo: any;
-  selectedOptionThree: any;
-  form: FormGroup;
-  public values: any;
-  entidades: any;
-  superRamos: any;
-  superRamoNumeros: any;
-  displayedColumns: string[] = ['codigo', 'abrevia', 'name', 'accion'];
-  codigo: '';
-  abrevia: '';
-  name: '';
-  dataSource = [{ codigo: '', abrevia: '', name: '' }];
-  dataSourceProducts = [{ codigoProducts: '', abreviaProducts: '', nameProducts: '' }];
-  dataSourceCoberturas = [{ codigoCobertura: '', abreviaCobertura: '', nameCobertura: '' }];
+
 
   idEdit: any;
-  inForm: any;
+  ramos: any;
+  modulo = "Ramos edit"
+  subRamos: any;
+  productos: any;
+  coberturaData: any;
+  myForm: FormGroup;
+  Rsltnntdds: any;
+  codSuper: any;
+  namSuper: any;
+  calendar: any;
+  selectRamo: any;
+  selectEntidad: any;
+  dataRes: any;
+  countProducto: number;
+  countSubRamo: number;
+  countCobertura: number;
+  codActive: Number = 0;
+  listRamosNew = [];
+  codigos: Object = {
+    ramos: '01',
+    cobertura: '03',
+    producto: '02',
+    poliza: '04'
+  };
 
-  @ViewChild(MatTable) table: MatTable<any[]>;
-  @ViewChild('productsTable') productsTable!: MatTable<any>;      // Referencia para la tabla de Productos
-  @ViewChild('coberturasTable') coberturasTable!: MatTable<any>;  // Referencia para la tabla de Coberturas
-
+  @ViewChild('producto') ViewProduct: ElementRef;
+  @ViewChild('cobertura') ViewCovertura: ElementRef;
+  @ViewChild('subRamo') viewSubRamo: ElementRef;
   constructor(
     private authService: AuthService,
     private alert: AlertService,
     private myFormBuilder: FormBuilder,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private _ls: AuthService,
+    //private _Rsltnntdds: RsltnntddsService,
+    private _router: Router,
+    private _rd: Renderer2,
+    private _Rsltnntdds: FileUploadService,
   ) { }
 
   ngOnInit(): void {
-
     console.clear();
-    this.getMulti();
-    this.createForm();
-    this.updateForm();
-  }
-  getMulti() {
-    this.authService.getEntities().then((res: any) => {
-      console.log('esta son las entidades, ', res)
-      this.entidades = res
-    })
-    const res = [
-      { a: 1, c: 'SI' },
-      { a: 1, c: 'NO' }
-    ]
-    this.authService.getSuper().then((res: any) => {
-      console.log('Este es super ramos: ', res);
-      this.superRamos = res;
-    })
-    this.authService.getSuperCodigos().then((res: any) => {
-      console.log('Este es super codigos: ', res);
-      this.superRamoNumeros = res;
-    })
+    this.createForm()
+    this._ls.getEntities().then((res: any) => {
+      this.Rsltnntdds = res
+    });
+    this.idEdit = sessionStorage.getItem('rm');
+
+    this._ls.getRamosEdit(this.idEdit)
+      .then(
+        res => {
+          console.log('Entra 1');
+
+          console.log(res);
+          this.dataRes = res;
+          this.ramos = res.rm;
+
+          // tslint:disable-next-line: forin
+          for (let i in res.cb) {
+            const item = res.cb[i];
+            const data = {
+              cob: item['d'],
+              abre: item['t'],
+              nombre: item['r'],
+              id: item['a']
+            };
+
+            this.createRowCellsInData(data, this.ViewCovertura.nativeElement);
+          }
+
+          // tslint:disable-next-line: forin
+          for (let i in res.pr) {
+            const item = res.pr[i];
+            const data = {
+              cob: item['r'],
+              abre: item['e'],
+              nombre: item['s'],
+              id: item['a']
+            };
+
+            this.createRowCellsInData(data, this.ViewProduct.nativeElement);
+          }
+
+          // tslint:disable-next-line: forin
+          for (let i in res.sr) {
+            const item = res.sr[i];
+            const data = {
+              cob: item['d'],
+              abre: item['t'],
+              nombre: item['r'],
+              id: item['a']
+            };
+
+            this.createRowCellsInData(data, this.viewSubRamo.nativeElement);
+          }
+
+          this.myForm.controls.abreviatura.setValue(this.ramos[0].s);
+          this.myForm.controls.codigoRamoTecnico.setValue(this.ramos[0].e);
+          this.myForm.controls.ramoTecnico.setValue(this.ramos[0].a2);
+          this.myForm.controls.ramoSuper.setValue(this.ramos[0].c);
+          this.myForm.controls.entidad.setValue(this.ramos[0].r);
+          this.myForm.controls.codigoSuper.setValue(this.ramos[0].c);
+
+          this.selectRamo = this.ramos[0].c;
+          this.selectEntidad = this.ramos[0].r;
+
+
+        },
+        err => {
+          console.log(err);
+        }
+      );
+
+    this._ls.getSuper().then((res: any) => {
+      this.codSuper = res
+    });
+    this._ls.getSuperCodigos().then((res: any) => {
+      this.namSuper = res
+    });
+
+
+
+
   }
   createForm() {
-    /*Este es el Formulario*/
-    this.form = this.myFormBuilder.group({
-      entidad: [Menssage.empty, Validators.compose([Validators.required])],
-      codramo: [Menssage.empty, Validators.compose([Validators.required])],
-      ramosu: [Menssage.empty, Validators.compose([Validators.required])],
-      codTecnico: [Menssage.empty, Validators.compose([Validators.required])],
-      abreviatura: [Menssage.empty, Validators.compose([Validators.required])],
-      ramoTecnico: [Menssage.empty, Validators.compose([Validators.required])],
-    });
-
-  }
-  updateForm() {
-    this.idEdit = sessionStorage.getItem('rm');
-    this.authService.getRamosEdit(this.idEdit).then((res: any) => {
-      this.inForm = res.rm;
-      console.log('listen rm ', this.inForm);
-      console.log('valor entidad predefinido: ', this.inForm[0].r);
-
-      // Ahora establecemos los valores en el formulario
-      this.form.controls.entidad.setValue(this.inForm[0].r);  // Asignamos entidad
-      this.form.controls.codramo.setValue(this.inForm[0].s);  // Asignamos codramo
-      this.form.controls.ramosu.setValue(this.inForm[0].c);   // Asignamos ramosu
-      this.form.controls.codTecnico.setValue(this.inForm[0].e);   // Asignamos ramosu
-      this.form.controls.abreviatura.setValue(this.inForm[0].s);   // Asignamos ramosu
-      this.form.controls.ramoTecnico.setValue(this.inForm[0].a2);
-    }, err => {
-      console.log(err);
+    this.myForm = new FormGroup({
+      entidad: new FormControl("", Validators.required),
+      ramoSuper: new FormControl("", Validators.required),
+      codigoSuper: new FormControl("", Validators.required),
+      codigoRamoTecnico: new FormControl("", Validators.required),
+      abreviatura: new FormControl("", Validators.required),
+      ramoTecnico: new FormControl("", Validators.required)
     });
   }
-  saveData(data: any) {
+
+  update() {
+    let data = this.myForm.value;
+    data.detalleRamo = this.pakageActive();
     console.log(data);
-
-  }
-  // Método para agregar una nueva fila
-  addRow() {
-    const newRow = { codigo: '', abrevia: '', name: '' };
-    this.dataSource = [...this.dataSource, newRow];  // Agregar una nueva fila
-    this.table.renderRows()
-  }
-  // Método para eliminar una fila
-  deleteRow() {
-    this.dataSource.pop()  // Eliminar la fila por índice
-    this.table.renderRows()
-  }
-  addRowProducts() {
-    const newRow = { codigoProducts: '', abreviaProducts: '', nameProducts: '' };
-    this.dataSourceProducts = [...this.dataSourceProducts, newRow];
-    this.table.renderRows()
-  }
-  deleteRowProducts() {
-    this.dataSourceProducts.pop()
-    this.productsTable.renderRows()
+    this._ls.putRam(this.idEdit, data).then(
+      res => {
+        this.alert.success('Ok', 'Ramo actualizado');
+        this._router.navigate(['home/asociacion/ramos']);
+      },
+      err => {
+        this.alert.error('Error', 'Por favor intente de nuevo');
+      }
+    );
   }
 
+  removeRows(): any {
+    const subRamo = this.viewSubRamo.nativeElement.childrenNode;
+    const producto = this.ViewCovertura.nativeElement.childrenNode;
+    const cobertura = this.ViewProduct.nativeElement.childrenNode;
 
-  addRowCoberturas() {
-    const newRow = { codigoCobertura: '', abreviaCobertura: '', nameCobertura: '' };
-    this.dataSourceCoberturas = [...this.dataSourceCoberturas, newRow];
-    this.table.renderRows()
+    // tslint:disable-next-line: forin
+    for (let e in subRamo) {
+      console.log(e);
+      this._rd.removeChild(this.viewSubRamo.nativeElement, e);
+    }
+
+    // tslint:disable-next-line: forin
+    for (let e in producto) {
+      this._rd.removeChild(this.ViewProduct.nativeElement, e);
+    }
+
+    // tslint:disable-next-line: forin
+    for (let e in cobertura) {
+      this._rd.removeChild(this.ViewCovertura.nativeElement, e);
+    }
   }
 
-  deleteRowCoberturas() {
-    this.dataSourceCoberturas.pop()  // Eliminar la fila por índice
-    this.coberturasTable.renderRows()
+  createRowCellsInData(data: any, view: any,) {
+    const tr = this._rd.createElement('tr');
+    const td1 = this._rd.createElement('td');
+    const td2 = this._rd.createElement('td');
+    const td3 = this._rd.createElement('td');
+    const td4 = this._rd.createElement('td');
+
+    const input1 = this._rd.createElement('input');
+    const input2 = this._rd.createElement('input');
+    const input3 = this._rd.createElement('input');
+    const btn = this._rd.createElement('button');
+    //addicionar clase
+    this._rd.addClass(input1, 'form-control');
+    this._rd.addClass(input2, 'form-control');
+    this._rd.addClass(input3, 'form-control');
+    this._rd.addClass(btn, 'btn');
+    this._rd.addClass(btn, 'btn-outline-danger',);
+
+    //adicionar atributos
+    this._rd.setAttribute(input1, 'type', 'text');
+    this._rd.setAttribute(input2, 'type', 'text');
+    this._rd.setAttribute(input3, 'type', 'text');
+
+    this._rd.setAttribute(input1, 'name', 'cod');
+    this._rd.setAttribute(input2, 'name', 'abre');
+    this._rd.setAttribute(input3, 'name', 'nombre');
+    this._rd.setProperty(btn, 'textContent', 'borrar');
+
+    this._rd.setAttribute(input1, 'value', data.cob);
+    this._rd.setAttribute(input2, 'value', data.abre);
+    this._rd.setAttribute(input3, 'value', data.nombre);
+
+    this._rd.setAttribute(input1, 'disabled', 'disabled');
+
+    const inputid = this._rd.createElement('input');
+    this._rd.setAttribute(inputid, 'value', data.id);
+    this._rd.setAttribute(inputid, 'type', 'hidden');
+
+
+
+    //faicon
+    const i = this._rd.createElement('i');
+    this._rd.addClass(i, 'bi');
+    this._rd.addClass(i, 'bi-trash');
+
+    this._rd.appendChild(btn, i);
+    this._rd.listen(btn, 'click', (e) => {
+      this.removeRow(e.target);
+    });
+
+
+
+    this._rd.listen(input1, 'change', (e) => {
+      const value = e.target.value;
+      const valN = Number(value) < 10 ? `0${value}` : value;
+      e.target.value = valN;
+    });
+
+    //adicionar elementos
+    this._rd.appendChild(td1, input1);
+    this._rd.appendChild(td2, input2);
+    this._rd.appendChild(td3, input3);
+    this._rd.appendChild(td3, inputid);
+
+    this._rd.appendChild(td4, btn);
+    this._rd.appendChild(tr, td1);
+    this._rd.appendChild(tr, td2);
+    this._rd.appendChild(tr, td3);
+    this._rd.appendChild(tr, td4);
+
+    this._rd.appendChild(view, tr);
+
   }
 
+  createRowCells(view: TemplateRef<any>, key: string) {
+    const tr = this._rd.createElement('tr');
+    const td1 = this._rd.createElement('td');
+    const td2 = this._rd.createElement('td');
+    const td3 = this._rd.createElement('td');
+    const td4 = this._rd.createElement('td');
 
+    const input1 = this._rd.createElement('input');
+    const input2 = this._rd.createElement('input');
+    const input3 = this._rd.createElement('input');
+    const btn = this._rd.createElement('button');
+    //addicionar clase
+    this._rd.addClass(input1, 'form-control');
+    this._rd.addClass(input2, 'form-control');
+    this._rd.addClass(input3, 'form-control');
+    this._rd.addClass(btn, 'btn');
+    this._rd.addClass(btn, 'btn-outline-danger');
 
-  //ALISTANDO DATA
-  createData() {
+    //adicionar atributos
+    this._rd.setAttribute(input1, 'type', 'text');
+    this._rd.setAttribute(input2, 'type', 'text');
+    this._rd.setAttribute(input3, 'type', 'text');
 
-    console.log('Este es ', this.dataSource);
+    this._rd.setAttribute(input1, 'name', 'cod');
+    this._rd.setAttribute(input2, 'name', 'abre');
+    this._rd.setAttribute(input3, 'name', 'nombre');
 
+    //faicon
+    const i = this._rd.createElement('i');
+    this._rd.addClass(i, 'fas');
+    this._rd.addClass(i, 'fa-trash-alt');
+
+    this._rd.appendChild(btn, i);
+    this._rd.listen(btn, 'click', (e) => {
+      this.removeRow(e.target);
+    });
+
+    this._rd.listen(input1, 'change', (e) => {
+      const value = e.target.value.split(' ').length > 1 ? e.target.value.split(' ')[1] : e.target.value;
+      e.target.value = `${this.codigos[key]} ${value}`;
+    });
+
+    this._rd.listen(input1, 'change', (e) => {
+      const value = e.target.value;
+      const valN = Number(value) < 10 ? `0${value}` : value;
+      e.target.value = valN;
+    });
+
+    //adicionar elementos
+    this._rd.appendChild(td1, input1);
+    this._rd.appendChild(td2, input2);
+    this._rd.appendChild(td3, input3);
+    this._rd.appendChild(td4, btn);
+    this._rd.appendChild(tr, td1);
+    this._rd.appendChild(tr, td2);
+    this._rd.appendChild(tr, td3);
+    this._rd.appendChild(tr, td4);
+
+    this._rd.appendChild(view, tr);
+  }
+  //eliminar fila delas tablas 
+  removeRow(e: any) {
+    const parent = e.parentNode.parentNode.parentNode;
+    parent.remove();
+  }
+  pakageActive(): Object {
     const json = {
       coberturas: [],
       productos: [],
       subRamos: [],
     };
+    const productos = this.ViewProduct.nativeElement.rows;
+    const coberturas = this.ViewCovertura.nativeElement.rows;
+    const subRamos = this.viewSubRamo.nativeElement.rows;
 
-    // Recorre las filas desde el dataSource, que es el array que usas en la tabla
-    for (let row of this.dataSource) {
-      console.clear();
-      this.dataSource.forEach((row, index) => {
-        console.log(`Row ${index + 1}:`, row);
-      });
-
-      // Accede a las propiedades del objeto row
-      let subRamosList = {
-        cod: row.codigo,
-        abreviatura: row.abrevia,
-        nombre: row.name,
+    for (let row of productos) {
+      const cells = row.cells;
+      console.log(cells);
+      let productoList = {
+        cod: cells[0].firstChild.value,
+        abreviatura: cells[1].firstChild.value,
+        nombre: cells[2].firstChild.value,
       };
-      console.log(subRamosList);
 
-      // Añade la fila solo si todos los campos están completos
-      if (subRamosList.cod && subRamosList.abreviatura && subRamosList.nombre) {
+      if (cells[2].children.length === 2) {
+        productoList['id'] = cells[2].lastChild.value;
+      }
+
+      if (productoList.cod !== undefined && productoList.abreviatura !== undefined && productoList.nombre !== undefined) {
+
+        json.productos.push(productoList);
+      }
+    }
+
+
+    for (let row of coberturas) {
+      const cells = row.cells;
+      let coberturaList = {
+        cod: cells[0].firstChild.value,
+        abreviatura: cells[1].firstChild.value,
+        nombre: cells[2].firstChild.value,
+      };
+
+      if (cells[2].children.length === 2) {
+        coberturaList['id'] = cells[2].lastChild.value;
+      }
+
+      if (coberturaList.cod !== undefined && coberturaList.abreviatura !== undefined && coberturaList.nombre !== undefined) {
+        json.coberturas.push(coberturaList);
+      }
+    }
+
+    for (let row of subRamos) {
+      const cells = row.cells;
+      let subRamosList = {
+        cod: cells[0].firstChild.value,
+        abreviatura: cells[1].firstChild.value,
+        nombre: cells[2].firstChild.value,
+      };
+
+      if (cells[2].children.length === 2) {
+        subRamosList['id'] = cells[2].lastChild.value;
+      }
+
+      if (subRamosList.cod !== undefined && subRamosList.abreviatura !== undefined && subRamosList.nombre !== undefined) {
         json.subRamos.push(subRamosList);
       }
     }
 
-    for (let row of this.dataSourceProducts) {
-      this.dataSourceProducts.forEach((row, index) => {
-        console.log(`Row ${index + 1}:`, row);
-      });
 
-      let ProductList = {
-        cod: row.codigoProducts,
-        abreviatura: row.abreviaProducts,
-        nombre: row.nameProducts,
-      };
-      console.log(ProductList);
-
-      if (ProductList.cod && ProductList.abreviatura && ProductList.nombre) {
-        json.productos.push(ProductList);
-      }
-    }
-
-    for (let row of this.dataSourceCoberturas) {
-      this.dataSourceProducts.forEach((row, index) => {
-        console.log(`Row ${index + 1}:`, row);
-      });
-
-      let CovertList = {
-        cod: row.codigoCobertura,
-        abreviatura: row.abreviaCobertura,
-        nombre: row.nameCobertura,
-      };
-      console.log(CovertList);
-
-      if (CovertList.cod && CovertList.abreviatura && CovertList.nombre) {
-        json.coberturas.push(CovertList);
-      }
-    }
-    console.log('JSON final:', json);
-    return json
+    return json;
   }
 
-  finishDta() {
-    if (this.form.valid) {
-      let data = this.form.value;
-      data.detalleRamo = this.createData();
-      const item = {
-        "abreviatura": data.abreviatura,
-        "codigoRamoTecnico": data.codTecnico,
-        "codigoSuper": data.codramo,
-        "detalleRamo": data.detalleRamo,
-        "entidad": data.entidad,
-        "ramoSuper": data.ramosu,
-        "ramoTecnico": data.ramoTecnico,
-      }
-      console.log('Aqui esta tu data ', item);
 
-      this.authService.putRam(this.idEdit, item).then((res: any) =>{
-        this.alert.success('Ok', res.mensaje)
-        console.log(res);
-        this.router.navigate(['home/asociacion/ramos']);
-      }, err => {
-        this.alert.error('Ups', 'intentalo mas tarde')
-      })
-    }else {
-      this.alert.error('Falta algo','Los campos no estan completos')
-    }
+
+  sinconiza(item: string) {
+
   }
+
 
 }

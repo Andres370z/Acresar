@@ -11,48 +11,374 @@
           </div>
           <!-- MENU -->
           <div style="display: flex; justify-content: center; align-items: center;">
-            <app-menu></app-menu>
-          </div>
-          <div class="card-body">
-            <div class="table-responsive">
-              <mat-form-field>
-                <mat-label>Buscar...</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
-              </mat-form-field>
-              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                <ng-container matColumnDef="codigo">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell">Codigo</th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.e}} </td>
-                </ng-container>
-                <ng-container matColumnDef="abreviatura">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell">Abreviatura</th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.s}} </td>
-                </ng-container>
-                <ng-container matColumnDef="ramoTecnico">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell">Ramos Tecnico</th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.a2}} </td>
-                </ng-container>
-                <ng-container matColumnDef="ramoSuperintendencia">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell">Ramo Superintendencia</th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.rsc}} - {{element.rsr}}</td>
-                </ng-container>
-                <ng-container matColumnDef="entidad">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell">Entidad</th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"> {{element.ntd}} </td>
-                </ng-container>
-                <ng-container matColumnDef="Accion">
-                  <th mat-header-cell *matHeaderCellDef class="custom-cell">Acciones</th>
-                  <td mat-cell *matCellDef="let element" class="custom-cell"><mat-icon (click)="editar(element.a)"> border_color</mat-icon></td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
-              </mat-paginator>
+            <div class="col-12 text-center">
+              <ul class="nav">
+                <li class="nav-item">
+                  <!-- Single link -->
+                  <a (click)="navigate('/home/asociacion/ramos')" class="nav-link" style="color: #006571;">
+                    <p>Ramos</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <!-- Single link -->
+                  <a class="nav-link" style="color: #006571;" href="javascript:void(0)" data-toggle="modal"
+                    data-target="#myModal">
+                    <p>ASOCIACION DE CONTRATOS</p>
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
+
+          <div class="card-body">
+            <div class="table-responsive" *ngIf="datatableshow">
+
+
+              <table id="myData" class="hover table table-striped table-bordered">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Abreviatura</th>
+                    <th>Ramo Técnico</th>
+                    <th>Ramo Superintendencia</th>
+                    <th>Entidad</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody id="trgt">
+                  <tr *ngFor="let item of list ">
+                    <td>{{item.e}}</td>
+                    <td>{{item.s}}</td>
+                    <td>{{item.a2}}</td>
+                    <td>{{item.rsc}} - {{item.rsr}}</td>
+                    <td>{{item.ntd}}</td>
+                    <td>
+                      <a (click)="editar(item.a)">
+                        <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                      </a>
+
+                      <i class="fa fa-trash cursor btn-header cursor_active"></i>
+                    </td>
+                  </tr>
+
+
+
+                </tbody>
+              </table>
+
+            </div>
+
+            <div class="" *ngIf="!datatableshow">
+              <form [formGroup]="myForm">
+                <div class="row">
+                  <!--<pre>{{myForm.value|json}}</pre>-->
+                  <div class="col-xs-3 ">
+                    <label for="entidad">Entidad</label>
+                    <select id="entidad" name="entidad" formControlName="entidad">
+                      <option value="">Seleccione</option>
+                      <option *ngFor="let item of Rsltnntdds | async" value="{{item.a}}">{{item.c}}</option>
+                    </select>
+                  </div>
+
+                  <div class="col-xs-3 ">
+                    <div class="form-group">
+                      <label for="codigoSuper">Cod. Ramo Super</label>
+                      <select name="codigoSuper" (change)="sinconiza('codigo')" id="codigoSuper"
+                        formControlName="codigoSuper">
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let item of codSuper | async" value="{{item.a}}">{{item.c}}</option>
+                      </select>
+
+                    </div>
+                  </div>
+                  <div class="col-xs-6 ">
+                    <div class="form-group">
+                      <label for="ramoSuper">Ramo Super</label>
+                      <select name="ramoSuper" id="ramoSuper" (change)="sinconiza('ramo')" formControlName="ramoSuper">
+                        <option value="">Seleccione</option>
+                        <option *ngFor="let item of namSuper | async" value="{{item.a}}">{{item.r}}</option>
+                      </select>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-3 ">
+                    <div class="form-group">
+                      <label for="codigoRamoTecnico">Cod. Ramo Técnico</label>
+                      <input type="text" formControlName="codigoRamoTecnico" name="codigoRamoTecnico"
+                        id="codigoRamoTecnico" placeholder="Cod. Ramo Técnico">
+                    </div>
+                  </div>
+                  <div class="col-xs-3 ">
+                    <div class="form-group">
+                      <label for="abreviatura">Abreviatura</label>
+                      <input type="text" formControlName="abreviatura" name="abreviatura" id="abreviatura"
+                        placeholder="Abreviatura ">
+                    </div>
+                  </div>
+                  <div class="col-xs-6 ">
+                    <div class="form-group">
+                      <label for="ramoTecnico">Ramo Técnico</label>
+                      <input type="text" formControlName="ramoTecnico" name="ramoTecnico" id="ramoTecnico"
+                        placeholder="Ramo Técnico">
+                    </div>
+                  </div>
+
+                </div>
+
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2>Sub ramos</h2>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Cod Sub Ramo</th>
+                          <th>Abreviatura</th>
+                          <th>Nombre</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody #subRamo id="subramosList">
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12">
+                    <button class="btn btn-default" (click)="createRowCells(subRamo,'ramos')">Sub. Ramos</button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2> Productos</h2>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Cod. producto</th>
+                          <th>Abreviatura</th>
+                          <th>Nombre</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody #producto id="subramosList">
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12">
+                    <button class="btn btn-default" (click)="createRowCells(producto,'producto')">Agregar
+                      producto</button>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <h2>Coberturas</h2>
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Cod. Cobertura</th>
+                          <th>Abreviatura</th>
+                          <th>Nombre</th>
+                          <th>Acción</th>
+                        </tr>
+                      </thead>
+                      <tbody #cobertura id="subramosList">
+
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="col-md-12">
+                    <button class="btn btn-default" (click)="createRowCells(cobertura,'cobertura')">Agregar
+                      Cobertura</button>
+                  </div>
+                </div>
+
+              </form>
+
+
+              <div class="box-footer clearfix">
+
+                <button type="button" class="btn btn-primary" (click)="guardar()">
+                  guardar
+                  <i class="far fa-save"></i>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- /.table-responsive -->
+          </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Asociación de Contratos</h4>
+      </div>
+      <div class="modal-body">
+
+        <form [formGroup]="formulario">
+
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label for="inputEmail4">Tipo de contrato</mat-label>
+
+                <input matInput type="text" readonly id="inputEmail4" placeholder="Tipo de Contrato"
+                  formControlName="tipoContrato">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label for="inputEmail4">ID Contrato</mat-label>
+                <input matInput type="text" (change)="consultar()" id="searchInput" placeholder="ID Contrato "
+                  formControlName="idContrato">
+                <input type="hidden" name="idContratopk" id="idContratopk" formControlName="idContratopk">
+
+                <ul class="list-group" *ngIf="lisRequest">
+                  <li class="list-group-item" *ngFor="let item of dataReq"><a href="javascript:void(0)"
+                      (click)="cargar(item)">{{item.o}}</a></li>
+                </ul>
+              </mat-form-field>
+
+
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label for="inputEmail4">Descripción Contrato</mat-label>
+
+                <input matInput type="text" readonly id="inputEmail4" placeholder="Descripción Contrato"
+                  formControlName="descripcion">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <mat-form-field appearance="fill">
+                <mat-label for="fi">Inicio</mat-label>
+                <input matInput type="text" readonly id="fi" placeholder="Inicio " formControlName="fInicio">
+
+              </mat-form-field>
+            </div>
+
+            <div class="col-6">
+              <mat-form-field appearance="fill">
+                <mat-label for="ff">Fin</mat-label>
+                <input matInput type="text" readonly id="ff" placeholder="Fin " formControlName="fFin">
+
+              </mat-form-field>
+            </div>
+
+          </div>
+
+
+
+
+
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label for="ramo">Ramo</mat-label>
+                <select matNativeControl (change)="ShowAssoc(); getDetail();" formControlName="ramo">
+                  <option *ngFor="let item of ramos" [value]="item.a">{{item.e}} - {{item.a2}}</option>
+
+                </select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="showAssoc">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="inputEmail4">Tipo de Asociación</label>
+                asociacion/contratos
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="showList">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-8">
+
+              <div class="form-group" *ngFor="let item of detail">
+                <div class="form-check">
+                  <input class="form-check-input detailCheckbox" type="checkbox" (click)="detalle(item)"
+                    name="checkList">
+                  <label class="form-check-label" for="chk{{item.id}}">
+                    {{item.name}}
+                  </label>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-xs-2">
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="listAsociacion.length > 0">
+            <div class="col-md-12">
+              <table class="row-border hover">
+                <thead>
+                  <tr>
+                    <th>Contrato</th>
+                    <th>Tipo Contrato</th>
+                    <th>Descipcion</th>
+                    <th>Ramo</th>
+                    <th>Tipo de asociacion</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let i of listAsociacion">
+                    <td>{{i.idContrato}}</td>
+                    <td>{{i.tipoContrato}}</td>
+                    <td>{{i.descripcion}}</td>
+                    <td>{{i.ramoN}}</td>
+                    <td>{{i.tipoAs}}</td>
+                    <td>
+                      <i class="fa fa-trash cursor btn-header cursor_active" (click)="delete(i)"></i>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" (click)="agregar()"
+          style="background-color: #016672 !important; margin-left: 7px;">Agregar</button>
+        <button type="button" class="btn" (click)="guardaras()"
+          style="background-color: #016672 !important; margin-left: 7px;">Guardar </button>
+        <button type="button" class="btn" data-dismiss="modal" id="cancelar"
+          style="background-color: #016672 !important; margin-left: 7px;">Cancelar</button>
       </div>
     </div>
   </div>

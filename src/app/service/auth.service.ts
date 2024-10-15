@@ -277,6 +277,10 @@ export class AuthService {
   getEntities() {
     return this.registeresquest.GETER(RoutersLink.getEntities)
   }
+
+  gersltncntrtst() {
+    return this.registeresquest.GETER(RoutersLink.getrsltncntrts)
+  }
   getCorredor() {
     return this.registeresquest.GETER(RoutersLink.getCorredor)
   }
@@ -373,6 +377,10 @@ export class AuthService {
   getSuperCodigos() {
     return this.registeresquest.GETER(RoutersLink.getNumRamos)
   }
+
+  getAsoTipos() {
+    return this.registeresquest.GETER(RoutersLink.getAsoTipos)
+  }
   getDtaRamos(id: any) {
     return this.registeresquest.GETER(RoutersLink.getDtaRamos + id)
   }
@@ -403,6 +411,9 @@ export class AuthService {
   /** POST **/
   postFacultativosContratos(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativosContrato, { item })
+  }
+  postAsocia(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.getAsociacionList, { item })
   }
   postFcultativos(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativos, { item })
@@ -437,6 +448,10 @@ export class AuthService {
   }
   postCuotaRamo(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postCuotaRamo, { item })
+
+  }
+  postRamo(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.getRamos, { item })
 
   }
 
@@ -502,6 +517,9 @@ export class AuthService {
   }
   postEditContratoFacultativo(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContratoFacultativo, { item })
+  }
+  postContratosDetail(item: any) {
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postContratosDetail, { item })
   }
   postSearchIdcontracs(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postSearchIdcontracs, { item })
