@@ -48,7 +48,7 @@ export class FileUploadService {
   }
 
   public uploadFile(fdt): Observable<any> {
-    return this._http.post<any>(`${environment.api}/upload/reacoex`, fdt, { headers: this._checkToken.returnHeadersMulti() }).pipe(
+    return this._http.post<any>(`${environment.api}upload/reacoex`, fdt, { headers: this._checkToken.returnHeadersMulti() }).pipe(
       tap(data => {
         if (data.error === 'token_expired') {
           this.router.navigateByUrl('/');
@@ -64,7 +64,7 @@ export class FileUploadService {
   }
 
   public uploadFileMonitoring(fdt): Observable<any> {
-    return this._http.post<any>(`${environment.api}/upload/monitoring`, fdt, { headers: this._checkToken.returnHeadersMulti() }).pipe(
+    return this._http.post<any>(`${environment.api}upload/monitoring`, fdt, { headers: this._checkToken.returnHeadersMulti() }).pipe(
       tap(data => {
         if (data.error === 'token_expired') {
           this.router.navigateByUrl('/');
@@ -80,7 +80,7 @@ export class FileUploadService {
   }
 
   public uploadGetFileMonitoring(): Observable<any> {
-    return this._http.get<any>(`${environment.api}/upload/getmonitoring`).pipe(
+    return this._http.get<any>(`${environment.api}upload/getmonitoring`).pipe(
       tap(data => {
         console.log(data);
       }),
@@ -92,7 +92,7 @@ export class FileUploadService {
   }
 
   public uploadFilePrimas(fdt): Observable<any> {
-    return this._http.post<any>(`${environment.api}/primas/carga`, fdt, { headers: this._checkToken.returnHeadersMulti() }).pipe(
+    return this._http.post<any>(`${environment.api}primas/carga`, fdt, { headers: this._checkToken.returnHeadersMulti() }).pipe(
       tap(data => {
         if (data.error === 'token_expired') {
           this.router.navigateByUrl('/');

@@ -34,6 +34,7 @@
         "@fullcalendar/core": "^6.0.2",
         "@fullcalendar/daygrid": "^6.0.2",
         "@fullcalendar/interaction": "^6.0.2",
+        "@iplab/ngx-file-upload": "^14.0.2",
         "@swimlane/ngx-charts": "^20.4.1",
         "@syncfusion/ej2-angular-calendars": "^24.2.3",
         "@syncfusion/ej2-base": "^24.2.3",

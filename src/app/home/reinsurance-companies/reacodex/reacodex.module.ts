@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MenuModule } from '../menu/menu.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTabsModule } from '@angular/material/tabs';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     MenuModule,
     HttpClientModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    FileUploadModule
   ]
 })
 export class ReacodexModule { }

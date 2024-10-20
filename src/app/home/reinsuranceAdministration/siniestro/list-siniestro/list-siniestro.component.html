@@ -1,0 +1,222 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Listado</h4>
+            <!-- MENU -->
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="table-responsive">
+
+                <table id="" class="row-border hover table">
+                  <thead>
+                    <tr>
+                      <th>Poliza</th>
+                      <th>Siniestro</th>
+                      <th>Asegurado</th>
+                      <th>No. Contrato</th>
+                      <th>Ramos</th>
+                      <th>Fecha del siniestro</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                    <tr *ngFor="let item of ls | async">
+                      <td>{{item.codigopol}}</td>
+                      <td>{{item.sin}}</td>
+                      <td>{{item.asegurado}}</td>
+                      <td>{{item.idcontratoo}}</td>
+                      <td>{{item.descrip}}</td>
+                      <td>{{item.fech}}</td>
+                      <td>
+
+                        <i (click)="editItemForm(item)" class="fa fa-edit cursor btn-header cursor_active"></i>
+                        <i (click)="delete(item.a)" class="fa fa-trash cursor btn-header cursor_active"></i>
+
+                      </td>
+                    </tr>
+
+                  </tbody>
+
+                </table>
+                <div>
+                  <div class="container">
+                    <div class="text-center">
+
+                      <ul *ngIf="pager.pages && pager.pages.length" class="pagination">
+                        <li [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a (click)="setPage(1)">inicio</a>
+                        </li>
+                        <li [ngClass]="{disabled:pager.currentPage === 1}">
+                          <a (click)="setPage(pager.currentPage - 1)">anterior</a>
+                        </li>
+                        <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}">
+                          <a (click)="setPage(page)">{{page}}</a>
+                        </li>
+                        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="setPage(pager.currentPage + 1)">siguiente</a>
+                        </li>
+                        <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}">
+                          <a (click)="setPage(pager.totalPages)">fin</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Agregar Contacto</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Nombre Contacto</mat-label>
+                <input matInput type="text" name="nombre" [(ngModel)]="contractoForm.nombre" placeholder="Nombre Contacto">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" name="direccion" [(ngModel)]="contractoForm.direccion" placeholder="Dirección">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Teléfono</mat-label>
+                <input matInput type="number" name="telefono" [(ngModel)]="contractoForm.telefono" placeholder="Teléfono">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>País</mat-label>
+                <input matInput type="text" name="pais" [(ngModel)]="contractoForm.pais" placeholder="País">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="procesarContacto()" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Datos Bancarios</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Certificación / Certification</mat-label>
+                <input matInput type="file" id="inputEmail4" placeholder="Certificación">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Titular / Owner</mat-label>
+                <input matInput type="text" name="titular" [(ngModel)]="bancoForm.titular" placeholder="Titular / Owner">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Número de cuenta / Account Number</mat-label>
+                <input matInput type="number" name="numeroCuenta" [(ngModel)]="bancoForm.numeroCuenta" placeholder="Número de cuenta / Account Number">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Moneda / Currency</mat-label>
+                <input matInput type="text" name="moneda" [(ngModel)]="bancoForm.moneda" placeholder="Moneda / Currency">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>ABA / SWIFT</mat-label>
+                <input matInput type="text" name="aba" [(ngModel)]="bancoForm.aba" placeholder="ABA / SWIFT">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Banco / Bank</mat-label>
+                <input matInput type="text" name="banco" [(ngModel)]="bancoForm.banco" placeholder="Banco / Bank">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Pais / Country</mat-label>
+                <input matInput type="text" name="pais" [(ngModel)]="bancoForm.pais" placeholder="Pais / Country">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Ciudad / City</mat-label>
+                <input matInput type="text" name="ciudad" [(ngModel)]="bancoForm.ciudad" placeholder="Ciudad / City">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="procesarBanco()" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

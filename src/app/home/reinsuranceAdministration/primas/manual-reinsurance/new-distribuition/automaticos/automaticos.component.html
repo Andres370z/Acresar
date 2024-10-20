@@ -11,274 +11,834 @@
           </div>
 
           <div class="card-body">
-            <form class="form mb-4" [formGroup]="form" (ngSubmit)="sendForm(form.value)">
-              <div class="row d-flex justify-content-center align-items-center">
-                <!--Buscador con autocomplete-->
-                <div class="col-6 ">
-                  <mat-form-field appearance="outline">
+            <form [formGroup]="cuotaParteForm" class="form">
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
                     <mat-label>Identificación del contrato</mat-label>
-                    <!-- PARA QUE EL AUTOCOMPLETE FUNCIONE AL TECLEAR AGREGA ESTE METODO AL INPUT: (ngModelChange)="contratosfacultativos()" -->
-                    <input type="text" matInput [matAutocomplete]="auto" formControlName="idContract" (ngModelChange)="contratosfacultativos()">
-                    <mat-autocomplete #auto="matAutocomplete" >
-                      <mat-option  *ngFor="let item of options" [value]="item.o" (click)="upload(item)">
-                        {{item.o}}
-                      </mat-option>
-                    </mat-autocomplete>
-                    <mat-icon matSuffix (click)="contratosfacultativos()">search</mat-icon>
-                    <mat-hint>preciona el icono para buscar *</mat-hint>
+                    <input matInput type="text" (change)="contratosfacultativos()" id="searchInput"
+                      placeholder="Nombre del contrato" formControlName="idContrato">
+                    <input type="hidden" formControlName="idContratopk">
+                    <ul id="myUL" *ngIf="lisRequest">
+                      <li *ngFor="let item of contratofinal">
+                        <a href="javascript:void(0)" (click)="cargar(item)">{{item.o}}</a>
+                      </li>
+                    </ul>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Descripción</mat-label>
+                    <input matInput type="text" formControlName="descripcion" placeholder="Descripción">
                   </mat-form-field>
                 </div>
               </div>
 
-              <div *ngIf="clickOne" class="row">
 
-                <div class="col-6"> <!--Descripcion-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Descripción</mat-label>
-                    <input matInput formControlName="descripcion" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
 
-                <div class="col-6"> <!--Moneda-->
+              <div class="row">
+                <div class="col-md-6">
                   <mat-form-field appearance="fill">
                     <mat-label>Moneda</mat-label>
-                    <input matInput formControlName="moneda" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" formControlName="moneda" placeholder="Moneda">
                   </mat-form-field>
                 </div>
 
-                <div class="col-3"> <!--Inicio-->
+                <div class="col-3">
                   <mat-form-field appearance="fill">
                     <mat-label>Inicio</mat-label>
-                    <input matInput formControlName="inicio" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" formControlName="inicio">
                   </mat-form-field>
                 </div>
-
-                <div class="col-3"> <!--Fin-->
+                <div class="col-3">
                   <mat-form-field appearance="fill">
                     <mat-label>Fin</mat-label>
-                    <input matInput formControlName="fin" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" formControlName="fin">
                   </mat-form-field>
                 </div>
+              </div>
 
-                <div class="col-6"> <!--Ramos-->
+
+
+
+              <!-- VA 100 -->
+              <div class="row">
+                <div class="col-md-6 col-xs-12">
                   <mat-form-field appearance="fill">
                     <mat-label>Ramos</mat-label>
-                    <input matInput formControlName="ramos" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" name="ramo" formControlName="ramo">
                   </mat-form-field>
                 </div>
-
-                <div class="col-4"> <!--Tpo Asociacion-->
+                <div class="col-md-6 col-xs-12">
                   <mat-form-field appearance="fill">
-                    <mat-label>Tipo Asociacion</mat-label>
-                    <input matInput formControlName="asociasionTipo" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <mat-label>Tipo Asociación</mat-label>
+                    <input matInput type="text" name="tipofinal" formControlName="tipofinal">
                   </mat-form-field>
                 </div>
+              </div>
 
-                <div class="col-4"> <!--Producto-->
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
                   <mat-form-field appearance="fill">
                     <mat-label>Producto</mat-label>
-                    <input matInput formControlName="producto" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" name="tipoAsociacion" formControlName="tipoAsociacion">
                   </mat-form-field>
                 </div>
-
-                <div class="col-4"> <!--Comapania-->
+                <div class="col-xs-12 col-md-6">
                   <mat-form-field appearance="fill">
                     <mat-label>Compañia</mat-label>
-                    <input matInput formControlName="compania" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" (change)="aseguradorfinal()" name="asegurador"
+                      formControlName="asegurador" placeholder="Asegurado">
+                    <ul id="myUL" *ngIf="lisRequest2">
+                      <li *ngFor="let item of aseguradornit">
+                        <a href="javascript:void(0)" (click)="cargarnit(item)">{{item.a2}}</a>
+                      </li>
+                    </ul>
                   </mat-form-field>
                 </div>
+              </div>
 
-                <div class="col-12 mt-4"> <!--Name-->
-                  <h1 class="text-center">REASEGURO</h1>
+              <div class="row">
+                <div class="col-12 text-center">
+                  <button class="btn btn primary" style="width: 100%;">REASEGURO</button>
                 </div>
+              </div>
 
-                <div class="col-6"> <!--Reasegurador-->
+              <div class="row ajustar-ok">
+                <div class="col-xs-12 col-md-6">
+                  <button mat-raised-button class="btn btn primary" style="width: 100%;">PRIMA NETA</button>
+                </div>
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput type="text" formControlName="primaneta"
+                      (change)="miles('cuotaParteFormreasegurador', 'primaneta')">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
                   <mat-form-field appearance="fill">
                     <mat-label>Reasegurador</mat-label>
-                    <mat-select formControlName="reasegurador" >
-                      <mat-option *ngFor="let item of ramoscomision"> {{loadRamos(item.c)}} </mat-option>
+                    <mat-select formControlName="primasreasegurado">
+                      <mat-option *ngFor="let item of ramoscomision"
+                        [value]="item.c">{{idReasegurador(item.c)}}</mat-option>
                     </mat-select>
                   </mat-form-field>
                 </div>
-
-                <div class="col-6"> <!--Participacion-->
+                <div class="col-xs-12 col-md-6">
                   <mat-form-field appearance="fill">
-                    <mat-label> % Participación</mat-label>
-                    <input matInput formControlName="participacion" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <mat-label>% Participación</mat-label>
+                    <input matInput type="text" formControlName="otrosgastos" placeholder="Otros gastos">
                   </mat-form-field>
                 </div>
+              </div>
 
-                <div class="col-4"> <!--Cuentas-->
+              <div class="row">
+                <div class="col-md-4">
                   <mat-form-field appearance="fill">
                     <mat-label>Cuentas</mat-label>
-                    <input matInput formControlName="cuentas" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <mat-select formControlName="cuenta">
+                      <mat-option value="1">Mensual</mat-option>
+                      <mat-option value="2">Trimestral</mat-option>
+                      <mat-option value="3">Semanal</mat-option>
+                      <mat-option value="4">Anual</mat-option>
+                    </mat-select>
                   </mat-form-field>
                 </div>
-
-                <div class="col-4"> <!--Inicio-->
+                <div class="col-md-4">
                   <mat-form-field appearance="fill">
                     <mat-label>Inicio</mat-label>
-                    <input matInput formControlName="inicio2" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="date" formControlName="fechacuenta">
                   </mat-form-field>
                 </div>
-
-                <div class="col-4"> <!--Fin-->
+                <div class="col-md-4">
                   <mat-form-field appearance="fill">
                     <mat-label>Fin</mat-label>
-                    <input matInput formControlName="fin2" type="text" disabled>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="date" formControlName="fechacuentafin">
                   </mat-form-field>
                 </div>
-
-                <div class="col-6 mt-4"> <!--Name-->
-                  <h1 class="text-center">CONCEPTO</h1>
-                </div>
-
-                <div class="col-3 mt-4"> <!--Name-->
-                  <h1 class="text-center">%</h1>
-                </div>
-
-                <div class="col-3 mt-4"> <!--Name-->
-                  <h1 class="text-center">VALOR</h1>
-                </div>
-                <!-- PRIMAS CEDIDAS -->
-                <div class="col-6 myTitles">
-                  <h3>Primas Cedidas</h3>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="%" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="Valor" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <!-- Entrada cartera primas -->
-                <div class="col-6 myTitles">
-                  <h3>Entrada cartera primas</h3>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="%" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="Valor" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <!-- Entrada cartera siniestros -->
-                <div class="col-6 myTitles">
-                  <h3>Entrada cartera siniestros</h3>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="%" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="Valor" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <!-- Dovolución depositos -->
-                <div class="col-6 myTitles">
-                  <h3>Dovolución depositos</h3>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="%" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="Valor" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <!-- Interes sobre Despositos -->
-                <div class="col-6 myTitles">
-                  <h3>Interes sobre Despositos</h3>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="%" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="Valor" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <!-- Salvamentos y recobros -->
-                <div class="col-6 myTitles">
-                  <h3>Salvamentos y recobros</h3>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="%" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-3"> <!--Name-->
-                  <mat-form-field appearance="outline">
-                    <input matInput placeholder="Valor" type="text" disabled>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-4">
-                  <!--BOTON-->
-                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose" (click)="sendForm(form.value)"
-                    style="background-color: #016672">
-                    Guardar
-                  </button>
-                </div>
-
               </div>
-              
+
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <button mat-raised-button class="btn btn primary" style="width: 100%;">CONCEPTO</button>
+                </div>
+                <div class="col-md-2 text-center">
+                  <button mat-raised-button class="btn btn primary" style="width: 100%;">%</button>
+                </div>
+                <div class="col-md-3 text-center">
+                  <button mat-raised-button class="btn btn primary" style="width: 100%;">VALOR</button>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Primas Cedidas</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="primacedidapor" (change)="porcentajepoliza('primacedidapor')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="primacedidavalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'primacedidavalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Entrada cartera primas</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="entradasprimas" (change)="porcentajepoliza('entradasprimas')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="entradasprimasvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'entradasprimasvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Entrada cartera siniestros</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="entradasiniestros" (change)="porcentajepoliza('entradasiniestros')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="entradasiniestrosvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'entradasiniestrosvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Devolución Depósito</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="depositopor" (change)="porcentajepoliza('depositopor')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="depositovalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'depositovalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Interes sobre Depósitos</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="interesespor" (change)="porcentajepoliza('interesespor')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="interesevalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'interesevalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Salvamentos y recobros</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="salvamentos" (change)="porcentajepoliza('salvamentos')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="salvamentosvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'salvamentosvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block"><b>TOTAL INGRESOS</b></mat-label>
+                </div>
+                <div class="col-md-2 text-center"></div>
+                <div class="col-md-3 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">{{totalingresos}}</mat-label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Siniestros</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="siniestrospor" (change)="porcentajepoliza('siniestrospor')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="siniestrosvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'siniestrosvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Comisiones</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="comisionpor" (change)="porcentajepoliza('comisionpor')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="comisionvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'comisionvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Ajustes comisión</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="comisionporajuts" (change)="porcentajepoliza('comisionporajuts')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="comisionvalorajuts"
+                      (change)="miles('cuotaParteFormreasegurador', 'comisionvalorajuts')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Comisión Utilidades</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="comisionutilidadespor"
+                      (change)="porcentajepoliza('comisionutilidadespor')" placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="comisionutilidadesvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'comisionutilidadesvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Sobrecomisión</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="sobrecomision" (change)="porcentajepoliza('sobrecomision')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="sobrecomisionvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'sobrecomisionvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Impuestos intereses Dep</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="interesescomipor" (change)="porcentajepoliza('interesescomipor')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="interesecomivalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'interesecomivalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Impuestos de retefuente Int Dep</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="interesescomiretefuente"
+                      (change)="porcentajepoliza('interesescomiretefuente')" placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="interesescomiretefuentevalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'interesescomiretefuentevalor')"
+                      placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Corretaje</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="corretaje" (change)="porcentajepoliza('corretaje')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="corretajevalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'corretajevalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Primas Retenida/Cedida</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="primasretenidaspor" placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="primasretenidasvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'primasretenidasvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+              <!-- VA 100 4 -->
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Depósitos Retenidos</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="depretenidospor" placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="depretenidosvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'depretenidosvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Gastos reasegurador</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="gastoreasegurador" (change)="porcentajepoliza('gastoreasegurador')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="gastoreaseguradorvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'gastoreaseguradorvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Salida cartera primas</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="salidasprimas" (change)="porcentajepoliza('salidasprimas')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="salidasprimasvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'salidasprimasvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Salida cartera siniestros</mat-label>
+                </div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>%</mat-label>
+                    <input matInput formControlName="salidasiniestros" (change)="porcentajepoliza('salidasiniestros')"
+                      placeholder="%">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="salidasiniestrosvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'salidasiniestrosvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block"><b>TOTAL GASTOS</b></mat-label>
+                </div>
+                <div class="col-md-2 text-center"></div>
+                <div class="col-md-3 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">{{totalegresos}}</mat-label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Saldo de trimestre</mat-label>
+                </div>
+                <div class="col-md-2 text-center"></div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="saldotrimevalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'saldotrimevalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">Saldo anterior</mat-label>
+                </div>
+                <div class="col-md-2 text-center"></div>
+                <div class="col-md-3 text-center">
+                  <mat-form-field appearance="fill">
+                    <mat-label>Valor</mat-label>
+                    <input matInput formControlName="saldoanteriorvalor"
+                      (change)="miles('cuotaParteFormreasegurador', 'saldoanteriorvalor')" placeholder="Valor">
+                  </mat-form-field>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-7 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block"><b>SALDO ACUMULADO</b></mat-label>
+                </div>
+                <div class="col-md-2 text-center"></div>
+                <div class="col-md-3 text-center">
+                  <mat-label class="btn btn-default btn-lg btn-block">{{totalacumulado}}</mat-label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 form-group">
+                  <div class="row">
+                    <div class="col-md-12 text-center-pro">
+                      <button mat-raised-button color="primary" (click)="guardardatos()"
+                        style="margin: 10px; background-color: #016672;">PROCESAR</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" *ngIf=(statefinal)>
+                <div class="co-md-12 form-group">
+                  <form>
+                    <table class="table hoverTable ">
+                      <thead>
+                        <tr>
+                          <th>CONTRATOS</th>
+                          <th>RAMO</th>
+                          <th>REASEGURADOR</th>
+                          <th>PRIMA</th>
+                          <th>PRIMA CEDIDA</th>
+                          <th>TOTAL INGRESOS</th>
+                          <th>TOTAL GASTO</th>
+                          <th>SALDO ACUMULADO</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of listareasu2">
+                          <td>{{item.o}}</td>
+                          <td> {{item.rma}} </td>
+                          <td> {{item.rea}} </td>
+                          <td>{{miles('tabel',item.r2)}}</td>
+                          <td>{{porcentaje(item.c2)}}</td>
+                          <td>{{miles('tabel',item.r3)}}</td>
+                          <td>{{miles('tabel',item.r5)}}</td>
+                          <td>{{miles('tabel',item.n2)}}</td>
+                          <td><button class="btn btn-primary" (click)="procesarnominas(item)">Detalle</button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </form>
+                </div>
+              </div>
+
+              <!-- Sección de botones -->
+              <div class="row">
+                <div class="col-md-12 col-xs-12 text-center">
+                  <button mat-raised-button color="primary" (click)="guardarpoliza()"
+                    style="margin: 10px; background-color: #016672;">Guardar</button>
+                  <button mat-raised-button color="primary" (click)="nuevoContrato()"
+                    style="margin: 10px; background-color: #016672;">Nuevo</button>
+                  <button mat-raised-button color="primary" (click)="cerrar()">Cerrar</button>
+                </div>
+              </div>
+
+
+
+
+
+
+
+
             </form>
+            <a [routerLink]="['/home']">
+              <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
+                Regresar
+              </button>
+            </a>
+
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="comision" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Ramos Poliza</h4>
+      </div>
+      <form [formGroup]="fromajustes">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Cod ramo</mat-label>
+                <mat-select formControlName="codigoedit" (selectionChange)="evenRamos('codigoedit')">
+                  <mat-option *ngIf="valor == 1" [value]="final.re" selected>{{ final.re }}</mat-option>
+                  <mat-option [value]="item.a" *ngFor="let item of ramos">{{ item.e }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Ramos</mat-label>
+                <mat-select id="ramos" name="ramos" formControlName="ramosedit"
+                  (selectionChange)="evenRamos('ramosedit')">
+                  <mat-option *ngIf="valor == 1" [value]="final.re">{{ final.ra }}</mat-option>
+                  <mat-option [value]="item.a" *ngFor="let item of ramos">{{ item.a2 }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Suma Limite</mat-label>
+                <input matInput class="form-control" formControlName="sumaLimiteedit"
+                  (change)="miles('cuotaParteFormreasegurador','sumaLimite')">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Prima Total</mat-label>
+                <input matInput class="form-control" formControlName="primasedit"
+                  (change)="miles('cuotaParteFormreasegurador', 'primas')">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Prima Cedentes</mat-label>
+                <input matInput class="form-control" formControlName="primascentesedit"
+                  (change)="miles('cuotaParteFormreasegurador', 'primas')">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button mat-raised-button color="primary" type="button" *ngIf="valor == 1" data-dismiss="modal"
+            (click)="guardareditarramos(final)">Editar</button>
+          <button mat-raised-button color="warn" type="button" data-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+<!-- Modal detalles -->
+<div class="modal fade" id="comisiondetalles" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Ramos Poliza</h4>
+      </div>
+      <div class="modal-body" *ngIf="valor1 == 1">
+        <div class="row">
+          <div class="col-md-12">
+            <mat-form-field appearance="fill">
+              <mat-label>Corredor</mat-label>
+              <input matInput value="{{finaldetalle.co}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-12">
+            <mat-form-field appearance="fill">
+              <mat-label>Reasegurador</mat-label>
+              <input matInput value="{{finaldetalle.re}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>% Participación</mat-label>
+              <input matInput value="{{porcentaje(finaldetalle.s | number)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Suma cedida</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.fn)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Prima Cedentes</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.rf)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>% de Comisión</mat-label>
+              <input matInput value="{{porcentaje(finaldetalle.fc | number)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Comisión</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.fo)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>% Depósito</mat-label>
+              <input matInput value="{{porcentaje(finaldetalle.fna | number)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Depósitos Retenidos</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.fs)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>% Imp. P. Cedida</mat-label>
+              <input matInput value="{{porcentaje(finaldetalle.fu | number)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Imp. P. Cedida</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.fi)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>% Brokerage</mat-label>
+              <input matInput value="{{porcentaje(finaldetalle.ft | number)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Brokerage</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.fof)}}" disabled>
+            </mat-form-field>
+          </div>
+          <div class="col-md-4">
+            <mat-form-field appearance="fill">
+              <mat-label>Valor a pagar</mat-label>
+              <input matInput value="{{miles('tabel',finaldetalle.s4)}}" disabled>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button color="warn" type="button" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>

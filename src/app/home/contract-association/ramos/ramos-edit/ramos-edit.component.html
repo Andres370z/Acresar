@@ -11,7 +11,24 @@
           </div>
           <!-- MENU -->
           <div style="display: flex; justify-content: center; align-items: center;">
-            <app-menu></app-menu>
+            <div class="col-12 text-center">
+              <ul class="nav">
+                <li class="nav-item">
+                  <!-- Single link -->
+                  <a (click)="navigate('/home/asociacion/ramos')" class="nav-link" style="color: #006571;">
+                    <p>Ramos</p>
+                  </a>
+                </li>
+
+                <li class="nav-item">
+                  <!-- Single link -->
+                  <a class="nav-link" style="color: #006571;" href="javascript:void(0)" data-toggle="modal"
+                    data-target="#myModal">
+                    <p>ASOCIACION DE CONTRATOS</p>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="card-body">
             <form class="form" [formGroup]="myForm">

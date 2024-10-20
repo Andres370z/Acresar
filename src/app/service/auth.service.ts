@@ -11,6 +11,7 @@ import { LocalstoreService } from './localstore.service';
   providedIn: 'root'
 })
 export class AuthService {
+  
   constructor(
     private registeresquest: HttpsService,
     private route: Router,
@@ -340,12 +341,19 @@ export class AuthService {
   }
   getComision(id: any) {
     return this.registeresquest.GETER(RoutersLink.getComision + id)
-
+  }
+  getClientes(id: any) {
+    return this.registeresquest.GETER(`/clientes/${id}/edit`)
+  }
+  getAutomaticoComision(id: any) {
+    return this.registeresquest.GETER(RoutersLink.getAutomaticoComision + id)
   }
   delete(id: any) {
     return this.registeresquest.DELETED(RoutersLink.deleted + id)
   }
-
+  deleteAseReporte(id: any) {
+    return this.registeresquest.DELETED(RoutersLink.deleteAseReporte + id)
+  }
   deleteIntermediario(id: any) {
     return this.registeresquest.DELETED(RoutersLink.getIntermediarios + id)
   }
@@ -377,6 +385,9 @@ export class AuthService {
   getSuperCodigos() {
     return this.registeresquest.GETER(RoutersLink.getNumRamos)
   }
+  getProvedores() {
+    return this.registeresquest.GETER(RoutersLink.getProvedores)
+  }
 
   getAsoTipos() {
     return this.registeresquest.GETER(RoutersLink.getAsoTipos)
@@ -407,10 +418,34 @@ export class AuthService {
   getEditReinsurer(id: any) {
     return this.registeresquest.GETER(`reaseguradoras/${id}/edit`)
   }
+  getProveedores(id: any) {
+    return this.registeresquest.GETER(`/provedores/${id}/edit`)
+  }
 
   /** POST **/
   postFacultativosContratos(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativosContrato, { item })
+  }
+  postSaveReportes(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postSaveReportes, { item })
+  }
+  postGarantias(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postGarantias, { item })
+  }
+  postDetallesGarantias(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postDetallesGarantias, { item })
+  }
+  postContratoAsociacionFinal(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postContratoAsociacionFinal, { item })
+  }
+  postSinistroRamo(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postSinistroRamo, { item })
+  }
+  postAseSinistro(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseSinistro, { item })
+  }
+  postAseSini(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseSini, { item })
   }
   postAsocia(item: any) {
     return this.registeresquest.POSTS(RoutersLink.getAsociacionList, { item })
@@ -418,15 +453,52 @@ export class AuthService {
   postFcultativos(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativos, { item })
   }
+  postBuscarAse(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postBuscarAse, { item })
+  }
+  postContratoFinal(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postContratoFinal, { item })
+  }
+  postAdmin(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAdmin, { item })
+  }
+  postContratosGet(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postContratosGet, { item })
+  }
   postCuotaparteNomina(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postCuotaparteNomina, { item })
+  }
 
+  postContratoid(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postContratoid, { item })
+  }
+
+  postForm(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postForm, { item })
+  }
+  postValid(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postValid, { item })
+  }
+  postUploadlist(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postUploadlist, item )
+  }
+  postPrimaCarga(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postPrimaCarga, item )
   }
   postNomina(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postNomina, item)
   }
+  postAseNominas(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseNominas, {item})
+  }
+  getDtaCuotaAparte(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.getDtaCuotaAparte, {item})
+  }
   postFacultativosAseguradoras(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativosAseguradoras, { item })
+  }
+  postAseNomina(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseNomina, { item })
   }
   editRamos(item: any) {
     return this.registeresquest.POSTS(RoutersLink.editRamos, { item })
@@ -434,8 +506,17 @@ export class AuthService {
   postAseguradoraNomina(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postAseguradoraNomina, { item })
   }
+  postAseprocesoNomina(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseprocesoNomina, { item })
+  }
+  postAsegetNomi(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAsegetNomi, { item })
+  }
   postFacultativosRamos(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativosRamos, { item })
+  }
+  postAseNominaFul(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseNominaFul, { item })
   }
 
   postContactos(item: any) {
@@ -444,7 +525,18 @@ export class AuthService {
 
   postFacultativoGasto(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postFacultativoGasto, { item })
-
+  }
+  postAseGetAse(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseGetAse, { item })
+  }
+  postFacultaProcesoNomina(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postFacultaProcesoNomina, { item })
+  }
+  postFacultativoRamo(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postFacultativoRamo, { item })
+  }
+  postFaculProce(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postFaculProce, { item })
   }
   postCuotaRamo(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postCuotaRamo, { item })
@@ -468,7 +560,9 @@ export class AuthService {
   postFacultativoClient(item: any) {
     return this.registeresquest.POSTS(RoutersLink.postAseguradoraClient, { item })
   }
-
+  postAseProcesp(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postAseProcesp, { item })
+  }
 
 
   /**SOLICITUDES DE RESPALDO */
@@ -507,6 +601,22 @@ export class AuthService {
 
     }
   }
+  postClientes(item: any, id?: any) {
+    if (!id || id == null) {
+      return this.registeresquest.POSTRESPALDO(RoutersLink.postClientes, { item })
+    } else if (item && id) {
+      return this.registeresquest.POSTRESPALDO(`${RoutersLink.postClientes}/${id}`, { item },)
+
+    }
+  }
+  postProveedores(item: any, id?: any) {
+    if (!id || id == null) {
+      return this.registeresquest.POSTRESPALDO(RoutersLink.getProvedores, { item })
+    } else if (item && id) {
+      return this.registeresquest.POSTRESPALDO(`${RoutersLink.getProvedores}/${id}`, { item },)
+
+    }
+  }
   postEditIntermediarios(item: any, id?: any) {
     if (!id || id == null) {
       return this.registeresquest.POSTRESPALDO(RoutersLink.getIntermediarios, { item })
@@ -520,6 +630,12 @@ export class AuthService {
   }
   postContratosDetail(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postContratosDetail, { item })
+  }
+  postContraPoliza(item: any) {
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postContraPoliza, { item })
+  }
+  postContratosDetails(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postContratosDetail, { item })
   }
   postSearchIdcontracs(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postSearchIdcontracs, { item })
@@ -543,7 +659,10 @@ export class AuthService {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultaRamosEdit, { item })
 
   }
+  postAseProceUpdate(item: any) {
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postAseProceUpdate, { item })
 
+  }
   postPrima(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postPrimas, { item })
   }
@@ -555,6 +674,22 @@ export class AuthService {
   putCorredor(id: any, item: any) {
     return this.registeresquest.PUTS(`${RoutersLink.postCorredores}/${id}`, { item })
   }
+  putFacul(id: any, item: any) {
+    return this.registeresquest.PUTS(`${RoutersLink.putFacul}/${id}`, { item })
+  }
+
+  putAseUpdate(id: any, item: any) {
+    return this.registeresquest.PUTS(`${RoutersLink.putAseUpdate}/${id}`, { item })
+  }
+  putCuotaAparte(id: any, item: any) {
+    return this.registeresquest.PUTS(`${RoutersLink.getDtaForm}/${id}`, { item })
+  }
+  
+  
+
+  putFaculUpdate(id: any, item: any) {
+    return this.registeresquest.PUTS(`${RoutersLink.putFaculUpdate}/${id}`, { item })
+  }
   putRea(id: any, item: any) {
     return this.registeresquest.PUTS(`${RoutersLink.putReaseguradoras}/${id}`, { item })
   }
@@ -564,6 +699,9 @@ export class AuthService {
   putRam(id: any, item: any) {
     return this.registeresquest.PUTS(`${RoutersLink.getRamos}/${id}`, { item })
   }
+  putUpdatepoliza(id: any, item: any) {
+    return this.registeresquest.PUTS(`${RoutersLink.putUpdatepoliza}/${id}`, { item })
+  }
   putIntermediarios(item: any, id?: any) {
     if (!id || id == null) {
       return this.registeresquest.PUTS(RoutersLink.getIntermediarios, { item })
@@ -572,7 +710,22 @@ export class AuthService {
 
     }
   }
-  
+  putClientes(item: any, id?: any) {
+    if (!id || id == null) {
+      return this.registeresquest.PUTS(RoutersLink.postClientes, { item })
+    } else if (item && id) {
+      return this.registeresquest.PUTS(`${RoutersLink.postClientes}/${id}`, { item },)
+
+    }
+  }
+  putProveedores(item: any, id?: any) {
+    if (!id || id == null) {
+      return this.registeresquest.PUTS(RoutersLink.getProvedores, { item })
+    } else if (item && id) {
+      return this.registeresquest.PUTS(`${RoutersLink.getProvedores}/${id}`, { item },)
+
+    }
+  }
   // preuba menu
   getMenu() {
     return this.http.get('./assets/json/menu.json')

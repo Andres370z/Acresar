@@ -10,121 +10,170 @@
             <h4 class="card-title">Asociación de Contratos</h4>
           </div>
           <div class="card-body">
-            <form class="form mb-4" [formGroup]="form">
-              <div class="row d-flex justify-content-center align-items-center">
-                <!--Buscador con autocomplete-->
-                <div class="col-6 ">
-                  <mat-form-field appearance="outline">
-                    <mat-label>Identificación del contrato</mat-label>
-                    <!-- PARA QUE EL AUTOCOMPLETE FUNCIONE AL TECLEAR AGREGA ESTE METODO AL INPUT: (ngModelChange)="contratosfacultativos()" -->
-                    <input type="text" matInput [matAutocomplete]="auto" formControlName="tipoContrato"
-                      (ngModelChange)="searchContracs()">
-                    <mat-autocomplete #auto="matAutocomplete">
-                      <mat-option *ngFor="let item of options" [value]="item.o" (click)="upload(item)">
-                        {{item.o}}
-                      </mat-option>
-                    </mat-autocomplete>
-                    <mat-icon matSuffix (click)="searchContracs()">search</mat-icon>
-                    <mat-hint>preciona el icono para buscar *</mat-hint>
-                  </mat-form-field>
-                </div>
-              </div>
-              <div *ngIf="click" class="row">
-
-
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>ID contrato</mat-label>
-                    <input matInput placeholder="ingresa el id de contrato" formControlName="idContrato" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+            <div class="row">
+              <form [formGroup]="formulario">
+                <div class="row">
+                  <div class="col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Tipo de contrato</mat-label>
+                      <input matInput readonly formControlName="tipoContrato" placeholder="Tipo de Contrato">
+                    </mat-form-field>
+                  </div>
                 </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Descripción de contrato</mat-label>
-                    <input matInput placeholder="ingresa una descripción" formControlName="descriContrato"
-                      type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>ID Contrato</mat-label>
+                      <input matInput (change)="consultar()" formControlName="idContrato" placeholder="ID Contrato">
+                      <input type="hidden" formControlName="idContratopk">
+                    </mat-form-field>
+                    <ul id="myUL" *ngIf="lisRequest">
+                      <li *ngFor="let item of dataReq">
+                        <a href="javascript:void(0)" (click)="cargar(item)">{{item.o}}</a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Inicio</mat-label>
-                    <input matInput placeholder="inicio" formControlName="starDate" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-12">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Descripción Contrato</mat-label>
+                      <input matInput readonly formControlName="descripcion" placeholder="Descripción Contrato">
+                    </mat-form-field>
+                  </div>
                 </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Fin</mat-label>
-                    <input matInput placeholder="fin" formControlName="endDate" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Inicio</mat-label>
+                      <input matInput readonly formControlName="fInicio" placeholder="Inicio">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Fin</mat-label>
+                      <input matInput readonly formControlName="fFin" placeholder="Fin">
+                    </mat-form-field>
+                  </div>
                 </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Otros gastos</mat-label>
-                    <input matInput placeholder="ingresa otros gastos" formControlName="gastosContrato" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Otros gastos</mat-label>
+                      <input matInput formControlName="otrosGastos">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-6">
+                    <mat-form-field appearance="fill">
+                      <mat-label>Valor asignado al proveedor</mat-label>
+                      <input matInput placeholder="50.000.000" (change)="miles('', 'distribucion')"
+                        formControlName="distribucion">
+                    </mat-form-field>
+                  </div>
                 </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Valor asignado al proveedor</mat-label>
-                    <input matInput placeholder="valor asiganado" formControlName="valorContrato" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                <div class="row">
+                  <div class="col-12">
+                    <div class="row" *ngFor="let rm of listRamos" style="margin-top: 10px;">
+                      <div class="col-6">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Ramo</mat-label>
+                          <input matInput disabled [value]="rm.a2">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-6">
+                        <mat-form-field appearance="fill">
+                          <mat-label>Valor asignado al ramo</mat-label>
+                          <input matInput (change)="milesRamos($event.target)" id="value_{{rm.c}}">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <label>Proveedores</label>
+                      <div class="row">
+                        <div class="col-6">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Proveedores</mat-label>
+                            <mat-select formControlName="provedor">
+                              <mat-option *ngFor="let p of listprovedor | async" [value]="p.a">{{p.a2}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="col-6">
+                          <mat-form-field appearance="fill">
+                            <mat-label>Valor Proveedor</mat-label>
+                            <input matInput formControlName="vlProvedor">
+                          </mat-form-field>
+                        </div>
+                      </div>
+                      
+                    </div>
+                  </div>
+
+                  
+                  <div class="col-2">
+                    <button mat-raised-button color="primary" (click)="changeProvedores()">Adicionar</button>
+                  </div>
+
+                  <div class="row" *ngIf="provedorListView">
+                    <div class="col-12" *ngFor="let item of provedoresAsignacion" style="margin-top: 10px;">
+                      <div class="col-6">
+                        <input matInput disabled [value]="provedor(item.p)">
+                      </div>
+                      <div class="col-6">
+                        <input matInput disabled [value]="procentajes.desimalDeMiles(item.vl)">
+                      </div>
+                    </div>
+                  </div>
                 </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Proveedores</mat-label>
-                    <input matInput placeholder="proveedor" formControlName="proveedorContrato" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                <div class="row" *ngIf="showList">
+                  <div class="col-2"></div>
+                  <div class="col-8">
+                    <div class="form-group" *ngFor="let item of detail">
+                      <mat-checkbox (click)="detalle(item)" name="checkList">{{item.name}}</mat-checkbox>
+                    </div>
+                  </div>
+                  <div class="col-2"></div>
                 </div>
 
-                
-              </div>
-              <div *ngIf="click" class="row" >
-                  <div class="col-3">
-                  <!--BOTON-->
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" 
-                    style="background-color: #016672">
-                    Guardar
-                  </button>
+                <div class="row" *ngIf="listAsociacion.length > 0">
+                  <div class="col-12">
+                    <table class="row-border hover">
+                      <thead>
+                        <tr>
+                          <th>Contrato</th>
+                          <th>Tipo Contrato</th>
+                          <th>Descripción</th>
+                          <th>Ramo</th>
+                          <th>Tipo de asociación</th>
+                          <th>Acciones</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let i of listAsociacion">
+                          <td>{{i.idContrato}}</td>
+                          <td>{{i.tipoContrato}}</td>
+                          <td>{{i.descripcion}}</td>
+                          <td>{{i.ramoN}}</td>
+                          <td>{{i.tipoAs}}</td>
+                          <td>
+                            <i class="fa fa-trash cursor btn-header cursor_active" (click)="delete(i)"></i>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
+              </form>
 
-                <div class="col-3">
-                  <!--BOTON-->
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" 
-                    style="background-color: #016672">
-                    Adicionar
-                  </button>
-                </div>
+            </div>
 
-                <div class="col-3">
-                  <!--BOTON-->
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose" 
-                    style="background-color: #016672">
-                    Cancelar
-                  </button>
-                </div>
-                
-                </div>
-            </form>
+
           </div>
         </div>
       </div>

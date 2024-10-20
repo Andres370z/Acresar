@@ -7,190 +7,288 @@
             <div class="card-icon" style="background-color: #016672">
               <i class="material-icons">storage</i>
             </div>
-            <h4 class="card-title">Cuota parte edit {{ cuota }}</h4>
+            <h4 class="card-title">Cuota parte edit {{cod}}</h4>
           </div>
 
           <div class="card-body">
-            <form class="form mb-4" [formGroup]="form">
-              <div class="row">
-                <div class="col-3">
-                  <!--Name-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Codigo contrato</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="codigoContrato" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+            <div class="row">
+              <form [formGroup]="cuotaParteForm">
+                <div class="row">
+                  <div class="col-12"> 
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Código Contrato</mat-label>
+                      <input matInput type="text" formControlName="codigocontrato" placeholder="Código Contrato" [value]="cod">
+                    </mat-form-field>
+                  </div>
                 </div>
-
-                <div class="col-6">
-                  <!--Name-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Descripcion</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="descripcion" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+              
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <div class="content-width">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput type="text" formControlName="descripcion" placeholder="Descripción">
+                      </mat-form-field>
+                    </div>
+                    <div class="content-width">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>EPI</mat-label>
+                        <input matInput type="text" (change)="onchangedecimal('epiContrato')" formControlName="epiContrato" placeholder="COP 180.000.000.000">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-xs-12">
+                    <div class="col-md-12">
+                      <div class="col-xs-12 col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Fecha Inicio</mat-label>
+                          <input matInput type="date" formControlName="fechaInicio" [value]="dataEdicion != 'ok' ? dataEdicion.r : null" placeholder="dd/mm/yyyy">
+                        </mat-form-field>
+                      </div>
+                      <div class="col-xs-12 col-md-6">
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Hora</mat-label>
+                          <input matInput type="time" formControlName="horainicio">
+                        </mat-form-field>
+                      </div>
+                    </div>
+                    <div class="col-md-12">
+                    <div class="col-xs-12 col-md-6">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput type="date" formControlName="fechaFin" [value]="dataEdicion != 'ok' ? dataEdicion.e : null" placeholder="dd/mm/yyyy">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-xs-12 col-md-6">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Hora</mat-label>
+                        <input matInput type="time" formControlName="horafin">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                    
+                  </div>
+                  
                 </div>
-
-                <div class="col-3">
-                  <!--Name-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>EPI</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="epiContrato" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+              
+                <div class="row">
+                  <div class="col-xs-12 col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Moneda</mat-label>
+                      <mat-select formControlName="moneda">
+                        <mat-option *ngFor="let item of currency | async" [value]="item.a">
+                          {{item.c}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+              
+                  <div class="col-xs-12 col-md-6">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Siniestros de Contado</mat-label>
+                      <input matInput type="text" formControlName="siniestroContrato" placeholder="Siniestros de Contado">
+                    </mat-form-field>
+                  </div>
                 </div>
-
-                <div class="col-12 mt-2">
-                  <h4 class="card-title">Fecha y Hora Inicio</h4>
+              
+                <div class="row">
+                  <div class="col-xs-12 col-md-12">
+                    <mat-form-field appearance="outline" class="full-width">
+                      <mat-label>Observaciones</mat-label>
+                      <textarea matInput formControlName="observacion" cols="30" rows="10"></textarea>
+                    </mat-form-field>
+                  </div>
                 </div>
-
-                
-                <div class="col-4 mb-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Fecha Inicio</mat-label>
-                    <input matInput [matDatepicker]="picker"  formControlName="starDate" [value]="">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-
-
-                <div class="col-4 mb-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Hora</mat-label>
-                    <input matInput placeholder="Hora" formControlName="hour" type="text" />
-                    <mat-icon matSuffix>access_time</mat-icon>
-                    <mat-hint>*</mat-hint>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-4 mb-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Moneda</mat-label>
-                    <mat-select [(ngModel)]="selectedOption" formControlName="currency">
-                      <mat-option *ngFor="let item of money" value="{{ item.a }}">{{ item.c }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-12">
-                  <h4 class="card-title">Fecha y Hora Fin</h4>
-                </div>
-
-                <div class="col-4 mb-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Fecha Fin</mat-label>
-                    <input matInput [matDatepicker]="picker2"  formControlName="endDate" [value]="">
-                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    <mat-datepicker #picker2></mat-datepicker>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-4 mb-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Hora</mat-label>
-                    <input matInput placeholder="Hora" formControlName="hourTwo" type="text" />
-                    <mat-icon matSuffix>access_time</mat-icon>
-                    <mat-hint>*</mat-hint>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-4">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Siniestros</mat-label>
-                    <input matInput placeholder="ingresa el ramo" formControlName="siniestros" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <!-- DATE 1 -->
-                
-
-                <div class="col-12">
-                  <mat-form-field class="example-full-width" appearance="fill">
-                    <mat-label>Observaciones</mat-label>
-                    <textarea matInput placeholder="Ingresa algo..." formControlName="observacion"></textarea>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-4">
-                  <!--BOTON-->
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
-                    style="background-color: #016672" (click)="create()">
+              
+                <div class="row">
+                  <button *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || statefinal == false" 
+                          (click)="create()" 
+                          mat-raised-button 
+                          color="primary" 
+                          class="margin-left btn-md shadow-box-item">
                     Agregar Nómina
+                    <i class="favb fa fa-circle"></i>
                   </button>
                 </div>
-              </div>
-            </form>
-            <div class="col-12">
-              <div class="table-responsive">
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                  <ng-container matColumnDef="contrato">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
-                      Contratos
-                    </th>
-                    <td mat-cell *matCellDef="let i = index" class="custom-cell">
-                      {{ i }}
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="sumaLimite">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell titulo">
-                      Suma Limite
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      {{ miles("tabel", element.c) }}
-                      <!-- HACE LO MISMO CON UNA SOLA LINEA DE CODIGO {{ element.c | number: '1.0-0' }} -->
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="cesion">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
-                      %Cesión
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      {{ procentaje(element.r | number) }}
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="nomina">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
-                      Nómina Reaseguradores
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      {{ element.s }}
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="reas">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell">
-                      % Reas
-                    </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      {{ procentaje(element.part | number) }}
-                    </td>
-                  </ng-container>
-
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+              </form>
+              
+              <form [formGroup]="cuotaParteFormreasegurador">
+                <table class="table hoverTable">
+                  <thead>
+                    <tr>
+                      <th>Contrato</th>
+                      <th>Suma Limite</th>
+                      <th>% Cesión</th>
+                      <th>Nómina Reaseguradores</th>
+                      <th>% Reas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngIf="statefinal">
+                      <td>1</td>
+                      <td>
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Suma Limite</mat-label>
+                          <input matInput formControlName="sumaLimite" placeholder="Suma Limite">
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>% Cesión</mat-label>
+                          <input matInput formControlName="secion" placeholder="% Cesión">
+                        </mat-form-field>
+                      </td>
+                      <td class="cursor_active">
+                        <button class="btn btn-default btn-lg col-md-12" (click)="onSubmit()">+</button>
+                      </td>
+                    </tr>
+                    <tr *ngFor="let item of listareasu2; let i = index">
+                      <td>{{i + 1}}</td>
+                      <td>
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>Suma Limite</mat-label>
+                          <input matInput formControlName="sumaLimite{{i}}" [value]="miles('tabel', item.c)" placeholder="Suma Limite">
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>% Cesión</mat-label>
+                          <input matInput formControlName="secion{{i}}" [value]="porcentaje(item.r | number)" placeholder="% Cesión">
+                        </mat-form-field>
+                      </td>
+                      <td class="cursor_active">
+                        <button data-toggle="modal" data-target="#myModal" 
+                                (click)="nominasfinales(item.a, i, item.part)" 
+                                class="btn btn-default btn-lg col-md-12">
+                          {{item.cnt}}
+                        </button>
+                      </td>
+                      <td>
+                        <mat-form-field appearance="outline" class="full-width">
+                          <mat-label>% Reas</mat-label>
+                          <input matInput formControlName="reas" [value]="porcentaje(item.part | number)" placeholder="% Reas">
+                        </mat-form-field>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
-
-              </div>
-              <div class="col-4">
-                <!--BOTON-->
-                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background-color: #016672">
-                  Guardar
-                </button>
+              </form>
+              
+            </div>
+            <div class="row" *ngIf="dataShow.error">
+              <div class="col-md-12">
+                <h3 class="box-title">
+                  Errores de validacion campos obligatorios
+                </h3>
+                <table class="table hoverTable ">
+                  <thead>
+                    <tr>
+                      <th>Mensajes de error</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let msj of dataShow.mensaje">
+                      <td>{{msj}}</td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-
+            <button type="button" class="btn btn-alert btn-md shadow-box-item" (click)="regresar()">
+              Regresar
+              <i class="favb fa fa-circle"></i>
+            </button>
+            <button type="submit" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" (click)="verificar()"
+              class="btn btn-primary" class="btn btn-info margin-left btn-md shadow-box-item">
+              Guardar Cambios
+              <i class="favb fa fa-circle"></i>
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Nominas </h4>
+      </div>
+
+      <div class="modal-body">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th>Corredor</th>
+              <th>Reasegurador</th>
+              <th>% Participación</th>
+              <th>% de Comision</th>
+              <td>Accion</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let i of listNominas">
+              <td *ngIf="i != undefined && i.c == undefined">Sin corredor</td>
+              <td *ngIf="i != undefined && i.c != undefined">{{idCorredor(i.c)}}</td>
+              <td>{{idReasegurador(i.r)}}</td>
+              <td>{{procentaje(i.s)}}</td>
+              <td>{{procentaje(i.a2)}}</td>
+              <td>
+                <a (click)="editar(i,0)">
+                  <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                </a>
+              </td>
+
+            </tr>
+            <tr *ngFor="let j of listEdit">
+              <td *ngIf="j.corredor != '' "> {{idCorredor(j.corredor)}}</td>
+              <td *ngIf="j.corredor == '' && j.corredor != undefined "> Sin Corredor</td>
+              <td *ngIf="j.reseasegurador != undefined "> {{idReasegurador(j.reseasegurador)}}</td>
+              <td *ngIf="j.participacion != undefined ">{{procentaje(j.participacion)}}</td>
+              <td *ngIf="j.comision">{{procentaje(j.comision)}}</td>
+              <td>
+                <a (click)="editar(j,1)" *ngIf="j.corredor != undefined">
+                  <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                </a>
+
+              </td>
+            </tr>
+
+
+
+            <tr *ngFor="let j of newNomina">
+              <td *ngIf="j.corredor != '' ">{{idCorredor(j.corredor)}}</td>
+              <td *ngIf="j.corredor == '' ">Sin Corredor</td>
+              <td>{{idReasegurador(j.reseasegurador)}}</td>
+              <td>{{procentaje(j.participacion)}}</td>
+              <td>{{procentaje(j.comision)}}</td>
+              <td>
+                <a (click)="editar(j,1)">
+                  <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                </a>
+
+              </td>
+              <!--<td>
+                <a (click)="deleteItemList(j)">
+                  <i class="fa fa-trash cursor btn-header cursor_active"></i>
+                </a>
+              </td>-->
+
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" *ngIf="part < 99" (click)="Add(idagregar)">Agregar
+          nomina</button>
+        <button type="button" id="cerrarEditModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+
       </div>
     </div>
   </div>

@@ -10,193 +10,249 @@
             <h4 class="card-title">Formulario Cuota Aparte</h4>
           </div>
           <div class="card-body">
-            <form class="form" [formGroup]="form" (ngSubmit)="saveData(form.value)">
+            <form [formGroup]="cuotaParteForm">
               <div class="row">
-
-                <div class="col-4"> <!--C-->
-                  <mat-form-field appearance="fill">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Código Contrato</mat-label>
-                    <input matInput placeholder="codigo" formControlName="codigoContrato" type="text" value="{{cod}}">
-                    <mat-icon matSuffix>person_outline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" placeholder="Código Contrato" formControlName="codigocontrato"
+                      [value]="cod">
                   </mat-form-field>
                 </div>
+              </div>
 
-                <div class="col-8"> <!--C-->
-                  <mat-form-field appearance="fill">
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Descripción</mat-label>
-                    <input matInput placeholder="ingresa una descripción" formControlName="descripcion" type="text" (blur)="cargaCod()">
-                    <mat-icon matSuffix>person_outline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <input matInput type="text" placeholder="Descripción" formControlName="descripcion">
+                  </mat-form-field>
+
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>EPI</mat-label>
+                    <input matInput type="text" placeholder="COP 180.000.000.000" formControlName="epiContrato"
+                      (change)="onchangedecimal('epiContrato')">
                   </mat-form-field>
                 </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Fecha Inicio</mat-label>
-                    <input matInput [matDatepicker]="picker" placeholder="ingresa una fecha" formControlName="starDate">
-                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                    <mat-datepicker #picker></mat-datepicker>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                <div class="col-md-6 col-xs-12">
+                  <div class="col-md-12">
+                    <div class="col-xs-12 col-md-6">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha Inicio</mat-label>
+                        <input matInput type="date" placeholder="dd/mm/yyyy" formControlName="fechaInicio"
+                          >
+                      </mat-form-field>
+                    </div>
 
-                <div class="col-3"> <!--c-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Hora inicio</mat-label>
-                    <input matInput placeholder="ingresa una hora" formControlName="starHours" type="time">
-                    
-                    <mat-icon matSuffix>access_time</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                    <div class="col-xs-12 col-md-6">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Hora Inicio</mat-label>
+                        <input matInput type="time" placeholder="Selecciona hora" formControlName="horainicio">
+                      </mat-form-field>
+                    </div>
+                  </div>
 
-                <div class="col-3">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Fecha Fin</mat-label>
-                    <input matInput [matDatepicker]="endDatePicker" placeholder="Ingresa una fecha"
-                      formControlName="endDate">
-                    <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #endDatePicker></mat-datepicker>
-                    <mat-hint>Este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                  <div class="col-md-12">
+                    <div class="col-xs-12 col-md-6">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Fecha Fin</mat-label>
+                        <input matInput type="date" placeholder="dd/mm/yyyy" formControlName="fechaFin">
+                      </mat-form-field>
+                    </div>
 
-                <div class="col-3"> <!--c-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Hora Fin</mat-label>
-                    <input matInput placeholder="ingresa una descripción" formControlName="endHours" type="time">
-                    <mat-icon matSuffix>access_time</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                    <div class="col-xs-12 col-md-6">
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Hora Fin</mat-label>
+                        <input matInput type="time" placeholder="Selecciona hora" formControlName="horafin">
+                      </mat-form-field>
+                    </div>
+                  </div>
                 </div>
+              </div>
 
-                <div class="col-4">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Selecciona una Moneda</mat-label>
-                    <select matNativeControl required formControlName="money">
-                      <option *ngFor="let item of currency" value="{{item.a}}">{{item.c}}</option>
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Moneda</mat-label>
+                    <select matNativeControl [(ngModel)]="selectMoneda" formControlName="moneda">
+                      <option *ngFor="let item of currency" [value]="item.a">{{item.c}}</option>
                     </select>
                   </mat-form-field>
                 </div>
-                <div class="col-4"> <!--C-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>EPI</mat-label>
-                    <input matInput placeholder="COP - 180.0000.000.000 (solo numeros)" formControlName="epi" type="number" (blur)="onchangedecimal('epi')">
-                    <mat-icon matSuffix>person_outline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
-                <div class="col-4"> <!--C-->
-                  <mat-form-field appearance="fill">
-                    <mat-label>Siniestros de Contrato</mat-label>
-                    <input matInput placeholder="ingresa un Siniestro" formControlName="sinistros" (change)="onchangedecimal('sinistros')" type="number">
-                    <mat-icon matSuffix>person_outline</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
 
-                <div class="col-12"> <!--C-->
-                  <mat-form-field class="example-full-width">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline" class="full-width">
+                    <mat-label>Siniestros de Contado</mat-label>
+                    <input matInput type="number" placeholder="Siniestros de Contado"
+                      formControlName="siniestroContrato" (change)="onchangedecimal('siniestroContrato')">
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-12">
+                  <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Observaciones</mat-label>
-                    <textarea matInput placeholder="ingresa una observación" formControlName="observations"
-                      type="text"></textarea>
+                    <textarea matInput formControlName="observacion" cols="30" rows="10"></textarea>
                   </mat-form-field>
-                </div>
-
-                <div class="col-3">
-                  <!--BOTON 1-->
-                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
-                    style="background-color: #016672" [disabled]="form.invalid">
-                    Agregar Nomina
-                  </button>
-                  <!--BOTON 2-->
-
-                </div>
-                <div class="col-2">
-                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
-                    style="background-color: #016672" (click)="storageClear()">
-                    Cancelar
-                  </button>
                 </div>
               </div>
             </form>
-            <div class="table-responsive mt-2" *ngIf="ramosrta">
-              <form [formGroup]="cuotaParteFormreasegurador">
-                
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-                  <!--- Note that these columns can be defined in any order.
-                        The actual rendered columns are set as a property on the row definition" -->
+            <button *ngIf=(!statefinal) type="" (click)="create()"
+              class="btn btn-primary btn btn-info margin-left btn-md shadow-box-item">
+              Agregar Nómina
+              <i class="favb fa fa-circle"></i>
+            </button>
+            <div class="row">
+              <div class=" col-xs-12 col-md-12">
+                <form [formGroup]="cuotaParteFormreasegurador">
+                  <table class="table hoverTable">
+                    <thead>
+                      <tr>
+                        <th>Contrato</th>
+                        <th>Suma Límite</th>
+                        <th>% Cesión</th>
+                        <th>Nómina Reaseguradores</th>
+                        <th>% Reas</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngIf="statefinal">
+                        <th>1</th>
+                        <td>
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Suma Límite</mat-label>
+                            <input matInput type="text" (change)="miles('cuotaParteFormreasegurador', 'sumaLimite')"
+                              formControlName="sumaLimite">
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>% Cesión</mat-label>
+                            <input matInput type="text" (change)="porcentaje('secion', 'cuotaParteFormreasegurador')"
+                              formControlName="secion">
+                          </mat-form-field>
+                        </td>
+                        <td class="cursor_active">
+                          <button class="btn btn-default btn-lg col-md-12" (click)="onSubmit()">+</button>
+                        </td>
+                      </tr>
+                      <tr *ngFor="let item of listareasu; let i = index;">
+                        <td>{{i}}</td>
+                        <td>
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>Suma Límite</mat-label>
+                            <input matInput type="text" value="{{miles('tabel', item.c)}}" disabled>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>% Cesión</mat-label>
+                            <input matInput type="text" value="{{porcentaje(item.r | number)}}" disabled>
+                          </mat-form-field>
+                        </td>
+                        <td class="cursor_active">
+                          <button *ngIf="item.part <= 100" (click)="agregarnomina(item.a, item.part)"
+                            class="btn btn-default btn-lg col-md-12">{{item.cnt}}</button>
+                        </td>
+                        <td>
+                          <mat-form-field appearance="outline" class="full-width">
+                            <mat-label>% Reas</mat-label>
+                            <input matInput type="text" value="{{porcentaje(item.part | number)}}" disabled>
+                          </mat-form-field>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </form>
 
-                  <!-- Position Column -->
-                  <ng-container matColumnDef="contrato">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cello">Contrato</th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      1
-                    </td>
-                  </ng-container>
+              </div>
+              <div class="row" *ngIf="dataShow.error">
+                <div class="col-md-12">
+                  <h3 class="box-title">
+                    Errores de validacion campos obligatorios
+                  </h3>
+                  <table class="table hoverTable ">
+                    <thead>
+                      <tr>
+                        <th>Mensajes de error</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let msj of dataShow.mensaje">
+                        <td>{{msj}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
 
-                  <!-- Name Column -->
-                  <ng-container matColumnDef="sumaLimite">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cello">Suma Limite</th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Suma Limite</mat-label>
-                        <input matInput placeholder="Suma" formControlName="sumaLimite" (blur)="miles('cuotaParteFormreasegurador', 'sumaLimite')">
-                        <mat-hint>suma</mat-hint>
-                      </mat-form-field>
-                    </td>
-                  </ng-container>
-
-                  <!-- Symbol Column -->
-                  <ng-container matColumnDef="cesion">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cell"> Cesión </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      <mat-form-field appearance="outline">
-                        <mat-label>Porcentaje</mat-label>
-                        <input matInput placeholder="%" formControlName="cesion"  (blur)="porcentaje('cesion', 'cuotaParteFormreasegurador')">
-                        <mat-hint>*</mat-hint>
-                      </mat-form-field>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="nomina">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cello"> Nomina </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-      
-                      <button mat-raised-button class="btn btn-fill btn-rose"
-                      style="background-color: #016672" (click)="onSubmit()" type="button">
-                      +
-                    </button>
-                        
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="reas">
-                    <th mat-header-cell *matHeaderCellDef class="custom-cello"> Reas </th>
-                    <td mat-cell *matCellDef="let element" class="custom-cell">
-                      
-                    </td>
-                  </ng-container>
-
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-              </form>
+                </div>
+              </div>
             </div>
-
-            <div class="col-3">
-              <!--BOTON 1-->
-              <button mat-raised-button type="button" class="btn btn-fill btn-rose"
-                style="background-color: #016672; margin-top: 10px;" [disabled]="form.invalid" (click)="verificar()">
-                Guardar Cambios
-              </button>
-              <!--BOTON 2-->
-
-            </div>
+            <button type="button" (click)="regresar()" class="btn btn-alert btn-md shadow-box-item">
+              Regresar
+              <i class="favb fa fa-circle"></i>
+            </button>
+            <button type="" (click)="verificar()" class="btn btn-primary"
+              class="btn btn-info margin-left btn-md shadow-box-item">
+              Guardar Cambios
+              <i class="favb fa fa-circle"></i>
+            </button>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button data-toggle="modal" data-controls-modal="#myModal2" id="modalShow" data-backdrop="static" data-keyboard="false"
+  data-target="#myModal2" style="display: none"></button>
+
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <h4 class="modal-title font-header" id="myModalLabel">Registrar Contrato</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>Año Contractual</mat-label>
+                <select matNativeControl [(ngModel)]="md.r" name="r" required>
+                  <option *ngFor="let year of yearsArray" [value]="year">{{year}}</option>
+                </select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="outline" class="full-width">
+                <mat-label>ID Contrato</mat-label>
+                <input matInput autocomplete="off" (change)="valid()" type="text" [(ngModel)]="md.c" name="newId"
+                  placeholder="ID Contrato">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" aria-label="Close" (click)="regresar()">
+          Regresar
+        </button>
+
+        <button type="button" class="btn btn-primary" (click)="ngRedirect()" data-dismiss="modal" *ngIf="state">Guardar
+          Cambios</button>
+        <button type="button" class="btn btn-primary" (click)="ngRedirect()" data-dismiss="modal" *ngIf="!state"
+          disabled>Guardar Cambios</button>
       </div>
     </div>
   </div>

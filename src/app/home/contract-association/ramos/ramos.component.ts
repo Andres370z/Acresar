@@ -478,7 +478,7 @@ export class RamosComponent implements OnInit {
   getDetail() {
     if (this.formulario.controls.tipoAsociacion.value != 0) {
       const item = { ramo: this.formulario.controls.ramo.value, tipo: this.formulario.controls.tipoAsociacion.value };
-      this._http.postContratosDetail(item).then(
+      this._http.postContratosDetails(item).then(
         res => {
           this.showList = true;
           this.detail = res;
@@ -486,6 +486,8 @@ export class RamosComponent implements OnInit {
       );
 
     } else {
+      console.log('Entra al else 3', this.formulario.controls.tipoAsociacion.value);
+      
       this.showList = false;
       this.selectedDetailItems = [];
       this.detail = {};

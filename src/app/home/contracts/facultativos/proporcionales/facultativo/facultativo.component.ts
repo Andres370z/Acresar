@@ -1,16 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogConfig, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Procentajes } from 'src/app/home/commos/porcentajes';
 import { SessionUser } from 'src/app/home/global/sessionUser';
-import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
-import { LocalstoreService } from 'src/app/service/localstore.service';
-import { ModalComponent } from '../../modal/modal.component';
-import { MatTableDataSource } from '@angular/material/table';
-import { PercentageService } from 'src/app/service/percentage.service';
+import { Observable } from 'rxjs';
+import { enableRipple } from '@syncfusion/ej2-base';
+
+enableRipple(true);
+const now = new Date();
 
 const ELEMENT_DATA = [{ data: '' }];
 @Component({
@@ -18,84 +17,137 @@ const ELEMENT_DATA = [{ data: '' }];
   templateUrl: './facultativo.component.html',
   styleUrls: ['./facultativo.component.css']
 })
-export class FacultativoComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['codRamos', 'ramos', 'sumaLimite', 'cesion', 'nomina', 'reas', 'primaTotal'];
-  dataSource = ELEMENT_DATA;
-  public watermark: string = 'Select a time';
-  // sets the format property to display the time value in 24 hours format.
-  public dateValue: Date = new Date();
-  public formatString: string = 'HH:mm';
-  public interval: number = 60;
-  public selectedTime: any;
-  public form: FormGroup;
-  public formReaseguros: FormGroup
-  public entities: any = [];
-  public selectedOption: any;
-  public createForm: any;
-  public currency: any = []
-  public user: any
-  public ramos: any
-  md: any
-  statefinal: boolean;
-  cod = '';
-  contrato: any;
-  selectMoneda: any;
-  listareasu: any;
-  temporal: any;
-  reasegurador: string;
-  fechaAlmacenda: any
-  fechaAlmacendaFin: any
-  public rta: boolean = false
-  private item = { c: '', e: '', r: '' };
-  private _pct = new Procentajes();
+export class FacultativoComponent implements OnInit {
 
+  @ViewChild('tbody') tbody: ElementRef;
+  yearsArray: number[] = [];
+
+  calendarfi: JQuery;
+  calendarff: JQuery;
+  number: JQuery;
+  md = { r: "", c: "" };
+  item = { c: '', e: '', r: '' };
+  frmValues = { cd: '', d: '', fi: '', ff: '', mn: '', s: '', o: '', sl1: '', cs1: '', re1: '', sl2: '', cs2: '', re2: '', sl3: '', cs3: '', re4: '' };
+  d = '';
+  cod = '';
+  currency: Observable<any>;
+  rl: string = '/rsltncntrts';
+  modulo: string = 'Facultativo';
+  selectMoneda: any;
+  sumaComision = 0;
+
+  date: { year: number, month: number };
+  model;
+  ctb1: any;
+  ctb2: any;
+  ctb3: any;
+  ctb4: any;
+  ctb5: any;
+  contrato: any;
+  public formatString: string = 'h:mm:ss a';
+  public interval: number = 60;
+  cuotaParteForm: FormGroup;
+  cuotaParteFormreasegurador: FormGroup;
+  dataShow = {
+    error: false,
+    mensaje: []
+  };
+  state: boolean;
+  statefinal: boolean;
+  ramos: any;
+  prima1: any;
+  prima2: any;
+  prima3: any;
+  prima4: any;
+  prima5: any;
+  reasegurador: any;
+  listareasu: any;
+  listareasu2: any;
+  public user: any;
+  listTb: any = [];
+  contar = 0;
+  private _pct = new Procentajes();
   constructor(
-    private myFormBuilder: FormBuilder,
-    private authService: AuthService,
-    private alertService: AlertService,
     private router: Router,
-    private localStorageService: LocalstoreService,
-    private dialog: MatDialog,
-    private percentageService: PercentageService
+    private _currency: AuthService,
+    private service: AuthService,
+    private fb: FormBuilder,
+    private _rd: Renderer2,
+    private alertService: AlertService
+
   ) {
-    this.user = new SessionUser(this.router)
-    this.user.getAuthUser()
+    this.user = new SessionUser(this.router);
+    this.user.getAuthUser();
+    $('#fini').on('change', () => {
+      this.fecha('fini');
+    });
+    _currency.getCurrency().then((res: any) => { this.currency = res });
     if (localStorage.getItem('rsltntmpcntrt') === null) {
       this.item.e = '';
       this.item.r = '';
       this.item.c = '';
-      // const a = setInterval(() => {
-      //   $("#modalShow").click();
-      //   clearInterval(a);
-      // }, 300);
+      const a = setInterval(() => {
+        $("#modalShow").click();
+        clearInterval(a);
+      }, 300);
     } else {
+
       this.item = JSON.parse(localStorage.getItem('rsltntmpcntrt'));
       this.item.e = this.item.r;
       this.cod = this.item.c + ' - ' + this.item.r;
-      console.log('-------> ', this.cod);
     }
-    this.authService.getDataObser().subscribe(data => {
-      if (data) {
-        this.cod = data.id + ' - ' + data.year;
-        console.log('Informacion pa', data, 'codigo: ', this.cod);
-      }
-    });
+
+
+    if (sessionStorage.getItem('cntrt') === null) {
+      // tslint:disable-next-line:max-line-length
+      this.frmValues = { cd: '', d: '', fi: '', ff: '', mn: '', s: '', o: '', sl1: '', cs1: '', re1: '', sl2: '', cs2: '', re2: '', sl3: '', cs3: '', re4: '' };
+    } else {
+      this.frmValues = JSON.parse(sessionStorage.getItem('cntrt'));
+      // console.log(this.frmValues);
+      // this.d = this.frmValues.d;
+    }
+
   }
 
   ngOnInit() {
-    this.localStorageService.clear();
-    this.initial()
-    this.createFormReasegurador()
+    this.yearsArray = this.getYearsArray();
+    this.user.getAuthUser();
+
+    if (this.user.authUser.id_rol === "5" || this.user.authUser.id_rol === "3") {
+      this.router.navigate(['/admin/dashboard1']);
+    }
+    this.createForm();
+    this.statefinal = false;
+    this.createFormreasegurador();
+    this.reasegurador = '';
+    this.state = false;
+    this.ctb1 = '+';
+    this.ctb2 = '+';
+    this.ctb3 = '+';
+    this.ctb4 = '+';
+    this.ctb5 = '+';
+
+
+
+
+    this.service.getRamos().then(
+      res => {
+        this.ramos = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
+
     if (sessionStorage.getItem('formCuotaP') != "" && sessionStorage.getItem('formCuotaP') != null) {
       this.formLoad();
-    } else {
-      this.onCreate()
     }
-    if (localStorage.getItem('idcontrato')) {
 
+    if (localStorage.getItem('idcontrato')) {
       this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
       const contra = JSON.parse(localStorage.getItem('idcontrato'));
-      this.authService.getFacultativoContra(contra.a).then(
+      this.service.getFacultativoContra(contra.a).then(
         res => {
           this.listareasu = res;
           console.log(res);
@@ -103,137 +155,255 @@ export class FacultativoComponent implements OnInit, OnDestroy {
         err => {
           console.log(err);
         }
-      )
+      );
     }
-    if (localStorage.getItem('rsltntmpcntrt') !== null) {
-      this.item = JSON.parse(localStorage.getItem('rsltntmpcntrt'));
-      this.item.e = this.item.r;
-      this.cod = this.item.c + ' - ' + this.item.r;
+    if (sessionStorage.getItem('idcontratoreasegurador')) {
+      const contra = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
+      this.service.getLoadRamos(contra.a).then(
+        res => {
+          this.listareasu2 = res;
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+      this.service.getComision(contra.a).then(
+        res => {
+          this.contar = res;
+          console.log(res);
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+    if (sessionStorage.getItem('fecha') == "") {
+      this.cuotaParteForm.controls.horafin.valueChanges.subscribe(
+        (input) => {
+          if (this.cuotaParteForm.controls.fechaInicio.value !== '' && this.cuotaParteForm.controls.fechaFin.value !== '') {
+            const dateStart = new Date((this.cuotaParteForm.controls.fechaInicio.value.year + 1), this.cuotaParteForm.controls.fechaInicio.value.month, (this.cuotaParteForm.controls.fechaInicio.value.day - 1));
+            const dateEnd = new Date(this.cuotaParteForm.controls.fechaFin.value.year, this.cuotaParteForm.controls.fechaFin.value.month, (this.cuotaParteForm.controls.fechaFin.value.day - 1));
+            if (dateStart > dateEnd) {
+              this.alertService.messageInfo('Hey', 'Contrato es menor a un año');
+            }
+            if (dateStart < dateEnd) {
+              this.alertService.messageInfo('Hey', 'Contrato es mayor a un año');
+            }
+          }
+        }
+      );
+    }
 
 
-      // Aquí estableces el valor de "codigoContrato" en el formulario reactivo
-      this.form.controls['codigoContrato'].setValue(this.cod);
+  }
+
+
+  onSubmit() {
+    // TODO: Use EventEmitter with form value
+    console.log(this.contrato);
+    if (this.contrato) {
+      const form1 = this.cuotaParteFormreasegurador.value;
+
+      sessionStorage.setItem('formCuotaP1', JSON.stringify(form1));
+      console.log(form1);
+      if (form1) {
+        this.goDetail();
+      }
+    }
+
+  }
+  selectToday() {
+    this.model = { year: now.getFullYear(), month: now.getMonth() + 1, day: now.getDate() };
+  }
+
+  comisionItem(item: any) {
+    item = JSON.parse(item);
+
+    if (item.length > 0) {
+      for (let i = 0; i <= (item.length - 1); i++) {
+        const data = item[i];
+        if (data != null) {
+          this.sumaComision = this.sumaComision + parseFloat(data['participacion']);
+        }
+
+      }
     }
   }
-  initial() {
-    this.form = this.myFormBuilder.group({
-      codigoContrato: [Menssage.empty, Validators.compose([Validators.required])],
-      descripcion: [Menssage.empty, Validators.compose([Validators.required])],
 
-      starDate: [Menssage.empty, Validators.compose([Validators.required])],
-      starHours: [Menssage.empty, Validators.compose([Validators.required])],
-      endDate: [Menssage.empty, Validators.compose([Validators.required])],
-      endHours: [Menssage.empty, Validators.compose([Validators.required])],
-      money: [Menssage.empty, Validators.compose([Validators.required])],
-      sinistros: [Menssage.empty, Validators.compose([Validators.required])],
-      observations: [Menssage.empty, Validators.compose([Validators.required])],
-    })
-    this.authService.getCurrency().then((resulta: any) => {
-      this.currency = resulta
-      console.log('esta es las monedas', resulta)
-    })
-    this.authService.getRamos().then((resulta: any) => {
-      this.ramos = resulta
-      console.log('ramos: ', resulta)
-
-    })
-    this.user.getAuthUser()
-  }
-
-  cargaCod() {
-    this.form.controls.codigoContrato.setValue(this.cod)
-    console.log('ejecutando');
+  valid() {
+    this.md.r.toString();
+    this.state = this.md.r !== '' && this.md.c !== '' ? true : false;
 
   }
-  saveData(item: any) {
-    const data = this.form.controls.starDate.value;
-    if (data) {
-      const day = data.getDate();
-      const month = data.getMonth() + 1;
-      const year = data.getFullYear();
-      this.fechaAlmacenda = { day, month, year };
-      console.log(this.fechaAlmacenda);
+
+  ngRedirect() {
+
+    this.md.r.toString();
+    localStorage.setItem('rsltntmpcntrt', JSON.stringify(this.md));
+    this.cod = this.md.c + ' - ' + this.md.r;
+  }
+
+  regresar() {
+    localStorage.removeItem('alerta');
+    localStorage.removeItem('idcontrato');
+    // localStorage.clear();
+    this.cuotaParteForm.reset();
+    this.cuotaParteFormreasegurador.reset();
+    sessionStorage.clear();
+    this.router.navigate(['/admin/contratos']);
+
+  }
+
+  procentaje(item: any) {
+    console.log(item);
+    // this.form.participacion = this.form.participacion+' %';
+  }
+
+  formLoad() {
+    const form = JSON.parse(sessionStorage.getItem('formCuotaP'));
+    this.cuotaParteForm.controls.codigocontrato.setValue(form['codigocontrato']);
+    this.cuotaParteForm.controls.descripcion.setValue(form['descripcion']);
+    this.cuotaParteForm.controls.fechaInicio.setValue(form['fechaInicio']);
+    this.cuotaParteForm.controls.fechaFin.setValue(form['fechaFin']);
+    this.cuotaParteForm.controls.moneda.setValue(form['moneda']);
+    this.selectMoneda = form['moneda'];
+    this.cuotaParteForm.controls.siniestroContrato.setValue(form['siniestroContrato']);
+    this.cuotaParteForm.controls.observacion.setValue(form['observacion']);
+    this.cuotaParteForm.controls.horainicio.setValue(form['horainicio']);
+    this.cuotaParteForm.controls.horafin.setValue(form['horafin']);
+  }
+
+  formLoadreasegurador() {
+    const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'));
+    this.cuotaParteForm.controls.codigo.setValue(form1['codigo']);
+    this.cuotaParteForm.controls.ramos.setValue(form1['ramos']);
+    this.cuotaParteForm.controls.sumaLimite.setValue(form1['sumaLimite']);
+    this.cuotaParteForm.controls.contrato = this.contrato;
+    this.cuotaParteForm.controls.reas.setValue(form1['reas']);
+    this.cuotaParteForm.controls.id.setValue(form1['id']);
+  }
+
+  createForm() {
+    this.cuotaParteForm = new FormGroup({
+      tipocontrato: new FormControl('', Validators.required),
+      codigocontrato: new FormControl('', Validators.required),
+      descripcion: new FormControl('', Validators.required),
+      fechaInicio: new FormControl('', Validators.required),
+      fechaFin: new FormControl('', Validators.required),
+      moneda: new FormControl('', Validators.required),
+      siniestroContrato: new FormControl('', Validators.required),
+      observacion: new FormControl('', Validators.required),
+      horainicio: new FormControl('', Validators.required),
+      horafin: new FormControl('', Validators.required)
+    });
+  }
+  createFormreasegurador() {
+    this.cuotaParteFormreasegurador = new FormGroup({
+      codigo: new FormControl('', Validators.required),
+      ramos: new FormControl('', Validators.required),
+      contrato: new FormControl('', Validators.required),
+      sumaLimite: new FormControl('', Validators.required),
+      secion: new FormControl('', Validators.required),
+      reas: new FormControl('', Validators.required),
+      id: new FormControl('', Validators.required),
+    });
+  }
+
+  goDetail() {
+    this.alertService.loading();
+    const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'));
+    // tslint:disable-next-line:prefer-const
+    let contar = + 0;
+    const data = {
+      idusers: this.user.authUser.id,
+      codigo: form1['codigo'],
+      secion: this._pct.removerDesimal(this._pct.removerPor(form1['secion'])),
+      sumaLimite: this._pct.removerDesimal(form1['sumaLimite']),
+      contrato: contar,
+      reas: this._pct.removerDesimal(this._pct.removerPor(form1['reas'])),
+      id: this.contrato.a,
+    };
+
+    console.log(data);
+    this.service.postFacultativoContratb(data).then(
+      res => {
+        sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
+        // CREAR ESTE COMPONENTE
+        // this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
+        this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
+      });
+    this.service.postFacultativoContratb(data).then(
+      res => {
+        sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
+        this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
+      });
+  }
+  agregarnomina(item: String, part: String) {
+    const parti = this.cortarDesimales(part);
+    console.log(parti);
+    if (parti >= 100) {
+      this.alertService.error('Error','Participacion igual al 100% ya no puedes seguir agregando mas nomina');
+    } else {
+      sessionStorage.setItem('id', JSON.stringify(item));
+      this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
     }
-    const dataOne = this.form.controls.endDate.value;
-    if (dataOne) {
-      const day = dataOne.getDate();
-      const month = dataOne.getMonth() + 1;
-      const year = dataOne.getFullYear();
-      this.fechaAlmacendaFin = { day, month, year };
-      console.log(this.fechaAlmacendaFin);
-    }
+  }
+  create() {
     if (!sessionStorage.getItem('formCuotaP')) {
-      console.log('aqui llega 1')
-      const form = this.form.value;
-      var d = new Date(form.starHours);
-      var e = new Date(form.endHours);
-
+      const form = this.cuotaParteForm.value;
+      var d = new Date(form.horainicio);
+      var e = new Date(form.horafin);
       sessionStorage.setItem('formCuotaP', JSON.stringify(form));
-      // tslint:disable-next-line:no-debugger ..≤
+      // tslint:disable-next-line:no-debugger
       const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
-      const formfinal = this.form.value;
-      if (this.form.invalid) {
-        this.alertService.error('Faltan campos por llenar', 'Error')
-      } else if (form2) {
-        console.log('aqui llega 2');
-
+      const formfinal = this.cuotaParteForm.value;
+      if (formfinal.codigocontrato === undefined && formfinal.codigocontrato === '') {
+        this.alertService.messageInfo('Hey', 'Campo del codigo del contrato es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.descripcion === undefined || formfinal.descripcion === '') {
+        this.alertService.messageInfo('Hey', 'Campo descripción es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.fechaInicio === undefined || formfinal.fechaInicio === '') {
+        this.alertService.messageInfo('Hey', 'Campo fecha de inicio es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.horainicio === undefined || formfinal.horainicio === '') {
+        this.alertService.messageInfo('Hey', 'Campo hra inicial es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.fechaFin === undefined || formfinal.fechaFin === '') {
+        this.alertService.messageInfo('Hey', 'Campo fecha final  es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.horafin === undefined || formfinal.horafin === '') {
+        this.alertService.messageInfo('Hey', 'Campo  hora final es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.moneda === undefined || formfinal.model === '') {
+        this.alertService.messageInfo('Hey', 'Campo moneda es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.observacion === '' || formfinal.observacion === undefined) {
+        this.alertService.messageInfo('Hey', 'Campo observación es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (formfinal.siniestroContrato === '' || formfinal.siniestroContrato === undefined) {
+        this.alertService.messageInfo('Hey', 'Campo siniestro es obligatorio');
+      }
+      // tslint:disable-next-line:one-line
+      else if (form2) {
         const data1 = {
           codigocontrato: 'ATL-FAC-' + this.cod,
         };
-
-        //this.user = this.localStorageService.getAuthUser();
-        this.authService.postBuscarContratos(data1).then(
+        this.alertService.loading();
+        this.service.postBuscarContratos(data1).then(
           res => {
             const buscar = res
             console.log(buscar)
-            if (buscar == "N.N") {
-              this.temporal = JSON.parse(localStorage.getItem('rsltntmpcntrt'))
-              this.cod = this.temporal.c + ' - ' + this.temporal.r
-              console.log('entro')// esto para verificar el if
-              const data = {
-                idusers: this.user.authUser.id,
-                tipocontrato: 10,
-                codigocontrato: this.cod,
-                descripcion: form2['descripcion'],
-                fechaInicio: this.fechaAlmacenda,
-                fechaFin: this.fechaAlmacendaFin,
-                moneda: form2['money'],
-                siniestroContrato: this._pct.removerDesimal(form2['sinistros']),
-                observacion: form2['observations'],
-                horainicio: form2['starHours'],
-                horafin: form2['endHours']
-              };
-              console.log('este es el objeto data,', data)
-              this.authService.postFacultativoContra(data).then(
-                res => {
-                  
-                  this.alertService.success('Ok', 'Formulario Enviado')
-                  console.log('esta es la respuesta del post', res);
-                  localStorage.setItem('idcontrato', JSON.stringify(res));
-                  this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
-                  this.statefinal = true;
-                  console.log(res);
-                  this.router.navigate(['home/contracts']);
-
-                }, err => {
-                  console.log('error 1', err)
-                }
-              )
-            } else {
-              this.alertService.error('Error', 'Número de contrato ya existe');
-            }
-
-          }, err => {
-            console.log('error 01', err)
-          });
-        //Solicitud de respaldo
-        /*
-        this.authService.postBuscarContratosRespaldo(data1).then(
-          
-          res => {
-            const buscar = res
-            console.log(buscar)
-            if (buscar == "N.N") {
+            if (buscar === "N.N") {
               const data = {
                 idusers: this.user.authUser.id,
                 tipocontrato: 10,
@@ -247,182 +417,304 @@ export class FacultativoComponent implements OnInit, OnDestroy {
                 horainicio: d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(), // Hours
                 horafin: e.getHours() + ':' + e.getMinutes() + ':' + e.getSeconds()
               };
-              this.authService.postFacultativoContra(data).then(
+              this.service.postFacultativoContra(data).then(
                 res => {
                   localStorage.setItem('idcontrato', JSON.stringify(res));
                   this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
                   this.statefinal = true;
                   console.log(res);
-                }, err =>{
-                  console.log(err)
-                }
-              )
-            }else {
-              this.alertService.error('Error', 'Número de contrato ya existe');
+
+                },
+                err => {
+                  console.log(err);
+                });
+            } else {
+              this.alertService.error('Erro','Número de contrato ya existe');
             }
 
-          }, err =>{
-            console.log('error 2, entro a la solicitud de respaldo',err)
+          },
+          err => {
+            console.log(err);
           });
-        */
+        this.service.postBuscarContratos(data1).then(
+          res => {
+            const buscar = res
+            console.log(buscar)
+            if (buscar === "N.N") {
+              const data = {
+                idusers: this.user.authUser.id,
+                tipocontrato: 10,
+                codigocontrato: this.cod,
+                descripcion: form2['descripcion'],
+                fechaInicio: form2['fechaInicio'],
+                fechaFin: form2['fechaFin'],
+                moneda: form2['moneda'],
+                siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
+                observacion: form2['observacion'],
+                horainicio: d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(), // Hours
+                horafin: e.getHours() + ':' + e.getMinutes() + ':' + e.getSeconds()
+              };
+              this.service.postFacultativoContra(data).then(
+                res => {
+                  localStorage.setItem('idcontrato', JSON.stringify(res));
+                  this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
+                  this.statefinal = true;
+                  console.log(res);
 
-      } else {
-        this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
-        this.statefinal = true;
+                },
+                err => {
+                  console.log(err);
+                });
+            }
+
+          },
+          err => {
+            console.log(err);
+          });
+
       }
-      this.storageClear()
     } else {
-      this.alertService.error('El formulario no se ha podido enviar', 'Error')
+      this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
+      this.statefinal = true;
     }
-    console.log(' formulario : ', item)
+
   }
-  formLoad() {
-    const form = JSON.parse(sessionStorage.getItem('formCuotaP'));
-    this.form.controls.codigoContrato.setValue(form['codigocontrato']);
-    this.form.controls.descripcion.setValue(form['descripcion']);
-    this.form.controls.starDate.setValue(form['fechaInicio']);
-    this.form.controls.endDate.setValue(form['fechaFin']);
-    this.form.controls.money.setValue(form['moneda']);
-    this.selectMoneda = form['moneda'];
-    this.form.controls.sinistros.setValue(form['siniestroContrato']);
-    this.form.controls.observations.setValue(form['observacion']);
-    this.form.controls.horafin.setValue(form['horafin']);
-    this.form.controls.horainicio.setValue(form['horainicio']);
-  }
-  storageClear() {
-    localStorage.removeItem('idcontrato');
-    localStorage.removeItem('formCuotaP');
-    sessionStorage.removeItem('formCuotaP');
-    // localStorage.clear();
-    this.form.reset();
-    sessionStorage.clear();
-  }
-  onCreate() {
-    const dialogConfig = new MatDialogConfig()
-    dialogConfig.width = '30%',
-      dialogConfig.disableClose = true
-    this.dialog.open(ModalComponent, dialogConfig)
-    this.rta = true
-  }
-  ngOnDestroy() {
-    // Llamada al método storageClear al destruir el componente
-    //this.storageClear();
-  }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-  }
-  createFormReasegurador() {
-    this.formReaseguros = this.myFormBuilder.group({
-      codigo: [Menssage.empty, Validators.compose([Validators.required])],
-      ramos: [Menssage.empty, Validators.compose([Validators.required])],
-      sumaLimite: [Menssage.empty, Validators.compose([Validators.required])],
-      seccion: [Menssage.empty, Validators.compose([Validators.required])],
-      reas: [Menssage.empty, Validators.compose([Validators.required])],
-    })
-  }
-  eventRamo(key: string) {
-    if (!!key) {
-      if (key === 'ramos') {
-        const value = this.formReaseguros.controls[key].value
-        this.formReaseguros.controls.codigo.setValue(value)
+  fecha(item: string) {
+
+    if (item === 'fini') {
+      const e = $('#' + item).val();
+      this.cuotaParteForm.controls.fechaInicio.setValue(e);
+    }
+    if (item === 'ffin') {
+      this.cuotaParteForm.controls.fechaInicio.setValue($('#' + item).val());
+    }
+
+    // debugger;
+    const fechaInicio = this.cuotaParteForm.controls.fechaInicio.value;
+    const fechaFin = this.cuotaParteForm.controls.fechaFin.value;
+    const ano = Number(fechaInicio.year) + 1;
+    console.log(fechaFin, fechaInicio, ano);
+    console.log(fechaInicio[0] < ano || fechaInicio[1] < fechaFin[2] || fechaInicio[2] < fechaFin[2]);
+    console.log(fechaInicio[0] > ano || fechaInicio[1] > fechaFin[2] || fechaInicio[2] > fechaFin[2]);
+    // this.contar = 0;
+
+    if (localStorage.getItem('alerta') === null) {
+      console.log(this.contar);
+      if (fechaInicio.year <= ano || fechaInicio.month <= fechaFin.month || fechaInicio.day <= fechaFin.day) {
+
+        this.alertService.info('Contrato es menor a un año', '');
+        localStorage.setItem('alerta', 'hola');
       }
-      if (key === 'codigo') {
-        const value = this.formReaseguros.controls[key].value
-        console.log(value, 'de codigo')
-        this.formReaseguros.controls.ramos.setValue(value)
+      if (fechaInicio.year >= ano || fechaInicio.month >= fechaFin.month || fechaInicio.day >= fechaFin.day) {
+
+        this.alertService.info('Contrato es mayor a un año', '');
+        localStorage.setItem('alerta', 'hola');
       }
-    } else {
-      console.log('error')
+
+    }
+
+
+  }
+  validarForm() {
+
+    this.dataShow.error = false;
+    this.dataShow.mensaje = [];
+    const data = this.cuotaParteForm.value;
+    const tb1 = data.tb1;
+    const tb2 = data.tb2;
+    const tb3 = data.tb3;
+
+    if (data.codigocontrato === undefined && data.codigocontrato === '') {
+      this.dataShow.error = true;
+      this.dataShow.mensaje.push('Codigo contrato es requerido');
+    }
+    if (data.descripcion === undefined || data.descripcion === '') {
+      this.dataShow.error = true;
+      this.dataShow.mensaje.push('la descripcion es requerida');
+    }
+    if (data.moneda === undefined || data.model === '') {
+      this.dataShow.error = true;
+      this.dataShow.mensaje.push('selecione una moneda campo requerido');
+    }
+    if (data.observacion === '' || data.observacion === undefined) {
+      this.dataShow.error = true;
+      this.dataShow.mensaje.push('la observacion es requerida');
+    }
+    if (data.siniestroContrato === '' || data.siniestroContrato === undefined) {
+      this.dataShow.error = true;
+      this.dataShow.mensaje.push('el campo siniestro contrato es requerido')
+    }
+
+    if (tb1.secion !== '' || tb1.reas !== '' || tb1.sumaLimite !== '' || tb1.consiliacion.length > 0) {
+      if (tb1.secion === '') {
+        this.dataShow.error = true;
+        this.dataShow.mensaje.push('valor de secion es obligatorio en la capa 1');
+      }
+      if (tb1.reas === '') {
+        this.dataShow.error = true;
+        this.dataShow.mensaje.push('valor de reas es obligatorio en la capa 1')
+      }
+
+    }
+    if (tb2.secion2 !== '' || tb2.reas2 !== '' || tb2.sumaLimite2 !== '' || tb2.consiliacion2.length > 0) {
+      if (tb1.secion2 === '') {
+        this.dataShow.error = true;
+        this.dataShow.mensaje.push('valor de secion es obligatorio en la capa 2');
+      }
+      if (tb1.reas2 === '') {
+        this.dataShow.error = true;
+        this.dataShow.mensaje.push('valor de reas es obligatorio en la capa 2')
+      }
+
+    }
+    if (tb3.secion3 !== '' || tb3.reas3 !== '' || tb3.sumaLimite3 !== '' || tb3.consiliacion3.length > 0) {
+      if (tb1.secion3 === '') {
+        this.dataShow.error = true;
+        this.dataShow.mensaje.push('valor de secion es obligatorio en la capa 3');
+      }
+      if (tb1.reas3 === '') {
+        this.dataShow.error = true;
+        this.dataShow.mensaje.push('valor de reas es obligatorio en la capa 3')
+      }
+    }
+  }
+  ramosEvent(key: any, num: any, tb: any) {
+    const from = this.cuotaParteFormreasegurador.value;
+    let data = this.cuotaParteFormreasegurador.controls[tb];
+    data = data.value;
+    if (key === 'codigo') {
+
+      from[tb][`ramos${num}`] = Number(from[tb][`codigo${num}`]);
+
+      this.cuotaParteForm.setValue(from);
+    } else if (key === 'ramos') {
+      from[tb][`codigo${num}`] = Number(from[tb][`ramos${num}`]);
+      this.cuotaParteForm.setValue(from);
+    }
+
+  }
+  desimalPor(key: any) {
+    let e = key;
+    if (e !== undefined) {
+      e = e.split('');
+      let count = 0, rst = '';
+      for (let i = e.length - 1; i >= 0; i--) {
+        count = count + 1;
+        rst = e[i] + rst;
+        if (count === 2) {
+          if (e[i - 1] !== undefined) {
+            rst = '.' + rst;
+          }
+          count = 0;
+        }
+      }
+      return rst + '%';
+    }
+  }
+  desimal(key: any) {
+    return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  desimaldo(key: any) {
+    let e = key;
+    if (e !== undefined) {
+      e = e.split('');
+      let count = 0, rst = '';
+      for (let i = e.length - 1; i >= 0; i--) {
+        count = count + 1;
+        rst = e[i] + rst;
+        if (count === 3) {
+          if (e[i - 1] !== undefined) {
+            rst = '.' + rst;
+          }
+          count = 0;
+        }
+      }
+      return rst;
     }
   }
   miles(form: string, key: string) {
-    if (form == 'form') {
-      let value = this.formReaseguros.controls[key].value
+    if (form === 'cuotaParteForm') {
+      let value = this.cuotaParteForm.controls[key].value;
       if (value.split('.').length > 2) {
-        value = this.percentageService.removerDesimal((this.form.controls[key].value))
+        value = this._pct.removerDesimal(this.cuotaParteForm.controls[key].value);
       }
-      const val = this.percentageService.desimalDeMiles(value)
-      this.formReaseguros.controls[key].setValue(val.toString())
+      const val = this._pct.desimalDeMiles(value);
+      this.cuotaParteForm.controls[key].setValue(val.toString());
     }
-    if (form == 'formReaseguros') {
-      let value = this.formReaseguros.controls[key].value
+    if (form === 'cuotaParteFormreasegurador') {
+
+      let value = this.cuotaParteFormreasegurador.controls[key].value;
       if (value.split('.').length > 2) {
-        value = this.percentageService.removerDesimal(this.formReaseguros.controls[key].value)
+        value = this._pct.removerDesimal(this.cuotaParteFormreasegurador.controls[key].value);
       }
-      const val = this.percentageService.desimalDeMiles(value)
-      this.formReaseguros.controls[key].setValue(val.toString())
+      const val = this._pct.desimalDeMiles(value);
+      this.cuotaParteFormreasegurador.controls[key].setValue(val.toString());
+    }
+
+    if (form === 'tabel') {
+      const cortar = this.cortarDesimales(key)
+      const quitar = this.desimal(cortar);
+      return quitar;
+    }
+
+  }
+  cortarDesimales(item: any) {
+    return Math.trunc(item);
+  }
+  porcentaje(key: string, form?) {
+    if (!!form) {
+      const value = this.cuotaParteFormreasegurador.controls[key].value;
+      this.cuotaParteFormreasegurador.controls[key].setValue(
+        this.procentajedos(value)
+      );
+    } else {
+      return this.procentajedos(key);
     }
   }
-  percentageTwo(item: any) {
+  procentajedos(item: any) {
     if (item != null && item !== '') {
       const e = parseFloat(item);
       return e + '%';
     }
   }
-  percentage(key: string, form: any) {
-    if (!!form) {
-      const value = this.formReaseguros.controls[key].value;
-      this.formReaseguros.controls[key].setValue(
-        this.percentageTwo(value)
-      )
-    } else {
-      this.percentageTwo(key)
-    }
-  }
-  onSubmit() {
-    console.log(this.contrato);
-    if (this.contrato) {
-      const form1 = this.formReaseguros.value;
-
-      sessionStorage.setItem('formCuotaP1', JSON.stringify(form1));
-      console.log(form1);
-      if (form1) {
-        this.goDetail();
+  evenRamos(key: string) {
+    if (!!key) {
+      if (key === 'ramos') {
+        const val = this.cuotaParteFormreasegurador.controls[key].value;
+        this.cuotaParteFormreasegurador.controls.codigo.setValue(val);
+      } else {
+        const val = this.cuotaParteFormreasegurador.controls[key].value;
+        this.cuotaParteFormreasegurador.controls.ramos.setValue(val);
       }
+    }
+  }
+  // tslint:disable-next-line:one-line
+  verificar() {
+    if (sessionStorage.getItem('formCuotaP') && sessionStorage.getItem('formCuotaP1')) {
+      localStorage.removeItem('idcontrato')
+      sessionStorage.clear();
+      this.cod = '';
+      this.cuotaParteForm.reset();
+      // tslint:disable-next-line:prefer-const
+      let res = 'Contrato creado exitosamente';
+      this.alertService.success('Ok',res);
+      this.router.navigate(['admin/contratos']);
+      // tslint:disable-next-line:one-line 
     } else {
-      this.alertService.error('Error', 'Error en la conexión con el servidor')
+      this.alertService.info('Desea salir sin agregar ramos al contrato', '');
+      this.router.navigate(['home/contracs']);
+
+
     }
   }
-  goDetail() {
-    this.alertService.loading();
-    const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'))
-    let cont = + 0;
-    const data = {
-      idusers: this.user.authUser.id,
-      codigo: form1['codigo'],
-      secion: this._pct.removerDesimal(this.percentageService.removerPor(form1['seccion'])),
-      sumaLimite: this.percentageService.removerDesimal(form1['sumaLimite']),
-      contrato: cont,
-      reas: this._pct.removerDesimal(this.percentageService.removerPor(form1['reas'])),
-      id: this.contrato.a,
-    };
-    console.log('goDetail trabajando', data);
-    this.authService.postFacultativoContratb(data).then(
-      res => {
-        this.alertService.messagefin();
-        sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
-        // this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
-        this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
-      }, err => {
-        this.alertService.error('No se logró el envio del formulario', 'Error')
-      }
-    )
-  }
-
-  fecha(data: any) {
-    console.log('esta es la fecha ', data)
-    if (data) {
-      const day = data.getDate();
-      const month = data.getMonth() + 1;
-      const year = data.getFullYear();
-
-      const fechaAlmacenada = { day, month, year };
-
-      console.log(fechaAlmacenada);
+  getYearsArray(): number[] {
+    const startYear = 2012;
+    const endYear = 2100;
+    const years = [];
+    for (let year = startYear; year <= endYear; year++) {
+      years.push(year);
     }
+    return years;
   }
 
-  navigate(item: string) {
-    this.router.navigate([item])
-  }
 }

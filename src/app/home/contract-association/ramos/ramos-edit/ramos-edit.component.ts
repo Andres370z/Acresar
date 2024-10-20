@@ -404,6 +404,8 @@ export class RamosEditComponent implements OnInit {
   sinconiza(item: string) {
 
   }
-
+  navigate(item: string) {
+    this.router.navigate([item])
+  }
 
 }

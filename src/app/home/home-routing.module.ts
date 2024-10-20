@@ -37,9 +37,10 @@ const routes: Routes = [
   {path: 'companias/intermediary/edit', loadChildren:() => import('./reinsurance-companies/actualizar-intermediario/actualizar-intermediario.module').then(m=>m.ActualizarIntermediarioModule)},
   {path: 'companias/info/directorio', loadChildren:()=>import('./reinsurance-companies/info/directory/directory.module').then(m => m.DirectoryModule)},
   {path: 'companias/clients', loadChildren:() => import('./reinsurance-companies/clients-and-suppliers/clients/clients.module').then(m => m.ClientsModule)},
+  {path: 'companias/proveedores', loadChildren:() => import('./reinsurance-companies/clients-and-suppliers/new-proveedores/new-proveedores.module').then(m => m.NewProveedoresModule)},
   {path: 'companias/clients/edit', loadChildren:() => import('./reinsurance-companies/actualizar-cliente/actualizar-cliente.module').then(m => m.ActualizarClienteModule)},
   {path: 'companias/reacoex', loadChildren:() => import ('./reinsurance-companies/reacodex/reacodex.module').then(m => m.ReacodexModule)},
-
+ 
   /*CONTRATOS*/
   {path: 'contracts/Facultativos', loadChildren:() => import ('./contracts/facultativos/facultativos.module').then(m => m.FacultativosModule)},
   {path: 'contracts/Automaticos', loadChildren: () => import ('./contracts/automatic/automatic.module').then(m => m.AutomaticModule)},
@@ -49,6 +50,7 @@ const routes: Routes = [
   {path: 'asociacion/ramos', loadChildren:() => import ('./contract-association/ramos/ramos.module').then(m => m.RamosModule)},
   {path: 'asociacion/asociacion-contratos', loadChildren: () => import ('./contract-association/contract-association-contract-form/contract-association-contract-form.module').then(m => m.ContractAssociationContractFormModule)},
   {path: 'reinsuranceAdministration/primas', loadChildren: () => import ('./reinsuranceAdministration/primas/primas.module').then(m => m.PrimasModule)},
+  {path: 'reinsuranceAdministration/siniestro', loadChildren: () => import ('./reinsuranceAdministration/siniestro/list-siniestro/list-siniestro.module').then(m => m.ListSiniestroModule)},
   /* Menu */
   { path: 'usuarios', loadChildren: () => import('./users/users.module').then(m => m.UsersModule) },
   /* Gerencial */

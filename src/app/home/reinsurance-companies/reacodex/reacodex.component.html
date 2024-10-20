@@ -10,29 +10,37 @@
             <h4 class="card-title">Actualización Reacoex</h4>
           </div>
           <div class="card-body">
-            <form class="form" [formGroup]="form" (ngSubmit)="saveData()">
+            <form class="form">
               <div class="row">
 
+                <!-- Campo de carga de archivos -->
                 <div class="col-4">
-                  <mat-form-field class="example-full-width">
-                    <input matInput class="form-control" type="file" multiple id="formFileDisabled" />
-                  </mat-form-field>
+                  <file-upload [(ngModel)]="uploadedFiles" [animation]="animation" [multiple]="multiple"
+                    [accept]="'.xlsx,.xls'" (change)="onAccept()" name="files" [disabled]="isDisabled"></file-upload>
                 </div>
+
+                <!-- Campo de fecha -->
                 <div class="col-4">
-                  <mat-form-field appearance="fill">
-                    <mat-label>fecha</mat-label>
-                    <input matInput [matDatepicker]="picker" placeholder="ingresa una fecha" formControlName="date">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Fecha</mat-label>
+                    <input matInput [matDatepicker]="picker" placeholder="Ingresa una fecha">
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
+                    <mat-hint>Este campo es obligatorio *</mat-hint>
                   </mat-form-field>
                 </div>
-                <div class="col-4"> <!--BOTON-->
-                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
-                    style="background-color: #016672">Actualizar</button>
+
+                <!-- Botón de enviar -->
+                <div class="col-4">
+                  <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                    style="background-color: #016672" (click)="SendFile()">
+                    Actualizar
+                  </button>
                 </div>
+
               </div>
             </form>
+
           </div>
         </div>
       </div>

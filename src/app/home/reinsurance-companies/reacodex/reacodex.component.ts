@@ -15,6 +15,11 @@ import { FileUploadService } from './../../../service/file-upload.service';
   styleUrls: ['./reacodex.component.css']
 })
 export class ReacodexComponent implements OnInit {
+  uploadedFiles: File[] = [];
+  isDisabled = false;
+  public animation: boolean = false; 
+  public multiple: boolean = false;
+
   modulo: string = "Actualización Reacoex";
   f: FormGroup;
   fileToUpload: File = null;
@@ -27,9 +32,9 @@ export class ReacodexComponent implements OnInit {
   msg: any;
   public inputFileModel: Array<any> = new Array<any>();
   public inputFileMinimalModel: Array<any> = new Array<any>();
-  FileStore: any;
+  FileStore: any = {};;
   reaseguradoresList: any;
-  corredoresList: any;
+  corredoresList: any; 
 
   public file: File
   public form: FormGroup
@@ -57,14 +62,13 @@ export class ReacodexComponent implements OnInit {
   }
   initial() {
     this.f = this.myFormBuilder.group({
-      file: [Menssage.empty, Validators.compose([Validators.required])],
+      // file: [Menssage.empty, Validators.compose([Validators.required])],
       date: [Menssage.empty, Validators.compose([Validators.required])],
     })
     this.getDta()
   }
-  saveData() {
-
-  }
+  
+  
   getDta() {
     this.authService.getReacoex().then((res: any) => {
       this.corredoresList = res;
@@ -97,8 +101,12 @@ export class ReacodexComponent implements OnInit {
   // }
 
 
-  public onAccept(file: any): void {
-    this.FileStore = file;
+  public onAccept() {
+    this.FileStore = this.uploadedFiles;
+    console.log(this.uploadedFiles)
+    this.tableActiveRq = false;
+    this.msjTableErr = false;
+    console.log('-----> ', this.FileStore);
   }
 
   public onRemove(file: any): void {
@@ -106,10 +114,11 @@ export class ReacodexComponent implements OnInit {
   }
 
   SendFile() {
+    const file = this.FileStore[0]; 
     this.aler.loading();
     const fb: FormData = new FormData();
     console.log(this.FileStore);
-    fb.append('fileName', this.FileStore.file, this.FileStore.file.name);
+    fb.append('fileName', file, file.name);
 
     this._upload.uploadFile(fb).subscribe(data => {
       this.aler.loading();
@@ -118,6 +127,19 @@ export class ReacodexComponent implements OnInit {
       console.log(error);
     });
 
+  }
+
+
+  procesarArchivos() {
+    console.log('Archivos cargados:', this.uploadedFiles);
+
+    // Iteramos sobre los archivos y los mostramos en la consola
+    for (const file of this.uploadedFiles) {
+      console.log('Nombre del archivo:', file.name);
+      console.log('Tamaño del archivo:', file.size);
+      console.log('Tipo de archivo:', file.type);
+      // Puedes agregar más propiedades a mostrar según tus necesidades
+    }
   }
 
 }

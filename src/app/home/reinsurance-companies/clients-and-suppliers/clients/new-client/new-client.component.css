@@ -1,4 +1,4 @@
-.form {
+form {
     width: 100%;
 }
 
@@ -30,4 +30,8 @@ table {
 .mat-option:hover {
     background-color: #016672;
     /* Cambia este color según tus preferencias */
+}
+
+button {
+    margin: 10px 10px 10px 10px;
 }

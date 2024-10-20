@@ -20,3 +20,13 @@ td.mat-footer-cell:first-of-type {
     padding: 13px 10px;
     margin-bottom: 23px;
 }
+
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+}

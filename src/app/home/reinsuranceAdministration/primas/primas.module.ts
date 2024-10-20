@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { PrimasRoutingModule } from './primas-routing.module';
@@ -14,10 +14,18 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { FirstMenuModule } from '../first-menu/first-menu.module';
-
+import { NuevoAjusteComponent } from './manual-reinsurance/nuevo-ajuste/nuevo-ajuste.component';
+import { AjusteFacultativoComponent } from './manual-reinsurance/nuevo-ajuste/ajuste-facultativo/ajuste-facultativo.component';
+import { AjusteAutomaticoComponent } from './manual-reinsurance/nuevo-ajuste/ajuste-automatico/ajuste-automatico.component';
+import { CargarComponent } from './automatic-reinsurer/cargar/cargar.component';
+import { ProcesarComponent } from './automatic-reinsurer/procesar/procesar.component';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 
 @NgModule({
-  declarations: [PrimasComponent],
+  declarations: [PrimasComponent, NuevoAjusteComponent, AjusteFacultativoComponent,
+    AjusteAutomaticoComponent,
+    CargarComponent,
+    ProcesarComponent],
   imports: [
     CommonModule,
     PrimasRoutingModule,
@@ -32,7 +40,10 @@ import { FirstMenuModule } from '../first-menu/first-menu.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    FirstMenuModule
+    FirstMenuModule,
+    FileUploadModule,
+  ], schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class PrimasModule { }
