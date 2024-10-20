@@ -541,7 +541,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
     sessionStorage.removeItem('idcrearfinal');
     sessionStorage.removeItem('id');
     sessionStorage.removeItem('idcontratoreasegurador');
-    this.alert.messageInfo('Antes de salir recuerde guardar los cambios.', 'home/contracts/Facultativos/edit');
+    this.alert.messageInfo('Antes de salir recuerde guardar los cambios.', 'home/contracts/Facultativos/proporcionales/facultativos');
 
   }
 

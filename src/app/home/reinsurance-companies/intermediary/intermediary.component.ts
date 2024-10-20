@@ -38,12 +38,12 @@ export class IntermediaryComponent implements OnInit {
     aba: "",
   };
 
- 
-listError = {
-  msg: "",
-  estado: false
-}
-dataEdit: any;
+
+  listError = {
+    msg: "",
+    estado: false
+  }
+  dataEdit: any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private authService: AuthService,
@@ -68,116 +68,118 @@ dataEdit: any;
       this.dataSource.paginator = this.paginator;
     })
   }
-  
 
 
 
 
-  
-editItem(item: any) {
-  this.dataEdit = item;
-}
 
-editJson(item: any) {
-  if (item != "") {
-    sessionStorage.setItem('companiaI', JSON.stringify(item));
-    this.router.navigate(['home/companias/intermediary/edit']);
-  }
-}
 
-procesarContacto() {
-  if (this.contractoForm.nombre != "") {
-    this.contractoForm.nombre = this.contractoForm.nombre.toUpperCase();
-  } else {
-    this.listError.estado = true;
-    this.listError.msg = "El Nombre Contacto es requerido ";
+  editItem(item: any) {
+    this.dataEdit = item;
   }
 
-  if (this.contractoForm.direccion != "") {
-    this.contractoForm.direccion = this.contractoForm.direccion.toUpperCase();
+  editJson(item: any) {
+    if (item != "") {
+      sessionStorage.setItem('companiaI', JSON.stringify(item));
+      this.router.navigate(['home/companias/intermediary/edit']);
+    }
   }
-  else {
-    this.listError.estado = true;
-    this.listError.msg = "La Dirección es requerida";
+
+  procesarContacto() {
+    if (this.contractoForm.nombre != "") {
+      this.contractoForm.nombre = this.contractoForm.nombre.toUpperCase();
+    } else {
+      this.listError.estado = true;
+      this.listError.msg = "El Nombre Contacto es requerido ";
+    }
+
+    if (this.contractoForm.direccion != "") {
+      this.contractoForm.direccion = this.contractoForm.direccion.toUpperCase();
+    }
+    else {
+      this.listError.estado = true;
+      this.listError.msg = "La Dirección es requerida";
+    }
+    if (this.contractoForm.pais != "") {
+      this.contractoForm.pais = this.contractoForm.pais.toUpperCase();
+    }
+    else {
+      this.listError.estado = true;
+      this.listError.msg = "El Pais es requerido ";
+    }
+    if (this.contractoForm.telefono != 0) {
+      this.contractoForm.telefono = this.contractoForm.telefono;
+    }
+    else {
+      this.listError.estado = true;
+      this.listError.msg = "El Numero de telefono es requerido ";
+    }
+    console.log(this.contractoForm)
+    if (this.listError.estado == false) {
+      const data = {
+        code_comp: this.dataEdit.a,
+        nm: this.contractoForm.nombre,
+        di: this.contractoForm.direccion,
+        te: this.contractoForm.telefono,
+        co: "",
+        pa: this.contractoForm.pais
+      };
+      this._service.postContactos(data).then(
+        res => {
+          this.alert.success('Ok', res.mensaje);
+        },
+        err => {
+          this.alert.error('Error', err.message);
+        }
+      )
+    }
   }
-  if (this.contractoForm.pais != "") {
-    this.contractoForm.pais = this.contractoForm.pais.toUpperCase();
+
+
+  fileLoad(file: any) {
+    this.bancoForm.certificacion = file.target.files[0];
+    console.log(this.bancoForm.certificacion);
   }
-  else {
-    this.listError.estado = true;
-    this.listError.msg = "El Pais es requerido ";
+
+  delete(id: number) {
+    if (id != null) {
+      this._service.deleteIntermediario(id).then(
+        res => {
+
+          this.alert.success('Ok', res.mensaje);
+
+
+        },
+        err => { }
+      )
+    }
   }
-  if (this.contractoForm.telefono != 0) {
-    this.contractoForm.telefono = this.contractoForm.telefono;
-  }
-  else {
-    this.listError.estado = true;
-    this.listError.msg = "El Numero de telefono es requerido ";
-  }
-  console.log(this.contractoForm)
-  if (this.listError.estado == false) {
-    const data = {
-      code_comp: this.dataEdit.a,
-      nm: this.contractoForm.nombre,
-      di: this.contractoForm.direccion,
-      te: this.contractoForm.telefono,
-      co: "",
-      pa: this.contractoForm.pais
-    };
-    this._service.postContactos(data).then(
+
+
+
+  procesarBanco() {
+    let form = new FormData();
+    form.append('tit', this.bancoForm.titular);
+    form.append("num", this.bancoForm.numeroCuenta.toString());
+    form.append("mon", this.bancoForm.moneda.toString());
+    form.append("swi", this.bancoForm.aba);
+    form.append("ban", this.bancoForm.banco)
+    form.append("cer", this.bancoForm.certificacion);
+    form.append("ciu", this.bancoForm.ciudad),
+      form.append("pai", this.bancoForm.pais)
+    form.append("code_comp", this.dataEdit.a);
+    /*
+    this._httpFile.upload(form, "/bancos").subscribe(
       res => {
-        this.alert.success('Ok',res.mensaje);
+        console.log(res);
       },
       err => {
-        this.alert.error('Error',err.message);
+        console.log(err);
       }
     )
+    */
   }
-}
-
-
-fileLoad(file: any) {
-  this.bancoForm.certificacion = file.target.files[0];
-  console.log(this.bancoForm.certificacion);
-}
-
-delete (id: number) {
-  if (id != null) {
-    this._service.deleteIntermediario(id).then(
-      res => {
-
-        this.alert.success('Ok',res.mensaje);
-
-
-      },
-      err => { }
-    )
+  navigate(item: any) {
+    this.router.navigate([item])
   }
-}
-
-
-
-procesarBanco() {
-  let form = new FormData();
-  form.append('tit', this.bancoForm.titular);
-  form.append("num", this.bancoForm.numeroCuenta.toString());
-  form.append("mon", this.bancoForm.moneda.toString());
-  form.append("swi", this.bancoForm.aba);
-  form.append("ban", this.bancoForm.banco)
-  form.append("cer", this.bancoForm.certificacion);
-  form.append("ciu", this.bancoForm.ciudad),
-    form.append("pai", this.bancoForm.pais)
-  form.append("code_comp", this.dataEdit.a);
-  /*
-  this._httpFile.upload(form, "/bancos").subscribe(
-    res => {
-      console.log(res);
-    },
-    err => {
-      console.log(err);
-    }
-  )
-  */
-}
-
 }

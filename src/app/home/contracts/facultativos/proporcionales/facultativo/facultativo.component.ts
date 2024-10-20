@@ -251,7 +251,7 @@ export class FacultativoComponent implements OnInit {
     this.cuotaParteForm.reset();
     this.cuotaParteFormreasegurador.reset();
     sessionStorage.clear();
-    this.router.navigate(['/admin/contratos']);
+    this.router.navigate(['home/contracts']);
 
   }
 
@@ -330,7 +330,7 @@ export class FacultativoComponent implements OnInit {
       res => {
         sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
         // CREAR ESTE COMPONENTE
-        // this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
+        this.router.navigate(['home/contracts/Facultativos/edit/detalle']);
         this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
       });
     this.service.postFacultativoContratb(data).then(
@@ -343,11 +343,19 @@ export class FacultativoComponent implements OnInit {
     const parti = this.cortarDesimales(part);
     console.log(parti);
     if (parti >= 100) {
-      this.alertService.error('Error','Participacion igual al 100% ya no puedes seguir agregando mas nomina');
+      this.alertService.error('Error', 'Participacion igual al 100% ya no puedes seguir agregando mas nomina');
     } else {
       sessionStorage.setItem('id', JSON.stringify(item));
       this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
     }
+  }
+  transformarHora(hora: string): string {
+    const [hours, minutes] = hora.split(':');
+    return `${parseInt(hours, 10)}:0:0`; // Convierte horas en número y formatea como H:0:0
+  }
+  transformarFecha(fecha: string): { day: number, month: number, year: number } {
+    const [year, month, day] = fecha.split('-').map(Number); // Divide la fecha y convierte a número
+    return { day, month, year };
   }
   create() {
     if (!sessionStorage.getItem('formCuotaP')) {
@@ -409,13 +417,13 @@ export class FacultativoComponent implements OnInit {
                 tipocontrato: 10,
                 codigocontrato: this.cod,
                 descripcion: form2['descripcion'],
-                fechaInicio: form2['fechaInicio'],
-                fechaFin: form2['fechaFin'],
+                fechaInicio: this.transformarFecha(form2['fechaInicio']),
+                fechaFin: this.transformarFecha(form2['fechaFin']),
                 moneda: form2['moneda'],
                 siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
                 observacion: form2['observacion'],
-                horainicio: d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(), // Hours
-                horafin: e.getHours() + ':' + e.getMinutes() + ':' + e.getSeconds()
+                horainicio: this.transformarHora(this.cuotaParteForm.value.horainicio),// Hours
+                horafin: this.transformarHora(this.cuotaParteForm.value.horafin)
               };
               this.service.postFacultativoContra(data).then(
                 res => {
@@ -423,13 +431,20 @@ export class FacultativoComponent implements OnInit {
                   this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
                   this.statefinal = true;
                   console.log(res);
-
+                  this.alertService.messagefin()
                 },
                 err => {
                   console.log(err);
+                  this.alertService.messagefin()
+
+                  this.alertService.error('Error', 'en el servidor');
+
                 });
             } else {
-              this.alertService.error('Erro','Número de contrato ya existe');
+              this.alertService.messagefin()
+
+              this.alertService.error('Erro', 'Número de contrato ya existe');
+
             }
 
           },
@@ -697,7 +712,7 @@ export class FacultativoComponent implements OnInit {
       this.cuotaParteForm.reset();
       // tslint:disable-next-line:prefer-const
       let res = 'Contrato creado exitosamente';
-      this.alertService.success('Ok',res);
+      this.alertService.success('Ok', res);
       this.router.navigate(['admin/contratos']);
       // tslint:disable-next-line:one-line 
     } else {

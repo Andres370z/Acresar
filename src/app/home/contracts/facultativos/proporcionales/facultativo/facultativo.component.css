@@ -33,3 +33,7 @@ td.mat-footer-cell:last-of-type {
 form {
     width: 100%;
 }
+
+button {
+    margin: 10px 10px 10px 10px;
+}

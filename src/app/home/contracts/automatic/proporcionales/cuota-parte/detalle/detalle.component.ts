@@ -8,6 +8,7 @@ import { ModalComponent } from './modal/modal.component';
 import { SessionUser } from 'src/app/home/global/sessionUser';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-detalle',
@@ -16,7 +17,46 @@ import { AlertService } from 'src/app/service/alert.service';
 })
 export class DetalleComponent implements OnInit {
   datajsonNominas: any = [];
-  public formT: any = {
+  rsltncr: Observable<any>;
+  rsltnrsgr: Observable<any>;
+  cmsn: JQuery;
+  currency: Observable<any>;
+  _ls_trasp_tip: any;
+  _ls_trasp_cuen: any;
+  listareasu: any;
+  frmValues = {
+    dtcr: "",
+    dtrsg: "",
+    dtpp: "",
+    dtcu: "",
+    dtpcm: "",
+    dtgst: "",
+    dtipc: "",
+    dtir: "",
+    dtap: "",
+    dtcts: "",
+    dtbrok: "",
+    dtmdfj: "",
+    dtmdcmsl: "",
+    dtmdprmxcm1: "",
+    dtmdprmncm1: "",
+    dtmdprmxsn1: "",
+    dtmdprmnsn1: "",
+    dtmdcmslsc: "",
+    dtmdsccm1: "",
+    dtmdscsn1: "",
+    dtmd2mn: "",
+    dtmd2prd: "",
+    dtmd2pt: "",
+    dtmd2prtd: "",
+    dtmd2pild: "",
+    dtmd2rsv: "",
+    dttps: "",
+    dtmdtrsp: "",
+    dtmdtrspcnts: ""
+  };
+  modulo: string = "Detalle por Reasegurador - Cuota Parte";
+  public form: any = {
     cartera: "",
     depositoRetenido: '',
     comision: "",
@@ -49,166 +89,277 @@ export class DetalleComponent implements OnInit {
       SinVal: "",
       SinChech: false
     }
-  }
-  public form: FormGroup;
-  public selectedOption: string = 'selecciona un corredor';
-  public corredor: any;
-  public asegurador: any;
-  public depositoRetenido: any;
-  receivedData: any;
-  receivedDataDos: any;
-  receivedDataTres: any;
-  listareasu: any;
-
+  };
+  observableData: any;
+  private valorComision: string;
   public user: any;
+  comisionArray = { fija: false, provisional: false, escalonada: false };
+  validData: any;
+  memoria: any;
   errores = {
     error: false,
     mensaje: []
   };
+
   constructor(
-    private myFormBuilder: FormBuilder,
-    private authService: AuthService,
-    private percentaje: PercentageService,
-    private dialog: MatDialog,
     public router: Router,
-    public alertService: AlertService
-
-
+    private _service: AuthService,
+    private AlertService: AlertService,
   ) {
     this.user = new SessionUser(this.router);
     this.user.getAuthUser();
-  }
+    _service.getCorredor().then((res: any) => { this.rsltncr = res });
+    _service.getReinsurer().then((res: any) => { this.rsltnrsgr = res });
+     _service.getCurrency().then((res: any)=> {this.currency = res});
+     _service.getTraspasoCarteratipo().then((res: any)=> {this._ls_trasp_tip = res});
+     _service.getTraspasocarteraCuenta().then((res: any)=> {this._ls_trasp_cuen = res});
 
-  ngOnInit(): void {
-    this.initial()
-    this.authService.getCorredor().then
-      ((resulta: any) => {
-        this.corredor = resulta
-        console.log('estos son los corredores', resulta)
-      })
-    this.authService.getReinsurer().then
-      ((resulta: any) => {
-        this.asegurador = resulta
-        console.log('estos son las aseguradoras', resulta)
-      })
-  }
-  initial() {
-    this.form = this.myFormBuilder.group({
-      corredor: [Menssage.empty, Validators.compose([Validators.required])],
-      reasegurador: [Menssage.empty, Validators.compose([Validators.required])],
-      participacion: [Menssage.empty, Validators.compose([Validators.required])],
-      comision: [Menssage.empty, Validators.compose([Validators.required])],
-      depositosRetenidos: [Menssage.empty, Validators.compose([Validators.required])],
-      comisionUtilidadespor: [Menssage.empty, Validators.compose([Validators.required])],
-      comisionUtilidades: [Menssage.empty, Validators.compose([Validators.required])],
-      gastos: [Menssage.empty, Validators.compose([Validators.required])],
-      impuestos: [Menssage.empty, Validators.compose([Validators.required])],
-      impRenta: [Menssage.empty, Validators.compose([Validators.required])],
-      traspaso: [Menssage.empty, Validators.compose([Validators.required])],
-      arrastrePerdida: [Menssage.empty, Validators.compose([Validators.required])],
-      brokerage: [Menssage.empty, Validators.compose([Validators.required])],
-      cuenta: [Menssage.empty, Validators.compose([Validators.required])],
-    })
-
-  }
-
-  test() {
-    this.authService.getDataObser().subscribe(data => {
-      if (data) {
-        this.receivedData = data;
-        this.formT.deposito.reservaAsumida = this.receivedData.deposito.reservaAsumida;
-        this.formT.deposito.PorcentajeR = this.receivedData.deposito.PorcentajeR;
-        this.formT.deposito.PorcentajeI = this.receivedData.deposito.PorcentajeI;
-        this.formT.depositoRetenido = this.receivedData.deposito.PorcentajeR;
-        this.depositoRetenido = this.receivedData.deposito.PorcentajeR;
-        const dataFinal = this.depositoRetenido
-        console.log('data final: ', dataFinal);
-        this.form.controls.depositosRetenidos.setValue(dataFinal)
+    _service.getTraspasoCarteratipo().then(
+      res => {
+        this.validData = res;
       }
-    });
-  }
-  recibeModalTra() {
-    this.authService.getCarteraDataObser().subscribe(data => {
-      if (data) {
-        console.log('---dataModal---> ', data);
+    );
 
-        this.receivedDataDos = data;
-        this.formT.traspasoCartera.Cuenta = this.receivedDataDos.traspasoCartera.Cuenta
-        this.formT.traspasoCartera.traspaso = this.receivedDataDos.traspasoCartera.traspaso
-        this.formT.cartera = this.receivedDataDos.traspasoCartera.traspaso;
-        console.log(this.formT.cartera); // Aquí tendrás acceso al objeto completo
-        const dataCartera = this.formT.cartera;
-        console.log('dataCartera: ', dataCartera);
-        this.form.controls.traspaso.setValue(dataCartera)
-      }
-    });
-  }
-
-  recibeModalComi() {
-    this.authService.getComisionDataObser().subscribe(data => {
-      if (data) {
-        console.log('---dataModal---> ', data);
-
-        this.receivedDataTres = data;
-        this.formT.comision = this.receivedDataTres.ModelComision.valueFija;
-        this.formT.ModelComision.valueFija = this.receivedDataTres.ModelComision.valueFija;
-        console.log(this.formT.comision); // Aquí tendrás acceso al objeto completo
-        const dataComi = this.formT.comision;
-        console.log('dataComi: ', dataComi);
-        this.form.controls.comision.setValue(dataComi)
-      }
-    });
-  }
-
-  comsionModal() {
-    const datos = {
-      comison: true,
-      deposito: false
-    };
-    this.authService.setData(datos)
-    this.onCreate();
-  }
-  depositoModal() {
-    const datos = {
-      comison: false,
-      deposito: true
-    };
-    this.authService.setData(datos)
-    this.onCreate();
-  }
-
-  depositoCarteraModal() {
-    const datos = {
-      comison: false,
-      deposito: false,
-      cartera: true
-    };
-    this.authService.setData(datos)
-    this.onCreate();
-  }
-  saveForm() {
-    let value1: any;
-    value1 = this.form.controls.corredor.value;
-    this.removeProsentaje(value1)
-    console.log(value1)
-  }
-  removeProsentaje(e: any) {
-    if (e != "") {
-
-      if (typeof e == "string") {
-        const a = e.split("%");
-        return a[0];
-      }
+    if (sessionStorage.getItem("dtcntrcp") === null) {
+      this.frmValues = {
+        dtcr: "",
+        dtrsg: "",
+        dtpp: "",
+        dtpcm: "",
+        dtcu: "",
+        dtgst: "",
+        dtipc: "",
+        dtir: "",
+        dtap: "",
+        dtcts: "",
+        dtbrok: "",
+        dtmdfj: "",
+        dtmdcmsl: "",
+        dtmdprmxcm1: "",
+        dtmdprmncm1: "",
+        dtmdprmxsn1: "",
+        dtmdprmnsn1: "",
+        dtmdcmslsc: "",
+        dtmdsccm1: "",
+        dtmdscsn1: "",
+        dtmd2mn: "",
+        dtmd2prd: "",
+        dtmd2pt: "",
+        dtmd2prtd: "",
+        dtmd2pild: "",
+        dtmd2rsv: "",
+        dttps: "",
+        dtmdtrsp: "",
+        dtmdtrspcnts: ""
+      };
+    } else {
+      this.frmValues = JSON.parse(sessionStorage.getItem("dtcntrcp"));
     }
   }
-  onCreate() {
-    localStorage.removeItem('rsltntmpcntrt')
-    const dialogConfig = new MatDialogConfig()
-    dialogConfig.width = '50%',
-      dialogConfig.disableClose = true
-    this.dialog.open(ModalComponent, dialogConfig)
+
+  regresar() {
+    //if(confirm('Antes de salir recuerde guardar los cambios.')){history.go(-1);}else{return false;}
+
+    this.AlertService.info('Hey','Antes de salir recuerde guardar los cambios.');
+    this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte']);
 
   }
+  ngOnInit() {
+    sessionStorage.setItem('fecha', "hola");
+    sessionStorage.setItem('comision', '');
+    this.frmValues.dtcr = "";
+    this.cmsn = $("input[name=dtmdcmsl]").on("click", function () {
+      $("#dtmdfj")
+        .val($("#" + $(this).val()).val())
+        .change()
+        .trigger("input");
+      $("#dtpcm")
+        .val($("#dtmdfj").val())
+        .change()
+        .trigger("input");
+    });
+
+    
+  }
+
+  sendModalCom() {
+    console.log(this.form.ModelComision);
+    if (this.form.ModelComision.sobrecomisionMaxCheck == true) {
+      this.form.comision = this.form.ModelComision.sobrecomisionMaxVal;
+    }
+    if (this.form.ModelComision.sobrecomisionMinCheck == true) {
+      this.form.comision = this.form.ModelComision.sobrecomisionMinVal;
+    }
+    if (this.form.ModelComision.siniestralidadMaxCheck == true) {
+      this.form.comision = this.form.ModelComision.siniestralidadMaxVal;
+    }
+    if (this.form.ModelComision.siniestralidadMinCheck == true) {
+      this.form.comision = this.form.ModelComision.siniestralidadMinVal;
+    }
+
+    if (this.form.ModelComision.ComCheck == true) {
+      this.form.comision = this.form.ModelComision.ComVal;
+    }
+    if (this.form.ModelComision.SinChech == true) {
+      this.form.comision = this.form.ModelComision.SinVal;
+    }
+
+    if (this.valorComision == "fija") {
+      this.form.comision = this.form.ModelComision.valueFija;
+    }
+    this.form.comision = this.desimalPor(this.form.comision);
+  }
+  sendModalborker() {
+    console.log(this.form.ModelComision);
+    if (this.form.ModelComision.sobrecomisionMaxCheck == true) {
+      this.form.dtbrok = this.form.ModelComision.sobrecomisionMaxVal;
+    }
+    if (this.form.ModelComision.sobrecomisionMinCheck == true) {
+      this.form.dtbrok = this.form.ModelComision.sobrecomisionMinVal;
+    }
+    if (this.form.ModelComision.siniestralidadMaxCheck == true) {
+      this.form.dtbrok = this.form.ModelComision.siniestralidadMaxVal;
+    }
+    if (this.form.ModelComision.siniestralidadMinCheck == true) {
+      this.form.dtbrok = this.form.ModelComision.siniestralidadMinVal;
+    }
+
+    if (this.form.ModelComision.ComCheck == true) {
+      this.form.dtbrok = this.form.ModelComision.ComVal;
+    }
+    if (this.form.ModelComision.SinChech == true) {
+      this.form.dtbrok = this.form.ModelComision.SinVal;
+    }
+
+    if (this.valorComision == 'fija') {
+      this.form.dtbrok = this.form.ModelComision.valueFijados;
+    }
+    this.form.dtbrok = this.desimalPor(this.form.dtbrok);
+  }
+
+  onClickComision(key: any) {
+    this.valorComision = key;
+    let data = Object.keys(this.comisionArray);
+    data.forEach(element => {
+      if (element == key) {
+        this.comisionArray[element] = true;
+      } else {
+        this.comisionArray[element] = false;
+      }
+    });
+  }
+
+  sendModalDep(item) {
+    if (this.form.deposito.reservaAsumida == true) {
+      this.reservaAsumida()
+    } else {
+      this.form.depositoRetenido = this.form.deposito.PorcentajeR;
+    }
+  }
+
+  sendModalTra() {
+    this.form.cartera = this.form.traspasoCartera.traspaso;
+  }
+
+  reservaAsumida() {
+    this.form.depositoRetenido = 0;
+    this.porcentaje("depositoRetenido");
+  }
+
+
+  //agregar
+  addComision() {
+    this.form.depositoRetenido = this.removeProsentaje(this.form.depositoRetenido);
+    this.form.comision = this.removeProsentaje(this.form.comision);
+    this.form.comisionUtilidad = this.removeProsentaje(this.form.comisionUtilidad);
+    this.form.gasto = this.removeProsentaje(this.form.gasto);
+    this.form.participacion = this.removeProsentaje(this.form.participacion);
+    this.form.inpuestoPrimaCedidas = this.removeProsentaje(this.form.inpuestoPrimaCedidas);
+    this.form.inpuestoRenta = this.removeProsentaje(this.form.inpuestoRenta);
+    this.form.arrastrePerdida = this.removerDesimal(this.form.arrastrePerdida);
+
+    if (this.form.deposito.reservaAsumida != true) {
+      this.form.deposito.PorcentajeR = this.removeProsentaje(this.form.deposito.PorcentajeR);
+      this.form.deposito.PorcentajeI = this.removeProsentaje(this.form.deposito.PorcentajeI);
+    }
+
+    this.datajsonNominas.push(this.form);
+
+    this.form = {
+      cartera: "",
+      depositoRetenido: '',
+      comision: "",
+      corredor: "",
+      dtbrok: "",
+      deposito: {
+        moneda: "",
+        periodoR: "",
+        periodoT: "",
+        PorcentajeI: "",
+        PorcentajeR: "",
+        reservaAsumida: ""
+      },
+      traspasoCartera: {
+        Cuenta: '',
+        traspaso: ''
+      },
+      ModelComision: {
+        sobrecomisionMaxCheck: false,
+        sobrecomisionMaxVal: "",
+        sobrecomisionMinCheck: false,
+        sobrecomisionMinVal: "",
+        siniestralidadMaxCheck: false,
+        siniestralidadMaxVal: "",
+        siniestralidadMinCheck: false,
+        siniestralidadMinVal: "",
+        valueFija: "",
+        ComVal: "",
+        SinVal: ""
+      }
+    };
+  }
+
+  valiarParticipacion() {
+    let suma = 0;
+    let item = this.form.participacion;
+    if (item != 100) {
+      this.porcentaje('participacion');
+      item = this.form.participacion;
+    }
+    if (this.datajsonNominas != null) {
+      for (let i = 0; i <= Object.keys(this.datajsonNominas).length - 1; i++) {
+        let item = this.datajsonNominas[i];
+        suma = suma + parseFloat(item['participacion']);
+
+        if (suma === 100) {
+          this.AlertService.error('Hey',"Participacion debe ser  igual al 100% ");
+        }
+      }
+    }
+
+    item = this.formateaValor(item);
+    if (parseInt(item) > 100) {
+      this.AlertService.error('Hey',"Participacion debe ser menor o igual al 100% ");
+    } else {
+      if (parseFloat(item) >= 101) {
+        if (suma === 0) {
+          this.AlertService.error('Hey',"Participacion debe ser menor o igual al 100% ");
+        } else {
+          const ei = this.form.participacion + suma;
+          if (suma > 100) {
+            this.AlertService.error('Hey','Partición entre comisionistas no puede ser superior al 100%');
+          }
+        }
+      } else {
+        if (item == 100) {
+          this.form.participacion = item + "%";
+        }
+      }
+    }
+
+
+  }
+
   porcentaje(key: string) {
     if (key != '') {
       this.form[key] = this.desimalPor(this.form[key]);
@@ -217,146 +368,126 @@ export class DetalleComponent implements OnInit {
 
   porcentajeR(key: string) {
     if (key != '') {
-      this.formT.deposito[key] = this.desimalPor(this.formT.deposito[key]);
+      this.form.deposito[key] = this.desimalPor(this.form.deposito[key]);
     }
   }
 
-  desimalPor(key: any) {
-    let e = key
-    return e + '%';
-  }
-  porcentajes(key: string, form?) {
-    if (!!form) {
-      const value = this.form.controls[key].value;
-      this.form.controls[key].setValue(
-        this.procentajedos(value)
-      );
-    } else {
-      return this.procentajedos(key);
+  removeProsentaje(e: any) {
+    if (e != "") {
+      if (typeof e == "string") {
+        const a = e.split("%");
+        return a[0];
+      }
     }
   }
 
-  procentajedos(item: any) {
-    if (item != null && item !== '') {
-      const e = parseFloat(item);
-      return e + '%';
+  desimal(key: any) {
+    return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  }
+  removerDesimal(e: any) {
+    if (e != "") {
+      if (typeof e == "string") {
+        const a = e.split('.');
+        let res = '';
+        for (let i = 0; i < a.length - 1; i++) {
+          res = res + a[i];
+        }
+        return res;
+      }
     }
   }
-  cortarDesimales(item: any) {
-    return Math.trunc(item);
-  }
-
   guardar() {
-    if (this.form.valid) {
-      this.formT.reseasegurador = this.form.value.reasegurador
-      this.formT.cuenta = this.form.value.cuenta
-      this.formT.comisionUtilidadtesto = this.form.value.comisionUtilidades
-      this.formT.ModelComision.valueFijados = this.removeProsentaje(this.form.value.brokerage)
-      this.formT.depositoRetenido = this.depositoRetenido;
-      this.formT.depositoRetenido = this.removeProsentaje(this.formT.depositoRetenido);
-      this.formT.comision = this.removeProsentaje(this.formT.comision);
-      this.formT.comisionUtilidad = this.form.value.comisionUtilidadespor;
-      this.formT.comisionUtilidad = this.removeProsentaje(this.formT.comisionUtilidad);
-      this.formT.gasto = this.removeProsentaje(this.form.value.gastos);
-      this.formT.participacion = this.removeProsentaje(this.form.value.participacion);
-      this.formT.inpuestoPrimaCedidas = this.removeProsentaje(this.form.value.impuestos);
-      this.formT.inpuestoRenta = this.removeProsentaje(this.form.value.impRenta);
-      this.formT.arrastrePerdida = this.form.value.arrastrePerdida;
-      this.formT.participacion = this.form.value.participacion
-      var n = this.formT.participacion.replace(",", ".");
-      var x = this.formT.comision.replace(",", ".");
-      this.formT.participacion = n;
-      this.formT.comision = x;
-      console.log(n)
-      this.formT.inpuestoPrimaCedidas = this.removeProsentaje(this.formT.inpuestoPrimaCedidas);
-      this.formT.inpuestoRenta = this.removeProsentaje(this.formT.inpuestoRenta);
+    //console.log(this.form);
+    this.form.depositoRetenido = this.removeProsentaje(this.form.depositoRetenido);
+    this.form.comision = this.removeProsentaje(this.form.comision);
+    this.form.comisionUtilidad = this.removeProsentaje(this.form.comisionUtilidad);
+    this.form.gasto = this.removeProsentaje(this.form.gasto);
+    this.form.participacion = this.removeProsentaje(this.form.participacion);
+    this.form.inpuestoPrimaCedidas = this.removeProsentaje(this.form.inpuestoPrimaCedidas);
+    this.form.inpuestoRenta = this.removeProsentaje(this.form.inpuestoRenta);
+    this.form.arrastrePerdida = this.form.arrastrePerdida;
+    var n = this.form.participacion.replace(",", ".");
+    var x = this.form.comision.replace(",", ".");
+    this.form.participacion = n;
+    this.form.comision = x;
+    console.log(n)
+    this.form.inpuestoPrimaCedidas = this.removeProsentaje(this.form.inpuestoPrimaCedidas);
+    this.form.inpuestoRenta = this.removeProsentaje(this.form.inpuestoRenta);
+    if (this.form.deposito.reservaAsumida != true) {
+      this.form.deposito.PorcentajeR = this.removeProsentaje(this.form.deposito.PorcentajeR);
+      this.form.deposito.PorcentajeI = this.removeProsentaje(this.form.deposito.PorcentajeI);
+      var q = this.form.deposito.PorcentajeR.replace(",", ".");
+      this.form.inpuestoRenta = q;
+      var i = this.form.deposito.PorcentajeI.replace(",", ".");
+      this.form.inpuestoRenta = i;
+    }
 
-      if (this.formT.deposito.reservaAsumida != true) {
-        this.formT.deposito.PorcentajeR = this.removeProsentaje(this.formT.deposito.PorcentajeR);
-        this.formT.deposito.PorcentajeI = this.removeProsentaje(this.formT.deposito.PorcentajeI);
-        var q = this.formT.deposito.PorcentajeR.replace(",", ".");
-        this.formT.inpuestoRenta = q;
-        var i = this.formT.deposito.PorcentajeI.replace(",", ".");
-        this.formT.inpuestoRenta = i;
-        console.log('-------> ENTRA');
+    var p = this.form.inpuestoRenta.replace(",", ".");
+    this.form.inpuestoRenta = p;
+    var r = this.form.inpuestoRenta.replace(",", ".");
+    this.form.inpuestoRenta = r;
+    if (this.form.corredor == '') {
+      this.form.dtbrok = '';
+    } else {
+      this.form.dtbrok = this.removeProsentaje(this.form.dtbrok);
+    }
+    if (this.form.cartera == 'Sin traspaso') {
+      this.form.traspasoCartera.Cuenta = 6;
+    }
 
-      }
-      this.formT.inpuestoRenta = this.form.value.impRenta
-      var p = this.formT.inpuestoRenta.replace(",", ".");
-      this.formT.inpuestoRenta = p;
-      var r = this.formT.inpuestoRenta.replace(",", ".");
-      this.formT.inpuestoRenta = r;
-      this.formT.corredor = this.form.value.corredor
-      this.formT.dtbrok = this.form.value.brokerage
+    if (this.errores.error == false) {
 
-      if (this.formT.corredor == '') {
-        this.formT.dtbrok = '';
-      } else {
-        this.formT.dtbrok = this.removeProsentaje(this.formT.dtbrok);
-      }
-      if (this.formT.cartera == 'Sin traspaso') {
-        this.formT.traspasoCartera.Cuenta = 6;
-      }
+      if (this.form.participacion != null && this.form.participacion <= 100) {
+        let idfinal = '';
+        if (JSON.parse(sessionStorage.getItem('id'))) {
+          idfinal = JSON.parse(sessionStorage.getItem('id'))
+          console.log(idfinal);
+        } else {
+          let final = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
+          idfinal = final.a;
+          console.log(idfinal);
+        }
+        this.form.idusers = this.user.authUser.id,
+          this.form.id = idfinal;
+        this.datajsonNominas.push(this.form);
+        //console.log(this.form);
+        localStorage.setItem('comision', JSON.stringify(this.datajsonNominas));
 
-      if (this.errores.error == false) {
-        this.formT.participacion = this.form.value.participacion
-        if (this.formT.participacion != null && this.formT.participacion <= 100) {
-          let idfinal = '';
-          if (JSON.parse(sessionStorage.getItem('id'))) {
-            idfinal = JSON.parse(sessionStorage.getItem('id'))
-            console.log(idfinal);
-          } else {
-            let final = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
-            idfinal = final.a;
-            console.log(idfinal);
-          }
-          this.formT.idusers = this.user.authUser.id,
-            this.formT.id = idfinal;
-          this.datajsonNominas.push(this.formT);
-          console.log('-------> ENTRA 2');
-          localStorage.setItem('comision', JSON.stringify(this.datajsonNominas));
-
-          let data = JSON.parse(localStorage.getItem('comision'));
-          console.log(data);
-          this.alertService.loading();
-          const contra = JSON.parse(localStorage.getItem('idcontrato'));
-          this.authService.getDtaRamos(contra.a).then((res: any)=>{
-            this.alertService.messagefin()
-            console.log('llega res', res);
+        let data = JSON.parse(localStorage.getItem('comision'));
+        console.log(data);
+        this.AlertService.loading();
+        const contra = JSON.parse(localStorage.getItem('idcontrato'));
+        this._service.getDtaRamos(contra.a).then(
+          res => {
             this.listareasu = res;
+            console.log(res);
             console.log(idfinal);
             var parti: Number;
             for (let index = 0; index < this.listareasu.length; index++) {
               if (this.listareasu[index].a == idfinal) {
-            console.log('---------> listareasu ',this.listareasu[index].part);
-
                 parti = this.cortarDesimales(this.listareasu[index].part);
               }
 
             }
-            console.log('---------> participa  ',this.formT.participacion);
-            var por: Number = parseInt(this.removeProsentaje(this.formT.participacion));
-            console.log('---------> por ',por);
-            console.log('---------> parti ',parti);
+            var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
             var suma = Number(parti) + Number(por);
             console.log(suma);
             if (suma > 100) {
-              console.log('---------> ',suma);
-              console.log('SE DAÑO');
-              this.alertService.error('Error', 'intentalo una vez mas')
-            }else {
-              this.authService.postCuotaparteNomina(JSON.parse(localStorage.getItem('comision'))).then((res: any)=>{
-                console.log('Legga 2');
-                data = null;
+
+            }
+            else {
+              this._service.postCuotaparteNomina(JSON.parse(localStorage.getItem('comision'))).then(
+                res => {
+                  data = null;
                   console.log(res);
                   localStorage.removeItem("comision");
                   if (localStorage.getItem('idcontrato')) {
                     const contra = JSON.parse(localStorage.getItem('idcontrato'));
-                    this.authService.getDtaRamos(contra.a).then(
+                    this._service.getDtaRamos(contra.a).then(
                       res => {
                         this.listareasu = res;
                         console.log(this.listareasu)
-                        let parti: any;
+                        var parti: number;
                         for (let index = 0; index < this.listareasu.length; index++) {
                           if (this.listareasu[index].a == idfinal) {
                             parti = this.cortarDesimales(this.listareasu[index].part);
@@ -364,7 +495,7 @@ export class DetalleComponent implements OnInit {
 
                         }
 
-                        var por: Number = parseInt(this.removeProsentaje(this.formT.participacion));
+                        var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
                         var suma = Number(parti) + Number(por);
                         console.log(parti);
                         if (parti > 100) {
@@ -374,16 +505,10 @@ export class DetalleComponent implements OnInit {
                           sessionStorage.removeItem('id');
                           sessionStorage.removeItem('idramos');
                           sessionStorage.removeItem('idcontratoreasegurador');
-                          console.log('Lista result ------>',this.listareasu.part);
-                          this.navigate('home/contracts/Automaticos/proporcionales/cuota-parte')
-                          this.alertService.success('Ok','detalle por Reasegurador')
-
-                          //this.router.navigate(['/admin/contratos/automaticos/proporcionales/cuota-aparte']);
+                          console.log(this.listareasu.part);
+                          this.router.navigate(['/admin/contratos/automaticos/proporcionales/cuota-aparte']);
                         } else {
-                          this.alertService.success('Ok', 'puedes seguir agregando nomina')
-                          this.navigate('home/contracts/Automaticos/proporcionales/cuota-parte')
-
-                          //this.messageInfo('Quieres seguir agregando nomina', '/admin/contratos/automaticos/proporcionales/cuota-aparte');
+                          this.AlertService.info('Hey','Quieres seguir agregando nomina');
                         }
                         console.log(res);
                       },
@@ -392,39 +517,195 @@ export class DetalleComponent implements OnInit {
                       }
                     );
                   }
-              }, err=> {
-                console.log(err);
-                
-              })
-            }
-          }, err=> {
-            console.log(err);
-            
-          })
-        }
 
+                },
+                err => {
+                  console.log(err);
+                })
+            }
+            console.log(res);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+        this._service.getDtaRamos( contra.a).then(
+          res => {
+            this.listareasu = res;
+            console.log(res);
+            console.log(idfinal);
+            var parti: Number;
+            for (let index = 0; index < this.listareasu.length; index++) {
+              if (this.listareasu[index].a == idfinal) {
+                parti = this.cortarDesimales(this.listareasu[index].part);
+              }
+
+            }
+            var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
+            var suma = Number(parti) + Number(por);
+            console.log(suma);
+            if (suma > 100) {
+              this.AlertService.error('Hey','El total de la participanción de las nominas supera el 100%');
+            }
+            else {
+              this.AlertService.loading();
+              this._service.postCuotaparteNomina(JSON.parse(localStorage.getItem('comision'))).then(
+                res => {
+                  data = null;
+                  console.log(res);
+                  localStorage.removeItem("comision");
+                  this.eliminarform();
+                  if (localStorage.getItem('idcontrato')) {
+                    const contra = JSON.parse(localStorage.getItem('idcontrato'));
+                    this._service.getDtaRamos(contra.a).then(
+                      res => {
+                        this.listareasu = res;
+                        console.log(this.listareasu)
+                        var parti: number;
+                        for (let index = 0; index < this.listareasu.length; index++) {
+                          if (this.listareasu[index].a == idfinal) {
+                            parti = this.cortarDesimales(this.listareasu[index].part);
+                          }
+
+                        }
+
+                        var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
+                        var suma = Number(parti) + Number(por);
+                        console.log(parti);
+                        if (parti > 100) {
+                          sessionStorage.removeItem('editarC');
+                          sessionStorage.removeItem('v');
+                          sessionStorage.removeItem('idcrearfinal');
+                          sessionStorage.removeItem('id');
+                          sessionStorage.removeItem('idramos');
+                          sessionStorage.removeItem('idcontratoreasegurador');
+                          console.log(this.listareasu.part);
+                          this.AlertService.success('Ok','Haz complertado el 100% de participanción');
+                          this.router.navigate(['/admin/contratos/automaticos/proporcionales/cuota-aparte']);
+                        } else {
+                          this.AlertService.info('Quieres seguir agregando nomina', '');
+                        }
+                        console.log(res);
+                      },
+                      err => {
+                        console.log(err);
+                      }
+                    );
+                  }
+
+                },
+                err => {
+                  console.log(err);
+                })
+            }
+            console.log(res);
+          },
+          err => {
+            console.log(err);
+          }
+        );
+
+      } else {
+        this.router.navigate([
+          '/admin/contratos/automaticos/proporcionales/cuota-aparte'
+        ]);
       }
-      console.log('-------> objeto', this.formT);
     }
   }
+  miles(form: string, key: any) {
+    if (form == 'tabel') {
+      const cortar = this.cortarDesimales(key)
+      const quitar = this.desimal(cortar);
+      return quitar;
+    }
+
+  }
+  //guardar
+  cortarDesimales(item: any) {
+    return Math.trunc(item);
+  }
   eliminarform() {
-    this.formT.depositoRetenido = ""; //this.removeProsentaje(this.form.depositoRetenido);
-    this.formT.comision = "";
-    this.formT.comisionUtilidad = ""; // this.removeProsentaje(this.form.comisionUtilidad);
-    this.formT.gasto = ""; // this.removeProsentaje(this.form.gasto);
-    this.formT.participacion = "";
-    this.formT.inpuestoPrimaCedidas = "";
-    this.formT.inpuestoRenta = "";
-    this.formT.deposito.reservaAsumida = "";
-    this.formT.deposito.PorcentajeR = "";
-    this.formT.deposito.PorcentajeI = "";
-    this.formT.corredor == '';
-    this.formT.dtbrok = '';
-    this.formT.cartera == '';
-    this.formT.traspasoCartera.Cuenta = '';
+    this.form.depositoRetenido = ""; //this.removeProsentaje(this.form.depositoRetenido);
+    this.form.comision = "";
+    this.form.comisionUtilidad = ""; // this.removeProsentaje(this.form.comisionUtilidad);
+    this.form.gasto = ""; // this.removeProsentaje(this.form.gasto);
+    this.form.participacion = "";
+    this.form.inpuestoPrimaCedidas = "";
+    this.form.inpuestoRenta = "";
+    this.form.deposito.reservaAsumida = "";
+    this.form.deposito.PorcentajeR = "";
+    this.form.deposito.PorcentajeI = "";
+    this.form.corredor == '';
+    this.form.dtbrok = '';
+    this.form.cartera == '';
+    this.form.traspasoCartera.Cuenta = '';
     this.datajsonNominas = [];
-  };
-  navigate(item: string) {
-    this.router.navigate([item])
+  }
+  traspaso(item: any) {
+    //const json = this._ls_trasp_tip.getPromise();/admin/contratos/automaticos/proporcionales/cuota-aparte
+    for (let i = 0; i <= Object.keys(this.validData).length - 1; i++) {
+      if (this.validData[i].a == parseInt(item)) {
+        this.memoria = this.validData[i];
+        this.form.cartera = this.validData[i].c;
+      }
+    }
+  }
+  desimalPor(key: any) {
+    let e = key
+    return e + '%';
+  }
+  desimalPork(key: any) {
+    let e = key
+
+    if (e != undefined) {
+      e = e.split("");
+      let count = 0, rst = '';
+      for (let i = e.length - 1; i >= 0; i--) {
+        count = count + 1
+        rst = e[i] + rst;
+        if (count == 2) {
+          if (e[i - 1] != undefined) {
+            rst = '.' + rst
+          }
+          count = 0;
+        }
+      }
+      return rst + "%";
+    }
+  }
+
+  create(item) {
+    if (confirm("Esta seguro de guardar los cambios?")) {
+      sessionStorage.setItem("dtcntrcp", JSON.stringify(item));
+      // this.router.navigate(['admin/contratos/automaticos/proporcionales/cuota-aparte']);
+    } else {
+      return false;
+    }
+  }
+
+  validarForm(item: any) {
+    this.errores.error = false;
+    this.errores.mensaje = [];
+    for (let index in item) {
+      if (item[index] == undefined || item[index] == "") {
+        if (index != "corredor") {
+          if (index != "idnomina") {
+            if (index == "dtbrok") {
+              if (item.corredor != "") {
+                this.errores.error = true;
+                this.errores.mensaje.push("el campo " + index + " es requerido");
+              }
+            } else {
+              this.errores.error = true;
+              this.errores.mensaje.push("el campo " + index + " es requerido");
+            }
+          }
+        }
+      }
+    }
+  }
+  formateaValor(valor) {
+    // si no es un número devuelve el valor, o lo convierte a número con 2 decimales
+    return isNaN(valor) ? valor : parseFloat(valor).toFixed(2) + '%';
   }
 }

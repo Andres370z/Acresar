@@ -23,6 +23,7 @@ export class ListContractsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('rsltntmpcntrt');
     this.getDta()
   }
 

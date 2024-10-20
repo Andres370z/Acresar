@@ -68,7 +68,7 @@ export class CuotaParteComponent implements OnInit {
   ) {
     this.user = new SessionUser(this.router);
     this.user.getAuthUser();
-    service.getCurrency().then((res: any)=> {this.currency = res});
+    service.getCurrency().then((res: any) => { this.currency = res });
     if (localStorage.getItem('rsltntmpcntrt') === null) {
       this.item.e = '';
       this.item.r = '';
@@ -93,7 +93,7 @@ export class CuotaParteComponent implements OnInit {
     }
 
   }
-  
+
 
   eventDate() {
 
@@ -103,7 +103,7 @@ export class CuotaParteComponent implements OnInit {
     this.yearsArray = this.getYearsArray();
     this.statefinal = false;
     this.userfinal = this.user.authUser
-    if ( this.user.authUser.id_rol === '5' ||  this.user.authUser.id_rol === '3' ) {
+    if (this.user.authUser.id_rol === '5' || this.user.authUser.id_rol === '3') {
       this.router.navigate(['home/contracs']);
     }
     this.state = false;
@@ -168,10 +168,10 @@ export class CuotaParteComponent implements OnInit {
             const dateStart = new Date((this.cuotaParteForm.controls.fechaInicio.value.year + 1), this.cuotaParteForm.controls.fechaInicio.value.month, (this.cuotaParteForm.controls.fechaInicio.value.day - 1));
             const dateEnd = new Date(this.cuotaParteForm.controls.fechaFin.value.year, this.cuotaParteForm.controls.fechaFin.value.month, (this.cuotaParteForm.controls.fechaFin.value.day - 1));
             if (dateStart > dateEnd) {
-              this.AlertService.info('Hey','Contrato es menor a un año');
+              this.AlertService.info('Hey', 'Contrato es menor a un año');
             }
             if (dateStart < dateEnd) {
-              this.AlertService.info('Hey','Contrato es mayor a un año');
+              this.AlertService.info('Hey', 'Contrato es mayor a un año');
             }
           }
         }
@@ -249,7 +249,7 @@ export class CuotaParteComponent implements OnInit {
 
   createForm() {
     this.cuotaParteForm = new FormGroup({
-      tipocontrato:  new FormControl('', Validators.required),
+      tipocontrato: new FormControl('', Validators.required),
       codigocontrato: new FormControl('', Validators.required),
       epiContrato: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
@@ -275,24 +275,24 @@ export class CuotaParteComponent implements OnInit {
   }
   onSubmit() {
     // TODO: Use EventEmitter with form value
-    console.log(this.contrato);
-    if (this.contrato) {
-      const form1 = this.cuotaParteFormreasegurador.value;
+    // if (this.contrato) {
+    //   // contrato llega null en ambos
+    // }
+    const form1 = this.cuotaParteFormreasegurador.value;
 
-      sessionStorage.setItem('formCuotaP1', JSON.stringify(form1));
-      console.log(form1);
-      if (form1) {
-        this.goDetail();
-      }
+    sessionStorage.setItem('formCuotaP1', JSON.stringify(form1));
+    console.log(form1);
+    if (form1) {
+      this.goDetail();
     }
-
   }
   goDetail() {
     const form1 = JSON.parse(sessionStorage.getItem('formCuotaP1'));
     // tslint:disable-next-line:prefer-const
-    let contar = + 1;
+    let contar = 1;
     var por = this._pct.removerPor(form1['secion'])
-    var q=por.replace(",",".");
+    var q = por.replace(",", ".");
+    console.log('---> llega 1');
     const data = {
       idusers: this.user.authUser.id,
       secion: q,
@@ -300,28 +300,29 @@ export class CuotaParteComponent implements OnInit {
       contrato: contar,
       id: this.contrato.a,
     };
-
+    console.log('---> llega 2');
+    
     console.log(data);
     this.service.postCuotaRamo(data).then(
       res => {
         sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
-        this.router.navigate(['home/contracts']);
+        this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle']);
         this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
       });
-      // this.service.postQueryrespaldo(data, '/contratos/automaticos/proporcionales/cuotaparte/ramos').then(
-      //   res => {
-      //     sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
-      //     this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
-      //   });
+    // this.service.postQueryrespaldo(data, '/contratos/automaticos/proporcionales/cuotaparte/ramos').then(
+    //   res => {
+    //     sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
+    //     this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
+    //   });
   }
 
-  statusNomina:boolean= true;
+  statusNomina: boolean = true;
 
   agregarnomina(item: String, part: String) {
     const parti = this.cortarDesimales(part);
     console.log(`>> ${parti}`);
-    if (parti >= 100  ) {
-      this.AlertService.error('Error','Participacion igual al 100% ya no puedes seguir agregando mas nomina');
+    if (parti >= 100) {
+      this.AlertService.error('Error', 'Participacion igual al 100% ya no puedes seguir agregando mas nomina');
     } else {
       sessionStorage.setItem('id', JSON.stringify(item));
       this.router.navigate(['home/contracts']);
@@ -342,15 +343,23 @@ export class CuotaParteComponent implements OnInit {
     const fechaInicio = this.cuotaParteForm.controls.fechaInicio.value;
     const fechaFin = this.cuotaParteForm.controls.fechaFin.value;
     const ano = Number(fechaFin.year) + 1;
-    
-    if(fechaInicio.year < ano || fechaInicio.month < fechaFin.month || fechaInicio.day < fechaFin.day ){
-      this.AlertService.info('Het','Contrato es menor a un año');
+
+    if (fechaInicio.year < ano || fechaInicio.month < fechaFin.month || fechaInicio.day < fechaFin.day) {
+      this.AlertService.info('Het', 'Contrato es menor a un año');
     }
-    if(fechaInicio.year > ano || fechaInicio.month > fechaFin.month || fechaInicio.day > fechaFin.day){
-      this.AlertService.info('Hey','Contrato es mayo a un año');
+    if (fechaInicio.year > ano || fechaInicio.month > fechaFin.month || fechaInicio.day > fechaFin.day) {
+      this.AlertService.info('Hey', 'Contrato es mayo a un año');
     }
 
 
+  }
+  transformarHora(hora: string): string {
+    const [hours, minutes] = hora.split(':');
+    return `${parseInt(hours, 10)}:0:0`; // Convierte horas en número y formatea como H:0:0
+  }
+  transformarFecha(fecha: string): { day: number, month: number, year: number } {
+    const [year, month, day] = fecha.split('-').map(Number); // Divide la fecha y convierte a número
+    return { day, month, year };
   }
   create() {
 
@@ -363,46 +372,84 @@ export class CuotaParteComponent implements OnInit {
       const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
       const formfinal = this.cuotaParteForm.value;
       if (formfinal.codigocontrato === undefined && formfinal.codigocontrato === '') {
-        this.AlertService.info('Hey','Campo del codigo del contrato es obligatorio');
+        this.AlertService.info('Hey', 'Campo del codigo del contrato es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.descripcion === undefined || formfinal.descripcion === '') {
-        this.AlertService.info('Hey','Campo descripción es obligatorio');
+        this.AlertService.info('Hey', 'Campo descripción es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.fechaInicio === undefined || formfinal.fechaInicio === '') {
-        this.AlertService.info('Hey','Campo fecha de inicio es obligatorio');
+        this.AlertService.info('Hey', 'Campo fecha de inicio es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.horainicio === undefined || formfinal.horainicio === '') {
-        this.AlertService.info('Hey','Campo hra inicial es obligatorio');
+        this.AlertService.info('Hey', 'Campo hra inicial es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.fechaFin === undefined || formfinal.fechaFin === '') {
-        this.AlertService.info('Hey','Campo fecha final  es obligatorio');
+        this.AlertService.info('Hey', 'Campo fecha final  es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.horafin === undefined || formfinal.horafin === '') {
-        this.AlertService.info('Hey','Campo  hora final es obligatorio');
+        this.AlertService.info('Hey', 'Campo  hora final es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.moneda === undefined || formfinal.model === '') {
-        this.AlertService.info('Hey','Campo moneda es obligatorio');
+        this.AlertService.info('Hey', 'Campo moneda es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.observacion === '' || formfinal.observacion === undefined) {
-        this.AlertService.info('Hey','Campo observación es obligatorio');
+        this.AlertService.info('Hey', 'Campo observación es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.siniestroContrato === '' || formfinal.siniestroContrato === undefined) {
-        this.AlertService.info('Hey','Campo siniestro es obligatorio');
+        this.AlertService.info('Hey', 'Campo siniestro es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (form2) {
         const data1 = {
-          codigocontrato:'ATL-AUT-'+this.cod,
+          codigocontrato: 'ATL-AUT-' + this.cod,
         };
-        this.service.postCuotaRamo(data1).then(
+        this.service.postBuscarCuotaAparte(data1).then(
+          res => {
+            const buscar = res
+            console.log(buscar)
+            if (buscar === "N.N") {
+              const data = {
+                idusers: this.user.authUser.id,
+                tipocontrato: 10,
+                codigocontrato: this.cod,
+                descripcion: form2['descripcion'],
+                fechaInicio: this.transformarFecha(form2['fechaInicio']),
+                fechaFin: this.transformarFecha(form2['fechaFin']),
+                moneda: form2['moneda'],
+                siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
+                epiContrato: this._pct.removerDesimal(form2['epiContrato']),
+                observacion: form2['observacion'],
+                horainicio: this.transformarHora(this.cuotaParteForm.value.horainicio),// Hours
+                horafin: this.transformarHora(this.cuotaParteForm.value.horafin)
+              };
+              this.service.postContratoCuotaAparte(data).then(
+                res => {
+                  localStorage.setItem('idcontrato', JSON.stringify(res));
+                  this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
+                  this.statefinal = true;
+                  console.log(res);
+
+                },
+                err => {
+                  console.log(err);
+                });
+            } else {
+              this.AlertService.error('Error', 'Número de contrato ya existe');
+            }
+
+          },
+          err => {
+            console.log(err);
+          });
+        /* this.service.postQueryrespaldo(data1, '/contratos/automaticos/proporcionales/cuotaparte/buscar').then(
           res => {
             const buscar = res
             console.log(buscar)
@@ -416,12 +463,11 @@ export class CuotaParteComponent implements OnInit {
                 fechaFin: form2['fechaFin'],
                 moneda: form2['moneda'],
                 siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
-                epiContrato: this._pct.removerDesimal(form2['epiContrato']),
                 observacion: form2['observacion'],
                 horainicio: d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(), // Hours
-                horafin: e.getHours()+':'+e.getMinutes()+':'+e.getSeconds()
+              horafin: e.getHours()+':'+e.getMinutes()+':'+e.getSeconds()
               };
-              this.service.postContratoCuotaAparte(data).then(
+              this.service.postQueryrespaldo(data, '/contratos/automaticos/proporcionales/cuotaparte/contrato').then(
                 res => {
                   localStorage.setItem('idcontrato', JSON.stringify(res));
                   this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
@@ -432,50 +478,13 @@ export class CuotaParteComponent implements OnInit {
                 err => {
                   console.log(err);
                 });
-            } else {
-              this.AlertService.error('Error','Número de contrato ya existe');
-            }
-
+            } 
+ 
           },
           err => {
             console.log(err);
-          });
-          /* this.service.postQueryrespaldo(data1, '/contratos/automaticos/proporcionales/cuotaparte/buscar').then(
-            res => {
-              const buscar = res
-              console.log(buscar)
-              if (buscar === "N.N") {
-                const data = {
-                  idusers: this.user.authUser.id,
-                  tipocontrato: 10,
-                  codigocontrato: this.cod,
-                  descripcion: form2['descripcion'],
-                  fechaInicio: form2['fechaInicio'],
-                  fechaFin: form2['fechaFin'],
-                  moneda: form2['moneda'],
-                  siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
-                  observacion: form2['observacion'],
-                  horainicio: d.getHours()+':'+d.getMinutes()+':'+d.getSeconds(), // Hours
-                horafin: e.getHours()+':'+e.getMinutes()+':'+e.getSeconds()
-                };
-                this.service.postQueryrespaldo(data, '/contratos/automaticos/proporcionales/cuotaparte/contrato').then(
-                  res => {
-                    localStorage.setItem('idcontrato', JSON.stringify(res));
-                    this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
-                    this.statefinal = true;
-                    console.log(res);
-        
-                  },
-                  err => {
-                    console.log(err);
-                  });
-              } 
-  
-            },
-            err => {
-              console.log(err);
-            }); */
-        
+          }); */
+
       }
     } else {
       this.contrato = JSON.parse(localStorage.getItem('idcontrato'));
@@ -485,7 +494,7 @@ export class CuotaParteComponent implements OnInit {
   }
   onchangedecimal(key: any) {
     let data;
-    let decimalConver ;
+    let decimalConver;
     switch (key) {
       case 'sumaLimite':
         data = this.cuotaParteForm.controls.tb1;
@@ -564,29 +573,29 @@ export class CuotaParteComponent implements OnInit {
                   this.ctb1 = '+';
                   this.ctb2 = '+';
                   this.ctb3 = '+';
-                  this.AlertService.success('Ok',res.mensaje);
+                  this.AlertService.success('Ok', res.mensaje);
                   this.router.navigate(['home/contracts']);
                 } else {
-                  this.AlertService.error('Error',res.mensaje);
+                  this.AlertService.error('Error', res.mensaje);
                 }
               },
               err => {
                 sessionStorage.clear();
                 this.cuotaParteForm.reset();
-      
-                this.AlertService.error('Error','La informacion no fue guardada correctamente');
+
+                this.AlertService.error('Error', 'La informacion no fue guardada correctamente');
                 this.router.navigate(['home/contracts']);
               }
             );
           } else {
-            this.AlertService.error('Error','Número de contrato ya existe');
+            this.AlertService.error('Error', 'Número de contrato ya existe');
           }
         },
         err => {
           sessionStorage.clear();
           this.cuotaParteForm.reset();
 
-          this.AlertService.error('Error','La informacion no fue guardada correctamente');
+          this.AlertService.error('Error', 'La informacion no fue guardada correctamente');
           this.router.navigate(['home/contracts']);
         }
       );
@@ -769,19 +778,19 @@ export class CuotaParteComponent implements OnInit {
       return e + '%';
     }
   }
-  verificar(){
-    if (sessionStorage.getItem('formCuotaP') && sessionStorage.getItem('formCuotaP1')){
+  verificar() {
+    if (sessionStorage.getItem('formCuotaP') && sessionStorage.getItem('formCuotaP1')) {
       localStorage.removeItem('idcontrato')
       sessionStorage.clear();
       this.cod = '';
       this.cuotaParteForm.reset();
       // tslint:disable-next-line:prefer-const
       let res = 'Contrato creado exitosamente';
-      this.AlertService.success('Ok',res);
+      this.AlertService.success('Ok', res);
       this.router.navigate(['home/contracts']);
-    // tslint:disable-next-line:one-line
-    }else{
-      this.AlertService.info('Ehy','Desea salir sin agregar ramos al contrato');
+      // tslint:disable-next-line:one-line
+    } else {
+      this.AlertService.info('Ehy', 'Desea salir sin agregar ramos al contrato');
     }
   }
 

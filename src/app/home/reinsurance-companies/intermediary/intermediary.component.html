@@ -55,6 +55,14 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
             </div>
+            <div class="row">
+              <div class="col-6"> <!--BOTON-->
+                <button mat-raised-button type="button" class="btn btn-fill btn-rose"
+                  style="background-color: #016672; margin: 25px;"
+                  (click)="navigate('home/companias/intermediary/new-intermediary')"> Registrar Intermediario 
+                  </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

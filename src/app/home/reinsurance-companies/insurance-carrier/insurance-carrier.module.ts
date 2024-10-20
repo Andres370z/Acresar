@@ -14,10 +14,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuModule } from '../menu/menu.module';
+import { CreateCooperativaComponent } from './create-cooperativa/create-cooperativa.component';
 
 
 @NgModule({
-  declarations: [InsuranceCarrierComponent],
+  declarations: [InsuranceCarrierComponent, CreateCooperativaComponent],
   imports: [
     CommonModule,
     InsuranceCarrierRoutingModule,

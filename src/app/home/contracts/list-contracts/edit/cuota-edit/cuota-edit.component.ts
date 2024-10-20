@@ -464,7 +464,7 @@ export class CuotaEditComponent implements OnInit {
   }
 
   regresar() {
-    this.router.navigate(['home/contractss']);
+    this.router.navigate(['home/contracts']);
   }
 
   idReasegurador(id: number) {

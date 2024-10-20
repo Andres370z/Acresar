@@ -272,6 +272,9 @@ export class AuthService {
   getTraspasocartera() {
     return this.registeresquest.GETER(RoutersLink.getTraspasocartera)
   }
+  getTraspasoCarteratipo() {
+    return this.registeresquest.GETER(RoutersLink.getTraspasoCartera)
+  }
   getTraspasocarteraCuenta() {
     return this.registeresquest.GETER(RoutersLink.getTraspasocarteraCuenta)
   }
@@ -309,11 +312,14 @@ export class AuthService {
   getCountries() {
     return this.registeresquest.GETER(RoutersLink.getPaises)
   }
-  RegisterForm(inform: any) {
-    return this.registeresquest.POSTS(RoutersLink.reaseguradoresList, inform)
+  getDirectorio() {
+    return this.registeresquest.GETER(RoutersLink.getDirectorio)
   }
-  postRazonsocial(inform: any) {
-    return this.registeresquest.POSTS(RoutersLink.postRazonSocial, inform)
+  RegisterForm(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.reaseguradoresList, item)
+  }
+  postRazonsocial(item: any) {
+    return this.registeresquest.POSTS(RoutersLink.postRazonSocial, {item})
 
   }
   getReacoex() {
@@ -355,7 +361,7 @@ export class AuthService {
     return this.registeresquest.DELETED(RoutersLink.deleteAseReporte + id)
   }
   deleteIntermediario(id: any) {
-    return this.registeresquest.DELETED(RoutersLink.getIntermediarios + id)
+    return this.registeresquest.DELETED(RoutersLink.deleteIntermediarios + id)
   }
 
   deleteCorredor(id: any) {
@@ -403,8 +409,8 @@ export class AuthService {
     return this.registeresquest.GETER(RoutersLink.getFacultativoContrato + id)
   }
 
-  getFacultativoContra(inform: any) {
-    return this.registeresquest.GETER(RoutersLink.getFacultativoContra + inform)
+  getFacultativoContra(item: any) {
+    return this.registeresquest.GETER(RoutersLink.getFacultativoContra + item)
   }
   getContratoExcel(item: any) {
     return this.registeresquest.GETER(RoutersLink.getContratoExcel + item)
@@ -571,7 +577,7 @@ export class AuthService {
   }
   postFacultativoContraRespaldo(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, { item })
-  }
+  } 
   postFacultativoContra(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, { item })
   }
