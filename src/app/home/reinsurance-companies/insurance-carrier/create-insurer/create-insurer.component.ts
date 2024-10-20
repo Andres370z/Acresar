@@ -156,7 +156,7 @@ export class CreateInsurerComponent implements OnInit {
 
     const item = { module: "aseguradora", razon: json, type: this.itemData.e };
 
-    this._service.postRazonsocial({item}).then(
+    this._service.postRazonsocial(item).then(
       res => {
         if (res.length > 0) {
           this.lisRequest = true;
