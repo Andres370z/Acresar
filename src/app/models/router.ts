@@ -84,6 +84,7 @@ export const RoutersLink = {
     postContratoAsociacionFinal: 'contratos/asociacion/search/final',
     
     /** POSTS **/
+    postContratosComison:'facultativo/contrato/comision',
     postContactos: 'contactos',
     postUploadlist: 'upload/list',
     postPrimaCarga: 'primas/search/carga',

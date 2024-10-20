@@ -581,6 +581,9 @@ export class AuthService {
   postFacultativoContra(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContra, { item })
   }
+  postContratosComison(item: any) {
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postContratosComison, { item })
+  }
   postFacultativoContratb(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postFacultativoContratb, { item })
   }

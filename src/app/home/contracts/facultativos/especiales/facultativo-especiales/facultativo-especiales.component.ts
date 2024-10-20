@@ -332,7 +332,7 @@ export class FacultativoEspecialesComponent implements OnInit {
     this.service.postFacultativoContratb(data).then(
       res => {
         sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
-        this.router.navigate(['admin/contratos/facultativos-especial/proporcionales/facultativo-especial/detalle']);
+        this.router.navigate(['home/contracts/Facultativos/especiales/especiales-facultativos-detalles']);
         this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
       });
     /* this.service.postQueryrespaldo(data, '/facultativo/contrato/tb').then(
@@ -351,6 +351,15 @@ export class FacultativoEspecialesComponent implements OnInit {
       sessionStorage.setItem('id', JSON.stringify(item));
       this.router.navigate(['admin/contratos/facultativos-especial/proporcionales/facultativo-especial/detalle']);
     }
+  }
+
+  transformarHora(hora: string): string {
+    const [hours, minutes] = hora.split(':');
+    return `${parseInt(hours, 10)}:0:0`; // Convierte horas en número y formatea como H:0:0
+  }
+  transformarFecha(fecha: string): { day: number, month: number, year: number } {
+    const [year, month, day] = fecha.split('-').map(Number); // Divide la fecha y convierte a número
+    return { day, month, year };
   }
   create() {
     if (!sessionStorage.getItem('formCuotaP')) {
@@ -412,13 +421,13 @@ export class FacultativoEspecialesComponent implements OnInit {
                 tipocontrato: 13,
                 codigocontrato: this.cod,
                 descripcion: form2['descripcion'],
-                fechaInicio: form2['fechaInicio'],
-                fechaFin: form2['fechaFin'],
+                fechaInicio: this.transformarFecha(form2['fechaInicio']),
+                fechaFin: this.transformarFecha(form2['fechaFin']),
                 moneda: form2['moneda'],
                 siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
                 observacion: form2['observacion'],
-                horainicio: d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(), // Hours
-                horafin: e.getHours() + ':' + e.getMinutes() + ':' + e.getSeconds()
+                horainicio: this.transformarHora(this.cuotaParteForm.value.horainicio),// Hours
+                horafin: this.transformarHora(this.cuotaParteForm.value.horafin)
               };
               this.service.postFacultativoContra(data).then(
                 res => {
