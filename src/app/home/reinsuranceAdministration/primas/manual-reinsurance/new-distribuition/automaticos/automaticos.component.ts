@@ -150,7 +150,7 @@ export class AutomaticosComponent implements OnInit {
         if (this.calculo !== 0) {
           const valor = this.removeProsentaje(res);
           const valo = (Number(valor) * this.calculo) / 100;
-          //this.cuotaParteForm.controls.depositovalor.setValue(this.desimal(valo));
+          this.cuotaParteForm.controls.depositovalor.setValue(this.desimal(valo));
           console.log('hola' + valo);
         } else {
           this.alertService.info('Hey', 'El valor de la prima neta es obligatoria');
@@ -201,17 +201,7 @@ export class AutomaticosComponent implements OnInit {
         }
       }
     );
-    this.cuotaParteForm.controls.siniestrosvalor.valueChanges.subscribe(
-      (res) => {
-        if (this.calculo !== 0) {
-          const valor = this.removeProsentaje(res);
-          const valo = (Number(valor) * this.calculo) / 100;
-          this.cuotaParteForm.controls.siniestrosvalor.setValue(this.desimal(valo));
-        } else {
-          this.alertService.info('Hey', 'El valor de la prima neta es obligatoria');
-        }
-      }
-    );
+    
     this.cuotaParteForm.controls.salidasiniestrosvalor.valueChanges.subscribe(
       (res) => {
         if (res !== '' && res !== undefined) {
@@ -231,6 +221,8 @@ export class AutomaticosComponent implements OnInit {
             Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salidasprimasvalor.value)) +
             Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salidasiniestrosvalor.value)));
           console.log(Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salidasiniestrosvalor.value)));
+          console.log('ETSE ES TOTAL INGRESOS ', this._pct.removerDesimal(this.totalingresos), 'ESTE ES TOTAL EGRESOS ', this._pct.removerDesimal(this.totalegresos), 'TOTAL EGRESOS SIN CONVERTIR ', this.totalegresos);
+          
           const valook = Number(this._pct.removerDesimal(this.totalingresos)) - Number(this._pct.removerDesimal(this.totalegresos));
           this.cuotaParteForm.controls.saldotrimevalor.setValue(this.desimal(valook));
         } else {
@@ -281,6 +273,9 @@ export class AutomaticosComponent implements OnInit {
                     this.cuotaParteForm.controls.otrosgastos.setValue(this.porcentaje(element.s));
                     this.cuotaParteForm.controls.primacedidapor.setValue(this.porcentaje(element.s));
                     this.cuotaParteForm.controls.siniestrospor.setValue(this.porcentaje(element.s));
+                    //const valo = (element.s * this.calculo) / 100;
+                    //console.log('Este es siniestros: ', valo);
+                    ///this.cuotaParteForm.controls.siniestrosvalor.setValue(this.desimal(valo));
                     this.cuotaParteForm.controls.primacedidavalor.setValue(this.desimal(this.calculo));
                     console.log('hla tres' + element.s + 'r' + this.calculo);
                     this.http.getAutomaticoComision(element.a).then(
@@ -594,7 +589,49 @@ export class AutomaticosComponent implements OnInit {
       }
     );
   }
+  cargarnit(item) {
+    this.cuotaParteForm.controls.asegurador.setValue(item.c);
+    this.cuotaParteForm.controls.nit.setValue(item.r2);
+    this.idsegurador = item.a;
+    this.lisRequest2 = false;
+  }
+  cargarpoliza(item) {
+    this.alertService.loading();
+    this.consultar(item);
+  }
+  ramosEvent(key: any, num: any, tb: any) {
+    const from = this.cuotaParteFormreasegurador.value;
+    let data = this.cuotaParteFormreasegurador.controls[tb];
+    data = data.value;
+    if (key === 'codigo') {
 
+      from[tb][`ramos${num}`] = Number(from[tb][`codigo${num}`]);
+
+      this.cuotaParteForm.setValue(from);
+    } else if (key === 'ramos') {
+      from[tb][`codigo${num}`] = Number(from[tb][`ramos${num}`]);
+      this.cuotaParteForm.setValue(from);
+    }
+
+  }
+  desimalPor(key: any) {
+    let e = key;
+    if (e !== undefined) {
+      e = e.split('');
+      let count = 0, rst = '';
+      for (let i = e.length - 1; i >= 0; i--) {
+        count = count + 1;
+        rst = e[i] + rst;
+        if (count === 2) {
+          if (e[i - 1] !== undefined) {
+            rst = '.' + rst;
+          }
+          count = 0;
+        }
+      }
+      return rst + '%';
+    }
+  }
   desimaldo(key: any) {
     let e = key;
     if (e !== undefined) {
@@ -614,11 +651,13 @@ export class AutomaticosComponent implements OnInit {
     }
   }
   miles(form: string, key: string) {
+    console.log(form, key)
     if (form === 'cuotaParteFormreasegurador') {
 
       let value = this.cuotaParteForm.controls[key].value;
       const val = this._pct.desimalDeMiles(value);
       this.cuotaParteForm.controls[key].setValue(val.toString());
+      
     }
 
     if (form === 'tabel') {
