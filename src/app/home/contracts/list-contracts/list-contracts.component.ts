@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-list-contracts',
@@ -12,8 +13,12 @@ import Swal from 'sweetalert2';
   styleUrls: ['./list-contracts.component.css']
 })
 export class ListContractsComponent implements OnInit {
+  @ViewChild(MatTable) table: MatTable<any>;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  displayedColumns: string[] = ['contrato', 'nombre', 'fechaInicio', 'fechaTermino', 'moneda', 'tipoContrato', 'fechaCreacion', 'Accion'];
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
+
+  displayedColumns: string[] = ['o', 'c', 'r', 'e', 'mc', 'cc', 'fc', 'Accion'];
   data: any[] = [];
   public dataSource: MatTableDataSource<any>
   constructor(
@@ -23,30 +28,34 @@ export class ListContractsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.data);
     localStorage.removeItem('rsltntmpcntrt');
     this.getDta()
   }
 
+
   getDta() {
-    this.alert.loading()
+    this.alert.loading();
     this.authService.getDtaContracts().then(
       res => {
-        this.alert.messagefin()
+        this.alert.messagefin();
         console.log('esta es tu respuesta', res);
-        this.data = res;
-        this.dataSource = new MatTableDataSource(res),
-          this.dataSource.paginator = this.paginator;
+        this.data = res
+        this.dataSource = new MatTableDataSource(this.data);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       }
     );
   }
+
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  edit(item: any){
-    sessionStorage.setItem('cp',JSON.stringify(item))
+  edit(item: any) {
+    sessionStorage.setItem('cp', JSON.stringify(item))
     console.log(item);
-    switch(parseInt(item.a2)){
+    switch (parseInt(item.a2)) {
       case 3:
         this.router.navigate(['/home/contracts/cuota-aparte-edit']);
         console.log('ok good 3')
@@ -61,13 +70,13 @@ export class ListContractsComponent implements OnInit {
         break;
       default:
         console.log('error en la ruta');
-        
+
         break;
-    } 
-    
+    }
+
   }
   //Metodo para borrar
-  delete(id: any) {
+  deletes(id: any) {
     Swal.fire({
       title: "Deseas eliminar este registro?",
       text: "¡No podrás revertir esto!",
@@ -79,25 +88,30 @@ export class ListContractsComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.authService.delete(id)
-      .then(res => {
-        console.log('Éxito al eliminar', res);
-        this.data = this.data.filter(item => item.id !== id);
-        this.dataSource = new MatTableDataSource(this.data);
-        this.dataSource.paginator = this.paginator;
-      })
-      .catch(error => {
-        console.error('Error al eliminar', error);
-      });
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success"
-          
-        });
+          .then(res => {
+
+            // Elimina el registro por ID
+            this.data = this.data.filter(item => item.id !== id);
+            // Actualiza el dataSource sin crear uno nuevo
+            this.dataSource.data = this.data;
+            // Renderiza la tabla nuevamente
+            this.table.renderRows();
+            this.ngOnInit()
+            console.log('Éxito al eliminar', res);
+  
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success"
+            });
+          })
+          .catch(error => {
+            console.error('Error al eliminar', error);
+          });
       }
     });
-    
-    
   }
+  
+  
 
 }

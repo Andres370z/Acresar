@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MenuModule } from '../menu/menu.module';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import { MenuModule } from '../menu/menu.module';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    MenuModule
+    MenuModule,
+    MatSortModule
   ]
 })
 export class ListContractsModule { }

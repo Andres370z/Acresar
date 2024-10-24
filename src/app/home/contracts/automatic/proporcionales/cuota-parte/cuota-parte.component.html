@@ -39,7 +39,7 @@
                 <div class="col-3">
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Hora Inicio</mat-label>
-                    <input matInput type="time" placeholder="Selecciona hora" formControlName="horainicio">
+                    <input matInput type="time" placeholder="Selecciona hora" formControlName="horainicio" step="3600">
                   </mat-form-field>
                 </div>
 
@@ -60,7 +60,7 @@
                 <div class="col-3">
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Hora Fin</mat-label>
-                    <input matInput type="time" placeholder="Selecciona hora" formControlName="horafin">
+                    <input matInput type="time" placeholder="Selecciona hora" formControlName="horafin" step="3600">
                   </mat-form-field>
                 </div>
               </div>
@@ -78,7 +78,7 @@
                 <div class="col-xs-12 col-md-6">
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Siniestros de Contado</mat-label>
-                    <input matInput type="number" placeholder="Siniestros de Contado"
+                    <input matInput type="text" placeholder="Siniestros de Contado"
                       formControlName="siniestroContrato" (change)="onchangedecimal('siniestroContrato')">
                   </mat-form-field>
                 </div>

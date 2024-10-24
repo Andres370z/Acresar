@@ -151,7 +151,7 @@ export const RoutersLink = {
     postAdmin: 'administracion/provedres',
     postGarantias: 'detalles/negocios/getgarantias',
     postDetallesGarantias: 'detalles/negocios/garantias',
-
+    postCuotaEditNomina: 'final/contratos/automaticos/no/proporcionales/cuotaparte/edit/nomina',
     deleteCorredor: 'corredores/',
     deleteAse: 'aseguradoras/',
     putAse: 'aseguradoras/',

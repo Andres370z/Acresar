@@ -40,7 +40,7 @@
                   <div class="col-xs-12 col-md-6">
                     <mat-form-field appearance="outline" class="full-width">
                       <mat-label>% Participación</mat-label>
-                      <input matInput [(ngModel)]="form.participacion" type="text" (change)="valiarParticipacion()"
+                      <input matInput [(ngModel)]="form.participacion" type="text" (change)="valiarParticipacion();porcentaje('participacion')"
                         placeholder="% Participación" id="dtpp" name="dtpp" ngModel #dtpp="ngModel" required>
                       <div *ngIf="dtpp.errors?.required && dtpp.touched" class="alert alert-danger">
                         Este campo es requerido
@@ -144,8 +144,9 @@
                   <div class="col-xs-12 col-md-6">
                     <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Arrastre de perdidas</mat-label>
-                      <input matInput [(ngModel)]="form.arrastrePerdida" type="text" placeholder="Arrastre de perdidas"
-                        id="dtap" name="dtap" ngModel #dtap="ngModel" required>
+                      <!--ANTES ESTE NGMODEL ERA form.arrastrePerdida  -->
+                      <input matInput [(ngModel)]="formarrastrePerdidaTempo" type="text" placeholder="Arrastre de perdidas" 
+                        id="dtap" name="dtap" ngModel #dtap="ngModel" required readonly disabled>
                       <div *ngIf="dtap.errors?.required && dtap.touched" class="alert alert-danger">
                         Este campo es requerido
                       </div>

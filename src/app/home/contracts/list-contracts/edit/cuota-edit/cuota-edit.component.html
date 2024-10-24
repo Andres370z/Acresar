@@ -69,12 +69,12 @@
 
                 </div>
 
-                <div class="row">
+                <div class="row"> 
                   <div class="col-xs-12 col-md-6">
                     <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Moneda</mat-label>
                       <select formControlName="moneda" matNativeControl>
-                        <option *ngFor="let item of currency" [value]="item.a">
+                        <option *ngFor="let item of currency" value="{{item.a}}">
                           {{item.c}}
                         </option>
                       </select>
@@ -97,12 +97,12 @@
                       <textarea matInput formControlName="observacion" cols="30" rows="10"></textarea>
                     </mat-form-field>
                   </div>
-                  <div class="col-6">
+                  <!-- <div class="col-6">
                     <button *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || statefinal == false"
                       (click)="create()" mat-raised-button color="primary" class="margin-left btn-md shadow-box-item">
                       Agregar Nómina
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </form>
 
@@ -126,6 +126,7 @@
                           <input matInput formControlName="sumaLimite" placeholder="Suma Limite">
                         </mat-form-field>
                       </td>
+                      
                       <td>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-label>% Cesión</mat-label>
@@ -140,16 +141,16 @@
                       <td>{{i + 1}}</td>
                       <td>
                         <mat-form-field appearance="outline" class="full-width">
-                          <mat-label>Suma Limite</mat-label>
-                          <input matInput formControlName="sumaLimite{{i}}" [value]="miles('tabel', item.c)"
-                            placeholder="Suma Limite">
+                          <mat-label>Suma Limites</mat-label>
+                          <input matInput [formControl]="cuotaParteFormreasegurador.controls['sumaLimite' + i]" 
+                            [value]="miles('tabel', item.c)" placeholder="Suma Limites">
                         </mat-form-field>
                       </td>
                       <td>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-label>% Cesión</mat-label>
-                          <input matInput formControlName="secion{{i}}" [value]="porcentaje(item.r | number)"
-                            placeholder="% Cesión">
+                          <input matInput [formControl]="cuotaParteFormreasegurador.controls['secion' + i]"
+                            [value]="porcentaje(item.r | number)" placeholder="% Cesión">
                         </mat-form-field>
                       </td>
                       <td class="cursor_active">
@@ -161,11 +162,12 @@
                       <td>
                         <mat-form-field appearance="outline" class="full-width">
                           <mat-label>% Reas</mat-label>
-                          <input matInput formControlName="reas" [value]="porcentaje(item.part | number)"
-                            placeholder="% Reas">
+                          <input matInput [formControl]="cuotaParteFormreasegurador.controls['reas' + i]"
+                            [value]="porcentaje(item.part | number)" placeholder="% Reas">
                         </mat-form-field>
                       </td>
                     </tr>
+                    
                   </tbody>
                 </table>
               </form>

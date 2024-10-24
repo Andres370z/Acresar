@@ -97,7 +97,7 @@ export class CuotaEditComponent implements OnInit {
   verNomina = false;
   formCount = [];
   user: any;
-  renovacion: any;
+  renovacion: any[];
   userfinal: any;
   part: number;
   constructor(
@@ -163,7 +163,10 @@ export class CuotaEditComponent implements OnInit {
             for (let i = 0; i < res.length; i++) {
               const element = res[i];
               if (element.c == cnt.mn) {
+                
                 this.moneda = element.a;
+                console.log('---- entra al if', this.moneda);
+
               }
 
             }
@@ -321,7 +324,6 @@ export class CuotaEditComponent implements OnInit {
   }
   miles(form: string, key: any) {
     if (form === 'cuotaParteFormreasegurador') {
-
       let value = this.cuotaParteFormreasegurador.controls[key].value;
       if (value.split('.').length > 2) {
         value = this._pct.removerDesimal(this.cuotaParteFormreasegurador.controls[key].value);
@@ -330,12 +332,13 @@ export class CuotaEditComponent implements OnInit {
       this.cuotaParteFormreasegurador.controls[key].setValue(val.toString());
     }
     if (form == 'tabel') {
-      const cortar = this.cortarDesimales(key)
+      const cortar = this.cortarDesimales(key);
       const quitar = this.desimal(cortar);
+      console.log('este es quitar ', quitar);
       return quitar;
     }
-
   }
+  
   desimalPor(key: any) {
     let e = key
     if (e != undefined) {
@@ -446,19 +449,19 @@ export class CuotaEditComponent implements OnInit {
 
   editar(item: any, vl: any, cp: string) {
     this.formItem = this.cuotaParteForm.value;
-    $("#myModal").click();
+    $("#myModal").click(); 
     if (vl == 0) {
       if (item != '') {
-        sessionStorage.setItem('v', "0");
+        sessionStorage.setItem('v', "0"); 
         sessionStorage.setItem('editarC', JSON.stringify(item));
         $("#myModal").click();
-        this.router.navigate(['home/contracts']);
+        this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle-edit']);
       }
     } else if (vl == 1) {
       sessionStorage.setItem('editarC', JSON.stringify(item));
       sessionStorage.setItem('v', "1");
       $("#myModal").click();
-      this.router.navigate(['home/contracts']);
+      this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle-edit']);
     }
     sessionStorage.setItem('actForm', JSON.stringify(this.formItem))
   }
@@ -787,6 +790,8 @@ export class CuotaEditComponent implements OnInit {
   }
   create() {
     if (this.renovacion.length !== 0) {
+      console.log('Found');
+      
       const form = this.cuotaParteForm.value;
       sessionStorage.setItem('formCuotaP', JSON.stringify(form));
       // tslint:disable-next-line:no-debugger

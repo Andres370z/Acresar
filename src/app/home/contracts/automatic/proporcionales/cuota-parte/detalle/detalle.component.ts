@@ -17,6 +17,7 @@ import { Observable } from 'rxjs';
 })
 export class DetalleComponent implements OnInit {
   datajsonNominas: any = [];
+  formarrastrePerdidaTempo = 'hasta extinsion'
   rsltncr: Observable<any>;
   rsltnrsgr: Observable<any>;
   cmsn: JQuery;
@@ -165,6 +166,7 @@ export class DetalleComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.form.arrastrePerdida = '10'
     sessionStorage.setItem('fecha', "hola");
     sessionStorage.setItem('comision', '');
     this.frmValues.dtcr = "";
@@ -506,7 +508,9 @@ export class DetalleComponent implements OnInit {
                           sessionStorage.removeItem('idramos');
                           sessionStorage.removeItem('idcontratoreasegurador');
                           console.log(this.listareasu.part);
-                          this.router.navigate(['/admin/contratos/automaticos/proporcionales/cuota-aparte']);
+                          console.log('Ok hasta aqui llegas');
+                          
+                          this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte']);
                         } else {
                           this.AlertService.info('Hey','Quieres seguir agregando nomina');
                         }
@@ -548,6 +552,8 @@ export class DetalleComponent implements OnInit {
               this.AlertService.error('Hey','El total de la participanción de las nominas supera el 100%');
             }
             else {
+              console.log('------- 2423');
+              
               this.AlertService.loading();
               this._service.postCuotaparteNomina(JSON.parse(localStorage.getItem('comision'))).then(
                 res => {
@@ -581,7 +587,7 @@ export class DetalleComponent implements OnInit {
                           sessionStorage.removeItem('idcontratoreasegurador');
                           console.log(this.listareasu.part);
                           this.AlertService.success('Ok','Haz complertado el 100% de participanción');
-                          this.router.navigate(['/admin/contratos/automaticos/proporcionales/cuota-aparte']);
+                          this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte']);
                         } else {
                           this.AlertService.info('Quieres seguir agregando nomina', '');
                         }

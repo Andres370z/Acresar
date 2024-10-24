@@ -82,7 +82,8 @@ import { FileUploadModule } from '@iplab/ngx-file-upload';
     MatToolbarModule,
     MatTooltipModule,
     MatNativeDateModule,
-    FileUploadModule
+    FileUploadModule,
+    MatSortModule
   ],
   imports: [BrowserAnimationsModule],
   declarations: [
