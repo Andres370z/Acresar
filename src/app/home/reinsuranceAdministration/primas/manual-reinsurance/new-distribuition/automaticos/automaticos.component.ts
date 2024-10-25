@@ -8,6 +8,7 @@ import { AsyncPipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { Procentajes } from 'src/app/home/commos/porcentajes';
 import { AlertService } from 'src/app/service/alert.service';
+import { SessionUser } from 'src/app/home/global/sessionUser';
 
 @Component({
   selector: 'app-automaticos',
@@ -116,7 +117,10 @@ export class AutomaticosComponent implements OnInit {
     private http: AuthService,
     private router: Router,
     private alertService: AlertService
-  ) { }
+  ) {
+    this.user = new SessionUser(this.router);
+    this.user.getAuthUser();
+  }
 
   ngOnInit(): void {
     this.http.getReinsurer().then(
@@ -201,7 +205,7 @@ export class AutomaticosComponent implements OnInit {
         }
       }
     );
-    
+
     this.cuotaParteForm.controls.salidasiniestrosvalor.valueChanges.subscribe(
       (res) => {
         if (res !== '' && res !== undefined) {
@@ -222,7 +226,7 @@ export class AutomaticosComponent implements OnInit {
             Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salidasiniestrosvalor.value)));
           console.log(Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salidasiniestrosvalor.value)));
           console.log('ETSE ES TOTAL INGRESOS ', this._pct.removerDesimal(this.totalingresos), 'ESTE ES TOTAL EGRESOS ', this._pct.removerDesimal(this.totalegresos), 'TOTAL EGRESOS SIN CONVERTIR ', this.totalegresos);
-          
+
           const valook = Number(this._pct.removerDesimal(this.totalingresos)) - Number(this._pct.removerDesimal(this.totalegresos));
           this.cuotaParteForm.controls.saldotrimevalor.setValue(this.desimal(valook));
         } else {
@@ -567,9 +571,9 @@ export class AutomaticosComponent implements OnInit {
     this.cuotaParteForm.controls.idproductos.setValue(item.tpa);
     this.cuotaParteForm.controls.reas.setValue(item.a);
     this.select1 = item;
-    if (item.m === '3') {
+    if (item.m = '3') {
       this.cuotaParteForm.controls.moneda.setValue('COP');
-    } else if (item.m === '2') {
+    } else if (item.m = '2') {
       this.cuotaParteForm.controls.moneda.setValue('EUR');
     } else {
       this.cuotaParteForm.controls.moneda.setValue('USD');
@@ -657,7 +661,7 @@ export class AutomaticosComponent implements OnInit {
       let value = this.cuotaParteForm.controls[key].value;
       const val = this._pct.desimalDeMiles(value);
       this.cuotaParteForm.controls[key].setValue(val.toString());
-      
+
     }
 
     if (form === 'tabel') {

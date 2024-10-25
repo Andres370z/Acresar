@@ -9,6 +9,7 @@
 }
 table {
     width: 100%;
+    max-width: 700px !important;
 }
 .centered-cell {
     text-align: center;
