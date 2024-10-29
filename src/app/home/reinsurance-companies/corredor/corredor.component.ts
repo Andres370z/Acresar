@@ -84,6 +84,18 @@ export class CorredorComponent implements OnInit {
     this.router.navigate([item])
   }
 
+  
+  delete(id: number) {
+    if (id != null) {
+      this._service.deleteCorredor(id).then(
+        res => {
+          this.alert.success('Ok', res.mensaje);
+          this.ngOnInit()
+        },
+        err => { }
+      )
+    }
+  }
 
 
 
@@ -141,10 +153,10 @@ export class CorredorComponent implements OnInit {
       };
       this._service.postContactos(data).then(
         res => {
-          this.alert.success('Ok',res.mensaje);
+          this.alert.success('Ok', res.mensaje);
         },
         err => {
-          this.alert.error('Error',err.message);
+          this.alert.error('Error', err.message);
         }
       )
     }
@@ -156,18 +168,9 @@ export class CorredorComponent implements OnInit {
     console.log(this.bancoForm.certificacion);
   }
 
-  delete(id: number) {
-    if (id != null) {
-      this._service.deleteCorredor({id}).then(
-        res => {
-          this.alert.success('Ok',res.mensaje);
-        },
-        err => { }
-      )
-    }
-  }
-
   /*
+
+
   procesarBanco() {
     let form = new FormData();
     form.append('tit', this.bancoForm.titular);

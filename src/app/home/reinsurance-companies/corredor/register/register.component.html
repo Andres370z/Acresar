@@ -12,22 +12,23 @@
           <div class="card-body">
             <form novalidate (ngSubmit)="create(createForm.value)" #createForm="ngForm">
               <div class="row">
-                <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="e">Entidad</label>
-                    <select class="form-control" id="e" name="e" [(ngModel)]="selectEntidad" #e="ngModel" required>
+                <div class="col-xs-12 col-md-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Entidad</mat-label>
+                    <select  id="e" name="e" [(ngModel)]="selectEntidad" #e="ngModel" required matNativeControl placeholder="entidad">
                       <option value="">Seleccione</option>
                       <option *ngFor="let item of Rsltnntdds" value="{{item.a}}">{{item.c}}</option>
                     </select>
-                    <div *ngIf="e.errors?.required && e.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                    
+                  </mat-form-field>
+                  <div *ngIf="e.errors?.required && e.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
                 <div class="col-xs-12 col-md-6" style="display: none">
                   <div class="form-group">
                     <label for="c">Cod. Corredor</label>
-                    <input type="number" class="form-control" placeholder="Código Corredor" id="c" name="c" ngModel
+                    <input type="number"  placeholder="Código Corredor" id="c" name="c" ngModel
                       #c="ngModel">
                     <div *ngIf="c.errors?.required && c.touched" class="alert alert-danger">
                       Este campo es requerido
@@ -37,24 +38,24 @@
               </div>
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="r">Razón Social</label>
-                    <input type="text" class="form-control" (change)="consulta(r.value)" id="r" name="r"
-                      placeholder="Razon Social" [(ngModel)]="reaseguroData.c" #r="ngModel" required>
-                    <div *ngIf="r.errors?.required && r.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text" (change)="consulta(r.value)" id="r" name="r" placeholder="Razon Social"
+                      [(ngModel)]="reaseguroData.c" #r="ngModel" required>
+                    
+                  </mat-form-field>
+                  <div *ngIf="r.errors?.required && r.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
 
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="na">Nombre Abreviado</label>
-                    <input type="text" class="form-control" id="na" name="na" placeholder="Nombre Abreviado"
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text" id="na" name="na" placeholder="Nombre Abreviado"
                       [(ngModel)]="reaseguroData.na" #na="ngModel" required>
-                    <div *ngIf="na.errors?.required && na.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                    
+                  </mat-form-field>
+                  <div *ngIf="na.errors?.required && na.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
               </div>
@@ -69,104 +70,96 @@
 
               <div class="row">
                 <div class="col-xs-12 col-md-4">
-                  <div class="form-group">
-                    <label for="ni">NIT</label>
-                    <input type="text" class="form-control" id="ni" name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.nt"
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text" id="ni" name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.nt"
                       #ni="ngModel" required>
-                    <div *ngIf="ni.errors?.required && ni.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                    
+                  </mat-form-field>
+                  <div *ngIf="ni.errors?.required && ni.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
                 <div class="col-xs-12 col-md-2">
-                  <div class="form-group">
-                    <label for="ni">Cod</label>
-                    <select class="form-control" name="cod" placeholder="" [(ngModel)]="codigoNit" required>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Cod</mat-label>
+                    <select name="cod" placeholder="Cod" [(ngModel)]="codigoNit" required matNativeControl>
                       <option [value]="item" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]">{{item}} </option>
                     </select>
-                  </div>
+                  </mat-form-field>
                 </div>
 
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="te">Teléfono</label>
-                    <input type="text" class="form-control" id="te" name="te" placeholder="Teléfono" [(ngModel)]="reaseguroData.te"
-                      #te="ngModel" required>
-                    <div *ngIf="te.errors?.required && te.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text"  id="te" name="te" placeholder="Teléfono"
+                      [(ngModel)]="reaseguroData.te" #te="ngModel" required>
+                   
+                  </mat-form-field>
+                  <div *ngIf="te.errors?.required && te.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="d">Dirección</label>
-                    <input type="text" class="form-control" id="d" name="d" placeholder="Dirección" [(ngModel)]="reaseguroData.dr"
-                      #d="ngModel" required>
-                    <div *ngIf="d.errors?.required && d.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text"  id="d" name="d" placeholder="Dirección"
+                      [(ngModel)]="reaseguroData.dr" #d="ngModel" required>
+                    
+                  </mat-form-field>
+                  <div *ngIf="d.errors?.required && d.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="con">Contacto</label>
-                    <input type="text" class="form-control" id="con" name="con" placeholder="Contacto" [(ngModel)]="reaseguroData.c"
-                      #con="ngModel" required>
-                    <div *ngIf="con.errors?.required && con.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text"  id="con" name="con" placeholder="Contacto"
+                      [(ngModel)]="reaseguroData.c" #con="ngModel" required>
+                    
+                  </mat-form-field>
+                  <div *ngIf="con.errors?.required && con.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="p">País Origen</label>
-                    <input class="form-control" id="p" name="p" [(ngModel)]="reaseguroData.cc" #p="ngModel"
-                      required>
-
-                    <div *ngIf="p.errors?.required && p.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput  id="p" name="p" [(ngModel)]="reaseguroData.cc" #p="ngModel" required placeholder="País Origen">
+                  </mat-form-field>
+                  <div *ngIf="p.errors?.required && p.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="es">Estado</label>
-                    <input class="form-control" id="es" name="es" [(ngModel)]="reaseguroData.r" #es="ngModel"
-                      required>
-
-                    <div *ngIf="es.errors?.required && es.touched" class="alert alert-danger">
-                      Este campo es requerido
-                    </div>
+                  <mat-form-field appearance="outline">
+                    <input matInput  id="es" name="es" [(ngModel)]="reaseguroData.r" #es="ngModel" required placeholder="Estado">
+                    
+                  </mat-form-field>
+                  <div *ngIf="es.errors?.required && es.touched" class="alert alert-danger">
+                    Este campo es requerido
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <div class="form-group">
-                    <label for="rg">Región</label>
-                    <input type="text" class="form-control" id="rg" name="rg" placeholder="Región" [(ngModel)]="reaseguroData.rg"
-                      #rg="ngModel" required>
+                  <mat-form-field appearance="outline">
+                    <input matInput type="text"  id="rg" name="rg" placeholder="Región"
+                      [(ngModel)]="reaseguroData.rg" #rg="ngModel" required>
                     <div *ngIf="rg.errors?.required && rg.touched" class="alert alert-danger">
                       Este campo es requerido
                     </div>
-                  </div>
+                  </mat-form-field>
                 </div>
               </div>
 
               <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
                 Regresar
-                <i class="favb fa fa-circle"></i>
               </button>
-              <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid" class="btn btn-info margin-left btn-md shadow-box-item">
+              <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid"
+                class="btn btn-info margin-left btn-md shadow-box-item">
                 Modificar Compa&ntilde;ia
-                <i class="favb fa fa-circle">
-                </i>
               </button>
 
               <!-- <button type="button" class="btn btn-info margin-left btn-md shadow-box-item" data-toggle="modal"
@@ -219,7 +212,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Titular / Owner </mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Titular / Owner">
+                <input type="text"  id="inputEmail4" placeholder="Titular / Owner">
               </div>
             </div>
           </div>
@@ -227,7 +220,7 @@
             <div class="col-xs-12">
               <div class="form-group">
                 <mat-label for="inputEmail4">Número de cuenta / Account Number</mat-label>
-                <input type="text" class="form-control" id="inputEmail4"
+                <input type="text"  id="inputEmail4"
                   placeholder="Número de cuenta / Account Number">
               </div>
             </div>
@@ -236,7 +229,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Moneda / Currency</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Moneda / Currency">
+                <input type="text"  id="inputEmail4" placeholder="Moneda / Currency">
               </div>
             </div>
           </div>
@@ -244,7 +237,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">ABA / SWIFT</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="ABA / SWIFT">
+                <input type="text"  id="inputEmail4" placeholder="ABA / SWIFT">
               </div>
             </div>
           </div>
@@ -252,7 +245,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Banco / Bank </mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Banco / Bank">
+                <input type="text"  id="inputEmail4" placeholder="Banco / Bank">
               </div>
             </div>
           </div>
@@ -260,7 +253,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Pais / Country</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Pais / Country">
+                <input type="text"  id="inputEmail4" placeholder="Pais / Country">
               </div>
             </div>
           </div>
@@ -268,7 +261,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Ciudad / City</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Ciudad / City">
+                <input type="text"  id="inputEmail4" placeholder="Ciudad / City">
               </div>
             </div>
           </div>
@@ -276,7 +269,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Certificación / Certification</mat-label>
-                <input type="file" class="form-control" id="inputEmail4" placeholder="Certificación">
+                <input type="file"  id="inputEmail4" placeholder="Certificación">
               </div>
             </div>
           </div>
@@ -310,7 +303,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Nombre Contacto</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Nombre Contacto">
+                <input type="text"  id="inputEmail4" placeholder="Nombre Contacto">
               </div>
             </div>
           </div>
@@ -318,7 +311,7 @@
             <div class="col-xs-12">
               <div class="form-group">
                 <mat-label for="inputEmail4">Dirección</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Dirección">
+                <input type="text"  id="inputEmail4" placeholder="Dirección">
               </div>
             </div>
           </div>
@@ -326,7 +319,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Teléfono</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono">
+                <input type="text"  id="inputEmail4" placeholder="Teléfono">
               </div>
             </div>
           </div>
@@ -334,7 +327,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Correo Electrónico</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono">
+                <input type="text"  id="inputEmail4" placeholder="Teléfono">
               </div>
             </div>
           </div>
@@ -342,7 +335,7 @@
             <div class="col-xs-12 ">
               <div class="form-group">
                 <mat-label for="inputEmail4">Pais</mat-label>
-                <input type="text" class="form-control" id="inputEmail4" placeholder="Pais">
+                <input type="text"  id="inputEmail4" placeholder="Pais">
               </div>
             </div>
           </div>
@@ -352,7 +345,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" style="background-color: #016672 !important; ">Guardar Cambios</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal"
+          style="background-color: #016672 !important; ">Guardar Cambios</button>
       </div>
     </div>
   </div>

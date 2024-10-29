@@ -366,7 +366,7 @@ export class AuthService {
   }
 
   deleteCorredor(id: any) {
-    return this.registeresquest.DELETED(RoutersLink.deleted + id)
+    return this.registeresquest.DELETED(RoutersLink.deleteCorredor + id)
   }
   deleteAse(id: any) {
     return this.registeresquest.DELETED(RoutersLink.deleteAse + id)
