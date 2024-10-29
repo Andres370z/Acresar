@@ -6,6 +6,7 @@ import { AlertService } from './alert.service';
 import { HttpsService } from './https.service';
 import { BehaviorSubject, Observable } from 'rxjs'
 import { LocalstoreService } from './localstore.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -601,6 +602,12 @@ export class AuthService {
   postContratoCuotaAparte(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparte, { item })
   }
+
+  postQuery(item, route) {
+    return this.registeresquest.POSTRESPALDO(route, { item })
+  }
+
+
   postEditContrato(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postEditContrato, { item })
   }
@@ -717,6 +724,11 @@ export class AuthService {
   putRam(id: any, item: any) {
     return this.registeresquest.PUTS(`${RoutersLink.getRamos}/${id}`, { item })
   }
+
+  put(route: string, item: any) {
+    return this.registeresquest.PUTS(route, { item })
+  }
+
   putUpdatepoliza(id: any, item: any) {
     return this.registeresquest.PUTS(`${RoutersLink.putUpdatepoliza}/${id}`, { item })
   }
@@ -752,4 +764,7 @@ export class AuthService {
     this.localStore.clear();
     this.route.navigate([RoutersLink.login]);
   }
+
+
+  
 }

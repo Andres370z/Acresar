@@ -115,7 +115,7 @@ export class RegistrarComponent implements OnInit {
       this.form.controls.contacto.setValue(data.n);
       this.form.controls.paisOrigen.setValue(data.pc);
       this.form.controls.estado.setValue(data.l);
-      this.form.controls.region.setValue(data.s2);
+      this.form.controls.region.setValue(data.s2); 
 
       this.url = this.idEdit
     } else {

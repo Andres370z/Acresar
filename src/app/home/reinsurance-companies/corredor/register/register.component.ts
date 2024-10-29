@@ -28,26 +28,16 @@ export class RegisterComponent implements OnInit {
   codigoNit: any;
 
   constructor(
-    private _rd: Renderer2,
     private router: Router,
-    private _service: AuthService,
-    private cookieService: CookieService,
-    private alert: AlertService,
-    private myFormBuilder: FormBuilder,
-
+    private service: AuthService,
+    private alertService: AlertService
   ) {
-
   }
 
-  ngOnInit(): void {
+  ngOnInit() {
 
-    this._service.getCountries().then((res: any) => {
-      this.Rsltnpss = res
-    });
-
-    this._service.getEntities().then((res: any) => {
-      this.Rsltnntdds = res
-    });
+    this.service.getCountries().then((res: any) => { this.Rsltnpss = res });
+    this.service.getEntities().then((res: any) => { this.Rsltnntdds = res });
     const dataJson = sessionStorage.getItem('companiaC');
     if (dataJson != null) {
 
@@ -65,7 +55,7 @@ export class RegisterComponent implements OnInit {
       this.reaseguroData.r = data.l;
       this.reaseguroData.rg = data.s2;
       this.itemData = data;
-      this._service.getEntities().then(
+      this.service.getEntities().then(
         res => {
           res.forEach(i => {
             if (i.c == data.nc) {
@@ -75,14 +65,14 @@ export class RegisterComponent implements OnInit {
         }
       );
 
-      this.rl = `/corredores/${this.idEdit}`;
+      this.rl = `corredores/${this.idEdit}`;
 
     }
     else {
-      this.rl = "/corredores";
+      this.rl = "corredores";
     }
-
   }
+
   create(item) {
 
     /* item.r = this.reaseguroData.sa;
@@ -97,10 +87,11 @@ export class RegisterComponent implements OnInit {
 
     this.reaseguroData = { na: "", nt: "", te: "", cc: "", r: "", rg: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
     if (this.idEdit < 1) {
-      this._service.postEditCorredores(item, this.idEdit).then(
+
+      this.service.postQuery(item, this.rl).then(
         item => {
           //   console.log(item[0].mensaje);
-          this.alert.success('Ok', item.mensaje);
+          this.alertService.success('Ok',item.mensaje);
           this.router.navigate(["home/companias/corredor"]);
         },
         error => console.log(<any>error)
@@ -119,11 +110,11 @@ export class RegisterComponent implements OnInit {
         "rg": item.rg,
         "u": item.u
       }
-      this._service.putCorredor(this.idEdit, dataEdit).then(
+      this.service.put(this.rl, dataEdit).then(
         item => {
           //   console.log(item[0].mensaje);
-          this.alert.success('Ok', item.mensaje);
-          this.router.navigate(["/admin/companias/corredor/list"]);
+          this.alertService.success('Ok',item.mensaje);
+          this.router.navigate(["home/companias/corredor"]);
         },
         error => console.log(<any>error)
       );
@@ -137,7 +128,7 @@ export class RegisterComponent implements OnInit {
       'razon': json,
     };
 
-    this._service.postRazonsocial(item).then(
+    this.service.postQuery(item, 'razonSocial').then(
       res => {
         if (res.length > 0) {
           this.lisRequest = true;

@@ -10,47 +10,52 @@
             <h4 class="card-title">Registrar Corredo</h4>
           </div>
           <div class="card-body">
-            <form novalidate (ngSubmit)="create(createForm.value)" #createForm="ngForm" class="form">
+            <form novalidate (ngSubmit)="create(createForm.value)" #createForm="ngForm">
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Entidad</mat-label>
-                    <select matNativeControl [(ngModel)]="selectEntidad" required>
+                  <div class="form-group">
+                    <label for="e">Entidad</label>
+                    <select class="form-control" id="e" name="e" [(ngModel)]="selectEntidad" #e="ngModel" required>
                       <option value="">Seleccione</option>
                       <option *ngFor="let item of Rsltnntdds" value="{{item.a}}">{{item.c}}</option>
                     </select>
-                  </mat-form-field>
-
+                    <div *ngIf="e.errors?.required && e.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
-                <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="c">Cod. Corredor</mat-label>
-                    <input matInput type="number" placeholder="Código Corredor" id="c" name="c" ngModel #c="ngModel">
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
-
+                <div class="col-xs-12 col-md-6" style="display: none">
+                  <div class="form-group">
+                    <label for="c">Cod. Corredor</label>
+                    <input type="number" class="form-control" placeholder="Código Corredor" id="c" name="c" ngModel
+                      #c="ngModel">
+                    <div *ngIf="c.errors?.required && c.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="r">Razón Social</mat-label>
-                    <input type="text" matInput (change)="consulta(r.value)" id="r" name="r" placeholder="Razon Social"
-                      [(ngModel)]="reaseguroData.c" #r="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+                <div class="col-xs-12 col-md-6">
+                  <div class="form-group">
+                    <label for="r">Razón Social</label>
+                    <input type="text" class="form-control" (change)="consulta(r.value)" id="r" name="r"
+                      placeholder="Razon Social" [(ngModel)]="reaseguroData.c" #r="ngModel" required>
+                    <div *ngIf="r.errors?.required && r.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
 
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="na">Nombre Abreviado</mat-label>
-                    <input type="text" matInput id="na" name="na" placeholder="Nombre Abreviado"
+                  <div class="form-group">
+                    <label for="na">Nombre Abreviado</label>
+                    <input type="text" class="form-control" id="na" name="na" placeholder="Nombre Abreviado"
                       [(ngModel)]="reaseguroData.na" #na="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+                    <div *ngIf="na.errors?.required && na.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class='row' *ngIf="lisRequest">
@@ -64,111 +69,120 @@
 
               <div class="row">
                 <div class="col-xs-12 col-md-4">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="ni">NIT</mat-label>
-                    <input type="text" id="ni" matInput name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.nt"
+                  <div class="form-group">
+                    <label for="ni">NIT</label>
+                    <input type="text" class="form-control" id="ni" name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.nt"
                       #ni="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
-
+                    <div *ngIf="ni.errors?.required && ni.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-md-2">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="ni">Cod</mat-label>
-                    <select matNativeControl  name="cod" placeholder="" [(ngModel)]="codigoNit"
-                      required>
+                  <div class="form-group">
+                    <label for="ni">Cod</label>
+                    <select class="form-control" name="cod" placeholder="" [(ngModel)]="codigoNit" required>
                       <option [value]="item" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]">{{item}} </option>
                     </select>
-                  </mat-form-field>
+                  </div>
                 </div>
 
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="te">Teléfono</mat-label>
-                    <input matInput type="text"  id="te" name="te" placeholder="Teléfono"
-                      [(ngModel)]="reaseguroData.te" #te="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+                  <div class="form-group">
+                    <label for="te">Teléfono</label>
+                    <input type="text" class="form-control" id="te" name="te" placeholder="Teléfono" [(ngModel)]="reaseguroData.te"
+                      #te="ngModel" required>
+                    <div *ngIf="te.errors?.required && te.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="d">Dirección</mat-label>
-                    <input type="text"  id="d" matInput name="d" placeholder="Dirección"
-                      [(ngModel)]="reaseguroData.dr" #d="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+                  <div class="form-group">
+                    <label for="d">Dirección</label>
+                    <input type="text" class="form-control" id="d" name="d" placeholder="Dirección" [(ngModel)]="reaseguroData.dr"
+                      #d="ngModel" required>
+                    <div *ngIf="d.errors?.required && d.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="con">Contacto</mat-label>
-                    <input type="text"  id="con" matInput name="con" placeholder="Contacto"
-                      [(ngModel)]="reaseguroData.c" #con="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+                  <div class="form-group">
+                    <label for="con">Contacto</label>
+                    <input type="text" class="form-control" id="con" name="con" placeholder="Contacto" [(ngModel)]="reaseguroData.c"
+                      #con="ngModel" required>
+                    <div *ngIf="con.errors?.required && con.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="p">País Origen</mat-label>
-                    <input  matInput id="p" name="p" [(ngModel)]="reaseguroData.cc" #p="ngModel"
+                  <div class="form-group">
+                    <label for="p">País Origen</label>
+                    <input class="form-control" id="p" name="p" [(ngModel)]="reaseguroData.cc" #p="ngModel"
                       required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+
+                    <div *ngIf="p.errors?.required && p.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="es">Estado</mat-label>
-                    <input matInput  id="es" name="es" [(ngModel)]="reaseguroData.r" #es="ngModel"
+                  <div class="form-group">
+                    <label for="es">Estado</label>
+                    <input class="form-control" id="es" name="es" [(ngModel)]="reaseguroData.r" #es="ngModel"
                       required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+
+                    <div *ngIf="es.errors?.required && es.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-xs-12 col-md-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label for="rg">Región</mat-label>
-                    <input type="text" matInput  id="rg" name="rg" placeholder="Región"
-                      [(ngModel)]="reaseguroData.rg" #rg="ngModel" required>
-                    <mat-icon matSuffix>poll</mat-icon>
-                    
-                  </mat-form-field>
+                  <div class="form-group">
+                    <label for="rg">Región</label>
+                    <input type="text" class="form-control" id="rg" name="rg" placeholder="Región" [(ngModel)]="reaseguroData.rg"
+                      #rg="ngModel" required>
+                    <div *ngIf="rg.errors?.required && rg.touched" class="alert alert-danger">
+                      Este campo es requerido
+                    </div>
+                  </div>
                 </div>
               </div>
 
               <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
                 Regresar
+                <i class="favb fa fa-circle"></i>
               </button>
-              <button type="submit" class="btn save" [disabled]="createForm.invalid"
-                class="btn save" style="background-color: #016672 !important;">
+              <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid" class="btn btn-info margin-left btn-md shadow-box-item">
                 Modificar Compa&ntilde;ia
+                <i class="favb fa fa-circle">
+                </i>
               </button>
 
               <!-- <button type="button" class="btn btn-info margin-left btn-md shadow-box-item" data-toggle="modal"
-                    data-target="#myModal">
-                    Datos Bancarios
-                    <i class="favb fa fa-circle">
-                    </i>
-                  </button>
+                data-target="#myModal">
+                Datos Bancarios
+                <i class="favb fa fa-circle">
+                </i>
+              </button>
 
-                  <button type="button" class="btn btn-info margin-left btn-md shadow-box-item" data-toggle="modal"
-                    data-target="#myModal2">
-                    Agregar Contacto
-                    <i class="favb fa fa-circle">
-                    </i>
-                  </button>
- -->
+              <button type="button" class="btn btn-info margin-left btn-md shadow-box-item" data-toggle="modal"
+                data-target="#myModal2">
+                Agregar Contacto
+                <i class="favb fa fa-circle">
+                </i>
+              </button>
+-->
             </form>
           </div>
 
