@@ -328,7 +328,7 @@ export class CuotaParteComponent implements OnInit {
       this.AlertService.error('Error', 'Participacion igual al 100% ya no puedes seguir agregando mas nomina');
     } else {
       sessionStorage.setItem('id', JSON.stringify(item));
-      this.router.navigate(['home/contracts']);
+      this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle']);
     }
   }
   cortarDesimales(item: any) {
@@ -577,9 +577,9 @@ export class CuotaParteComponent implements OnInit {
                   this.ctb2 = '+';
                   this.ctb3 = '+';
                   this.AlertService.success('Ok', res.mensaje);
-                  this.router.navigate(['home/contracts']);
-                } else {
-                  this.AlertService.error('Error', res.mensaje);
+                  this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle']);
+                } else { 
+                  this.AlertService.error('Error', res.mensaje); 
                 }
               },
               err => {

@@ -443,7 +443,7 @@ export class CuotaEditComponent implements OnInit {
     this.formItem = this.cuotaParteForm.value;
     sessionStorage.setItem('add', '1');
     $("#myModal").click();
-    this.router.navigate(['home/contracts']);
+    this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle']);
     sessionStorage.setItem('actForm', JSON.stringify(this.formItem))
   }
 

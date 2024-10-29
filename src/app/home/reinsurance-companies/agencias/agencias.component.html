@@ -145,8 +145,9 @@
                     <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Arrastre de perdidas</mat-label>
                       <!--ANTES ESTE NGMODEL ERA form.arrastrePerdida  -->
-                      <input matInput [(ngModel)]="formarrastrePerdidaTempo" type="text" placeholder="Arrastre de perdidas" 
-                        id="dtap" name="dtap" ngModel #dtap="ngModel" required readonly disabled>
+                      <input matInput [(ngModel)]="formarrastrePerdidaTempo" type="text"
+                        placeholder="Arrastre de perdidas" id="dtap" name="dtap" ngModel #dtap="ngModel" required
+                        readonly disabled>
                       <div *ngIf="dtap.errors?.required && dtap.touched" class="alert alert-danger">
                         Este campo es requerido
                       </div>
@@ -212,25 +213,28 @@
                         </div>
                         <div class="col-xs-12 col-md-4 text-center">
                           <div class="form-group">
-                            <button mat-button color="primary" (click)="onClickComision('provisional')">Provisional</button>
+                            <button mat-button color="primary"
+                              (click)="onClickComision('provisional')">Provisional</button>
                           </div>
                         </div>
                         <div class="col-xs-12 col-md-4 text-center">
                           <div class="form-group">
-                            <button mat-button color="primary" (click)="onClickComision('escalonada')">Escalonada</button>
+                            <button mat-button color="primary"
+                              (click)="onClickComision('escalonada')">Escalonada</button>
                           </div>
                         </div>
                       </div>
-              
+
                       <div class="row" *ngIf="comisionArray.fija">
                         <div class="col-xs-12">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Fija</mat-label>
-                            <input matInput [(ngModel)]="form.ModelComision.valueFija" id="dtmdfj" name="dtmdfj" required>
+                            <input matInput [(ngModel)]="form.ModelComision.valueFija" id="dtmdfj" name="dtmdfj"
+                              required>
                           </mat-form-field>
                         </div>
                       </div>
-              
+
                       <div class="row" *ngIf="comisionArray.provisional">
                         <div class="col-xs-12">
                           <table class="table hoverTable text-center">
@@ -253,30 +257,34 @@
                               <tr>
                                 <td class="noWrap">
                                   <mat-checkbox [(ngModel)]="form.ModelComision.sobrecomisionMaxCheck"></mat-checkbox>
-                                  <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMaxVal"
-                                    id="dtmdprmxcm1" name="sobrecomisionMaxVal">
+                                  <input matInput class="input-phantom"
+                                    [(ngModel)]="form.ModelComision.sobrecomisionMaxVal" id="dtmdprmxcm1"
+                                    name="sobrecomisionMaxVal">
                                 </td>
                                 <td class="noWrap">
                                   <mat-checkbox [(ngModel)]="form.ModelComision.sobrecomisionMinCheck"></mat-checkbox>
-                                  <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMinVal"
-                                    id="dtmdprmncm1" name="sobrecomisionMinVal">
+                                  <input matInput class="input-phantom"
+                                    [(ngModel)]="form.ModelComision.sobrecomisionMinVal" id="dtmdprmncm1"
+                                    name="sobrecomisionMinVal">
                                 </td>
                                 <td class="noWrap">
                                   <mat-checkbox [(ngModel)]="form.ModelComision.siniestralidadMaxCheck"></mat-checkbox>
-                                  <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMaxVal"
-                                    id="dtmdprmxsn1" name="siniestralidadMaxVal">
+                                  <input matInput class="input-phantom"
+                                    [(ngModel)]="form.ModelComision.siniestralidadMaxVal" id="dtmdprmxsn1"
+                                    name="siniestralidadMaxVal">
                                 </td>
                                 <td class="noWrap">
                                   <mat-checkbox [(ngModel)]="form.ModelComision.siniestralidadMinCheck"></mat-checkbox>
-                                  <input matInput class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMinVal"
-                                    id="dtmdprmnsn1" name="siniestralidadMinVal">
+                                  <input matInput class="input-phantom"
+                                    [(ngModel)]="form.ModelComision.siniestralidadMinVal" id="dtmdprmnsn1"
+                                    name="siniestralidadMinVal">
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
-              
+
                       <div class="row" *ngIf="comisionArray.escalonada">
                         <div class="col-xs-12">
                           <table class="table hoverTable text-center">
@@ -307,7 +315,7 @@
                         </div>
                       </div>
                     </div>
-              
+
                     <div class="modal-footer">
                       <button mat-button color="primary" (click)="sendModalCom()" data-dismiss="modal">Aceptar</button>
                       <button mat-button color="warn" data-dismiss="modal">Cancelar</button>
@@ -315,7 +323,7 @@
                   </div>
                 </div>
               </div>
-              
+
 
               <!-- Modal -->
               <div class="modal fade" id="myModal20" tabindex="-1" role="dialog" aria-labelledby="myModalLabel20">
@@ -332,32 +340,33 @@
                         <div class="col-xs-12 col-md-4 text-center">
                           <div class="form-group">
                             <button mat-raised-button color="primary" class="semi-full-width"
-                                    (click)="onClickComision('fija')">Fija</button>
+                              (click)="onClickComision('fija')">Fija</button>
                           </div>
                         </div>
                         <div class="col-xs-12 col-md-4 text-center">
                           <div class="form-group">
                             <button mat-raised-button color="primary" class="semi-full-width"
-                                    (click)="onClickComision('provisional')">Provisional</button>
+                              (click)="onClickComision('provisional')">Provisional</button>
                           </div>
                         </div>
                         <div class="col-xs-12 col-md-4 text-center">
                           <div class="form-group">
                             <button mat-raised-button color="primary" class="semi-full-width"
-                                    (click)="onClickComision('escalonada')">Escalonada</button>
+                              (click)="onClickComision('escalonada')">Escalonada</button>
                           </div>
                         </div>
                       </div>
-              
+
                       <div class="row" *ngIf="comisionArray.fija">
                         <div class="col-xs-12">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Fija</mat-label>
-                            <input matInput [(ngModel)]="form.ModelComision.valueFijados" id="dtmdfj" name="dtmdfj" required>
+                            <input matInput [(ngModel)]="form.ModelComision.valueFijados" id="dtmdfj" name="dtmdfj"
+                              required>
                           </mat-form-field>
                         </div>
                       </div>
-              
+
                       <div class="row row-provisional" *ngIf="comisionArray.provisional">
                         <div class="col-xs-12">
                           <table class="table hoverTable text-center">
@@ -379,35 +388,35 @@
                             <tbody>
                               <tr>
                                 <td class="noWrap">
-                                  <input type="checkbox" name="sobrecomisionMaxCheck" value="1" 
-                                         [(ngModel)]="form.ModelComision.sobrecomisionMaxCheck" #dtmdcmsl="ngModel">
-                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMaxVal" 
-                                         id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdprmxcm1="ngModel">
+                                  <input type="checkbox" name="sobrecomisionMaxCheck" value="1"
+                                    [(ngModel)]="form.ModelComision.sobrecomisionMaxCheck" #dtmdcmsl="ngModel">
+                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMaxVal"
+                                    id="dtmdprmxcm1" name="sobrecomisionMaxVal" #dtmdprmxcm1="ngModel">
                                 </td>
                                 <td class="noWrap">
-                                  <input type="checkbox" name="sobrecomisionMinCheck" 
-                                         [(ngModel)]="form.ModelComision.sobrecomisionMinCheck" #dtmdcmsl="ngModel">
-                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMinVal" 
-                                         id="dtmdprmncm1" name="sobrecomisionMinVal" #dtmdprmncm1="ngModel">
+                                  <input type="checkbox" name="sobrecomisionMinCheck"
+                                    [(ngModel)]="form.ModelComision.sobrecomisionMinCheck" #dtmdcmsl="ngModel">
+                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.sobrecomisionMinVal"
+                                    id="dtmdprmncm1" name="sobrecomisionMinVal" #dtmdprmncm1="ngModel">
                                 </td>
                                 <td class="noWrap">
-                                  <input type="checkbox" name="siniestralidadMaxCheck" 
-                                         [(ngModel)]="form.ModelComision.siniestralidadMaxCheck" #dtmdcmsl="ngModel">
-                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMaxVal" 
-                                         id="dtmdprmxsn1" name="siniestralidadMaxVal" #dtmdprmxsn1="ngModel">
+                                  <input type="checkbox" name="siniestralidadMaxCheck"
+                                    [(ngModel)]="form.ModelComision.siniestralidadMaxCheck" #dtmdcmsl="ngModel">
+                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMaxVal"
+                                    id="dtmdprmxsn1" name="siniestralidadMaxVal" #dtmdprmxsn1="ngModel">
                                 </td>
                                 <td class="noWrap">
-                                  <input type="checkbox" name="siniestralidadMinCheck" 
-                                         [(ngModel)]="form.ModelComision.siniestralidadMinCheck" #dtmdcmsl="ngModel">
-                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMinVal" 
-                                         id="dtmdprmnsn1" name="siniestralidadMinVal" #dtmdprmnsn1="ngModel">
+                                  <input type="checkbox" name="siniestralidadMinCheck"
+                                    [(ngModel)]="form.ModelComision.siniestralidadMinCheck" #dtmdcmsl="ngModel">
+                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.siniestralidadMinVal"
+                                    id="dtmdprmnsn1" name="siniestralidadMinVal" #dtmdprmnsn1="ngModel">
                                 </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                       </div>
-              
+
                       <div class="row row-escalonada" *ngIf="comisionArray.escalonada">
                         <div class="col-xs-12">
                           <table class="table hoverTable text-center">
@@ -423,16 +432,16 @@
                             <tbody>
                               <tr>
                                 <td class="noWrap">
-                                  <input type="checkbox" name="dtmdcmsl" 
-                                         [(ngModel)]="form.ModelComision.ComCheck" ngModel #dtmdcmslsc="ngModel">
-                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.ComVal" 
-                                         id="dtmdsccm1" name="dtmdsccm1" ngModel #dtmdsccm1="ngModel">
+                                  <input type="checkbox" name="dtmdcmsl" [(ngModel)]="form.ModelComision.ComCheck"
+                                    ngModel #dtmdcmslsc="ngModel">
+                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.ComVal" id="dtmdsccm1"
+                                    name="dtmdsccm1" ngModel #dtmdsccm1="ngModel">
                                 </td>
                                 <td class="noWrap">
-                                  <input type="checkbox" name="dtmdcmsl" 
-                                         [(ngModel)]="form.ModelComision.SinChech" ngModel #dtmdcmslsc="ngModel">
-                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.SinVal" 
-                                         id="dtmdscsn1" name="dtmdscsn1" ngModel #dtmdscsn1="ngModel">
+                                  <input type="checkbox" name="dtmdcmsl" [(ngModel)]="form.ModelComision.SinChech"
+                                    ngModel #dtmdcmslsc="ngModel">
+                                  <input class="input-phantom" [(ngModel)]="form.ModelComision.SinVal" id="dtmdscsn1"
+                                    name="dtmdscsn1" ngModel #dtmdscsn1="ngModel">
                                 </td>
                               </tr>
                             </tbody>
@@ -441,13 +450,14 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button mat-raised-button color="primary" (click)="sendModalborker()" data-dismiss="modal">Aceptar</button>
+                      <button mat-raised-button color="primary" (click)="sendModalborker()"
+                        data-dismiss="modal">Aceptar</button>
                       <button mat-button data-dismiss="modal">Cancelar</button>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
               <!-- Modal -->
               <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
                 <div class="modal-dialog" role="document">
@@ -463,7 +473,8 @@
                         <div class="col-12">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Moneda</mat-label>
-                            <select [(ngModel)]="form.deposito.moneda" matNativeControl id="dtmd2mn" name="dtmd2mn" required>
+                            <select [(ngModel)]="form.deposito.moneda" matNativeControl id="dtmd2mn" name="dtmd2mn"
+                              required>
                               <option *ngFor="let item of currency " [value]="item.a">{{item.c}}</option>
                             </select>
                           </mat-form-field>
@@ -474,13 +485,14 @@
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Periodo de Retención de Depósitos</mat-label>
                             <input matInput [(ngModel)]="form.deposito.periodoR" id="dtmd2prd" name="dtmd2prd" required
-                                   placeholder="Periodo de Retención de Depósitos">
+                              placeholder="Periodo de Retención de Depósitos">
                           </mat-form-field>
                         </div>
                         <div class="col-6">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Periodo Tiempo</mat-label>
-                            <select [(ngModel)]="form.deposito.periodoT" matNativeControl id="dtmd2pt" name="dtmd2pt" required>
+                            <select [(ngModel)]="form.deposito.periodoT" matNativeControl id="dtmd2pt" name="dtmd2pt"
+                              required>
                               <option selected>Selección</option>
                               <option value="1">Meses</option>
                               <option value="2">Año</option>
@@ -492,8 +504,9 @@
                         <div class="col-12">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Porcentaje de Retención de Depósitos</mat-label>
-                            <input matInput [(ngModel)]="form.deposito.PorcentajeR" (change)="porcentajeR('PorcentajeR')"
-                                   id="dtmd2prtd" name="dtmd2prtd" required placeholder="Porcentaje de Retención de Depósitos">
+                            <input matInput [(ngModel)]="form.deposito.PorcentajeR"
+                              (change)="porcentajeR('PorcentajeR')" id="dtmd2prtd" name="dtmd2prtd" required
+                              placeholder="Porcentaje de Retención de Depósitos">
                           </mat-form-field>
                         </div>
                       </div>
@@ -501,26 +514,28 @@
                         <div class="col-12">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Porcentaje intereses sobre liberación de depósitos</mat-label>
-                            <input matInput [(ngModel)]="form.deposito.PorcentajeI" (change)="porcentajeR('PorcentajeI')"
-                                   id="dtmd2pild" name="dtmd2pild" required placeholder="Porcentaje intereses sobre liberación de depósitos">
+                            <input matInput [(ngModel)]="form.deposito.PorcentajeI"
+                              (change)="porcentajeR('PorcentajeI')" id="dtmd2pild" name="dtmd2pild" required
+                              placeholder="Porcentaje intereses sobre liberación de depósitos">
                           </mat-form-field>
                         </div>
                       </div>
                       <div class="row">
                         <div class="col-12">
                           <mat-checkbox [(ngModel)]="form.deposito.reservaAsumida" id="dtmd2rsv" name="dtmd2rsv"
-                                        (click)="reservaAsumida()">Reserva Asumida</mat-checkbox>
+                            (click)="reservaAsumida()">Reserva Asumida</mat-checkbox>
                         </div>
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button mat-raised-button color="primary" (click)="sendModalDep(createForm.value)" data-dismiss="modal">Aceptar</button>
+                      <button mat-raised-button color="primary" (click)="sendModalDep(createForm.value)"
+                        data-dismiss="modal">Aceptar</button>
                       <button mat-button data-dismiss="modal">Cancelar</button>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
 
 
               <!-- Modal -->
@@ -538,7 +553,8 @@
                         <div class="col-xs-12">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Traspaso</mat-label>
-                            <select id="dtmdtrspcnts" name="dtmdtrspcnts" [(ngModel)]="form.traspasoCartera.traspaso" matNativeControl>
+                            <select id="dtmdtrspcnts" name="dtmdtrspcnts" [(ngModel)]="form.traspasoCartera.traspaso"
+                              matNativeControl>
                               <option *ngFor="let item of _ls_trasp_tip " [value]="item.a">{{item.c}}</option>
                             </select>
                           </mat-form-field>
@@ -548,7 +564,8 @@
                         <div class="col-xs-12" *ngIf="form.traspasoCartera.traspaso != 5">
                           <mat-form-field appearance="outline" class="full-width">
                             <mat-label>Cuentas</mat-label>
-                            <select id="dtmdtrspcnts" name="dtmdtrspcnts" [(ngModel)]="form.traspasoCartera.Cuenta" matNativeControl>
+                            <select id="dtmdtrspcnts" name="dtmdtrspcnts" [(ngModel)]="form.traspasoCartera.Cuenta"
+                              matNativeControl>
                               <option *ngFor="let item of _ls_trasp_cuen " [value]="item.a">{{item.c}}</option>
                             </select>
                           </mat-form-field>
@@ -556,13 +573,14 @@
                       </div>
                     </div>
                     <div class="modal-footer">
-                      <button mat-raised-button color="primary" (click)="sendModalTra()" data-dismiss="modal">Aceptar</button>
+                      <button mat-raised-button color="primary" (click)="sendModalTra()"
+                        data-dismiss="modal">Aceptar</button>
                       <button mat-button data-dismiss="modal">Cancelar</button>
                     </div>
                   </div>
                 </div>
               </div>
-              
+
             </form>
           </div>
         </div>
