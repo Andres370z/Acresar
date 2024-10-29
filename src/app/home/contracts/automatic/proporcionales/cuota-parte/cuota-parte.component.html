@@ -102,7 +102,7 @@
                 </button>
               </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
               <div class=" col-xs-12 col-md-12">
                 <form [formGroup]="cuotaParteFormreasegurador">
                   <table class="table hoverTable">
@@ -186,7 +186,77 @@
 
                 </div>
               </div>
+            </div> -->
+            
+
+            <div class="row">
+              <div class=" col-xs-12 col-md-12">
+                <form [formGroup]="cuotaParteFormreasegurador">
+                <table class="table hoverTable ">
+                  <thead>
+                    <tr>
+                      <th>Contrato</th>
+                      <th>Suma Limite</th>
+                      <th>% Cesión</th>
+                      <th>Nómina Reaseguradores</th>
+                      <th>% Reas</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr  *ngIf=(statefinal)>
+                       <th>1</th>
+                      <td>
+                        <input class="form-control" (change)="miles('cuotaParteFormreasegurador','sumaLimite')" formControlName="sumaLimite">
+                      </td>
+                      <td>
+                        <input class="form-control" (change)="porcentaje('secion','cuotaParteFormreasegurador')" formControlName="secion">
+                      </td>
+                      <td class="cursor_active">
+                        <button class=" btn btn-default btn-lg col-md-12"  (click)="onSubmit()">+</button>
+                      </td>
+                    </tr>
+                    <tr *ngFor="let item of listareasu; let i = index;">
+                      <td>{{i}}</td>
+                      <td>
+                          <input class="form-control"  value="{{miles('tabel',item.c)}}" disabled="disabled">
+                        </td>
+                        <td>
+                          <input class="form-control"  value="{{porcentaje(item.r | number)}}" disabled="disabled">
+                        </td>
+                      <td class="cursor_active">
+                          <button *ngIf="item.part <= 100" (click)="agregarnomina(item.a, item.part)"
+                          class=" btn btn-default btn-lg col-md-12">{{item.cnt}}</button>
+                      </td>
+                      <td>
+                          <input class="form-control" value="{{porcentaje(item.part | number)}}" disabled="disabled">
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </form>
+              </div>
+              <div class="row" *ngIf="dataShow.error">
+                <div class="col-md-12">
+                  <h3 class="box-title">
+                    Errores de validacion campos obligatorios
+                  </h3>
+                  <table class="table hoverTable ">
+                    <thead>
+                      <tr>
+                        <th>Mensajes de error</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let msj of dataShow.mensaje">
+                        <td>{{msj}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                </div>
+              </div>
             </div>
+            
             <div class="row">
               <div class="col-3">
                 <button type="button" (click)="regresar()" class="btn btn-alert btn-md shadow-box-item">

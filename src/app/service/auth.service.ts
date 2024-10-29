@@ -401,7 +401,9 @@ export class AuthService {
   getDtaRamos(id: any) {
     return this.registeresquest.GETER(RoutersLink.getDtaRamos + id)
   }
-
+  getDtaRamosRespaldo(id: any) {
+    return this.registeresquest.GETERESPALDO(RoutersLink.getDtaRamos + id)
+  }
   getLoadRamos(id: string) {
     return this.registeresquest.GETER(RoutersLink.getLoadRamos + id)
   }

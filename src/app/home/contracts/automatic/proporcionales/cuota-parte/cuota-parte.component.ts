@@ -132,8 +132,11 @@ export class CuotaParteComponent implements OnInit {
       const contra = JSON.parse(localStorage.getItem('idcontrato'));
       this.service.getDtaRamos(contra.a).then(
         res => {
+          
           this.listareasu = res;
-          console.log(res);
+          console.log(res); 
+          console.log('ESTA ES LISTARESULT ', this.listareasu);
+
         },
         err => {
           console.log(err);
@@ -273,7 +276,7 @@ export class CuotaParteComponent implements OnInit {
       id: new FormControl('', Validators.required),
     });
   }
-  onSubmit() {
+  onSubmit() { 
     // TODO: Use EventEmitter with form value
     // if (this.contrato) {
     //   // contrato llega null en ambos

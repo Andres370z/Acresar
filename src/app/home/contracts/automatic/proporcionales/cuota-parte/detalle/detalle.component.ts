@@ -111,9 +111,9 @@ export class DetalleComponent implements OnInit {
     this.user.getAuthUser();
     _service.getCorredor().then((res: any) => { this.rsltncr = res });
     _service.getReinsurer().then((res: any) => { this.rsltnrsgr = res });
-     _service.getCurrency().then((res: any)=> {this.currency = res});
-     _service.getTraspasoCarteratipo().then((res: any)=> {this._ls_trasp_tip = res});
-     _service.getTraspasocarteraCuenta().then((res: any)=> {this._ls_trasp_cuen = res});
+    _service.getCurrency().then((res: any) => { this.currency = res });
+    _service.getTraspasoCarteratipo().then((res: any) => { this._ls_trasp_tip = res });
+    _service.getTraspasocarteraCuenta().then((res: any) => { this._ls_trasp_cuen = res });
 
     _service.getTraspasoCarteratipo().then(
       res => {
@@ -161,7 +161,7 @@ export class DetalleComponent implements OnInit {
   regresar() {
     //if(confirm('Antes de salir recuerde guardar los cambios.')){history.go(-1);}else{return false;}
 
-    this.AlertService.info('Hey','Antes de salir recuerde guardar los cambios.');
+    this.AlertService.info('Hey', 'Antes de salir recuerde guardar los cambios.');
     this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte']);
 
   }
@@ -181,7 +181,7 @@ export class DetalleComponent implements OnInit {
         .trigger("input");
     });
 
-    
+
   }
 
   sendModalCom() {
@@ -327,6 +327,8 @@ export class DetalleComponent implements OnInit {
     if (item != 100) {
       this.porcentaje('participacion');
       item = this.form.participacion;
+      console.log('ITEM PARTICIPACION ', item);
+
     }
     if (this.datajsonNominas != null) {
       for (let i = 0; i <= Object.keys(this.datajsonNominas).length - 1; i++) {
@@ -334,22 +336,22 @@ export class DetalleComponent implements OnInit {
         suma = suma + parseFloat(item['participacion']);
 
         if (suma === 100) {
-          this.AlertService.error('Hey',"Participacion debe ser  igual al 100% ");
+          this.AlertService.error('Hey', "Participacion debe ser  igual al 100% ");
         }
       }
     }
 
     item = this.formateaValor(item);
     if (parseInt(item) > 100) {
-      this.AlertService.error('Hey',"Participacion debe ser menor o igual al 100% ");
+      this.AlertService.error('Hey', "Participacion debe ser menor o igual al 100% ");
     } else {
       if (parseFloat(item) >= 101) {
         if (suma === 0) {
-          this.AlertService.error('Hey',"Participacion debe ser menor o igual al 100% ");
+          this.AlertService.error('Hey', "Participacion debe ser menor o igual al 100% ");
         } else {
           const ei = this.form.participacion + suma;
           if (suma > 100) {
-            this.AlertService.error('Hey','Partición entre comisionistas no puede ser superior al 100%');
+            this.AlertService.error('Hey', 'Partición entre comisionistas no puede ser superior al 100%');
           }
         }
       } else {
@@ -459,6 +461,7 @@ export class DetalleComponent implements OnInit {
         console.log(data);
         this.AlertService.loading();
         const contra = JSON.parse(localStorage.getItem('idcontrato'));
+        
         this._service.getDtaRamos(contra.a).then(
           res => {
             this.listareasu = res;
@@ -475,85 +478,11 @@ export class DetalleComponent implements OnInit {
             var suma = Number(parti) + Number(por);
             console.log(suma);
             if (suma > 100) {
-
-            }
-            else {
-              this._service.postCuotaparteNomina(JSON.parse(localStorage.getItem('comision'))).then(
-                res => {
-                  data = null;
-                  console.log(res);
-                  localStorage.removeItem("comision");
-                  if (localStorage.getItem('idcontrato')) {
-                    const contra = JSON.parse(localStorage.getItem('idcontrato'));
-                    this._service.getDtaRamos(contra.a).then(
-                      res => {
-                        this.listareasu = res;
-                        console.log(this.listareasu)
-                        var parti: number;
-                        for (let index = 0; index < this.listareasu.length; index++) {
-                          if (this.listareasu[index].a == idfinal) {
-                            parti = this.cortarDesimales(this.listareasu[index].part);
-                          }
-
-                        }
-
-                        var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
-                        var suma = Number(parti) + Number(por);
-                        console.log(parti);
-                        if (parti > 100) {
-                          sessionStorage.removeItem('editarC');
-                          sessionStorage.removeItem('v');
-                          sessionStorage.removeItem('idcrearfinal');
-                          sessionStorage.removeItem('id');
-                          sessionStorage.removeItem('idramos');
-                          sessionStorage.removeItem('idcontratoreasegurador');
-                          console.log(this.listareasu.part);
-                          console.log('Ok hasta aqui llegas');
-                          
-                          this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte']);
-                        } else {
-                          this.AlertService.info('Hey','Quieres seguir agregando nomina');
-                        }
-                        console.log(res);
-                      },
-                      err => {
-                        console.log(err);
-                      }
-                    );
-                  }
-
-                },
-                err => {
-                  console.log(err);
-                })
-            }
-            console.log(res);
-          },
-          err => {
-            console.log(err);
-          }
-        );
-        this._service.getDtaRamos( contra.a).then(
-          res => {
-            this.listareasu = res;
-            console.log(res);
-            console.log(idfinal);
-            var parti: Number;
-            for (let index = 0; index < this.listareasu.length; index++) {
-              if (this.listareasu[index].a == idfinal) {
-                parti = this.cortarDesimales(this.listareasu[index].part);
-              }
-
-            }
-            var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
-            var suma = Number(parti) + Number(por);
-            console.log(suma);
-            if (suma > 100) {
-              this.AlertService.error('Hey','El total de la participanción de las nominas supera el 100%');
+              this.AlertService.error('Hey', 'El total de la participanción de las nominas supera el 100%');
             }
             else {
               console.log('------- 2423');
-              
+
               this.AlertService.loading();
               this._service.postCuotaparteNomina(JSON.parse(localStorage.getItem('comision'))).then(
                 res => {
@@ -578,7 +507,7 @@ export class DetalleComponent implements OnInit {
                         var por: Number = parseInt(this.removeProsentaje(this.form.participacion));
                         var suma = Number(parti) + Number(por);
                         console.log(parti);
-                        if (parti > 100) {
+                        if (parti >= 100) {
                           sessionStorage.removeItem('editarC');
                           sessionStorage.removeItem('v');
                           sessionStorage.removeItem('idcrearfinal');
@@ -586,7 +515,7 @@ export class DetalleComponent implements OnInit {
                           sessionStorage.removeItem('idramos');
                           sessionStorage.removeItem('idcontratoreasegurador');
                           console.log(this.listareasu.part);
-                          this.AlertService.success('Ok','Haz complertado el 100% de participanción');
+                          this.AlertService.success('Ok', 'Haz complertado el 100% de participanción');
                           this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte']);
                         } else {
                           this.AlertService.info('Quieres seguir agregando nomina', '');
@@ -613,7 +542,7 @@ export class DetalleComponent implements OnInit {
 
       } else {
         this.router.navigate([
-          '/admin/contratos/automaticos/proporcionales/cuota-aparte'
+          'home/contracts/Automaticos/proporcionales/cuota-parte'
         ]);
       }
     }
