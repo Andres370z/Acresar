@@ -255,6 +255,15 @@ export class AuthService {
   }
   /*ANDRES*/
 
+  getQuery(route) {
+    return this.registeresquest.GETER(route)
+  }
+
+  // deletes(item,route) {
+  //   return this.registeresquest.DELETED(route,  {item} )
+  // }
+
+  
   getOne() {
     return this.registeresquest.GETER(RoutersLink.get)
   }

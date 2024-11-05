@@ -40,7 +40,7 @@
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Hora Inicio</mat-label>
                     <!-- <input matInput type="time" placeholder="Selecciona hora" formControlName="horainicio" step="3600"> -->
-                    <input matInput type="time" name="hora" value="11:45:00" max="22:30:00" min="10:00:00" step="1" formControlName="horainicio" placeholder="Selecciona hora">
+                    <input matInput type="text" name="hora"  step="1" formControlName="horainicio" placeholder="ejemplo: 13:57:20">
 
                   </mat-form-field>
                 </div>
@@ -62,7 +62,7 @@
                 <div class="col-3">
                   <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Hora Fin</mat-label>
-                    <input matInput type="time" name="hora" value="11:45:00" max="22:30:00" min="10:00:00" step="1" formControlName="horafin" placeholder="Selecciona hora">
+                    <input matInput type="text" name="hora" formControlName="horafin" placeholder="ejemplo: 13:57:20">
                   </mat-form-field>
                 </div>
               </div>

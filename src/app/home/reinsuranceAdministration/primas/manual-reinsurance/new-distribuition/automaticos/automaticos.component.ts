@@ -187,24 +187,47 @@ export class AutomaticosComponent implements OnInit {
         }
       }
     );
+    // this.cuotaParteForm.controls.salvamentosvalor.valueChanges.subscribe(
+    //   (res) => {
+    //     const valor = this._pct.removerDesimal(this.cuotaParteForm.controls.depositovalor.value);
+    //     if (valor !== '') {
+    //       const valor = this._pct.removerDesimal(res);
+    //       this.totalingresos = this.desimal((
+    //         Number(this._pct.removerDesimal(this.cuotaParteForm.controls.entradasiniestrosvalor.value)) +
+    //         Number(this._pct.removerDesimal(this.cuotaParteForm.controls.entradasprimasvalor.value)) +
+    //         Number(this._pct.removerDesimal(this.cuotaParteForm.controls.interesevalor.value)) +
+    //         Number(this._pct.removerDesimal(this.cuotaParteForm.controls.primacedidavalor.value)) +
+    //         Number(this._pct.removerDesimal(this.cuotaParteForm.controls.depositovalor.value)) +
+    //         Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salvamentosvalor.value))))
+
+    //     } else {
+    //       this.alertService.info('Hey', 'El valor del deposito es obligatoria');
+    //     }
+    //   }
+    // );
     this.cuotaParteForm.controls.salvamentosvalor.valueChanges.subscribe(
       (res) => {
-        const valor = this._pct.removerDesimal(this.cuotaParteForm.controls.depositovalor.value);
-        if (valor !== '') {
-          const valor = this._pct.removerDesimal(res);
-          this.totalingresos = this.desimal((
-            Number(this._pct.removerDesimal(this.cuotaParteForm.controls.entradasiniestrosvalor.value)) +
-            Number(this._pct.removerDesimal(this.cuotaParteForm.controls.entradasprimasvalor.value)) +
-            Number(this._pct.removerDesimal(this.cuotaParteForm.controls.interesevalor.value)) +
-            Number(this._pct.removerDesimal(this.cuotaParteForm.controls.primacedidavalor.value)) +
-            Number(this._pct.removerDesimal(this.cuotaParteForm.controls.depositovalor.value)) +
-            Number(this._pct.removerDesimal(this.cuotaParteForm.controls.salvamentosvalor.value))))
+        const depositoValor = this._pct.removerDesimal(this.cuotaParteForm.controls.depositovalor.value);
+
+        if (depositoValor !== '') {
+          const valores = [
+            this.cuotaParteForm.controls.entradasiniestrosvalor.value,
+            this.cuotaParteForm.controls.entradasprimasvalor.value,
+            this.cuotaParteForm.controls.interesevalor.value,
+            this.cuotaParteForm.controls.primacedidavalor.value,
+            depositoValor,
+            res
+          ].map(val => Number(this._pct.removerDesimal(val) || 0)); // Convierte a número, permitiendo negativos
+
+          // Suma todos los valores (incluyendo negativos) y aplica la función `desimal`
+          this.totalingresos = this.desimal(valores.reduce((acc, val) => acc + val, 0));
 
         } else {
-          this.alertService.info('Hey', 'El valor del deposito es obligatoria');
+          this.alertService.info('Hey', 'El valor del depósito es obligatorio');
         }
       }
     );
+
 
     this.cuotaParteForm.controls.salidasiniestrosvalor.valueChanges.subscribe(
       (res) => {
@@ -482,6 +505,8 @@ export class AutomaticosComponent implements OnInit {
       this.alertService.loading();
       this.http.postFcultativos(item).then(
         res => {
+          console.log('ESTA ES RES ', res);
+
           this.contratofinal = res;
           console.log(this.contratofinal);
           this.alertService.messagefin();

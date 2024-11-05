@@ -1,21 +1,42 @@
 .form {
     width: 100%;
 }
+
 .custom-cell {
     text-align: center;
     /* border-left: 1px solid #E0E0E0;
     border-right: 1px solid #E0E0E0; */
     padding: 3px;
 }
+
 table {
     width: 100%;
     max-width: 700px !important;
 }
+
 .centered-cell {
     text-align: center;
 }
+
 .myTitles {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.mat-list-base .mat-list-item .mat-list-item-content,
+.mat-list-base .mat-list-option .mat-list-item-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 16px;
+    position: relative;
+    height: inherit;
+    background-color: #016672 !important;
+    border-radius: 4px !important;
+}
+
+a {
+    color: #016672 !important ;
 }
