@@ -60,6 +60,7 @@ export class CuotaParteComponent implements OnInit {
   listareasu: any;
   listareasu2: any;
   contrato: any;
+  public agency: any ;
   constructor(
     private router: Router,
     private service: AuthService,
@@ -111,7 +112,15 @@ export class CuotaParteComponent implements OnInit {
     this.ctb1 = '+';
     this.ctb2 = '+';
     this.ctb3 = '+';
-
+    this.service.getQuery("agencias").then(
+      res => {
+        this.agency = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
 
 
     this.createForm();
@@ -431,7 +440,8 @@ export class CuotaParteComponent implements OnInit {
                 epiContrato: this._pct.removerDesimal(form2['epiContrato']),
                 observacion: form2['observacion'],
                 horainicio: this.transformarHora(this.cuotaParteForm.value.horainicio),// Hours
-                horafin: this.transformarHora(this.cuotaParteForm.value.horafin)
+                horafin: this.transformarHora(this.cuotaParteForm.value.horafin),
+                agency: formfinal.agency
               };
               this.service.postContratoCuotaAparte(data).then(
                 res => {
