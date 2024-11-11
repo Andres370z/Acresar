@@ -6,3 +6,6 @@
 .horizontal-list mat-list-item {
   margin-right: 10px; /* Ajusta el espacio entre los elementos si es necesario */
 }
+form {
+  width: 100%;
+}

@@ -49,7 +49,7 @@ import { AuthLayoutComponent } from './layouts/auth/auth-layout.component';
 import { AppRoutes } from './app.routing';
 import { InterceptorService } from './service/interceptor.service';
 import { MenuModule } from './home/reinsurance-companies/menu/menu.module';
-import * as $ from 'jquery';
+import { FileUploadModule } from '@iplab/ngx-file-upload';
 @NgModule({
   exports: [
     MatAutocompleteModule,
@@ -82,11 +82,11 @@ import * as $ from 'jquery';
     MatToolbarModule,
     MatTooltipModule,
     MatNativeDateModule,
+    FileUploadModule,
+    MatSortModule
   ],
   imports: [BrowserAnimationsModule],
   declarations: [
-    
-  
   ],
 })
 export class MaterialModule {}
@@ -105,7 +105,7 @@ export class MaterialModule {}
         NavbarModule,
         FooterModule,
         FixedpluginModule,
-        MenuModule,   
+        MenuModule,
 
     ],
     declarations: [

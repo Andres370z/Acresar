@@ -42,19 +42,28 @@
                 </ng-container>
                 <ng-container matColumnDef="Accion">
                   <th mat-header-cell *matHeaderCellDef>Acciones</th>
-                  <td mat-cell *matCellDef="let element"  class="centered-cell" (click)="edit(element)"><mat-icon> border_color</mat-icon></td>
+                  <td mat-cell *matCellDef="let element" class="centered-cell" (click)="edit(element)"><mat-icon>
+                      border_color</mat-icon></td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
               <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                itemsPerPageLabel = 'cantidad de elementos'
-                aria-label="Select page of periodic elements">
+                itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
               </mat-paginator>
-              <div class="col-12"> 
-                <button mat-raised-button type="submit" class="btn btn-fill btn-rose" style="background-color: #016672;"
-                  (click)="navigate('/home/companias/clients/new-client')">Nuevo Cliente</button>
+              <div class="row">
+                <div class="col-3">
+                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
+                    style="background-color: #016672;" (click)="navigate('/home/companias/clients/new-client')">Nuevo
+                    Cliente</button>
+                </div>
+                <div class="col-3">
+                  <button mat-raised-button type="submit" class="btn btn-fill btn-rose"
+                    style="background-color: #016672;" (click)="navigate('/home/companias/proveedores')">Nuevo
+                    Proveedor</button>
+                </div>
               </div>
+
             </div>
           </div>
         </div>

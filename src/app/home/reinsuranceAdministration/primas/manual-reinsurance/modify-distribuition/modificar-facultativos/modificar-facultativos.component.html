@@ -1,0 +1,492 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Listado</h4>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="cuotaParteForm">
+              <div class="row">
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Poliza</mat-label>
+                        <input matInput (change)="polizabuscar()" formControlName="poliza" placeholder="Poliza">
+                        <mat-hint *ngIf="lisRequest3">
+                          <ul id="myUL">
+                            <li *ngFor="let item of aseguradorpoliza">
+                              <a href="javascript:void(0)" (click)="cargarpoliza(item)">{{item.codigopol}}</a>
+                            </li>
+                          </ul>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Certificado / Endoso</mat-label>
+                        <input matInput formControlName="certificado" placeholder="Certificado / Endoso">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Fecha Emision</mat-label>
+                        <input matInput type="date" formControlName="fechaemision" placeholder="Fecha de Emisión">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6 ">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Ciudad</mat-label>
+                        <input matInput formControlName="ciudad" placeholder="Ciudad">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="row">
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Asegurado</mat-label>
+                        <input matInput (change)="aseguradorfinal()" formControlName="asegurador"
+                          placeholder="Asegurado">
+                        <mat-hint *ngIf="lisRequest2">
+                          <ul id="myUL">
+                            <li *ngFor="let item of aseguradornit">
+                              <a href="javascript:void(0)" (click)="cargarnit(item)">{{item.a2}}</a>
+                            </li>
+                          </ul>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Nit Asegurado</mat-label>
+                        <input matInput formControlName="nit" placeholder="Nit">
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+
+
+
+            </form>
+
+
+            <div class="row">
+              <div class="col-xs-12 col-md-12">
+                <form [formGroup]="cuotaParteFormreasegurador">
+                  <table class="table hoverTable">
+                    <thead>
+                      <tr>
+                        <th>Cod ramo</th>
+                        <th>Ramos</th>
+                        <th>Suma Limite</th>
+                        <th>Prima Reaseguradores</th>
+                        <th>Prima Cedentes</th>
+                        <th>Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of listareasu2">
+                        <td>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Cod ramo</mat-label>
+                            <mat-select disabled>
+                              <mat-option [value]="item.re">{{item.re}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <mat-form-field appearance="fill">
+                            <mat-label>Ramos</mat-label>
+                            <mat-select disabled>
+                              <mat-option [value]="item.ra">{{item.ra}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <input matInput value="{{miles('tabel', item.e)}}" disabled>
+                        </td>
+                        <td>
+                          <input matInput value="{{miles('tabel', item.s)}}" disabled>
+                        </td>
+                        <td>
+                          <input matInput value="{{miles('tabel', item.a2)}}" disabled>
+                        </td>
+                        <td class="cursor_active">
+                          <button mat-raised-button color="warn" data-toggle="modal" data-target="#comision"
+                            (click)="editarramos(item)">Editar</button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="row">
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Identificación del contrato</mat-label>
+                        <input matInput (change)="contratosfacultativos()" id="searchInput"
+                          placeholder="Nombre del contrato" formControlName="idContrato">
+                        <input type="hidden" formControlName="idContratopk">
+                        <mat-hint *ngIf="lisRequest">
+                          <ul id="myUL">
+                            <li *ngFor="let item of contratofinal">
+                              <a href="javascript:void(0)" (click)="cargar(item)">{{item.o}}</a>
+                            </li>
+                          </ul>
+                        </mat-hint>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput formControlName="descripcion" placeholder="Descripción">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-6">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Moneda</mat-label>
+                        <input matInput formControlName="moneda" placeholder="Moneda">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Inicio</mat-label>
+                        <input matInput formControlName="inicio" placeholder="Inicio">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-3">
+                      <mat-form-field appearance="fill">
+                        <mat-label>Fin</mat-label>
+                        <input matInput formControlName="fin" placeholder="Fin">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </form>
+
+
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 form-group">
+                <table class="table hoverTable">
+                  <thead>
+                    <tr>
+                      <th>Cod ramo</th>
+                      <th>Ramos</th>
+                      <th>Suma Limite</th>
+                      <th>Prima a pagar</th>
+                      <th>Prima total</th>
+                      <th>% Cesión</th>
+                      <th>Acción</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let item of listareasu">
+                      <td>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Cod ramo</mat-label>
+                          <mat-select disabled>
+                            <mat-option [value]="item.rm">{{item.nme}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Ramos</mat-label>
+                          <mat-select id="ramos" name="ramos" disabled>
+                            <mat-option [value]="item.rm">{{item.nm}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <input matInput value="{{miles('tabel', item.c)}}" disabled>
+                      </td>
+                      <td class="ajuest-final">
+                        <input matInput value="{{miles('tabel', item.pv)}}" disabled>
+                        <mat-form-field appearance="fill">
+                          <mat-label>Estado</mat-label>
+                          <mat-select id="st" name="st" disabled>
+                            <mat-option value="{{item.st}}">Positivo</mat-option>
+                            <mat-option value="-">Negativo</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <label class="form-control">{{miles('tabel', item.ttl)}}</label>
+                      </td>
+                      <td>
+                        <input matInput value="{{porcentaje(item.r | number)}}" disabled>
+                      </td>
+                      <td class="cursor_active">
+                        <button class="btn btn-warning" data-toggle="modal" data-target="#comisioncontrato"
+                          (click)="editarramoscontratos(item)">Editar</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="row">
+                  <div class="col-md-12 text-center-pro">
+                    <button class="btn btn-primary" (click)="procesar()">PROCESAR</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-default btn-lg btn-block">REASEGURO</button>
+              </div>
+            </div>
+
+            <div class="row">
+              <table class="table" style="margin-top: 2rem;">
+                <thead>
+                  <tr>
+                    <th>CONTRATOS</th>
+                    <th>RAMO</th>
+                    <th>SUMA RETENIDA</th>
+                    <th>SUMA CEDIDA</th>
+                    <th>PRIMA RETENIDA</th>
+                    <th>PRIMA CEDIDA</th>
+                    <th>ACCIONES</th> <!-- Agregué este encabezado para el botón -->
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listasegurado">
+                    <td>{{item.o}}</td>
+                    <td>{{item.a2}}</td>
+                    <td>{{miles('tabel', item.pm)}}</td>
+                    <td>{{miles('tabel', item.r2)}}</td>
+                    <td>{{miles('tabel', item.c2)}}</td>
+                    <td>{{miles('tabel', item.pa)}}</td>
+                    <td>
+                      <button class="btn btn-primary" (click)="procesarnominas(item)">Detalle</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+
+            <div class="row">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-default btn-lg btn-block">
+                  Esta información se toma del detalle del contrato facultativo por reasegurador
+                </button>
+              </div>
+            </div>
+
+            <div class="row scrollfinito" *ngIf="listasegurado3">
+              <table class="table" style="margin-top: 2rem;">
+                <thead>
+                  <tr>
+                    <th>Corredor</th>
+                    <th>Reasegurador</th>
+                    <th>Suma cedida</th>
+                    <th>Prima cedida</th>
+                    <th>Comisión</th>
+                    <th>Depósitos Retenidos</th>
+                    <th>Imp. P. Cedida</th>
+                    <th>Brokerage</th>
+                    <th>Valor a pagar</th>
+                    <th>ACCIONES</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of listasegurado3">
+                    <td>{{item.co}}</td>
+                    <td>{{item.re}}</td>
+                    <td>{{miles('tabel', item.fn)}}</td>
+                    <td>{{miles('tabel', item.rf)}}</td>
+                    <td>{{miles('tabel', item.fo)}}</td>
+                    <td>{{miles('tabel', item.fs)}}</td>
+                    <td>{{miles('tabel', item.fi)}}</td>
+                    <td>{{miles('tabel', item.fof)}}</td>
+                    <td>{{miles('tabel', item.s4)}}</td>
+                    <td>
+                      <button class="btn btn-primary" data-toggle="modal" data-target="#comisiondetalles"
+                        (click)="verdetalle(item)">
+                        Ver detalles
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row">
+              <div class="col-md-12 col-xs-12 text-center">
+                <button (click)="guardarpoliza()" class="btn btn-primary" style="margin-right: 1rem;">Guardar</button>
+                <button (click)="nuevoContrato()" class="btn btn-primary" style="margin-right: 1rem;">Nuevo</button>
+                <button (click)="cerrar()" class="btn btn-primary" style="margin-right: 1rem;">Cerrar</button>
+              </div>
+            </div>
+
+            <a [routerLink]="['/home']">
+              <button type="button" class="btn btn-alert btn-md shadow-box-item">
+                Regresar
+                <i class="favb fa fa-circle"></i>
+              </button>
+            </a>
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal para editar Ramos de Póliza -->
+<div class="modal fade" id="comision" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Ramos Póliza</h4>
+      </div>
+      <form [formGroup]="fromajustes">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Código</mat-label>
+                <mat-select formControlName="codigoedit" (selectionChange)="evenRamos('codigoedit')">
+                  <mat-option *ngIf="valor == 1" [value]="final.re" selected>{{final.re}}</mat-option>
+                  <mat-option [value]="item.a" *ngFor="let item of ramos">{{item.e}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Ramos</mat-label>
+                <mat-select id="ramos" name="ramos" formControlName="ramosedit"
+                  (selectionChange)="evenRamos('ramosedit')">
+                  <mat-option *ngIf="valor == 1" [value]="final.re">{{final.ra}}</mat-option>
+                  <mat-option [value]="item.a" *ngFor="let item of ramos">{{item.a2}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Suma Límite</mat-label>
+                <input matInput formControlName="sumaLimiteedit"
+                  (change)="miles('cuotaParteFormreasegurador', 'sumaLimite')">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 cursor_active">
+              <mat-form-field appearance="fill">
+                <mat-label>Prima</mat-label>
+                <input matInput formControlName="primasedit" (change)="miles('cuotaParteFormreasegurador', 'primas')">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 cursor_active">
+              <mat-form-field appearance="fill">
+                <mat-label>Primas Cedentes</mat-label>
+                <input matInput formControlName="primascentesedit"
+                  (change)="miles('cuotaParteFormreasegurador', 'primas')">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+            (click)="guardareditarramos()">Editar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>
+
+<!-- Modal para editar Ramos de Contrato -->
+<div class="modal fade" id="comisioncontrato" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Ramos Contrato</h4>
+      </div>
+      <form [formGroup]="fromajustescontratos">
+        <div class="modal-body">
+          <div class="row" *ngIf="valorcontratos == 1">
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Código</mat-label>
+                <mat-select formControlName="codigoeditct" (selectionChange)="evenRamos('codigoedit')">
+                  <mat-option *ngIf="valorcontratos == 1" [value]="finalcontratos.rm"
+                    selected>{{finalcontratos.rm}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Ramos</mat-label>
+                <mat-select id="ramos" name="ramos" formControlName="ramoseditct"
+                  (selectionChange)="evenRamos('ramosedit')">
+                  <mat-option *ngIf="valorcontratos == 1" [value]="finalcontratos.rm">{{finalcontratos.nm}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <mat-form-field appearance="fill">
+                <mat-label>Suma Límite</mat-label>
+                <input matInput formControlName="sumaLimiteeditct"
+                  (change)="miles('cuotaParteFormreasegurador', 'sumaLimite')">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 cursor_active">
+              <mat-form-field appearance="fill">
+                <mat-label>Prima</mat-label>
+                <input matInput formControlName="primaseditct" (change)="miles('cuotaParteFormreasegurador', 'primas')">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 cursor_active">
+              <mat-form-field appearance="fill">
+                <mat-label>Primas a Pagar</mat-label>
+                <input matInput formControlName="primasapagardit"
+                  (change)="miles('cuotaParteFormreasegurador', 'primas')">
+              </mat-form-field>
+            </div>
+            <div class="col-md-6 cursor_active">
+              <mat-form-field appearance="fill">
+                <mat-label>Operación</mat-label>
+                <mat-select id="ramos" formControlName="operacion" name="ramos">
+                  <mat-option [value]="finalcontratos.st">Positivo</mat-option>
+                  <mat-option value="-">Negativo</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal"
+            (click)="guardareditarramoscontratos()">Editar</button>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+        </div>
+      </form>
+
+    </div>
+  </div>
+</div>

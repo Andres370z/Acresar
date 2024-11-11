@@ -43,7 +43,12 @@
                 <!-- accion Column -->
                 <ng-container matColumnDef="Acción">
                   <th mat-header-cell *matHeaderCellDef class="custom-cell">Acciones</th>
-                  <td mat-cell *matCellDef="let element"  class="custom-cell"><mat-icon (click)="updateRecors(element)" style="margin-right: 8px;"> border_color</mat-icon> <mat-icon (click)="deleteRea(element.a)">delete_forever</mat-icon> </td>
+                  <td mat-cell *matCellDef="let item"  class="custom-cell">
+                    <i data-toggle="modal" (click)="editItemForm(item)" class="fa fa-edit cursor btn-header cursor_active"></i>
+                      <i data-toggle="modal" (click)="editItem(item)" data-target="#myModal2" class="fa fa-plus cursor btn-header cursor_active"></i>
+                      <i data-toggle="modal" (click)="editItem(item)" data-target="#myModal" class="fa fa-paperclip cursor btn-header cursor_active"></i>
+                      <i (click)="delete(item.a)" class="fa fa-trash cursor btn-header cursor_active"></i>
+                  </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -62,6 +67,165 @@
           style="background-color: #016672; margin: 25px;" (click)="navigate('/home/companias/insurance-carrier/create-insurer')"
           >Nueva Compañia</button> 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Agregar Contacto</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre Contacto</mat-label>
+                <input matInput type="text" name="nombre" [(ngModel)]="contractoForm.nombre" placeholder="Nombre Contacto" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Dirección</mat-label>
+                <input matInput type="text" name="direccion" [(ngModel)]="contractoForm.direccion" placeholder="Dirección" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Teléfono</mat-label>
+                <input matInput type="number" name="telefono" [(ngModel)]="contractoForm.telefono" placeholder="Teléfono" required>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Pais</mat-label>
+                <input matInput type="text" name="pais" [(ngModel)]="contractoForm.pais" placeholder="Pais" required>
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="procesarContacto()" data-dismiss="modal" style="background-color: #016672 !important; margin-left: 7px;">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Datos Bancarios</h4>
+      </div>
+      <div class="modal-body">
+
+        <form >
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <input matInput type="file"  (change)="fileLoad($event)" id="inputEmail4" placeholder="Certificación">
+                <mat-hint>Certificación / Certification</mat-hint>
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <mat-label>Titular / Owner</mat-label>
+                <input matInput type="text" name="titular" [(ngModel)]="bancoForm.titular"  placeholder="Titular / Owner">
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12">
+              <mat-form-field appearance="fill">
+                <mat-label>Número de cuenta / Account Number</mat-label>
+                <input matInput type="number" name="numeroCuenta" [(ngModel)]="bancoForm.numeroCuenta"  placeholder="Número de cuenta / Account Number">
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <mat-label>Moneda / Currency</mat-label>
+                <input matInput type="text" name="moneda" [(ngModel)]="bancoForm.moneda"  placeholder="Moneda / Currency">
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <mat-label>ABA / SWIFT</mat-label>
+                <input matInput type="text" name="aba" [(ngModel)]="bancoForm.aba"  placeholder="ABA / SWIFT">
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <mat-label>Banco / Bank</mat-label>
+                <input matInput type="text" name="banco" [(ngModel)]="bancoForm.banco"  placeholder="Banco / Bank">
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <mat-label>Pais / Country</mat-label>
+                <input matInput type="text" name="pais" [(ngModel)]="bancoForm.pais"  placeholder="Pais / Country">
+              </mat-form-field>
+            </div>
+          </div>
+        
+          <div class="row">
+            <div class="col-12 ">
+              <mat-form-field appearance="fill">
+                <mat-label>Ciudad / City</mat-label>
+                <input matInput type="text" name="ciudad" [(ngModel)]="bancoForm.ciudad"  placeholder="Ciudad / City">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+        
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn" (click)="procesarBanco()" data-dismiss="modal" style="background-color: #016672 !important; margin-left: 7px;">Guardar Cambios</button>
       </div>
     </div>
   </div>

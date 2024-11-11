@@ -13,6 +13,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuComponent } from '../menu/menu.component';
 import { MenuModule } from '../menu/menu.module';
+import { RegisterComponent } from './register/register.component';
 
 
 @NgModule({

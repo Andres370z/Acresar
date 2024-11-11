@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
@@ -13,90 +13,133 @@ import { PercentageService } from 'src/app/service/percentage.service';
   styleUrls: ['./bordereaux.component.css']
 })
 export class BordereauxComponent implements OnInit {
-  money: any;
+  modulo = 'Reporte Siniestros';
+  rsltncr: any;
+  currency: any;
+  rsltnrsgr: any;
   ramos: any;
-  reasegradores: any;
-  broker: any;
-  form: FormGroup;
   idreas: any;
   ramo: any;
   idbroker: any;
   idmone: any;
+  cuotaParteFormreasegurador: FormGroup;
   reseasegurador: any;
   corredor: any;
   resultado: any;
-  public selectedOption: any;
-  constructor(
-    private authService: AuthService,
-    private alert: AlertService,
-    private myFormBuilder: FormBuilder,
-    private porcentajes: PercentageService,
-    private router: Router,
-    private excelService: ExcelService
-  ) { }
+  lisRequest: boolean;
+  lisRequest2: boolean;
+  lisRequest3: boolean;
+  lisRequest4: boolean;
+  aseguradorramos: any;
+  aseguradorreas: any;
+  aseguradorbroker: any;
+  aseguradormone: any;
+  j: JQuery;
 
-  ngOnInit(): void {
-    this.initial()
+  constructor(
+    private router: Router,
+    private _service: AuthService,
+    private excelService: ExcelService,
+    private alertService: AlertService
+  ) {
+    _service.getCorredor().then((res: any) => { this.rsltncr = res });
+    _service.getReinsurer().then((res: any) => { this.rsltnrsgr = res });
+    _service.getCurrency().then((res: any) => { this.currency = res });
   }
-  initial() {
-    this.form = this.myFormBuilder.group({
-      ramos: [Menssage.empty, Validators.compose([Validators.required])],
-      reasegurador: [Menssage.empty, Validators.compose([Validators.required])],
-      broker: [Menssage.empty, Validators.compose([Validators.required])],
-      currency: [Menssage.empty, Validators.compose([Validators.required])],
-      startDate: [Menssage.empty, Validators.compose([Validators.required])],
-      endDate: [Menssage.empty, Validators.compose([Validators.required])],
-    });
-    //Trae Ramoss
-    this.authService.getRamos().then((resulta: any) => {
-      this.ramos = resulta;
-    }).catch((err) => {
-      console.log(err);
-    });
-    //Trae Reasegurador
-    this.authService.getReinsurer().then((resulta: any) => {
-      this.reasegradores = resulta;
-    }).catch((err) => {
-      console.log(err);
-    });
-    //Trae Broker
-    this.authService.getCorredor().then((resulta: any) => {
-      this.broker = resulta
-    }).catch((err) => {
-      console.log(err);
-    });
-    //Trae Monedas
-    this.authService.getCurrency().then((resulta: any) => {
-      this.money = resulta;
-    }).catch((err) => {
-      console.log(err);
+
+  ngOnInit() {
+    this.createFormreasegurador();
+    this._service.getRamos().then(
+      res => {
+        this.ramos = res;
+      }
+    );
+    
+  }
+  createFormreasegurador() {
+    this.cuotaParteFormreasegurador = new FormGroup({
+      ramos: new FormControl('', Validators.required),
+      fInicio: new FormControl('', Validators.required),
+      sumaLimite: new FormControl('', Validators.required),
+      primas: new FormControl('', Validators.required),
+      reas: new FormControl('', Validators.required),
+      broker: new FormControl('', Validators.required),
+      fFin: new FormControl('', Validators.required),
+      moneda: new FormControl(''),
     });
   }
-  downloadData() {
-    if (this.form.valid) {
-      const data = {
-        ramos: this.ramo,
-        reas: this.idreas,
-        fInicio: this.form.controls.startDate.value,
-        ciudad: this.form.controls.endDate.value,
-        broker: this.idbroker,
-        moneda: this.idmone,
-      };
-      console.log('UNO', data);
-      this.authService.postSinistroReporteNomina(data).then((res: any) => {
+  ramosbuscar() {
+    this.lisRequest = true;
+    this._service.getRamos().then(
+      res => {
+        this.ramos = res;
+      }
+    );
+  }
+  cargarramos(item) {
+    this.cuotaParteFormreasegurador.controls.ramos.setValue(item.a2);
+    this.lisRequest = false;
+  }
+  reasbuscar() {
+    this.lisRequest = true;
+    this._service.getRamos().then(
+      res => {
+        this.ramos = res;
+
+      }
+    );
+  }
+  cargarreas(item) {
+    this.cuotaParteFormreasegurador.controls.reas.setValue(item.a2);
+    this.lisRequest2 = false;
+  }
+  brokerbuscar() {
+    this._service.getRamos().then(
+      res => {
+        this.ramos = res;
+      }
+    );
+  }
+  cargarbroker(item) {
+    this.cuotaParteFormreasegurador.controls.broker.setValue(item.a2);
+    this.lisRequest3 = false;
+  }
+  monebuscar() {
+    this._service.getRamos().then(
+      res => {
+        this.ramos = res;
+      }
+    );
+  }
+  cargarmone(item) {
+    this.cuotaParteFormreasegurador.controls.broker.setValue(item.a2);
+    this.lisRequest3 = false;
+  }
+  enviardatos() {
+    const data = {
+      ramos: this.ramo,
+      reas: this.idreas,
+      fInicio: this.cuotaParteFormreasegurador.controls.fInicio.value,
+      ciudad: this.cuotaParteFormreasegurador.controls.fFin.value,
+      broker: this.idbroker,
+      moneda: this.idmone,
+    };
+    console.log(data);
+    this._service.postSinistroReporteNomina(data).then(
+      res => {
         localStorage.setItem('idcontratonomi', JSON.stringify(res));
         this.resultado = JSON.parse(localStorage.getItem('idcontratonomi'));
-        console.log('DOS', res);
-        if (this.resultado.length = 0) {
-          this.alert.error('Vacio', 'no hay nada por aqui')
+        console.log(res);
+        if (this.resultado.lengh == 0) {
+          this.alertService.messagefin();
+          this.alertService.info('Hey','No hay datos');
         } else {
           this.convertir(this.resultado)
         }
-      })
-    }else {
-      this.alert.error('Falta algo', 'Todavia no llenas el formulario')
-    }
-
+      },
+      err => {
+        console.log(err);
+      });
   }
   convertir(item: any) {
     var toReturn = {}
@@ -105,39 +148,33 @@ export class BordereauxComponent implements OnInit {
       const element = item[index];
       datatmp.push(
         {
-          Serie: element.Serie,
-          Asegurado: element.Asegurado,
-          Poliza: element.Poliza,
-          Certificado: element.Certificado,
-          Id_contrato: element.Id_contrato,
-          Codigo: element.Codigo,
-          Ramo: element.Ramo,
-          Inicio: element.Inicio,
-          Fin: element.Fin,
+          Serie: element.SERIE,
+          Asegurado: element.ASEGURADO,
+          Poliza: element.NRO_POLIZA,
+          Codigo: element.COD_RAMO,
+          Ramo: element.RAMO,
+          Contrato: element.CONTRATO,
+          Inicio: element.INICIO,
+          Fin: element.FIN,
+          Siniestro: element.SINIESTRO,
+          Fecha_ocurrencia: element.FECHA_DE_OCURRENCIA,
+          Valor_siniestro: this.cortarDesimales(element.VALOR_SINIESTRO),
+          Cesion: element.CESION,
           Reasegurador: element.Reasegurador,
-          Participacion: element.Participacion,
-          Prima: this.cortarDesimales(element.Prima),
-          Cesion: element.Cesion,
-          Prima_cedida: this.cortarDesimales(element.Prima_cedida),
-          Prima_rea: this.cortarDesimales(element.Prima_rea),
-          Comision: element.Comision,
-          Valor_comision: this.cortarDesimales(element.Valor_comision),
-          Desposito: element.Desposito,
-          Valor_deposito: this.cortarDesimales(element.Valor_deposito),
-          Impuesto: element.Impuesto,
-          Valor_impuesto: this.cortarDesimales(element.Valor_impuesto),
-          Broke: element.Broke,
-          Valor_Broke: this.cortarDesimales(element.Valor_Broke),
+          Participacion_reas: element.PARTICI_REA,
+          Siniestro_pagado: this.cortarDesimales(element.SINIESTRO_PAGADO_CEDIDO),
+          Siniestro_cedido: this.cortarDesimales(element.SINIESTRO_PAGADO_CEDIDO_REA),
+          Observacion: element.OBSERVACIONES,
         }
       );
     }
     console.log(datatmp);
     this.exportAsXLSX(datatmp)
   }
+  exportAsXLSX(datatmp: any): void {
+    this.excelService.exportAsExcelFile(datatmp, 'BORDERAUX-SINIESTRO');
+  }
   cortarDesimales(item: any) {
     return Math.trunc(item);
-  }
-  exportAsXLSX(item: any) {
-    this.excelService.exportAsExcelFile(item, 'REPORTE-BORDERAUX')
   }
 }

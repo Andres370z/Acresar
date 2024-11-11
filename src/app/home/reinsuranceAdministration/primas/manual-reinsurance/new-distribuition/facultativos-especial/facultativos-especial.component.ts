@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Procentajes } from 'src/app/home/commos/porcentajes';
 import { SessionUser } from 'src/app/home/global/sessionUser';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
@@ -22,27 +23,77 @@ type NewType = years;
   styleUrls: ['./facultativos-especial.component.css']
 })
 export class FacultativosEspecialComponent implements OnInit {
-  public form: FormGroup;
-  public formTwo: FormGroup;
-  public entities: any = [];
-  public selectedOption: any;
-  public createForm: any;
-  public contratofinal: any;
-  public statefinal: boolean
-  public options: any[] = [];
-  public lisRequest: boolean;
-  public lisRequest3: boolean;
-  public selectcontrato: any
-  public listareasu: any
-  public polizacontrato: any;
-  public idsegurador: any
-  public idpoliza: any;
-  public aseguradorpoliza: any;
-  public user: any;
+  modulo = 'Prima Facultativos Especials';
+  money: any;
+  mon: any;
+  sucursales: any;
+  compania: any;
+  dataForm: any;
+  poliza: String;
+  ctb1: any;
+  final: any;
+  finaldetalle: any;
+  valor: number;
+  valor1: number;
+  moneda;
+  lisRequest: boolean;
+  lisRequest2: boolean;
+  lisRequest3: boolean;
+  nombrecontrato: string;
   reasegurador: any;
-  public sumaLi: any;
-  mostrarTabla: boolean = false;
+  validar: any;
+  listasegurado: any;
+  listasegurado2: any;
+  listasegurado3: any;
+  ///
+  cuotaParteForm: FormGroup;
+  enviardatos: FormGroup;
+  cuotaParteFormreasegurador: FormGroup;
+  fromajustes: FormGroup;
+  certificado;
+  modeda;
+  inicio = '';
+  fin;
+  sucursalesSelect;
+  companiaSelect;
+  ramo;
+  descripcion;
+  sumaAsegurada;
+  sumaDistribucion;
+  prima;
+  identificacion;
+  fecha1;
+  fecha2;
+  statefinal;
+  ciudad;
+  ramos: any;
+  proceso: any;
+  procesodos: any;
+  tabla = {
+    contrato: '',
+    tramo: '',
+    sumaRetencion: '',
+    sumaCedida: '',
+    primaRetenida: '',
+    primaCedida: ''
+  };
+  ramotecnico;
+  primaDistribucion;
+  ProductoSubramo;
+  listareasu: any;
+  listareasu2: any;
+  contratofinal: any;
   aseguradornit: any;
+  aseguradorpoliza: any;
+  contrato: any;
+  polizacontrato: any;
+  selectpoliza: any;
+  selectcontrato: any;
+  idsegurador;
+  idpoliza;
+  polizaramos: any;
+  public user: any;
+  private _pct = new Procentajes();
 
   constructor(
     private myFormBuilder: FormBuilder,
@@ -50,6 +101,7 @@ export class FacultativosEspecialComponent implements OnInit {
     private authService: AuthService,
     private alertService: AlertService,
     private router: Router,
+    private http: AuthService,
 
   ) {
     this.user = new SessionUser(this.router);
@@ -57,110 +109,440 @@ export class FacultativosEspecialComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.initial();
-    this.authService.getReinsurer().then((res: any) => {
-      this.reasegurador = res
-    })
+    this.createFormreas();
+    this.createFormreasegurador();
+    this.fromajustesfinales();
+    console.log(localStorage.getItem('idcontrato'))
+    this.http.getRamos().then(
+      res => {
+        this.ramos = res;
+      }
+    );
+    this.valor = 0;
+    this.valor1 = 0;
+    this.http.getData().then(
+      res => {
+        this.reasegurador = res;
+      }
+    );
   }
-  dataSource = [{ codRamo: '', ramos: '', sumaLimite: '', primaReaseguradora: '', cesion: '' }];
-  dataSourceTwo = [{ reasegurador: '', participacion: '', prima: '' }];
 
-  public dataSourceFour: MatTableDataSource<any>
-  public dataSourceTree: MatTableDataSource<any>
-  @ViewChild(MatPaginator) paginator: MatPaginator; 
-
-  displayedColumns: string[] = ['codRamo', 'ramos', 'sumaLimite', 'primaReaseguradora', 'cesion'];
-  displayedColumnsFour: string[] = ['reasegurador', 'participacion', 'prima'];
-  displayedColumnsTwo: string[] = ['contrato', 'tramo', 'sumaRetenida', 'sumaCedida', 'primaRetenida', 'primaCedida'];
-  displayedColumnsTree: string[] = ['corredor', 'reasegurador', 'sumaCedida', 'primaCedida', 'comision', 'depositosRetenidos', 'impCedida', 'brokerage', 'valorPagar'];
-  myYears: NewType[] = [
-    { value: '2019', viewValue: '2019' },
-    { value: '2020', viewValue: '2020' },
-    { value: '2021', viewValue: '2021' },
-    { value: '2022', viewValue: '2022' },
-    { value: '2023', viewValue: '2023' },
-    { value: '2024', viewValue: '2024' },
-  ];
-  initial() {
-    this.form = this.myFormBuilder.group({
-      poliza1: [Menssage.empty, Validators.compose([Validators.required])],
-      date: [Menssage.empty, Validators.compose([Validators.required])],
-      ciudad: [Menssage.empty, Validators.compose([Validators.required])],
+  createFormreas() {
+    this.cuotaParteForm = this.myFormBuilder.group({
+      poliza: [Menssage.empty, Validators.compose([Validators.required])],
       certificado: [Menssage.empty, Validators.compose([Validators.required])],
-      asegurado: [Menssage.empty, Validators.compose([Validators.required])],
-      nit: [Menssage.empty, Validators.compose([Validators.required])],
-    })
-
-    this.formTwo = this.myFormBuilderTwo.group({
-      identyContract: [Menssage.empty, Validators.compose([Validators.required])],
-      descripcion: [Menssage.empty, Validators.compose([Validators.required])],
-      moneda: [Menssage.empty, Validators.compose([Validators.required])],
-      inicio: [Menssage.empty, Validators.compose([Validators.required])],
-      fin: [Menssage.empty, Validators.compose([Validators.required])],
-    })
-
+      fechaemision: [Menssage.empty, Validators.compose([Validators.required])],
+      ciudad: [Menssage.empty, Validators.compose([Validators.required])],
+      idsegurador: [Menssage.empty, Validators.compose([Validators.required])],
+      asegurador: [Menssage.empty],
+      nit: [Menssage.empty],
+    });
+  }
+  fromajustesfinales() {
+    this.fromajustes = this.myFormBuilder.group({
+      codigoedit: [Menssage.empty, Validators.compose([Validators.required])],
+      ramosedit: [Menssage.empty, Validators.compose([Validators.required])],
+      contratoedit: [Menssage.empty, Validators.compose([Validators.required])],
+      sumaLimiteedit: [Menssage.empty, Validators.compose([Validators.required])],
+      primasedit: [Menssage.empty, Validators.compose([Validators.required])],
+      primascentesedit: [Menssage.empty, Validators.compose([Validators.required])],
+    });
+  }
+  createFormreasegurador() {
+    this.cuotaParteFormreasegurador = this.myFormBuilder.group({
+      codigo: [Menssage.empty, Validators.compose([Validators.required])],
+      ramos: [Menssage.empty, Validators.compose([Validators.required])],
+      contrato: [Menssage.empty, Validators.compose([Validators.required])],
+      sumaLimite: [Menssage.empty, Validators.compose([Validators.required])],
+      primas: [Menssage.empty, Validators.compose([Validators.required])],
+      primascentes: [Menssage.empty, Validators.compose([Validators.required])],
+      reas: [Menssage.empty, Validators.compose([Validators.required])],
+      id: [Menssage.empty, Validators.compose([Validators.required])],
+      idContrato: [Menssage.empty, Validators.compose([Validators.required])],
+      idContratopk: [Menssage.empty, Validators.compose([Validators.required])],
+      moneda: [Menssage.empty],
+      descripcion: [Menssage.empty],
+      inicio: [Menssage.empty],
+      fin: [Menssage.empty],
+      word: [Menssage.empty],
+      idpoliza: [Menssage.empty],
+    });
   }
 
-  clearForm() {
-    Swal.fire({
-      title: 'Borrar?',
-      text: "Deseas borrar los datos ingresados",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, borralo!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'El formulario ha sido borrado',
-          'success'
-        )
-        this.form.reset()
+  contratosfacultativos() {
+    this.lisRequest = true;
+    console.log(this.cuotaParteFormreasegurador.controls.idContrato.value);
+    if (this.cuotaParteFormreasegurador.controls.idContrato.value) {
+      const item = {
+        word: this.cuotaParteFormreasegurador.controls.idContrato.value,
+        type: 13,
+      };
+      console.log(item);
+      this.alertService.loading()
+
+      this.http.postFacultativosContratos(item).then(
+        res => {
+          this.contratofinal = res;
+          console.log(this.contratofinal);
+          this.alertService.messagefin();
+
+
+        },
+        err => {
+          console.log(err);
+          this.alertService.messagefin();
+        }
+      );
+    }
+  }
+  aseguradorfinal() {
+    this.lisRequest2 = true;
+    console.log(this.cuotaParteForm.controls.asegurador.value);
+    if (this.cuotaParteForm.controls.asegurador.value) {
+      const item = {
+        word: this.cuotaParteForm.controls.asegurador.value
+      };
+      console.log(item);
+      this.alertService.loading()
+      this.http.postFacultativoClient(item).then(
+        res => {
+          this.aseguradornit = res;
+          console.log(this.aseguradornit);
+          this.alertService.messagefin();
+        },
+        err => {
+          console.log(err);
+        }
+      );
+    }
+  }
+  consultar(item: any) {
+    console.clear()
+    this.alertService.loading()
+    const data2 = {
+      word: item.a
+    }
+    console.log('------------->  3');
+
+    this.http.postFacultativoClient(data2).then(
+      res => {
+        console.log(data2)
+        console.log('------------->  4', data2);
+
+        console.log(res);
+        if (res.length === 0) {
+          this.statefinal = true;
+          this.cuotaParteForm.controls.poliza.setValue(item.c);
+          this.cuotaParteForm.controls.certificado.setValue(item.r);
+          this.cuotaParteForm.controls.fechaemision.setValue(item.e);
+          this.cuotaParteForm.controls.ciudad.setValue(item.s);
+          this.cuotaParteForm.controls.asegurador.setValue(item.pc);
+          this.cuotaParteForm.controls.nit.setValue(item.pn);
+          this.idsegurador = item.pa;
+          this.idpoliza = item.a;
+          this.lisRequest3 = false;
+          this.statefinal = true;
+          this.polizacontrato = item;
+          this.cuotaParteForm.enable();
+          this.cuotaParteFormreasegurador.enable();
+          this.fromajustes.enable();
+          this.alertService.messagefin();
+          this.loadramos();
+          console.log('------------->  5',this.polizacontrato);
+
+        } else {
+          this.statefinal = false;
+          this.lisRequest3 = false;
+          this.alertService.messagefin();
+          this.alertService.info('Hey', 'Esta poliza asignada');
+          /* this.cuotaParteForm.disable();
+          this.cuotaParteForm.controls.poliza.enable();
+          this.cuotaParteFormreasegurador.disable();
+          this.fromajustes.disable(); */
+        }
+      },
+      err => {
+        console.log(err);
+        //this.alertService.messagefin();
+      });
+  }
+  polizabuscar() {
+    this.lisRequest3 = true;
+    console.log(this.cuotaParteForm.controls.poliza.value);
+    if (this.cuotaParteForm.controls.poliza.value) {
+      const item = {
+        word: this.cuotaParteForm.controls.poliza.value,
+        date: 2019
+      };
+      console.log(item);
+      this.alertService.loading()
+      this.http.postBuscarAseguadora(item).then(
+        res => {
+          this.aseguradorpoliza = res;
+          this.alertService.messagefin();
+
+        },
+        err => {
+          console.log(err);
+          this.alertService.messagefin();
+        }
+      );
+    }
+  }
+
+  cargar(item) {
+    this.cuotaParteFormreasegurador.controls.idContratopk.setValue(item.a);
+    this.cuotaParteFormreasegurador.controls.idContrato.setValue(item.o);
+    this.cuotaParteFormreasegurador.controls.descripcion.setValue(item.c);
+    this.cuotaParteFormreasegurador.controls.inicio.setValue(item.r);
+    this.cuotaParteFormreasegurador.controls.fin.setValue(item.e);
+    if (item.s == 3) {
+      this.cuotaParteFormreasegurador.controls.moneda.setValue('COP');
+    } else if (item.s == 2) {
+      this.cuotaParteFormreasegurador.controls.moneda.setValue('EUR');
+    } else {
+      this.cuotaParteFormreasegurador.controls.moneda.setValue('USD');
+    }
+    this.lisRequest = false;
+    this.selectcontrato = item;
+    this.http.getFacultativoContrato(item.pro_id).then(
+      res => {
+        this.listareasu = res;
+        console.log(res);
+        this.alertService.messagefin();
+
+      },
+      err => {
+        console.log(err);
+        this.alertService.messagefin();
       }
-    })
+    );
   }
-  clearFormTwo() {
-    Swal.fire({
-      title: 'Borrar?',
-      text: "Deseas borrar los datos ingresados",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, borralo!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        Swal.fire(
-          'Deleted!',
-          'El formulario ha sido borrado',
-          'success'
-        )
-        this.formTwo.reset()
+  cargarnit(item) {
+    this.cuotaParteForm.controls.asegurador.setValue(item.a2);
+    this.cuotaParteForm.controls.nit.setValue(item.r2);
+    this.idsegurador = item.a;
+    this.lisRequest2 = false;
+
+  }
+  cargarpoliza(item) {
+    this.alertService.loading();
+    this.consultar(item);
+  }
+  ramosEvent(key: any, num: any, tb: any) {
+    const from = this.cuotaParteFormreasegurador.value;
+    let data = this.cuotaParteFormreasegurador.controls[tb];
+    data = data.value;
+    if (key === 'codigo') {
+
+      from[tb][`ramos${num}`] = Number(from[tb][`codigo${num}`]);
+
+      this.cuotaParteForm.setValue(from);
+    } else if (key === 'ramos') {
+      from[tb][`codigo${num}`] = Number(from[tb][`ramos${num}`]);
+      this.cuotaParteForm.setValue(from);
+    }
+
+  }
+  desimalPor(key: any) {
+    let e = key;
+    if (e !== undefined) {
+      e = e.split('');
+      let count = 0, rst = '';
+      for (let i = e.length - 1; i >= 0; i--) {
+        count = count + 1;
+        rst = e[i] + rst;
+        if (count === 2) {
+          if (e[i - 1] !== undefined) {
+            rst = '.' + rst;
+          }
+          count = 0;
+        }
       }
-    })
+      return rst + '%';
+    }
+  }
+  desimaldo(key: any) {
+    let e = key;
+    if (e !== undefined) {
+      e = e.split('');
+      let count = 0, rst = '';
+      for (let i = e.length - 1; i >= 0; i--) {
+        count = count + 1;
+        rst = e[i] + rst;
+        if (count === 3) {
+          if (e[i - 1] !== undefined) {
+            rst = '.' + rst;
+          }
+          count = 0;
+        }
+      }
+      return rst;
+    }
+  }
+  miles(form: string, key: string) {
+    if (form === 'cuotaParteFormreasegurador') {
+
+      let value = this.cuotaParteFormreasegurador.controls[key].value;
+      if (value.split('.').length > 2) {
+        value = this.desimal(this.cuotaParteFormreasegurador.controls[key].value);
+      }
+      const val = this.desimal(value);
+      this.cuotaParteFormreasegurador.controls[key].setValue(val.toString());
+    }
+
+    if (form === 'tabel') {
+      const cortar = this.cortarDesimales(key)
+      const quitar = this.desimal(cortar);
+      return quitar;
+    }
+
+  }
+  cortarDesimales(item: any) {
+    return Math.trunc(item);
+  }
+  porcentaje(key: string, form?) {
+    if (!!form) {
+      const value = this.cuotaParteFormreasegurador.controls[key].value;
+      this.cuotaParteFormreasegurador.controls[key].setValue(
+        this.procentajedos(value)
+      );
+    } else {
+      return this.procentajedos(key);
+    }
+  }
+  procentajedos(item: any) {
+    if (item != null && item !== '') {
+      const e = parseFloat(item);
+      return e + '%';
+    }
   }
 
-  sendForm(item: any) {
-    Swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success'
-    )
-    console.log(this.form)
-    this.form.reset()
+  evenRamos(key: string) {
+    if (!!key) {
+      if (key === 'ramos') {
+        const val = this.cuotaParteFormreasegurador.controls[key].value;
+        this.cuotaParteFormreasegurador.controls.codigo.setValue(val);
+      } else if (key === 'codigoedit') {
+        const val = this.fromajustes.controls[key].value;
+        this.fromajustes.controls.ramosedit.setValue(val);
+      } else if (key === 'ramosedit') {
+        const val = this.fromajustes.controls[key].value;
+        this.fromajustes.controls.codigoedit.setValue(val);
+      } else {
+        const val = this.cuotaParteFormreasegurador.controls[key].value;
+        this.cuotaParteFormreasegurador.controls.ramos.setValue(val);
+      }
+    }
+  }
+  desimal(key: any) {
+    return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+  // tslint:disable-next-line:one-line
+  verificar() {
+    sessionStorage.clear();
+    this.cuotaParteForm.reset();
+    // tslint:disable-next-line:prefer-const
+    let res = 'Contrato creado exitosamente';
+    this.alertService.success('Ok', res);
+    this.router.navigate(['admin/contratos']);
+    // tslint:disable-next-line:one-line
+  }
+  enviardatosfinal() {
+
+  }
+  create() {
+    if (this.cuotaParteForm.controls.poliza.value === undefined || this.cuotaParteForm.controls.poliza.value === '') {
+      this.alertService.info('Hey', 'Campo del número de poliza es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteForm.controls.certificado.value === undefined || this.cuotaParteForm.controls.certificado.value === '') {
+      this.alertService.info('Hey', 'Campo certificado es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteForm.controls.fechaemision.value === undefined || this.cuotaParteForm.controls.fechaemision.value === '') {
+      this.alertService.info('Hey', 'Campo fecha es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteForm.controls.ciudad.value === undefined || this.cuotaParteForm.controls.ciudad.value === '') {
+      this.alertService.info('Hey', 'Campo ciudad es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteForm.controls.asegurador.value === undefined || this.cuotaParteForm.controls.asegurador.value === '') {
+      this.alertService.info('Hey', 'Campo Asegurador  es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteForm.controls.poliza.value !== '') {
+      // sessionStorage.setItem('formCuotaP', JSON.stringify(form));
+      const data = {
+        poliza: this.cuotaParteForm.controls.poliza.value,
+        certificado: this.cuotaParteForm.controls.certificado.value,
+        fechaemision: this.cuotaParteForm.controls.fechaemision.value,
+        ciudad: this.cuotaParteForm.controls.ciudad.value,
+        idsegurador: this.idsegurador,
+        idusers: this.user.authUser.id,
+      };
+      console.log(data);
+      this.http.postFacultativosAseguradoras(data).then(
+        res => {
+          localStorage.setItem('idcontrato', JSON.stringify(res));
+          this.polizacontrato = res;
+          console.log('res', this.polizacontrato);
+          this.statefinal = true;
+          //this.selectpoliza = JSON.parse(localStorage.getItem('idcontrato'));;
+          console.log(res);
+
+        },
+        err => {
+          console.log(err);
+        });
+    }
 
 
   }
-  sendFormTwo(item: any) {
-    Swal.fire(
-      'Good job!',
-      'You clicked the button!',
-      'success'
-    )
-    console.log(this.formTwo)
-    this.formTwo.reset()
+  createnomina() {
+    if (this.cuotaParteFormreasegurador.controls.codigo.value === undefined || this.cuotaParteFormreasegurador.controls.codigo.value === '') {
+      this.alertService.info('Hey', 'Campo del codigo es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteFormreasegurador.controls.ramos.value === undefined || this.cuotaParteFormreasegurador.controls.ramos.value === '') {
+      this.alertService.info('Hey', 'Campo ramos es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteFormreasegurador.controls.sumaLimite.value === undefined || this.cuotaParteFormreasegurador.controls.sumaLimite.value === '') {
+      this.alertService.info('Hey', 'Campo suma limite es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.cuotaParteFormreasegurador.controls.primas.value === undefined || this.cuotaParteFormreasegurador.controls.primas.value === '') {
+      this.alertService.info('Hey', 'Campo total primas es obligatorio');
+    }
+    else if (this.cuotaParteFormreasegurador.controls.codigo.value !== '') {
+      // sessionStorage.setItem('formCuotaP', JSON.stringify(form));
+      const data = {
+        codigo: this.cuotaParteFormreasegurador.controls.codigo.value,
+        ramos: this.cuotaParteFormreasegurador.controls.ramos.value,
+        sumaLimite: this._pct.removerDesimal(this.cuotaParteFormreasegurador.controls.sumaLimite.value),
+        primas: this._pct.removerDesimal(this.cuotaParteFormreasegurador.controls.primas.value),
+        primascedentes: this._pct.removerDesimal(this.cuotaParteFormreasegurador.controls.primascentes.value),
+        idpoliza: this.polizacontrato.a,
+        idusers: this.user.authUser.id,
+      };
+      console.log(data);
+      this.alertService.loading();
+      this.http.postFacultativoRamo(data).then(
+        res => {
+          this.statefinal = true;
+          localStorage.setItem('idramos', JSON.stringify(res));
+          this.polizaramos = JSON.parse(localStorage.getItem('idramos'));
+          console.log(this.polizacontrato.a);
+          this.cuotaParteFormreasegurador.reset();
+          this.idpoliza = this.polizacontrato.a;
+          this.loadramos()
+        },
+        err => {
+          console.log(err);
+        });
+    }
   }
   loadramos() {
     console.log(this.aseguradorpoliza);
@@ -169,208 +551,306 @@ export class FacultativosEspecialComponent implements OnInit {
         id: this.idpoliza
       }
       console.log(data);
-      this.authService.postFacultativosRamos(data).then(
+      this.http.postFacultaRamosEdit(data).then(
         res => {
-          //this.listareasu2 = res;
+          this.alertService.messagefin();
+          this.listareasu2 = res;
           console.log(res);
+
         }
-      )
+      );
     }
   }
-  contratosfacultativos() {
-    this.lisRequest = true;
-    console.log(this.formTwo.controls.identyContract.value);
-    if (this.formTwo.controls.identyContract.value) {
-      const item = {
-        word: this.formTwo.controls.identyContract.value,
-        type: 13
+  procesar() {
+    console.log('---------- 7', this.polizacontrato);
+    
+    //console.log(data);
+    this.alertService.loading();
+    if (this.polizacontrato.length === 0) {
+      this.alertService.info('Hey', 'Campo del codigo es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.selectcontrato.length === 0) {
+      this.alertService.info('Hey', 'Campo ramos es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.listareasu2.length === 0) {
+      this.alertService.info('Hey', 'Campo suma limite es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.listareasu.length !== 0 || this.listareasu2.length !== 0) {
+      const data1 = {
+        word: this.idpoliza,
+        date: 2019 //preuba
       }
-      console.log(item);
-      this.authService.postFacultativosContratos(item).then((res: any) => {
-        console.log(res);
-        this.contratofinal = res;
+      this.http.postFacultativoGasto(data1).then(
+        res => {
+          console.log('----------> 2',);
 
-      }, err => {
+          this.validar = res;
+          console.log(res);
+          this.alertService.messagefin();
+          if (this.validar.length != 0) {
+            this.listareasu = [];
+            this.listareasu2 = [];
+            this.cuotaParteForm.reset();
+            this.alertService.error('Ups', 'Esta poliza ya fue asignada');
+          } else {
+            const data = {
+              poliza: this.polizacontrato,
+              contrato: this.selectcontrato,
+              ramopoliza: this.listareasu2,
+              ramocontratos: this.listareasu,
+              idsegurador: this.idsegurador,
+            }
+            console.log('----------> 1', data)
+            this.http.postFaculProce(data).then(
+              res => {
+                localStorage.setItem('preoceso', JSON.stringify(res));
+                this.proceso = JSON.parse(localStorage.getItem('preoceso'));
+                const data2 = {
+                  word: this.polizacontrato.a
+                }
+                this.http.postFacultativoGasto(data2).then(
+                  res => {
+                    this.listasegurado = res;
+                    console.log(res);
+                    //this.alertService.messagefin();
+                  },
+                  err => {
+                    console.log(err);
+                    //this.alertService.messagefin();
+                  });
 
-        console.log(err);
+                console.log(res);
+                this.alertService.messagefin();
+                this.alertService.info('Hey', 'Esta poliza asignada');
+              },
+              err => {
+                console.log(err);
+                this.alertService.messagefin();
+              });
+          }
+        },
+        err => {
+          console.log(err);
+          this.alertService.messagefin();
+        });
 
-      })
-    }
-
-  } 
-  aseguradorfinal(){
-    if (this.form.value.asegurado) {
-      const item = {
-        word : this.form.value.asegurado,
-        date: '2019-01-04'
-      }
-      this.authService.postFacultativoClient(item).then((res: any)=>{
-        console.log(res);
-        this.aseguradornit = res
-      }, err =>{
-        console.log(err);
-        
-      })
-    }
-  }
-  polizaBuscar(){
-    this.lisRequest3 = true;
-    if (this.form.value.poliza1) {
-      const fechaFormateada = this.form.value.date.toISOString().split('T')[0];
-      const item = {
-        date: fechaFormateada,
-        word: this.form.value.poliza1
-      };
-      this.authService.postBuscarAseguadora(item).then((res: any)=>{
-        console.log(res);
-        this.aseguradorpoliza = res
-        
-      }, err => {
-        console.log(err);
-        
-      })
-    }
-    //this.consultar(this.form.value.poliza1)
-  }
-  desimal(key: any) {
-    return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-  }
-  cortarDesimales(item: any) {
-    return Math.trunc(item);
-  }
-  procentajedos(item: any) {
-    if (item != null && item !== '') {
-      const e = parseFloat(item);
-      return e + '%';
-    }
-  }
-  porcentaje(key: any, form: any) {
-    if (!!form) {
-      const value = this.formTwo.controls[key].value;
-      this.formTwo.controls[key].setValue(
-        this.procentajedos(value)
-      )
     } else {
-      return this.procentajedos(key);
+      this.alertService.messagefin();
+    }
+
+
+
+  }
+  guardarpoliza() {
+    console.log(this.listasegurado)
+    if (this.listasegurado == undefined) {
+      this.alertService.messageInfo('Hey', 'vas a salir sin agregar tu poliza a un contrato');
+      this.cuotaParteForm.reset();
+      this.cuotaParteFormreasegurador.reset();
+      this.fromajustes.reset();
+      this.listasegurado = [];
+      this.listareasu2 = [];
+      sessionStorage.clear();
+    } else {
+      this.alertService.success('Ok', 'Tu poliza fue asignada con exito');
+      sessionStorage.clear();
+      this.cuotaParteForm.reset();
+      this.cuotaParteFormreasegurador.reset();
+      this.fromajustes.reset();
+      this.listasegurado = [];
+      this.listareasu2 = [];
+      this.listasegurado3 = [];
+      this.contratofinal = [];
+      this.listareasu = [];
+      this.router.navigate(['admin/contratos/ajuste/list-primas']);
     }
   }
-  miles(form: any, key: any) {
-    if (form === 'formTwo') {
-      let value = this.formTwo.controls[key].value;
-      if (value.split('.').length > 2) {
-        value = this.desimal(this.formTwo.controls[key].value)
-      }
-      const val = this.desimal(value);
-      this.formTwo.controls[key].setValue(val.toString())
+  procesarnomina(id: string) {
+    this.alertService.loading(); ('Por favor esperes');
+    const data = {
+      poliza: this.polizacontrato,
+      contrato: this.selectcontrato,
+      idramos: id
     }
-    if (form === 'tabel') {
-      const cortar = this.cortarDesimales(key)
-      const quitar = this.desimal(cortar);
-      return quitar;
-    }
-  }
-
-  convertir(valor: string): string {
-    // Convertir el string a número
-    const numero = parseFloat(valor);
-
-    // Verificar si es un número válido
-    if (isNaN(numero)) {
-      return valor; // Si no es un número, devolvemos el valor original
-    }
-
-    // Usar Intl.NumberFormat para darle formato con separadores de miles
-    return new Intl.NumberFormat('es-ES').format(Math.floor(numero));
-  }
-
-  create() {
-    if (this.form.valid) {
-      const data = {
-        poliza: this.form.controls.poliza1.value,
-        certificado: this.form.controls.certificado.value,
-        fechaemision: this.form.controls.date.value,
-        ciudad: this.form.controls.ciudad.value,
-        idsegurador: this.idsegurador,
-        idusers: this.user.authUser.id,
-
-      }
-      console.log(data)
-      this.authService.postFacultativosAseguradoras(data).then(
-        res => {
-          localStorage.setItem('idcontrato', JSON.stringify(res));
-          this.polizacontrato = res;
-          this.statefinal = true;
-          //this.selectpoliza = JSON.parse(localStorage.getItem('idcontrato'));;
-          console.log(res);
-        }, err => {
-          this.alertService.error('Modulo en actualizacion','Estamos trabajando para ofrecerte una mejor experiencia')
-        }
-      )
-    }
-  }
-  consultar(item: any) {
-    const data2 = {
-      word: item.a
-    }
-    this.authService.postAseguradoraNomina(item).then(
+    console.log(data)
+    this.http.postFacultaProcesoNomina(data).then(
       res => {
         console.log(res)
-        if (res.length === 0) {
-          this.statefinal = true;
-          this.form.controls.poliza1.setValue(item.c);
-          this.form.controls.certificado.setValue(item.r);
-          this.form.controls.date.setValue(item.e);
-          this.form.controls.ciudad.setValue(item.s);
-          this.form.controls.asegurado.setValue(item.pc);
-          this.form.controls.nit.setValue(item.pn);
-          this.idsegurador = item.pa;
-          this.idpoliza = item.a;
-          this.lisRequest3 = false;
-          this.statefinal = true;
-          this.polizacontrato = item;
-          this.form.enable();
-          this.formTwo.enable();
-          this.loadramos()
+        sessionStorage.setItem('preocesodos', JSON.stringify(res));
+        this.procesodos = JSON.parse(sessionStorage.getItem('preocesodos'));
+        const data2 = {
+          word: this.polizacontrato.a
         }
-      }, err => {
-        console.log(err) //QUEDASTE AQUI  
-      }
-    )
+        this.http.postAseguradoraNomina(data2).then(
+          res => {
+            this.listasegurado = res;
+            console.log(res);
+            //this.alertService.messagefin();
+          },
+          err => {
+            console.log(err);
+            //this.alertService.messagefin();
+          });
 
+        console.log(res);
+        this.alertService.messagefin();
+        this.alertService.info('Hey', 'Esta poliza asignada');
+      },
+      err => {
+        console.log(err);
+        this.alertService.messagefin();
+      });
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    //this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-  cargar(item: any) {
-    this.alertService.loading();
-    this.formTwo.controls.identyContract.setValue(item.o);
-    this.formTwo.controls.descripcion.setValue(item.c);
-    this.formTwo.controls.inicio.setValue(item.r);
-    this.formTwo.controls.fin.setValue(item.e);
-    if (item.s == 3) {
-      this.formTwo.controls.moneda.setValue('COP');
-    } else if (item.s == 2) {
-      this.formTwo.controls.moneda.setValue('EUR');
-    } else {
-      this.formTwo.controls.moneda.setValue('USD');
+  procesarnominas(id: any) {
+    this.alertService.loading(); ('Por favor esperes');
+    const data6 = {
+      word: parseInt(id.a)
     }
-    this.selectcontrato = item;
-    this.authService.getFacultativoContrato(item.pro_id).then((res: any) => {
-      const dataTemp = res[0].ramos;
-      const dataTemp2 = res[0].comi;
-      this.dataSource = [dataTemp];
-      this.dataSourceTwo = dataTemp2;
-      console.log('------> data temp', this.dataSource);
-      console.log('------> data temp', this.dataSourceTwo);
+    console.log(id)
+    this.http.postAseguradoraNomina(data6).then(
+      res => {
+        this.listasegurado3 = res;
+        console.log(res);
+        if (this.listasegurado3.length == 0) {
+          const data3 = {
+            poliza: this.polizacontrato,
+            contrato: this.selectcontrato,
+            ramopoliza: this.listareasu2,
+            ramocontratos: this.listareasu,
+            idramos: id
+          }
+          console.log(data3);
+          this.http.postFacultaProcesoNomina(data3).then(
+            res => {
+              this.listasegurado2 = res[0];
+              console.log(res);
+              const data5 = {
+                word: parseInt(id.a)
+              }
+              console.log(data5)
+              this.http.postAseguradoraNomina(data5).then(
+                res => {
+                  this.listasegurado3 = res;
+                  console.log(res);
+                },
+                err => {
+                  console.log(err);
+                  //this.alertService.messagefin();
+                });
+              this.alertService.messagefin();
+              this.alertService.info('Hey', 'Esta poliza asignada');
+            },
+            err => {
+              console.log(err);
+              //this.alertService.messagefin();
+            });
+        } else {
+          this.alertService.messagefin();
+          this.alertService.info('Hey', 'Esta nomina ya fue asignada');
+        }
 
-      setTimeout(() => {
-        this.alertService.messagefin()
-        this.mostrarTabla = true
-      }, 3000);
-    });
+      },
+      err => {
+        console.log(err);
+        //this.alertService.messagefin();
+      });
+  }
 
+  editarramos(res: any) {
+    this.final = res;
+    this.valor = 1;
+    console.log(this.final);
+    this.fromajustes.controls.codigoedit.setValue(res.re);
+    this.fromajustes.controls.ramosedit.setValue(res.re);
+    this.fromajustes.controls.sumaLimiteedit.setValue(this.desimal(this.cortarDesimales(res.e)));
+    this.fromajustes.controls.primasedit.setValue(this.desimal(this.cortarDesimales(res.s)));
+    this.fromajustes.controls.primascentesedit.setValue(this.desimal(this.cortarDesimales(res.a2)));
 
+  }
+  eliminarramos(res: any) {
+    console.log(res);
+    const data = {
+      idusers: this.user.authUser.id,
+    };
+    this.alertService.loading();
+    this.http.putFacul(res, data)
+      .then(
+        res => {
+          this.loadramos()
+          this.alertService.success('Ok', "Ramo Eliminado correctamente");
+        },
+        err => {
+          console.log(err);
+        }
+      )
+  }
+  guardareditarramos(item: any) {
+    this.alertService.loading();
+    if (this.fromajustes.controls.codigoedit.value === undefined || this.fromajustes.controls.codigoedit.value === '') {
+      this.alertService.info('Hey', 'Campo del codigo es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.fromajustes.controls.ramosedit.value === undefined || this.fromajustes.controls.ramosedit.value === '') {
+      this.alertService.info('Hey', 'Campo ramos es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.fromajustes.controls.sumaLimiteedit.value === undefined || this.fromajustes.controls.sumaLimiteedit.value === '') {
+      this.alertService.info('Hey', 'Campo suma limite es obligatorio');
+    }
+    // tslint:disable-next-line:one-line
+    else if (this.fromajustes.controls.primasedit.value === undefined || this.fromajustes.controls.primasedit.value === '') {
+      this.alertService.info('Hey', 'Campo total primas es obligatorio');
+    }
+    else if (this.fromajustes.controls.codigoedit.value !== '') {
+      // sessionStorage.setItem('formCuotaP', JSON.stringify(form));
+      const data = {
+        codigo: parseInt(item.r),
+        ramos: this.fromajustes.controls.ramosedit.value,
+        sumaLimite: this._pct.removerDesimal(this.fromajustes.controls.sumaLimiteedit.value),
+        primas: this._pct.removerDesimal(this.fromajustes.controls.primasedit.value),
+        primascedentes: this._pct.removerDesimal(this.fromajustes.controls.primascentesedit.value),
+        idpoliza: item.a,
+        idusers: this.user.authUser.id,
+      };
+      console.log(data);
+      this.alertService.loading();
+      this.http.putFaculUpdate(item.a, data).then(
+        res => {
+          this.loadramos()
+        },
+        err => {
+          console.log(err);
+        });
+    }
+
+  }
+  verdetalle(item: any) {
+    this.finaldetalle = item;
+    this.valor1 = 1;
+  }
+  nuevoContrato() {
+    this.cuotaParteForm.reset();
+    this.cuotaParteFormreasegurador.reset();
+    this.fromajustes.reset();
+    this.listasegurado = [];
+    this.listareasu2 = [];
+    this.listasegurado3 = [];
+    this.contratofinal = [];
+    this.listareasu = [];
+  }
+  cerrar() {
+    this.cuotaParteForm.reset();
+    this.cuotaParteFormreasegurador.reset();
+    this.fromajustes.reset();
+    this.listasegurado = [];
+    this.listareasu2 = [];
+    this.listasegurado3 = [];
+    this.contratofinal = [];
+    this.listareasu = [];
+    this.router.navigate(['admin/contratos/ajuste/list-primas']);
   }
   idReasegurador(id: number) {
     if (this.reasegurador != undefined) {

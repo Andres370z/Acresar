@@ -20,8 +20,9 @@ export class HttpsService {
     DELETE = async(sub: string) => await this.http.delete<any>(this.api + sub).toPromise();
 
     GETER = async (sub: string) => await this.http.get<any>(this.api + sub).toPromise();
+    GETERESPALDO = async (sub: string) => await this.http.get<any>(this.api2 + sub).toPromise();
     POSTS = async (sub: string, obj: any) => await this.http.post<any>(this.api + sub, obj).toPromise();
     POSTRESPALDO = async (sub: string, obj: any) => await this.http.post<any>(this.api2Respaldo + sub, obj).toPromise()
     DELETED = async(sub: string) => await this.http.delete<any>(this.api2Respaldo + sub).toPromise();
-    PUTO = async (sub: string,obj:any) => await this.http.put<any>(this.api2Respaldo + sub, obj).toPromise();
+    PUTS = async (sub: string,obj:any) => await this.http.put<any>(this.api2Respaldo + sub, obj).toPromise();
 }

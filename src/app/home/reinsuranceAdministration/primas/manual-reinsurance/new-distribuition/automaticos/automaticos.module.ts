@@ -15,10 +15,11 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatListModule } from '@angular/material/list';
+import { EditComponent } from './edit/edit.component';
 
 
 @NgModule({
-  declarations: [AutomaticosComponent],
+  declarations: [AutomaticosComponent, EditComponent],
   imports: [
     CommonModule,
     AutomaticosRoutingModule,

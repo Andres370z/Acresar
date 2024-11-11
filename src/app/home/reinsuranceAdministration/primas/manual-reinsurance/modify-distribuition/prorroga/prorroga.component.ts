@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { Menssage } from 'src/app/models/router';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
@@ -31,7 +32,8 @@ export class ProrrogaComponent implements OnInit {
   constructor(
     private myFormBuilder: FormBuilder,
     private myFormBuilderTwo: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
   public dataSource: MatTableDataSource<any>
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -187,5 +189,9 @@ export class ProrrogaComponent implements OnInit {
         } 
       )
     }
+  }
+
+  navigate(item: string){
+    this.router.navigate([item])
   }
 }

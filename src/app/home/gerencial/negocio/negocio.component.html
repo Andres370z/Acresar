@@ -10,123 +10,686 @@
             <h4 class="card-title">Negocios</h4>
           </div>
           <div class="card-body">
-            <form class="form mb-4" [formGroup]="form">
+            <form action="">
               <div class="row">
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Estado</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="estado" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                <div class="col-md-12">
+                  <div class="box box-info">
+                    <div class="box-header with-border">
+                      <h3 class="box-title">
+                        {{modulo}}
+                      </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                      <div class="table-responsive">
+                        <div class="content" [formGroup]="formReporte">
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Corredor</mat-label>
-                    <input matInput placeholder="Elige un corredor" formControlName="corredor" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Estado</mat-label>
+                                <select matNativeControl formControlName="estado" (change)="estadosChange()">
+                                  <option *ngFor="let item of estadoData" [value]="item.id">{{ item.value }}</option>
+                                </select>
+                              </mat-form-field>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Intermediario</mat-label>
-                    <input matInput placeholder="Elige un intermediario" formControlName="intermediario" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                              <div *ngIf="facultativo">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Poliza</mat-label>
+                                  <input matInput type="text" formControlName="poliza">
+                                </mat-form-field>
+                              </div>
+                            </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>% Participación intermediario</mat-label>
-                    <input matInput placeholder="Parcipación" formControlName="participacionIntermediario"
-                      type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                            <div class="col-xs-12 col-md-6">
+                              <div *ngIf="hiddenState">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Año</mat-label>
+                                  <input matInput type="text" formControlName="anno">
+                                </mat-form-field>
+                              </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>%Comisión intermediario</mat-label>
-                    <input matInput placeholder="Comision" formControlName="comisionIntermediario" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                              <div *ngIf="hiddenState">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Contrato</mat-label>
+                                  <input matInput type="text" formControlName="tipoContrato"
+                                    (change)="buscadorContratos()">
+                                </mat-form-field>
+                              </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Aseguradora</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="aseguradora" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                              <ul id="myUL" *ngIf="lisRequest">
+                                <li *ngFor="let item of dataReq">
+                                  <a href="javascript:void(0)" (click)="cargarContrato(item)">{{ item.o }}</a>
+                                </li>
+                              </ul>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>% participacion Aseguradora</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="participacionAseguradora"
-                      type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                              <div *ngIf="hiddenState">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <input matInput type="text" formControlName="detalle">
+                                </mat-form-field>
+                              </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>% Comisión Aseguradora</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="comisionAseguradora" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                              <div class="form-group" style="margin-top: 4%;">
+                                <div *ngIf="formReporte.value.estado == 1">
+                                  <button mat-raised-button color="primary" class="btn-lg btn-block" data-toggle="modal"
+                                    data-target="#myModal">
+                                    Crear
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Asegurado</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="asegurado" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                            <div *ngIf="facultativo">
+                              <table class="table hoverTable" *ngIf="facultativo">
+                                <thead>
+                                  <tr>
+                                    <th>Cod ramo hola</th>
+                                    <th>Ramos</th>
+                                    <th>Prima Reasegurador</th>
+                                    <th>Prima Cedente</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let item of listareasu2; let i = index;">
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <select matNativeControl [disabled]="true">
+                                          <option value="{{ item.code }}" disabled>{{ item.codr }}</option>
+                                        </select>
+                                      </mat-form-field>
+                                    </td>
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <select matNativeControl [disabled]="true">
+                                          <option value="{{ item.code }}" selected>{{ item.codr1 }}</option>
+                                        </select>
+                                      </mat-form-field>
+                                    </td>
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <input matInput [value]="milesfinal('tabel', item.r2)" disabled>
+                                      </mat-form-field>
+                                      <input type="hidden" formControlName="id{{ i }}" value="{{ item.a }}">
+                                    </td>
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <input matInput [value]="milesfinal('tabel', item.pa)" disabled>
+                                      </mat-form-field>
+                                    </td>
+                                    <td class="cursor_active">
+                                      <button mat-raised-button color="default" data-toggle="modal"
+                                        data-target="#comision" (click)="nominasfinales(item.id)">Garantía de
+                                        Pago</button>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>
+                                      <button mat-raised-button color="default">{{ milesfinal('tabel', sumaramos)
+                                        }}</button>
+                                    </td>
+                                    <td>
+                                      <button mat-raised-button color="default">{{ milesfinal('tabel', sumapoliza)
+                                        }}</button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Nit Asegurado</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="nitAsegurado" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                            <div *ngIf="automatico">
+                              <table class="table hoverTable" *ngIf="automatico">
+                                <thead>
+                                  <tr>
+                                    <th>Cod ramo</th>
+                                    <th>Ramos</th>
+                                    <th>EPI</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let item of listareasu4; let i = index;">
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <select matNativeControl [disabled]="true">
+                                          <option value="{{ item.code }}" disabled>{{ item.codr }}</option>
+                                        </select>
+                                      </mat-form-field>
+                                    </td>
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <select matNativeControl [disabled]="true">
+                                          <option value="{{ item.code }}" selected>{{ item.codr1 }}</option>
+                                        </select>
+                                      </mat-form-field>
+                                    </td>
+                                    <td>
+                                      <mat-form-field appearance="outline" class="full-width">
+                                        <input matInput formControlName="epi">
+                                      </mat-form-field>
+                                    </td>
+                                    <td class="cursor_active">
+                                      <button mat-raised-button color="default" data-toggle="modal"
+                                        data-target="#comisiondos">Garantía de Pago</button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Nota de cobertura </mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="notacobertura " type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
-                </div>
+                          <!--  -->
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Corredor</mat-label>
+                                <select matNativeControl formControlName="corredor" (change)="participacion()" required>
+                                  <option value="">-- Seleccione --</option>
+                                  <option *ngFor="let a of corredores" [value]="a.a">{{ a.a2 }}</option>
+                                </select>
+                              </mat-form-field>
+                            </div>
 
-                <div class="col-6">
-                  <mat-form-field appearance="fill">
-                    <mat-label>Nota debito</mat-label>
-                    <input matInput placeholder="Elige un estado" formControlName="notadebito" type="text" />
-                    <mat-icon matSuffix>poll</mat-icon>
-                    <mat-hint>este campo es obligatorio *</mat-hint>
-                  </mat-form-field>
+                            <div class="col-xs-12 col-md-6" *ngIf="corredorView">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Participación corredor</mat-label>
+                                <input matInput formControlName="participacionCorredor"
+                                  (change)="desimalPor('participacionCorredor')" type="text">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <!--  -->
+
+                          <div class="row" [hidden]="hiddenStateCuota">
+                            <div class="col-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Intermediario</mat-label>
+                                <select matNativeControl formControlName="intermediario" id="dtcr">
+                                  <option value="">-- Seleccione --</option>
+                                  <option *ngFor="let a of intermedario" [value]="a.a">{{ a.a2 }}</option>
+                                </select>
+                              </mat-form-field>
+                              <button mat-raised-button color="primary" (click)="addIntermediario()">Agregar</button>
+                            </div>
+
+                            <div class="col-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>% Participación intermediario</mat-label>
+                                <input matInput type="text" formControlName="partcipacionIntermediario"
+                                  (change)="desimalPor('partcipacionIntermediario')" placeholder="% Participación"
+                                  id="dtpp">
+                              </mat-form-field>
+                            </div>
+                            <div class="col-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>% Comisión intermediario</mat-label>
+                                <input matInput type="text" formControlName="comisionIntermediario"
+                                  (change)="desimalPor('comisionIntermediario')" placeholder="% Participación"
+                                  id="dtpp">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+
+                          <div class="row inter-list" #inter [hidden]="hiddenStateCuota">
+
+                          </div>
+
+                          <div class="row">
+                            <div class="col-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Aseguradora</mat-label>
+                                <select matNativeControl formControlName="aseguradora" id="dtrsg" required>
+                                  <option value="">-- Seleccione --</option>
+                                  <option *ngFor="let a of aseguradoras" [value]="a.a">{{ a.a2 }}</option>
+                                </select>
+                              </mat-form-field>
+                              <button mat-raised-button color="primary" (click)="addAseguradora()">Agregar</button>
+                            </div>
+
+                            <div class="col-3">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>% Participación Aseguradora</mat-label>
+                                <input matInput type="text" formControlName="participacionAsegurada"
+                                  (change)="desimalPor('participacionAsegurada')" placeholder="% Comisión">
+                              </mat-form-field>
+¡                            </div>
+                            <div class="col-3">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>% Comisión Aseguradora</mat-label>
+                                <input matInput type="text" formControlName="comisionAsegurada"
+                                  (change)="desimalPor('comisionAsegurada')" placeholder="% Comisión">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+                          <div class="row inter-list" #aseguradora></div>
+
+                          <div class="row" [hidden]="hiddenStateCuota">
+                            <div class="col-12">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Asegurado</mat-label>
+                                <input matInput type="text" (change)="aseguradorfinal()" name="aseguradorok"
+                                  formControlName="aseguradora" placeholder="Asegurado">
+                              </mat-form-field>
+                              <ul id="myUL" *ngIf="lisRequest2">
+                                <li *ngFor="let item of aseguradornit">
+                                  <a href="javascript:void(0)" (click)="cargarnit(item)">{{item.a2}}</a>
+                                </li>
+                              </ul>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nit Asegurado</mat-label>
+                                <input matInput type="text" formControlName="nit_asegurado" placeholder="Nit">
+                              </mat-form-field>
+                            </div>
+                            <!-- ERROR -->
+                            <div class="col-xs-12 col-md-6">
+                              <!-- <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Otros gastos</mat-label>
+                                <input *ngIf="facultativo" matInput type="text" formControlName="otrosGastos"
+                                  (change)="miles('otrosGastos')" [value]="milesfinal('tabel', restaramospoliza)">
+                                <input *ngIf="automatico" matInput type="text" formControlName="otrosGastos"
+                                  (change)="miles('otrosGastos')">
+                              </mat-form-field> -->
+
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Otros gastos</mat-label>
+                                <input matInput type="text" formControlName="otrosGastos"
+                                  (change)="miles('otrosGastos')"
+                                  [value]="facultativo ? milesfinal('tabel', restaramospoliza) : null"
+                                  [readonly]="!facultativo">
+                              </mat-form-field>
+
+                            </div>
+                            <!-- ERROR -->
+                          </div>
+
+
+
+
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nota de cobertura</mat-label>
+                                <input matInput type="text" formControlName="notaCobertura"
+                                  (change)="desimalPor('notaCobertura')" placeholder="">
+                              </mat-form-field>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Nota débito</mat-label>
+                                <input matInput type="text" formControlName="notaDebitada"
+                                  (change)="desimalPor('notaDebitada')" placeholder="">
+                              </mat-form-field>
+                            </div>
+                          </div>
+
+
+
+                        </div>
+
+
+                        <!-- 0000 -->
+                        <!--cotizacion renovacion-->
+                        <div class="content"
+                          *ngIf="formReporte.controls.estado.value == 1 || formReporte.controls.estado.value == 2">
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="estadosContizacion.solicitud">Solicitud del
+                                  cliente</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="estadosContizacion.corredor">Solicitud del corredor de
+                                  reaseguros al reasegurador</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="estadosContizacion.reasegurador">Respuesta de los
+                                  reaseguradores</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="estadosContizacion.cotizacion">Cotización</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox
+                                  [(ngModel)]="estadosContizacion.confirmacion">Confirmaciones</mat-checkbox>
+                              </div>
+                            </div>
+
+                            <div class="col-xs-12 col-md-6">
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Archivo Solicitud</mat-label>
+                                  <input matInput type="file" (change)="files('solicitud', $event.target.files)">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Archivo Corredor</mat-label>
+                                  <input matInput type="file" (change)="files('corredor', $event.target.files)">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Archivo Reasegurador</mat-label>
+                                  <input matInput type="file" (change)="files('reasegurador', $event.target.files)">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                <a href="asset/cotizacion.doc" download="cotizacion">
+                                  <button mat-raised-button color="primary" style="width:138px">Descargar</button>
+                                </a>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Otro Archivo</mat-label>
+                                  <input matInput type="file">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Order en firme -->
+                        <div class="content" *ngIf="formReporte.controls.estado.value == 3">
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="solicitud">Nota de cobertura</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="corredor">Nota débito</mat-checkbox>
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                              <div class="col-md-12">
+                                <button mat-raised-button color="primary" class="btn btn-alert btn-md shadow-box-item">
+                                  Generar
+                                  <i class="favb fa fa-circle"></i>
+                                </button>
+                              </div>
+                              <div class="col-md-12">
+                                <button mat-raised-button color="primary" class="btn btn-alert btn-md shadow-box-item">
+                                  Generar
+                                  <i class="favb fa fa-circle"></i>
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- Declinación -->
+                        <div class="content" *ngIf="formReporte.controls.estado.value == 4">
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="solicitud">Cliente</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="corredor">Reasegurador</mat-checkbox>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-checkbox [(ngModel)]="corredor">Aseguradora</mat-checkbox>
+                              </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6">
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Archivo 1</mat-label>
+                                  <input matInput type="file">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Archivo 2</mat-label>
+                                  <input matInput type="file">
+                                </mat-form-field>
+                              </div>
+                              <div class="col-md-12">
+                                <mat-form-field appearance="outline" class="full-width">
+                                  <mat-label>Archivo 3</mat-label>
+                                  <input matInput type="file">
+                                </mat-form-field>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <!-- oooo -->
+
+                        <button type="button" class="btn btn-alert btn-md shadow-box-item"
+                          onclick="if(confirm('Antes de salir recuerde guardar los cambios.')){history.go(-1);}else{return false;}">
+                          Regresar
+                          <i class="favb fa fa-circle"></i>
+                        </button>
+                        <button type="submit" class="btn btn-primary" (click)="guardar()"
+                          class="btn btn-info margin-left btn-md shadow-box-item">
+                          Guardar
+                          <i class="favb fa fa-circle">
+                          </i>
+                        </button>
+
+
+
+                        <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
+                          Cancelar
+                          <i class="favb fa fa-circle"></i>
+                        </button>
+                      </div>
+                      <!-- /.table-responsive -->
+                    </div>
+                    <!-- /.box-body -->
+
+                    <!-- /.box-footer -->
+                  </div>
+                  <!-- /.box -->
                 </div>
+                <!-- /.col -->
               </div>
-
-
             </form>
           </div>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--  -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+
+        <h4 class="modal-title font-header" id="myModalLabel">Registrar Contrato</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">A&ntilde;o Contractual</label>
+                <input type="text" autocomplete="off" class="form-control" id="calendar" name="r" [(ngModel)]="modal.r">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="inputEmail4">Tipo de contrato</label>
+                <select class="form-control" name="a2" [(ngModel)]="modal.rt">
+                  <option value="Cuota Parte">Cuota Parte</option>
+                  <option value="/admin/cotizacion/registro">Facultativo</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">ID</label>
+                <input autocomplete="off" type="text" class="form-control" name="newId" placeholder="ID Contrato "
+                  [(ngModel)]="modal.c">
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default"
+          onclick="if(confirm('No se ha guardado la información.\nDesea salir esta página?')){$('#myModal').modal('toggle');}else{return false;}">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="cotizacionF()" data-dismiss="modal">Guardar
+          Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="comision" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel3">Garantia de pago</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-xs-12 ">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No. pagos</th>
+                  <th>Fecha pago</th>
+                  <th>Moneda</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody #table id="gpagos" *ngIf="ok == 'list'">
+
+                <tr>
+                  <td>
+                    <input type="text" placeholder="1" name="n_pago" class="form-control">
+                  </td>
+                  <td>
+                    <input type="date" placeholder="00/00/0000" alt="dia mes año" name="fecha" class="form-control">
+                  </td>
+                  <td>
+                    <select name="moneda" class="form-control">
+                      <option value="">Selecione una moneda</option>
+                      <option [value]="item.a" *ngFor="let item of monedaopt"> {{item.c}} </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" placeholder="10000000" name="valor" (change)="calcular()" class="form-control">
+                  </td>
+                </tr>
+
+              </tbody>
+              <tbody #table id="gpagos" *ngIf="ok == 'ok'">
+                <tr *ngFor="let item of listareasu3">
+                  <td>
+                    <input type="text" placeholder="1" name="n_pago" class="form-control" value="{{item.npg}}">
+                  </td>
+                  <td>
+                    <input type="date" placeholder="00/00/0000" alt="dia mes año" name="fecha" class="form-control"
+                      value="{{item.fch}}">
+                  </td>
+                  <td>
+                    <select name="moneda" class="form-control">
+                      <option [value]="item.a" *ngFor="let item of monedaopt"> {{item.c}} </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" placeholder="10000000" name="valor" (change)="calcular()" class="form-control"
+                      value="{{item.vl}}">
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <div>
+              Total: {{totalPrima}}
+            </div>
+            <button *ngIf="ok == 'list'" (click)="adicionar()" class="btn btn-primary">Adicionar celda</button>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="garantiaList()" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="comisiondos" tabindex="-1" role="dialog" aria-labelledby="myModalLabel4">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel3">Garantia de pago</h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-xs-12 ">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>No. pagos</th>
+                  <th>Fecha pago</th>
+                  <th>Moneda</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody #table id="gpagos">
+
+                <tr>
+                  <td>
+                    <input type="text" placeholder="1" name="n_pago" class="form-control">
+                  </td>
+                  <td>
+                    <input type="date" placeholder="00/00/0000" alt="dia mes año" name="fecha" class="form-control">
+                  </td>
+                  <td>
+                    <select name="moneda" class="form-control">
+                      <option value="">Selecione una moneda</option>
+                      <option [value]="item.a" *ngFor="let item of monedaopt"> {{item.c}} </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" placeholder="10000000" name="valor" (change)="calcular()" class="form-control">
+                  </td>
+                </tr>
+
+              </tbody>
+            </table>
+            <div>
+              Total: {{totalPrima}}
+            </div>
+            <button *ngIf="ok == 'list'" (click)="adicionar()" class="btn btn-primary">Adicionar celda</button>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" (click)="garantiaList()" class="btn btn-primary" data-dismiss="modal">Guardar</button>
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
       </div>
     </div>
   </div>

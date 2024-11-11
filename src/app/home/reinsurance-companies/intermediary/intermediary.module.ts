@@ -14,10 +14,11 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MenuModule } from '../menu/menu.module';
+import { NewIntermediaryComponent } from './new-intermediary/new-intermediary.component';
 
 
 @NgModule({
-  declarations: [IntermediaryComponent],
+  declarations: [IntermediaryComponent, NewIntermediaryComponent],
   imports: [
     CommonModule,
     IntermediaryRoutingModule,

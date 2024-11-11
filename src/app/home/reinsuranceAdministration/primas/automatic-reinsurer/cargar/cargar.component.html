@@ -1,0 +1,222 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">storage</i>
+            </div>
+            <h4 class="card-title">Listado</h4>
+            <!-- MENU -->
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="box box-info">
+                  <div class="box-header with-border">
+
+                    <h3 class="box-title">
+                      {{modulo}}
+                    </h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <div class="table-responsive">
+
+
+
+                      <div class="content">
+                        <div class="row">
+                          <div class="col-md-12">
+
+                            <div class="col-md-12">
+                              <a href="http://www.api.acresarconsultores.com/files/Formato_Primas.xlsx">
+                                <button type="button" class="btn btn-info margin-left btn-md shadow-box-item">Descargar
+                                  Formato Base</button>
+                              </a>
+                            </div>
+                          </div>
+                        </div>
+
+                        <form>
+                          <div class="row">
+                            <div class="col-xs-12 col-md-6">
+                              <div class="row">
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Cargar</mat-label>
+                                    <mat-select [(ngModel)]="selects.type" #type="ngModel" required>
+                                      <mat-option selected value="">-- Seleccione --</mat-option>
+                                      <mat-option *ngFor="let s of cargars" [value]="s.a">{{s.c}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                  <mat-form-field appearance="outline">
+                                    <mat-label>Compañía</mat-label>
+                                    <mat-select [(ngModel)]="selects.company" #company="ngModel" required>
+                                      <mat-option selected value="">-- Seleccione --</mat-option>
+                                      <mat-option *ngFor="let c of compania" [value]="c.a">{{c.c}}</mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row ">
+                            <div class="col-md-12  m-auto">
+                              <file-upload [(ngModel)]="uploadedFiles" [animation]="animation" [multiple]="multiple"
+                                [accept]="'.xlsx,.xls'" (change)="onAccept()" name="files"
+                                [disabled]="isDisabled"></file-upload>
+
+                            </div>
+                            <!-- <file-upload [(ngModel)]="uploadedFiles" [disabled]="isDisabled" name="files"></file-upload>
+                            <button (click)="procesarArchivos()">Procesar Archivos</button> -->
+                          </div>
+                          <div class="row">
+
+                            <div class="col-md-12">
+                              <br>
+                              <br>
+                              <button (click)="SendFile()" type="button"
+                                class="btn btn-info margin-left btn-md shadow-box-item">Cargar</button>
+                            </div>
+                            <div *ngIf="load" class="col-md-12">
+                              <div class="spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
+                              </div>
+
+                            </div>
+                          </div>
+
+                        </form>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <div *ngIf="msjTableErr">
+                            <div class="alert alert-danger" role="alert">
+                              <h2 class="title"> {{msg.mensaje}} </h2>
+                            </div>
+                            <div class="col-md-12">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>Mensaje</th>
+                                    <th>Error</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  <tr *ngFor="let item of msg.error">
+                                    <td>
+                                      {{item[0]}}
+                                    </td>
+                                    <td>
+                                      <span *ngFor="let e of item[1]">
+                                        <span *ngFor="let ita of e" style="display: block">{{ita}}</span>
+                                      </span>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+
+                          </div>
+
+                          <div>
+                            <div class="row">
+                              <div class="col-md-12" *ngIf="tableActiveRq">
+                                <div class="alert alert-success" role="alert">
+                                  {{msg.mensaje}}
+                                </div>
+                              </div>
+                              <div class="col-md-12" *ngIf="verT">
+                                <table id="myData2" style="display: block" class="row-border hover">
+                                  <thead>
+                                    <tr>
+                                      <th>Nombre Sucursal</th>
+                                      <th>Asegurado</th>
+                                      <th>Valor Prima</th>
+                                      <th>Valor Asegurado</th>
+                                      <th>Poliza</th>
+                                      <th>Certificado</th>
+                                      <th>Ramo Tecnico</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+
+                                    <tr *ngFor="let item of verData">
+                                      <td> {{item.int}} </td>
+                                      <td> {{item.ase_name}} </td>
+                                      <td> {{item.n}} </td>
+                                      <td> {{item.s2}} </td>
+                                      <td> {{item.r2}} </td>
+                                      <td> {{item.a2}} </td>
+                                      <td> ramo </td>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="Title"> Historico </h2>
+                              <table id="myData" style="display: none" class="row-border hover">
+                                <thead>
+                                  <tr>
+                                    <th>Fecha</th>
+                                    <th>Usuario</th>
+                                    <th>Accion</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  <tr *ngFor="let item of historicos">
+                                    <td>{{item.c}}</td>
+                                    <td>....</td>
+                                    <td>
+                                      <a (click)="ver(item.a)">
+                                        <span class="fav fa fa-eye"></span>
+                                        Ver
+                                      </a>
+                                      <a href="#">
+                                        <span class="fav fa fa-trash"></span>
+                                        Eliminar
+                                      </a>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+                    </div>
+                    <!-- /.table-responsive -->
+                  </div>
+                  <!-- /.box-body -->
+
+                  <!-- /.box-footer -->
+                </div>
+                <!-- /.box -->
+              </div>
+              <!-- /.col -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -17,9 +17,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { DateTimePickerModule } from '@syncfusion/ej2-angular-calendars';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
+import { LOCALE_ID } from '@angular/core';
+import { DetalleEditComponent } from './detalle-edit/detalle-edit.component';
 @NgModule({
   declarations: [
     CuotaParteComponent,
+    DetalleEditComponent,
   ],
   imports: [
     CommonModule,

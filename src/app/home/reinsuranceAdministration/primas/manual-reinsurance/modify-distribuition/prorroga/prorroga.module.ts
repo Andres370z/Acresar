@@ -14,9 +14,12 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { FacultativoComponent } from './facultativo/facultativo.component';
+import { AutomaticosComponent } from './automaticos/automaticos.component';
+import { FirstMenuModule } from 'src/app/home/reinsuranceAdministration/first-menu/first-menu.module';
 
 @NgModule({
-  declarations: [ProrrogaComponent],
+  declarations: [ProrrogaComponent, FacultativoComponent, AutomaticosComponent],
   imports: [
     CommonModule,
     ProrrogaRoutingModule,
@@ -33,6 +36,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatButtonModule,
     MatDatepickerModule,
     MatAutocompleteModule,
+    FirstMenuModule
   ]
 })
 export class ProrrogaModule { }

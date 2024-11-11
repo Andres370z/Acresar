@@ -13,9 +13,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { FacultativoDetalleEditComponent } from '../facultativo-detalle-edit/facultativo-detalle-edit.component';
 
 @NgModule({
-  declarations: [FacultativoEditComponent],
+  declarations: [FacultativoEditComponent, FacultativoDetalleEditComponent],
   imports: [
     CommonModule,
     FacultativoEditRoutingModule,

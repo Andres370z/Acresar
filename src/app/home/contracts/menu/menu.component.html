@@ -2,7 +2,6 @@
   <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Automáticos</button>
   <mat-menu #matMenu="matMenu">
     <button mat-menu-item [matMenuTriggerFor]="proporcionales">Proporcionales</button>
-    <button mat-menu-item (click)="navigate('home/contracts/Facultativos')">Automàticos</button>
   </mat-menu>
   <mat-menu #proporcionales="matMenu">
     <button mat-menu-item (click)="navigate('home/contracts/Automaticos/proporcionales/cuota-parte')">Cuota

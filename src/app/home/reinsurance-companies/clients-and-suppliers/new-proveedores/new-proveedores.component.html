@@ -1,0 +1,346 @@
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card ">
+          <div class="card-header card-header-rose card-header-icon">
+            <div class="card-icon" style="background-color: #016672;">
+              <i class="material-icons">library_add</i>
+            </div>
+            <h4 class="card-title">Nuevo Provedor</h4>
+          </div>
+          <div class="card-body">
+            <form novalidate (ngSubmit)="create(createForm.value)" #createForm="ngForm">
+              <div class="row">
+                <div class="col-12">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Entidad</mat-label>
+                    <select matNativeControl id="e" name="e" [(ngModel)]="selectEntidad" #e="ngModel" required>
+                      <option value="">Seleccione</option>
+                      <option *ngFor="let item of Rsltnntdds" [value]="item.a">{{item.c}}</option>
+                    </select>
+                    <mat-error *ngIf="e.errors?.required && e.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Razón Social</mat-label>
+                    <input matInput type="text" id="r" name="r" placeholder="Razon Social" [(ngModel)]="reaseguroData.r"
+                      #r="ngModel" required>
+                    <mat-error *ngIf="r.errors?.required && r.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Nombre Abreviado</mat-label>
+                    <input matInput type="text" id="na" name="na" placeholder="Nombre Abreviado"
+                      [(ngModel)]="reaseguroData.na" #na="ngModel" required>
+                    <mat-error *ngIf="na.errors?.required && na.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-4">
+                  <mat-form-field appearance="outline">
+                    <mat-label>NIT</mat-label>
+                    <input matInput type="text" id="ni" name="ni" placeholder="NIT" [(ngModel)]="reaseguroData.nt"
+                      #ni="ngModel" required>
+                    <mat-error *ngIf="ni.errors?.required && ni.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-2">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Cod</mat-label>
+                    <select matNativeControl name="cod" [(ngModel)]="codigoNit" required>
+                      <option [value]="item" *ngFor="let item of [0,1,2,3,4,5,6,7,8,9]">{{item}}</option>
+                    </select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Teléfono</mat-label>
+                    <input matInput type="text" id="te" name="te" placeholder="Teléfono" [(ngModel)]="reaseguroData.te"
+                      #te="ngModel" required>
+                    <mat-error *ngIf="te.errors?.required && te.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Dirección</mat-label>
+                    <input matInput type="text" id="d" name="d" placeholder="Dirección" [(ngModel)]="reaseguroData.dr"
+                      #d="ngModel" required>
+                    <mat-error *ngIf="d.errors?.required && d.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-xs-12 col-md-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Contacto</mat-label>
+                    <input matInput type="text" id="con" name="con" placeholder="Contacto" [(ngModel)]="reaseguroData.c"
+                      #con="ngModel" required>
+                    <mat-error *ngIf="con.errors?.required && con.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>País Origen</mat-label>
+                    <select matNativeControl id="p" name="p" [(ngModel)]="selectPais" #p="ngModel" required>
+                      <option value="">Seleccione</option>
+                      <option *ngFor="let item of Rsltnpss" [value]="item.a">{{item.c}}</option>
+                    </select>
+                    <mat-error *ngIf="p.errors?.required && p.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Región</mat-label>
+                    <input matInput type="text" id="rg" name="rg" placeholder="Región" [(ngModel)]="reaseguroData.rg"
+                      #rg="ngModel" required>
+                    <mat-error *ngIf="rg.errors?.required && rg.touched">
+                      Este campo es requerido
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+
+              <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
+                Regresar
+                <i class="favb fa fa-circle"></i>
+              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="createForm.invalid">
+                Guardar
+                <i class="favb fa fa-circle"></i>
+              </button>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Datos Bancarios</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Empresa a girar</label>
+                <input type="file" class="form-control" id="inputEmail4" placeholder="Empresa a girar">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Titular / Owner </label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Titular / Owner">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="inputEmail4">Número de cuenta / Account Number</label>
+                <input type="text" class="form-control" id="inputEmail4"
+                  placeholder="Número de cuenta / Account Number">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Moneda / Currency</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Moneda / Currency">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">ABA / SWIFT</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="ABA / SWIFT">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Banco / Bank </label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Banco / Bank">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Pais / Country</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Pais / Country">
+              </div>
+            </div>
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Ciudad / City</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Ciudad / City">
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Certificación / Certification</label>
+                <input type="file" class="form-control" id="inputEmail4" placeholder="Certificación">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Certificación / Certification</label>
+                <input type="file" class="form-control" id="inputEmail4" placeholder="Certificación">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Certificación / Certification</label>
+                <input type="file" class="form-control" id="inputEmail4" placeholder="Certificación">
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel2">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content ">
+      <div class="modal-header  box box-info">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title font-header" id="myModalLabel">Agregar Contacto</h4>
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Nombre Contacto</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Nombre Contacto">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Cargo</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Cargo">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Correo Electrónico</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="orreo Electrónico">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12">
+              <div class="form-group">
+                <label for="inputEmail4">Dirección</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Dirección">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Teléfono</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Correo Electrónico</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Teléfono">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 ">
+              <div class="form-group">
+                <label for="inputEmail4">Pais</label>
+                <input type="text" class="form-control" id="inputEmail4" placeholder="Pais">
+              </div>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Guardar Cambios</button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -30,6 +30,12 @@
     width: 225px;
 }
 
+.tab-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
 
 
 

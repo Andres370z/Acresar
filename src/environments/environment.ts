@@ -6,7 +6,7 @@
 export const environment = {
   production: false,
   api: 'https://systemresolutiondesarrollo.softsaenz.com.co/api/',
-  api2: 'https://systemresolution.softsaenz.com.co/api',
+  api2: 'https://www.api.acresarconsultores.com/api',
   apiRespaldo: 'https://systemresolutiondesarrollo.softsaenz.com.co/api/',
   img: 'https://systemresolutiondesarrollo.softsaenz.com.co/img/'
   //api3: 'ttps://api.systemresolution.com/api'

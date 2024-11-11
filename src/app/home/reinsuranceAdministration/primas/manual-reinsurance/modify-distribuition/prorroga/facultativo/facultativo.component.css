@@ -1,0 +1,15 @@
+form {
+    width: 100%;
+}
+.col-md-12.text-center-pro {
+    text-align: right;
+    padding: 20px;
+}
+.col-md-12.text-center-pro button {
+    margin-right: 13px;
+}
+td.ajuest-final {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
