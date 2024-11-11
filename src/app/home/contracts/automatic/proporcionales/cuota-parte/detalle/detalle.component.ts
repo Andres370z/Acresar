@@ -16,10 +16,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./detalle.component.css']
 })
 export class DetalleComponent implements OnInit {
+  active: boolean = false;
+  searchText: string = '';
   datajsonNominas: any = [];
   formarrastrePerdidaTempo = 'hasta extinsion'
   rsltncr: Observable<any>;
-  rsltnrsgr: Observable<any>;
+  rsltnrsgr: any[] = [] ;
   cmsn: JQuery;
   currency: Observable<any>;
   _ls_trasp_tip: any;
@@ -182,6 +184,15 @@ export class DetalleComponent implements OnInit {
     });
 
 
+  }
+  get filteredOptions() {
+    if (!this.searchText) {
+      return this.rsltnrsgr; // Si no hay texto de búsqueda, se muestran todas las opciones
+    }
+    return this.rsltnrsgr.filter(item => 
+      item.cod.toLowerCase().includes(this.searchText.toLowerCase()) || 
+      item.e.toLowerCase().includes(this.searchText.toLowerCase())
+    );
   }
 
   sendModalCom() {

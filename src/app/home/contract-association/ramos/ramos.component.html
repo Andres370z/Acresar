@@ -209,7 +209,10 @@
 
               </div>
             </div>
-
+            <button mat-button type="button" (click)="navigate('home/asociacion/contratos')" class="btn btn-alert btn-md shadow-box-item">
+              Regresar
+              <i class="favb fa fa-circle"></i>
+            </button>
             <!-- /.table-responsive -->
           </div>
         </div>
@@ -308,7 +311,7 @@
 
                 <mat-label for="inputEmail4">Tipo de Asociación</mat-label>
                 <select matNativeControl (change)="getDetail()" formControlName="tipoAsociacion">
-                  <option  *ngFor="let item of tiposAsoc" [value]="item.a">{{item.c}}</option>
+                  <option *ngFor="let item of tiposAsoc" [value]="item.a">{{item.c}}</option>
                 </select>
               </mat-form-field>
 

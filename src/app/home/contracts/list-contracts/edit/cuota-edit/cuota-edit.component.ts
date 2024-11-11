@@ -163,9 +163,11 @@ export class CuotaEditComponent implements OnInit {
             for (let i = 0; i < res.length; i++) {
               const element = res[i];
               if (element.c == cnt.mn) {
-                
+
                 this.moneda = element.a;
-                console.log('---- entra al if', this.moneda);
+                const data = element.c
+                console.log('---- entra al if', data);
+                this.cuotaParteForm.controls.moneda.setValue(this.moneda)
 
               }
 
@@ -191,6 +193,9 @@ export class CuotaEditComponent implements OnInit {
           console.log(err);
         }
       );
+    console.log('este es sumalimite: ', this.form.sumaLimite);
+
+
   }
 
 
@@ -324,6 +329,7 @@ export class CuotaEditComponent implements OnInit {
   }
   miles(form: string, key: any) {
     if (form === 'cuotaParteFormreasegurador') {
+
       let value = this.cuotaParteFormreasegurador.controls[key].value;
       if (value.split('.').length > 2) {
         value = this._pct.removerDesimal(this.cuotaParteFormreasegurador.controls[key].value);
@@ -332,13 +338,13 @@ export class CuotaEditComponent implements OnInit {
       this.cuotaParteFormreasegurador.controls[key].setValue(val.toString());
     }
     if (form == 'tabel') {
-      const cortar = this.cortarDesimales(key);
+      const cortar = this.cortarDesimales(key)
       const quitar = this.desimal(cortar);
-      console.log('este es quitar ', quitar);
       return quitar;
-    }
+    } 
+
   }
-  
+
   desimalPor(key: any) {
     let e = key
     if (e != undefined) {
@@ -449,10 +455,10 @@ export class CuotaEditComponent implements OnInit {
 
   editar(item: any, vl: any, cp: string) {
     this.formItem = this.cuotaParteForm.value;
-    $("#myModal").click(); 
+    $("#myModal").click();
     if (vl == 0) {
       if (item != '') {
-        sessionStorage.setItem('v', "0"); 
+        sessionStorage.setItem('v', "0");
         sessionStorage.setItem('editarC', JSON.stringify(item));
         $("#myModal").click();
         this.router.navigate(['home/contracts/Automaticos/proporcionales/cuota-parte/detalle-edit']);
@@ -530,7 +536,7 @@ export class CuotaEditComponent implements OnInit {
         .then(
           res => {
             //sessionStorage.clear();
-            this.Alertservice.success('Ok',res.mensaje);
+            this.Alertservice.success('Ok', res.mensaje);
             sessionStorage.clear();
             this.router.navigate(["home/contracts/"]);
           },
@@ -710,15 +716,20 @@ export class CuotaEditComponent implements OnInit {
     }
   }
   porcentaje(key: any, form?) {
-    //console.log(key, form);
+    console.log('Entra porcentaje', key, form);
     if (!!form) {
+      console.log('Entra porcentaje 2', key, form);
+
       const value = this.cuotaParteFormreasegurador.controls[key].value;
       this.cuotaParteFormreasegurador.controls[key].setValue(
         this.procentaje(value)
       );
     } else {
       const porcentaje = this.procentaje(key);
+      console.log('porcentaje, ', porcentaje);
+      
       return porcentaje;
+      
     }
 
   }
@@ -791,46 +802,46 @@ export class CuotaEditComponent implements OnInit {
   create() {
     if (this.renovacion.length !== 0) {
       console.log('Found');
-      
+
       const form = this.cuotaParteForm.value;
       sessionStorage.setItem('formCuotaP', JSON.stringify(form));
       // tslint:disable-next-line:no-debugger
       const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
       const formfinal = this.cuotaParteForm.value;
       if (formfinal.codigocontrato === undefined && formfinal.codigocontrato === '') {
-        this.Alertservice.messageInfo('Hey','Campo del codigo del contrato es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo del codigo del contrato es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.descripcion === undefined || formfinal.descripcion === '') {
-        this.Alertservice.messageInfo('Hey','Campo descripción es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo descripción es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.fechaInicio === undefined || formfinal.fechaInicio === '') {
-        this.Alertservice.messageInfo('Hey','Campo fecha de inicio es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo fecha de inicio es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.horainicio === undefined || formfinal.horainicio === '') {
-        this.Alertservice.messageInfo('Hey','Campo hra inicial es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo hra inicial es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.fechaFin === undefined || formfinal.fechaFin === '') {
-        this.Alertservice.messageInfo('Hey','Campo fecha final  es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo fecha final  es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.horafin === undefined || formfinal.horafin === '') {
-        this.Alertservice.messageInfo('Hey','Campo  hora final es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo  hora final es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.moneda === undefined || formfinal.model === '') {
-        this.Alertservice.messageInfo('Hey','Campo moneda es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo moneda es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.observacion === '' || formfinal.observacion === undefined) {
-        this.Alertservice.messageInfo('Hey','Campo observación es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo observación es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (formfinal.siniestroContrato === '' || formfinal.siniestroContrato === undefined) {
-        this.Alertservice.messageInfo('Hey','Campo siniestro es obligatorio');
+        this.Alertservice.messageInfo('Hey', 'Campo siniestro es obligatorio');
       }
       // tslint:disable-next-line:one-line
       else if (form2) {
@@ -868,39 +879,39 @@ export class CuotaEditComponent implements OnInit {
         const form2 = JSON.parse(sessionStorage.getItem('formCuotaP'));
         const formfinal = this.cuotaParteForm.value;
         if (formfinal.codigocontrato === undefined && formfinal.codigocontrato === '') {
-          this.Alertservice.messageInfo('Hey','Campo del codigo del contrato es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo del codigo del contrato es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.descripcion === undefined || formfinal.descripcion === '') {
-          this.Alertservice.messageInfo('Hey','Campo descripción es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo descripción es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.fechaInicio === undefined || formfinal.fechaInicio === '') {
-          this.Alertservice.messageInfo('Hey','Campo fecha de inicio es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo fecha de inicio es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.horainicio === undefined || formfinal.horainicio === '') {
-          this.Alertservice.messageInfo('Hey','Campo hra inicial es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo hra inicial es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.fechaFin === undefined || formfinal.fechaFin === '') {
-          this.Alertservice.messageInfo('Hey','Campo fecha final  es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo fecha final  es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.horafin === undefined || formfinal.horafin === '') {
-          this.Alertservice.messageInfo('Hey','Campo  hora final es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo  hora final es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.moneda === undefined || formfinal.model === '') {
-          this.Alertservice.messageInfo('Hey','Campo moneda es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo moneda es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.observacion === '' || formfinal.observacion === undefined) {
-          this.Alertservice.messageInfo('Hey','Campo observación es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo observación es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (formfinal.siniestroContrato === '' || formfinal.siniestroContrato === undefined) {
-          this.Alertservice.messageInfo('Hey','Campo siniestro es obligatorio');
+          this.Alertservice.messageInfo('Hey', 'Campo siniestro es obligatorio');
         }
         // tslint:disable-next-line:one-line
         else if (form2) {
@@ -940,7 +951,7 @@ export class CuotaEditComponent implements OnInit {
     this.cuotaParteForm.reset();
     // tslint:disable-next-line:prefer-const
     let res = 'Contrato creado exitosamente';
-    this.Alertservice.success('Ok',res);
+    this.Alertservice.success('Ok', res);
     this.router.navigate(['home/contracs']);
     // tslint:disable-next-line:one-line
 
@@ -949,7 +960,7 @@ export class CuotaEditComponent implements OnInit {
     const parti = this.cortarDesimales(part);
     console.log(`>> ${parti}`);
     if (parti >= 100) {
-      this.Alertservice.error('UPS','Participacion igual al 100% ya no puedes seguir agregando mas nomina');
+      this.Alertservice.error('UPS', 'Participacion igual al 100% ya no puedes seguir agregando mas nomina');
     } else {
       sessionStorage.setItem('id', JSON.stringify(item));
       this.router.navigate(['home/contracts']);

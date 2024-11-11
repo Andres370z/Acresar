@@ -26,12 +26,30 @@
                   </div>
 
                   <div class="col-xs-12 col-md-6">
-                    <mat-form-field appearance="outline" class="full-width">
+                    <!-- <mat-form-field appearance="outline" class="full-width">
                       <mat-label>Reasegurador</mat-label>
                       <select matNativeControl [(ngModel)]="form.reseasegurador" id="dtrsg" name="dtrsg" ngModel
                         #dtrsg="ngModel" required>
                         <option *ngFor="let item of rsltnrsgr " [value]="item.a">{{item.cod}} {{item.e}}</option>
                       </select>
+                    </mat-form-field> -->
+
+                    <mat-form-field appearance="outline">
+                      <mat-label>Reasegurador</mat-label>
+                      <mat-select [(ngModel)]="form.reseasegurador" id="dtrsg" name="dtrsg" required
+                        [disabled]="active">
+                        <!-- Campo de búsqueda -->
+                        <mat-form-field appearance="outline">
+                          <input matInput [(ngModel)]="searchText" placeholder="Buscar...">
+
+                        </mat-form-field>
+
+
+                        <!-- Opciones filtradas -->
+                        <mat-option *ngFor="let item of filteredOptions" [value]="item.a">
+                          {{ item.cod }} {{ item.e }}
+                        </mat-option>
+                      </mat-select>
                     </mat-form-field>
                   </div>
                 </div>
