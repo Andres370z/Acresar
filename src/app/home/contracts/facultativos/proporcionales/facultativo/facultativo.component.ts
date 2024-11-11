@@ -401,7 +401,7 @@ export class FacultativoComponent implements OnInit, OnDestroy {
       res => {
         this.alertService.messagefin();
         sessionStorage.setItem('idcontratoreasegurador', JSON.stringify(res));
-        // this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
+        this.router.navigate(['admin/contratos/facultativos/proporcionales/facultativo/detalle']);
         this.reasegurador = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
       }, err => {
         this.alertService.error('No se logró el envio del formulario', 'Error')
