@@ -19,6 +19,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCardModule } from '@angular/material/card';
 import { LOCALE_ID } from '@angular/core';
 import { DetalleEditComponent } from './detalle-edit/detalle-edit.component';
+import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
 @NgModule({
   declarations: [
     CuotaParteComponent,
@@ -44,7 +45,7 @@ import { DetalleEditComponent } from './detalle-edit/detalle-edit.component';
     DateTimePickerModule,
     MatDialogModule,
     MatCardModule,
-    
+    MatAutocompleteModule
   ]
 })
 export class CuotaParteModule { }

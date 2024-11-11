@@ -52,7 +52,7 @@
 
 
                             <div class="col-3">
-                              <mat-form-field appearance="outline" class="full-width">
+                              <mat-form-field appearance="outline">
                                 <mat-label>Fecha Inicio</mat-label>
                                 <input matInput type="date" placeholder="dd/mm/yyyy" formControlName="fechaInicio">
                               </mat-form-field>
@@ -60,12 +60,12 @@
                             <div class="col-3">
                               <mat-form-field appearance="outline" class="full-width">
                                 <mat-label>Hora Inicio</mat-label>
-                                <input matInput type="time" formControlName="horainicio">
+                                <input matInput type="text" name="hora"  step="1" formControlName="horainicio" placeholder="ejemplo: 13:57:20">
                               </mat-form-field>
                             </div>
 
                             <div class="col-3">
-                              <mat-form-field appearance="outline" class="full-width">
+                              <mat-form-field appearance="outline">
                                 <mat-label>Fecha Fin</mat-label>
                                 <input matInput type="date" placeholder="dd/mm/yyyy" formControlName="fechaFin">
                               </mat-form-field>
@@ -73,7 +73,8 @@
                             <div class="col-3">
                               <mat-form-field appearance="outline" class="full-width">
                                 <mat-label>Hora Fin</mat-label>
-                                <input matInput type="time" [step]="interval" formControlName="horafin">
+                                <input matInput type="text" name="hora"  step="1" formControlName="horafin" placeholder="ejemplo: 13:57:20">
+                                
                               </mat-form-field>
                             </div>
                           </div>
@@ -97,6 +98,18 @@
                                   (change)="miles('cuotaParteForm','siniestroContrato')">
                               </mat-form-field>
                             </div>
+
+                            <div class="col-12">
+                              <mat-form-field appearance="outline" class="full-width">
+                                <mat-label>Agencias</mat-label>
+                                <select matNativeControl>
+                                  <option>Agencia 1</option>
+                                  <option>Agencia 2</option>
+                                  <option>Agencia 3</option>
+                                </select>
+                              </mat-form-field>
+                            </div>
+
                           </div>
 
                           <div class="row">

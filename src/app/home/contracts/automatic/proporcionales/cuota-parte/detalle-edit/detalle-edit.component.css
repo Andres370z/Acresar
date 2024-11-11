@@ -1,3 +1,9 @@
 form {
     width: 100%;
 }
+.custom-panel {
+  display: flex;
+  flex-direction: column-reverse;  /* Hace que las opciones se alineen desde el fondo */
+  max-height: 200px; /* Controla la altura máxima */
+  overflow-y: auto; /* Habilita el desplazamiento si las opciones exceden la altura */
+}

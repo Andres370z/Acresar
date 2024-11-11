@@ -47,9 +47,9 @@ const routes: Routes = [
   { path: 'contracts/Automaticos', loadChildren: () => import('./contracts/automatic/automatic.module').then(m => m.AutomaticModule) },
 
   /**Asociacion de colombia */
-  { path: 'asociacion/contratos', loadChildren: () => import('./contract-association/ramos/ramos.module').then(m => m.RamosModule) },
+  // { path: 'asociacion/contratos', loadChildren: () => import('./contract-association/ramos/ramos.module').then(m => m.RamosModule) },
   { path: 'asociacion-ramos', loadChildren: () => import('./contract-association/ramos/ramos.module').then(m => m.RamosModule) },
-   {path: 'asociacion/ramos', loadChildren:() => import ('./contract-association/contracs/contracs.module').then(m => m.ContracsModule)},
+   {path: 'asociacion/contratos', loadChildren:() => import ('./contract-association/contracs/contracs.module').then(m => m.ContracsModule)},
   { path: 'asociacion/asociacion-contratos', loadChildren: () => import('./contract-association/contract-association-contract-form/contract-association-contract-form.module').then(m => m.ContractAssociationContractFormModule) },
   { path: 'reinsuranceAdministration/primas', loadChildren: () => import('./reinsuranceAdministration/primas/primas.module').then(m => m.PrimasModule) },
   { path: 'reinsuranceAdministration/siniestro', loadChildren: () => import('./reinsuranceAdministration/siniestro/list-siniestro/list-siniestro.module').then(m => m.ListSiniestroModule) },

@@ -11,9 +11,10 @@ import { AuthService } from 'src/app/service/auth.service';
   styleUrls: ['./detalle-edit.component.css']
 })
 export class DetalleEditComponent implements OnInit {
+  searchText: string = '';
   datajsonNominas: any = [];
   rsltncr: Observable<any>;
-  rsltnrsgr: Observable<any>;
+  rsltnrsgr: any[] = [];
   cmsn: JQuery;
   currency: Observable<any>;
   _ls_trasp_tip: any;
@@ -297,7 +298,15 @@ export class DetalleEditComponent implements OnInit {
       }
     }
   }
-
+  get filteredOptions() {
+    if (!this.searchText) {
+      return this.rsltnrsgr; // Si no hay texto de búsqueda, se muestran todas las opciones
+    }
+    return this.rsltnrsgr.filter(item => 
+      item.cod.toLowerCase().includes(this.searchText.toLowerCase()) || 
+      item.e.toLowerCase().includes(this.searchText.toLowerCase())
+    );
+  }
   decimal(item: any) {
 
     item = item.toString();
@@ -809,6 +818,8 @@ export class DetalleEditComponent implements OnInit {
       if (this.validData[i].a == parseInt(item)) {
         this.memoria = this.validData[i];
         this.form.cartera = this.validData[i].c;
+        console.log('Esta es cartera, ', this.form.cartera);
+        
       }
     }
   }
