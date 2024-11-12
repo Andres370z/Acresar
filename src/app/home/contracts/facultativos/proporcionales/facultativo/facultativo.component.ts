@@ -66,7 +66,6 @@ export class FacultativoComponent implements OnInit {
   public user: any;
   listTb: any = [];
   contar = 0;
-  public agency: any ;
   private _pct = new Procentajes();
   constructor(
     private router: Router,
@@ -127,18 +126,7 @@ export class FacultativoComponent implements OnInit {
     this.ctb3 = '+';
     this.ctb4 = '+';
     this.ctb5 = '+';
-
-
-    this.service.getQuery("agencias").then(
-      res => {
-        this.agency = res;
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
-
+    
     this.service.getRamos().then(
       res => {
         this.ramos = res;
@@ -434,7 +422,6 @@ export class FacultativoComponent implements OnInit {
                 observacion: form2['observacion'],
                 horainicio: this.transformarHora(this.cuotaParteForm.value.horainicio),// Hours
                 horafin: this.transformarHora(this.cuotaParteForm.value.horafin),
-                agency: formfinal.agency
               };
               this.service.postFacultativoContra(data).then(
                 res => {
@@ -477,8 +464,6 @@ export class FacultativoComponent implements OnInit {
                 moneda: form2['moneda'],
                 siniestroContrato: this._pct.removerDesimal(form2['siniestroContrato']),
                 observacion: form2['observacion'],
-                horainicio: d.getHours() + ':' + d.getMinutes() + ':' + d.getSeconds(),
-                agency: formfinal.agency, // Hours
                 horafin: e.getHours() + ':' + e.getMinutes() + ':' + e.getSeconds()
               };
               this.service.postFacultativoContra(data).then(

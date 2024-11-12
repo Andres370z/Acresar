@@ -123,7 +123,7 @@ export class CuotaEditComponent implements OnInit {
     this.createForm();
     this.createFormreasegurador();
     const id = JSON.parse(sessionStorage.getItem('cp'));
-
+    console.log("result", id)
     this._ls.getReinsurer().then(
       res => {
         this.reasegurador = res;
@@ -136,7 +136,7 @@ export class CuotaEditComponent implements OnInit {
       .then(
         res => {
           this.cuotaParteForm.reset();
-
+          localStorage.setItem('idcontrato', JSON.stringify(res))
           this.dataEdicion = res.cnt;
           const cnt = res.cnt;
           const cps = res.cps;
@@ -146,7 +146,7 @@ export class CuotaEditComponent implements OnInit {
           this.fecha2 = { year: fFin[0], month: fFin[1], day: fFin[2] };
           this.horainicio = cnt.hrn;
           this.horafin = cnt.hrf;
-
+          console.log("contact",res)
           this.cuotaParteForm.controls.horainicio.setValue(this.horainicio);
           this.cuotaParteForm.controls.horafin.setValue(this.horafin);
           this.cuotaParteForm.controls.fechaInicio.setValue(this.fecha1);
@@ -740,14 +740,13 @@ export class CuotaEditComponent implements OnInit {
     }
   }
   nominasfinales(id: string, from: any, part: string) {
-    sessionStorage.setItem('idramos', id);
+    sessionStorage.setItem('id', id);
     this.idagregar = id;
     this.part = this.cortarDesimales(part);
     console.log(this.idagregar)
     const seccion = 'secion' + from;
     this.editramos(id, seccion);
     if (id) {
-      ;
       this._ls.getLoadRamos(id).then(
         res => {
           this.listNominas = res;

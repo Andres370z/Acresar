@@ -16,6 +16,7 @@ export class DetalleEditComponent implements OnInit {
   rsltncr: Observable<any>;
   rsltnrsgr: any[] = [];
   cmsn: JQuery;
+  public agency: any ;
   currency: Observable<any>;
   _ls_trasp_tip: any;
   _ls_trasp_cuen: any;
@@ -62,6 +63,7 @@ export class DetalleEditComponent implements OnInit {
     comision: "",
     corredor: "",
     dtbrok: "",
+    agency:0,
     deposito: {
       iddeposito: "",
       moneda: "",
@@ -121,6 +123,15 @@ export class DetalleEditComponent implements OnInit {
     _service.getCurrency().then((res: any) => { this.currency = res });
     _service.getTraspasoCarteratipo().then((res: any) => { this._ls_trasp_tip = res })
     _service.getTraspasocarteraCuenta().then((res: any) => { this._ls_trasp_cuen = res });
+    _service.getQuery("agencias").then(
+      res => {
+        this.agency = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
     if (this.userfinal.id_rol == '1' || this.userfinal.id_rol == '2') {
       this.active = false;
       console.log("lista" + this.userfinal.id_rol)
@@ -236,6 +247,7 @@ export class DetalleEditComponent implements OnInit {
         this.form.inpuestoPrimaCedidas = this.formateaValor(i.c2);
         this.form.inpuestoRenta = this.formateaValor(i.o);
         this.form.arrastrePerdida = this.decimal(i.n);
+        this.form.agency = i.ag
         if (i.a) {
           this._service.getAutomaticoComision(i.a).then(
             res => {
@@ -431,6 +443,7 @@ export class DetalleEditComponent implements OnInit {
       comision: "",
       corredor: "",
       dtbrok: "",
+      agency: 0,
       deposito: {
         moneda: "",
         periodoR: "",

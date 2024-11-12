@@ -1,305 +1,288 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" style="background-color: #016672">
-              <i class="material-icons">storage</i>
-            </div>
-            <h4 class="card-title">Cuota parte edit {{cod}}</h4>
-          </div>
-
-          <div class="card-body">
-            <div class="row">
-              <form [formGroup]="cuotaParteForm">
-                <div class="row">
-                  <div class="col-12">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Código Contrato</mat-label>
-                      <input matInput type="text" formControlName="codigocontrato" placeholder="Código Contrato"
-                        [value]="cod">
-                    </mat-form-field>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-6">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Descripción</mat-label>
-                      <input matInput type="text" formControlName="descripcion" placeholder="Descripción">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Fecha Inicio</mat-label>
-                      <input matInput type="date" formControlName="fechaInicio"
-                        [value]="dataEdicion != 'ok' ? dataEdicion.r : null" placeholder="dd/mm/yyyy">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Hora</mat-label>
-                      <input matInput formControlName="horainicio">
-                    </mat-form-field>
-                  </div>
-
-                  <div class="col-6">
-                    <div class="content-width">
-                      <mat-form-field appearance="outline" class="full-width">
-                        <mat-label>EPI</mat-label>
-                        <input matInput type="text" (change)="onchangedecimal('epiContrato')"
-                          formControlName="epiContrato" placeholder="COP 180.000.000.000">
-                      </mat-form-field>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background-color: #016672">
+                            <i class="material-icons">storage</i>
+                        </div>
+                        <h4 class="card-title">Cuota parte edit {{cod}}</h4>
                     </div>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Fecha Fin</mat-label>
-                      <input matInput type="date" formControlName="fechaFin"
-                        [value]="dataEdicion != 'ok' ? dataEdicion.e : null" placeholder="dd/mm/yyyy">
-                    </mat-form-field>
-                  </div>
-                  <div class="col-3">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Hora</mat-label>
-                      <input matInput formControlName="horafin">
-                    </mat-form-field>
-                  </div>
 
-                </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <form [formGroup]="cuotaParteForm">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Código Contrato</mat-label>
+                                            <input matInput type="text" formControlName="codigocontrato" placeholder="Código Contrato" [value]="cod">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
 
-                <div class="row">
-                  <div class="col-xs-12 col-md-6">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Moneda</mat-label>
-                      <select formControlName="moneda" matNativeControl>
-                        <option *ngFor="let item of currency" [value]="item.a">
-                          {{item.c}}
-                        </option>
-                      </select>
-                    </mat-form-field>
-                  </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Descripción</mat-label>
+                                            <input matInput type="text" formControlName="descripcion" placeholder="Descripción">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-3">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Fecha Inicio</mat-label>
+                                            <input matInput type="date" formControlName="fechaInicio" [value]="dataEdicion.r" placeholder="dd/mm/yyyy">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-3">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Hora</mat-label>
+                                            <input matInput formControlName="horainicio">
+                                        </mat-form-field>
+                                    </div>
 
-                  <div class="col-xs-12 col-md-6">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Siniestros de Contado</mat-label>
-                      <input matInput type="text" formControlName="siniestroContrato"
-                        placeholder="Siniestros de Contado">
-                    </mat-form-field>
-                  </div>
+                                    <div class="col-6">
+                                        <div class="content-width">
+                                            <mat-form-field appearance="outline" class="full-width">
+                                                <mat-label>EPI</mat-label>
+                                                <input matInput type="text" (change)="onchangedecimal('epiContrato')" formControlName="epiContrato" placeholder="COP 180.000.000.000">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Fecha Fin</mat-label>
+                                            <input matInput type="date" formControlName="fechaFin" [value]=" dataEdicion.e" placeholder="dd/mm/yyyy">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-3">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Hora</mat-label>
+                                            <input matInput formControlName="horafin">
+                                        </mat-form-field>
+                                    </div>
 
-                  <div class="col-12">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Agencias</mat-label>
-                      <select matNativeControl>
-                        <option>Agencia 1</option>
-                        <option>Agencia 2</option>
-                        <option>Agencia 3</option>
-                      </select>
-                    </mat-form-field>
-                  </div>
+                                </div>
 
-                </div>
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-6">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Moneda</mat-label>
+                                            <mat-select formControlName="moneda" matNativeControl>
+                                                <mat-option *ngFor="let item of currency" [value]="item.a">
+                                                    {{item.c}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
 
-                <div class="row">
-                  <div class="col-xs-12 col-md-12">
-                    <mat-form-field appearance="outline" class="full-width">
-                      <mat-label>Observaciones</mat-label>
-                      <textarea matInput formControlName="observacion" cols="30" rows="10"></textarea>
-                    </mat-form-field>
-                  </div>
+                                    <div class="col-xs-12 col-md-6">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Siniestros de Contado</mat-label>
+                                            <input matInput type="text" formControlName="siniestroContrato" placeholder="Siniestros de Contado">
+                                        </mat-form-field>
+                                    </div>
 
-                  <!-- <div class="col-6">
+
+
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-12">
+                                        <mat-form-field appearance="outline" class="full-width">
+                                            <mat-label>Observaciones</mat-label>
+                                            <textarea matInput formControlName="observacion" cols="30" rows="10"></textarea>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <!-- <div class="col-6">
                     <button *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1' || statefinal == false"
                       (click)="create()" mat-raised-button color="primary" class="margin-left btn-md shadow-box-item">
                       Agregar Nómina
                     </button>
                   </div> -->
-                </div>
-              </form>
+                                </div>
+                            </form>
 
-              <form [formGroup]="cuotaParteFormreasegurador">
-                <table class="table hoverTable">
-                  <thead>
-                    <tr>
-                      <th class="text-center">Contrato</th>
-                      <th class="text-center">Suma Limite</th>
-                      <th class="text-center">% Cesión</th>
-                      <th class="text-center">Nómina Reaseguradores</th>
-                      <th class="text-center">% Reas</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngIf="statefinal">
-                      <td>1</td>
-                      <td>
-                        <mat-form-field appearance="outline" class="full-width">
-                          <mat-label>Suma Limite</mat-label>
-                          <input matInput formControlName="sumaLimite" placeholder="Suma Limite">
-                        </mat-form-field>
-                      </td>
+                            <form [formGroup]="cuotaParteFormreasegurador">
+                                <table class="table hoverTable">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">Contrato</th>
+                                            <th class="text-center">Suma Limite</th>
+                                            <th class="text-center">% Cesión</th>
+                                            <th class="text-center">Nómina Reaseguradores</th>
+                                            <th class="text-center">% Reas</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngIf="statefinal">
+                                            <td>1</td>
+                                            <td>
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>Suma Limite</mat-label>
+                                                    <input matInput formControlName="sumaLimite" placeholder="Suma Limite">
+                                                </mat-form-field>
+                                            </td>
 
-                      <td>
-                        <mat-form-field appearance="outline" class="full-width">
-                          <mat-label>% Cesión</mat-label>
-                          <input matInput formControlName="secion" placeholder="% Cesión">
-                        </mat-form-field>
-                      </td>
-                      <td class="cursor_active">
-                        <button class="btn btn-default btn-lg col-md-12" (click)="onSubmit()">+</button>
-                      </td>
-                    </tr>
-                    <tr *ngFor="let item of listareasu2; let i = index">
-                      <td class="text-center">{{i + 1}}</td>
-                      <td class="text-center">
-                        <mat-label>{{miles('tabel',item.c)}}</mat-label>
-                      </td>
-                      <td class="text-center">
-                        <label>{{porcentaje(item.r | number)}}</label>
-                      </td>
-                      <td class="cursor_active">
-                        <button data-toggle="modal" data-target="#myModal"
-                          (click)="nominasfinales(item.a, i, item.part)" class="btn btn-default btn-lg col-md-12">
+                                            <td>
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>% Cesión</mat-label>
+                                                    <input matInput formControlName="secion" placeholder="% Cesión">
+                                                </mat-form-field>
+                                            </td>
+                                            <td class="cursor_active">
+                                                <button class="btn btn-default btn-lg col-md-12" (click)="onSubmit()">+</button>
+                                            </td>
+                                        </tr>
+                                        <tr *ngFor="let item of listareasu2; let i = index">
+                                            <td class="text-center">{{i + 1}}</td>
+                                            <td class="text-center">
+                                                <mat-label>{{miles('tabel',item.c)}}</mat-label>
+                                            </td>
+                                            <td class="text-center">
+                                                <label>{{porcentaje(item.r | number)}}</label>
+                                            </td>
+                                            <td class="cursor_active">
+                                                <button data-toggle="modal" data-target="#myModal" (click)="nominasfinales(item.a, i, item.part)" class="btn btn-default btn-lg col-md-12">
                           {{item.cnt}}
                         </button>
-                      </td>
-                      <td class="text-center">
-                        <mat-form-field appearance="outline" class="full-width">
-                          <mat-label>% Reas</mat-label>
-                          <input matInput formControlName="reas{{i}}" value="{{porcentaje(item.part | number)}}">
-                        </mat-form-field>
-                      </td>
-                    </tr>
+                                            </td>
+                                            <td class="text-center">
+                                                <mat-form-field appearance="outline" class="full-width">
+                                                    <mat-label>% Reas</mat-label>
+                                                    <input matInput formControlName="reas{{i}}" value="{{porcentaje(item.part | number)}}">
+                                                </mat-form-field>
+                                            </td>
+                                        </tr>
 
-                  </tbody>
-                </table>
-              </form>
+                                    </tbody>
+                                </table>
+                            </form>
 
+                        </div>
+                        <div class="row" *ngIf="dataShow.error">
+                            <div class="col-md-12">
+                                <h3 class="box-title">
+                                    Errores de validacion campos obligatorios
+                                </h3>
+                                <table class="table hoverTable ">
+                                    <thead>
+                                        <tr>
+                                            <th>Mensajes de error</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let msj of dataShow.mensaje">
+                                            <td>{{msj}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-4">
+                                <button type="button" class="btn btn-alert btn-md shadow-box-item" (click)="regresar()">
+                                  Regresar
+
+                                </button>
+                            </div>
+                            <div class="col-4">
+                                <button type="submit" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" (click)="verificar()" class="btn btn-primary" class="btn margin-left btn-md shadow-box-item" style="background-color: #016672;">
+                                Guardar Cambios
+
+                              </button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-            <div class="row" *ngIf="dataShow.error">
-              <div class="col-md-12">
-                <h3 class="box-title">
-                  Errores de validacion campos obligatorios
-                </h3>
-                <table class="table hoverTable ">
-                  <thead>
-                    <tr>
-                      <th>Mensajes de error</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let msj of dataShow.mensaje">
-                      <td>{{msj}}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-4">
-                <button type="button" class="btn btn-alert btn-md shadow-box-item" (click)="regresar()">
-                  Regresar
-
-                </button>
-              </div>
-              <div class="col-4">
-                <button type="submit" *ngIf="userfinal.id_rol == '2' || userfinal.id_rol == '1'" (click)="verificar()"
-                  class="btn btn-primary" class="btn margin-left btn-md shadow-box-item"
-                  style="background-color: #016672;">
-                  Guardar Cambios
-
-                </button>
-              </div>
-            </div>
-
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content ">
-      <div class="modal-header  box box-info">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content ">
+            <div class="modal-header  box box-info">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title font-header" id="myModalLabel">Nominas </h4>
-      </div>
+                <h4 class="modal-title font-header" id="myModalLabel">Nominas </h4>
+            </div>
 
-      <div class="modal-body">
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Corredor</th>
-              <th>Reasegurador</th>
-              <th>% Participación</th>
-              <th>% de Comision</th>
-              <td>Accion</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let i of listNominas">
-              <td *ngIf="i != undefined && i.c == undefined">Sin corredor</td>
-              <td *ngIf="i != undefined && i.c != undefined">{{idCorredor(i.c)}}</td>
-              <td>{{idReasegurador(i.r)}}</td>
-              <td>{{procentaje(i.s)}}</td>
-              <td>{{procentaje(i.a2)}}</td>
-              <td>
-                <a (click)="editar(i,0)">
-                  <i class="fa fa-edit cursor btn-header cursor_active"></i>
-                </a>
-              </td>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Corredor</th>
+                            <th>Reasegurador</th>
+                            <th>% Participación</th>
+                            <th>% de Comision</th>
+                            <td>Accion</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let i of listNominas">
+                            <td *ngIf="i != undefined && i.c == undefined">Sin corredor</td>
+                            <td *ngIf="i != undefined && i.c != undefined">{{idCorredor(i.c)}}</td>
+                            <td>{{idReasegurador(i.r)}}</td>
+                            <td>{{procentaje(i.s)}}</td>
+                            <td>{{procentaje(i.a2)}}</td>
+                            <td>
+                                <a (click)="editar(i,0)">
+                                    <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                                </a>
+                            </td>
 
-            </tr>
-            <tr *ngFor="let j of listEdit">
-              <td *ngIf="j.corredor != '' "> {{idCorredor(j.corredor)}}</td>
-              <td *ngIf="j.corredor == '' && j.corredor != undefined "> Sin Corredor</td>
-              <td *ngIf="j.reseasegurador != undefined "> {{idReasegurador(j.reseasegurador)}}</td>
-              <td *ngIf="j.participacion != undefined ">{{procentaje(j.participacion)}}</td>
-              <td *ngIf="j.comision">{{procentaje(j.comision)}}</td>
-              <td>
-                <a (click)="editar(j,1)" *ngIf="j.corredor != undefined">
-                  <i class="fa fa-edit cursor btn-header cursor_active"></i>
-                </a>
+                        </tr>
+                        <tr *ngFor="let j of listEdit">
+                            <td *ngIf="j.corredor != '' "> {{idCorredor(j.corredor)}}</td>
+                            <td *ngIf="j.corredor == '' && j.corredor != undefined "> Sin Corredor</td>
+                            <td *ngIf="j.reseasegurador != undefined "> {{idReasegurador(j.reseasegurador)}}</td>
+                            <td *ngIf="j.participacion != undefined ">{{procentaje(j.participacion)}}</td>
+                            <td *ngIf="j.comision">{{procentaje(j.comision)}}</td>
+                            <td>
+                                <a (click)="editar(j,1)" *ngIf="j.corredor != undefined">
+                                    <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                                </a>
 
-              </td>
-            </tr>
+                            </td>
+                        </tr>
 
 
 
-            <tr *ngFor="let j of newNomina">
-              <td *ngIf="j.corredor != '' ">{{idCorredor(j.corredor)}}</td>
-              <td *ngIf="j.corredor == '' ">Sin Corredor</td>
-              <td>{{idReasegurador(j.reseasegurador)}}</td>
-              <td>{{procentaje(j.participacion)}}</td>
-              <td>{{procentaje(j.comision)}}</td>
-              <td>
-                <a (click)="editar(j,1)">
-                  <i class="fa fa-edit cursor btn-header cursor_active"></i>
-                </a>
+                        <tr *ngFor="let j of newNomina">
+                            <td *ngIf="j.corredor != '' ">{{idCorredor(j.corredor)}}</td>
+                            <td *ngIf="j.corredor == '' ">Sin Corredor</td>
+                            <td>{{idReasegurador(j.reseasegurador)}}</td>
+                            <td>{{procentaje(j.participacion)}}</td>
+                            <td>{{procentaje(j.comision)}}</td>
+                            <td>
+                                <a (click)="editar(j,1)">
+                                    <i class="fa fa-edit cursor btn-header cursor_active"></i>
+                                </a>
 
-              </td>
-              <!--<td>
+                            </td>
+                            <!--<td>
                 <a (click)="deleteItemList(j)">
                   <i class="fa fa-trash cursor btn-header cursor_active"></i>
                 </a>
               </td>-->
 
-            </tr>
+                        </tr>
 
-          </tbody>
-        </table>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" *ngIf="part < 99" (click)="Add(idagregar)">Agregar
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" *ngIf="part < 99" (click)="Add(idagregar)">Agregar
           nomina</button>
-        <button type="button" id="cerrarEditModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="cerrarEditModal" class="btn btn-default" data-dismiss="modal">Cerrar</button>
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>

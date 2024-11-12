@@ -23,6 +23,7 @@ export class DetalleComponent implements OnInit {
   rsltncr: Observable<any>;
   rsltnrsgr: any[] = [] ;
   cmsn: JQuery;
+  public agency: any ;
   currency: Observable<any>;
   _ls_trasp_tip: any;
   _ls_trasp_cuen: any;
@@ -65,6 +66,7 @@ export class DetalleComponent implements OnInit {
     comision: "",
     corredor: "",
     dtbrok: "",
+    agency: 0,
     deposito: {
       moneda: "",
       periodoR: "",
@@ -168,6 +170,15 @@ export class DetalleComponent implements OnInit {
 
   }
   ngOnInit() {
+    this._service.getQuery("agencias").then(
+      res => {
+        this.agency = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
     this.form.arrastrePerdida = '10'
     sessionStorage.setItem('fecha', "hola");
     sessionStorage.setItem('comision', '');
@@ -304,6 +315,7 @@ export class DetalleComponent implements OnInit {
       comision: "",
       corredor: "",
       dtbrok: "",
+      agency: 0,
       deposito: {
         moneda: "",
         periodoR: "",
@@ -455,8 +467,9 @@ export class DetalleComponent implements OnInit {
       if (this.form.participacion != null && this.form.participacion <= 100) {
         let idfinal = '';
         if (JSON.parse(sessionStorage.getItem('id'))) {
+          console.log("entro");
           idfinal = JSON.parse(sessionStorage.getItem('id'))
-          console.log(idfinal);
+          console.log("result", idfinal);
         } else {
           let final = JSON.parse(sessionStorage.getItem('idcontratoreasegurador'));
           idfinal = final.a;
@@ -465,7 +478,7 @@ export class DetalleComponent implements OnInit {
         this.form.idusers = this.user.authUser.id,
           this.form.id = idfinal;
         this.datajsonNominas.push(this.form);
-        //console.log(this.form);
+        console.log("result",this.form);
         localStorage.setItem('comision', JSON.stringify(this.datajsonNominas));
 
         let data = JSON.parse(localStorage.getItem('comision'));

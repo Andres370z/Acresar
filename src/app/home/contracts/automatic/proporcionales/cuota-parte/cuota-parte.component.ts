@@ -112,15 +112,7 @@ export class CuotaParteComponent implements OnInit {
     this.ctb1 = '+';
     this.ctb2 = '+';
     this.ctb3 = '+';
-    this.service.getQuery("agencias").then(
-      res => {
-        this.agency = res;
-        console.log(res);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+    
 
 
     this.createForm();
@@ -271,7 +263,7 @@ export class CuotaParteComponent implements OnInit {
       siniestroContrato: new FormControl('', Validators.required),
       observacion: new FormControl('', Validators.required),
       horainicio: new FormControl('', Validators.required),
-      horafin: new FormControl('', Validators.required)
+      horafin: new FormControl('', Validators.required),
     });
   }
   createFormreasegurador() {
@@ -441,7 +433,6 @@ export class CuotaParteComponent implements OnInit {
                 observacion: form2['observacion'],
                 horainicio: this.transformarHora(this.cuotaParteForm.value.horainicio),// Hours
                 horafin: this.transformarHora(this.cuotaParteForm.value.horafin),
-                agency: formfinal.agency
               };
               this.service.postContratoCuotaAparte(data).then(
                 res => {

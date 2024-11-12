@@ -20,6 +20,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
   cookieValue: String;
   rsltncr: Observable<any>;
   rsltnrsgr: Observable<any>;
+  public agency: any ;
   cmsn: JQuery;
   currency: Observable<any>;
   _ls_trasp_tip: any;
@@ -92,7 +93,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
     garantia: '',
     garantia_list: [],
     totalPrima: '',
-    
+    agency: 0,
     deposito: {
       moneda: '',
       periodoR: '',
@@ -185,6 +186,15 @@ export class FacultativoDetalleEditComponent implements OnInit {
     _service.getTraspasocarteraCuenta().then((data: any)=>{
       this._ls_trasp_cuen = data 
     });
+    _service.getQuery("agencias").then(
+      res => {
+        this.agency = res;
+        console.log(res);
+      },
+      err => {
+        console.log(err);
+      }
+    );
     if (this.userfinal.id_rol == '1' || this.userfinal.id_rol == '3' || this.userfinal.id_rol == '2') {
       this.active = false;
       console.log("lista"+this.userfinal.id_rol)
@@ -402,6 +412,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
       }
       this.form.garantia_list.push(json);
     }
+    console.log(this.form.garantia_list[0].fecha)
     this.form.garantia = this.form.garantia_list[0].fecha;
     this.form.totalPrima = this.totalPrima;
     console.log(this.form.garantia_list)
@@ -572,6 +583,7 @@ export class FacultativoDetalleEditComponent implements OnInit {
       garantia: '',
       garantia_list: [],
       totalPrima: '',
+      agency: 0,
       deposito: {
         moneda: '',
         periodoR: '',
