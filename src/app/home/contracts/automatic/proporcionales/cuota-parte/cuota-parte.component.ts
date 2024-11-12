@@ -91,7 +91,7 @@ export class CuotaParteComponent implements OnInit {
       this.frmValues = { cd: '', d: '', fi: '', ff: '', mn: '', s: '', o: '', sl1: '', cs1: '', re1: '', sl2: '', cs2: '', re2: '', sl3: '', cs3: '', re4: '' };
     } else {
       this.frmValues = JSON.parse(sessionStorage.getItem('cntrt'));
-    }
+    } 
 
   }
 

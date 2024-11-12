@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { Observable } from 'rxjs';
@@ -14,156 +14,210 @@ import { PercentageService } from 'src/app/service/percentage.service';
   styleUrls: ['./create-insurer.component.css']
 })
 export class CreateInsurerComponent implements OnInit {
-  modulo: string = 'Registrar Aseguradora';
-  type = "";
+  id: number = 0;
+  createForm: any;
   Rsltnpss: Observable<any>;
+  Rsltngncsclfcdrs: Observable<any>;
   Rsltnntdds: Observable<any>;
+  Rsltncrgrsgrdrsrcx: Observable<any>;
+  slgrsgrdrsrcx;
   autocomplete: JQuery;
   razonsocial: string;
   of: string;
-  rl: string = "/aseguradoras";
-  dataJson: any;
-  lisRequest = false;
-  reaseguroData = { na: "", nt: "", te: "", cc: "", r: "", rg: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
-  itemData = { c: '', pc: '', s: '', ca: '', sa: '', cxa: '', ra: '', e: '', cc: '', r: '' };
-  selectEntidad: any;
-  status = true;
-  exist: boolean = false
-  form: FormGroup;
-  entidades: any;
-  oficinas: any;
-  idEdit: number = 0;
-  url: any;
+  rl: string = "";
+  r: string = "";
+  codigoNit: any;
+  modulo: string = "Registrar Reaseguradores";
+  reaseguroData = { a2: "", rg: "", ag: "", e: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
+  jsonSubmit = {
+    "e": "",
+    "c": "",
+    "r": "",
+    "na": "",
+    "ni": "",
+    "cn": "",
+    "d": "",
+    "es": "",
+    "p": "",
+    "cl": "",
+    "rg": "",
+    "ag": "",
+    "of": "",
+    "ofr": "",
+    "ofn": "",
+    "ofl": "",
+    "ofcr": "",
+    "ofci": "",
+    "ofd": "",
+    "oft": "",
+    "act": ""
+  }
   dataRes: any;
-  paises: any
-  cx: any
-  public selectedOption: any;
-  public selectedOptions: any
-  razonSocial: any;
+  lisRequest = false;
+  formContatos: FormGroup;
+
+
   constructor(
-    private route: ActivatedRoute,
-    private authService: AuthService,
-    private alert: AlertService,
-    private myFormBuilder: FormBuilder,
     private router: Router,
-    private porcentajes: PercentageService,
-    private _service: AuthService,
-    private cookieService: CookieService,
-
+    private service: AuthService,
+    private alertService: AlertService
   ) {
-    this.type = 'Seguros generales';
-    switch (this.type) {
-      case 'Cooperativas':
-        this.itemData.e = '3';
-        // alert(3);
-        break;
-      case 'Seguros de vida':
-        this.itemData.e = '2';
-        //  alert(2);
-        break;
-      case 'Seguros generales':
-        this.itemData.e = '1';
-        //alert(1);
-        break;
-
-    }
+    this.service.getQuery("rsltncrgrsgrdrsrcx").then((res: any) => { this.Rsltncrgrsgrdrsrcx = res });
   }
 
-  ngOnInit(): void {
-    this._service.getEntities().then((res: any) => {
-      this.Rsltnntdds = res
-    });
-    const dataJson = sessionStorage.getItem('companiaAseguradora');
-    if (dataJson != null) {
+  ngOnInit() {
 
-      this.modulo = "Actualizar Aseguradoras";
-      const data = JSON.parse(dataJson);
-      this.idEdit = data.a;
-      this.reaseguroData.c = data.a2;
-      this.reaseguroData.na = data.c;
-      this.reaseguroData.nt = data.r2;
-      this.reaseguroData.te = data.c2;
-      this.reaseguroData.dr = data.o;
-      this.reaseguroData.c = data.n;
-      this.reaseguroData.cc = data.pc;
-      this.reaseguroData.r = data.l;
-      this.reaseguroData.rg = data.s2;
+    this.service.getQuery('pais').then((res: any) => { this.Rsltnpss = res });
+    this.service.getQuery('agenciacalificadora').then((res: any) => { this.Rsltngncsclfcdrs = res });
+    this.service.getQuery('entidades').then((res: any) => { this.Rsltnntdds = res });
 
-      this._service.getEntities().then(
-        res => {
-          res.forEach(i => {
-            if (i.c == data.nc) {
-              this.selectEntidad = i.a;
-            }
-          });
-        }
-      );
+    let jsonData = sessionStorage.getItem('companiaR');
+    if (jsonData != null) {
+      const item = JSON.parse(jsonData);
 
-      this.rl = `/aseguradoras/${this.idEdit}`;
+      this.service.getQuery(`reaseguradoras/${item['a']}/edit`)
+        .then(
+          res => {
+            res = res[0];
+            jsonData = res;
+
+            this.dataRes = res;
+            this.reaseguroData.nc = res.r2;
+            this.reaseguroData.r2 = res.o2;
+            this.reaseguroData.s = res.n;
+            this.reaseguroData.ct = res.nc;
+            this.reaseguroData.dr = res.c2;
+            this.reaseguroData.ca = res.e;
+            this.reaseguroData.nb = res.s;
+            this.reaseguroData.e = res.e;
+            this.reaseguroData.a2 = res.a2;
+            this.reaseguroData.ct = res.r2;
+            this.reaseguroData.rg = res.s2;
+            this.reaseguroData.c = item.ac;
+            this.reaseguroData.e = res.c;
+            this.service.getQuery('pais').then(obj => {
+              for (let i = 0; i < obj.length; i++) {
+                const p = obj[i];
+                if (res.o == p.a) {
+                  this.reaseguroData.pc = p.c;
+                }
+
+              }
+            })
+          },
+          err => {
+
+          }
+        )
+    } else {
 
     }
-    else {
-      this.rl = "/aseguradoras";
-    }
 
-
-    this._service.getCountries().then((res: any) => {
-      this.Rsltnpss = res
-    });
+    this.createFormContacto(jsonData);
+    console.log(">>>", this.reaseguroData);
 
   }
 
+  createFormContacto(item: any) {
+
+    if (item == null) {
+      this.formContatos = new FormGroup({
+        code_comp: new FormControl('', Validators.required),
+        nm: new FormControl('', Validators.required),
+        di: new FormControl('', Validators.required),
+        te: new FormControl('', Validators.required),
+        co: new FormControl('', Validators.required),
+        pa: new FormControl('', Validators.required),
+      });
+    } else if (item != null) {
+      item = JSON.parse(item);
+      console.log(item);
+      this.modulo = "Actualizar Reaseguradores";
+      this.id = item.a;
+
+      this.formContatos = new FormGroup({
+        code_comp: new FormControl('', Validators.required),
+        nm: new FormControl('', Validators.required),
+        di: new FormControl('', Validators.required),
+        te: new FormControl('', Validators.required),
+        co: new FormControl('', Validators.required),
+        pa: new FormControl('', Validators.required),
+      });
+    }
+  }
 
   create(item) {
-    //this.status = true;
-    console.log(item);
-    this.validate(item);
-    if (this.status) {
-      // Si hay un idEdit (dataJson no es null), se hace una edición.
-      // Caso contrario, es una creación.
-      const idToSend = this.idEdit ? this.idEdit : null;
-      this._service.postEditAseguradores(item, idToSend).then(
-        item => {
-          this.alert.success('Ok', item.item.mensaje);
-          this.reaseguroData = { na: "", nt: "", te: "", cc: "", r: "", rg: "", act: '', c: '', pc: '', s: '', ca: '', sa: '', cxa: '', nc: "", r2: "", ct: "", dr: "", nb: "" };
 
-          this.router.navigate(["home/companias/insurance-carrier"]);
+    if (this.id < 1) {
+      item.ag = this.reaseguroData.cxa;
+      item.p = this.reaseguroData.sa;
+      item.r = this.reaseguroData.ca;
+      item.act = this.reaseguroData.act;
+      this.rl = "reaseguradoras";
+
+      this.service.postQuery(item, this.rl).then(
+        item => {
+
+          //   console.log(item[0].mensaje);
+          this.alertService.success('Ok', item.item.mensaje);
+          this.router.navigate(["home/companias"]);
         },
-        error => {
-          console.log(<any>error)
-          this.alert.error('Error', this.modulo);
-        }
+        error => console.log(<any>error)
       );
     } else {
-      this.alert.error('Falta algo', 'Por favor rellene todo los campos ');
+
+      let jsonData = sessionStorage.getItem('companiaR');
+      jsonData = JSON.parse(jsonData);
+      console.log(">>", item);
+      const data = {
+        "e": "1",
+        "c": "",
+        "r": item['r'],
+        "na": item['na'],
+        "ni": item['ni'],
+        "cn": item['cn'],
+        "d": item['d'],
+        "es": item['es'],
+        "p": this.dataRes['r'],
+        "cl": item['cl'],
+        "rg": item['rg'],
+        "ag": this.dataRes['u'],
+        "of": item["of"],
+        "ofr": item["ofr"],
+        "ofn": item["ofn"],
+        "ofl": item["ofl"],
+        "ofcr": item["ofcr"],
+        "ofci": item["ofci"],
+        "ofd": item["ofd"],
+        "oft": item["oft"],
+        "act": item['es']
+      };
+      this.rl = `reaseguradoras/${this.id}`;
+      this.service.put(this.rl, data).then(
+        item => {
+          //   console.log(item[0].mensaje);
+          this.alertService.success('Ok', item.item.mensaje);
+          this.router.navigate(["home/companias"]);
+          sessionStorage.clear();
+        },
+        error => console.log(<any>error)
+      );
+
     }
-  }
-  validate(item: any) {
-    item = Object.keys(item);
-    let v = 0;
-    item.forEach(element => {
-      if (item[element] == '') {
-        this.status = false;
-        v = 1
-      }
-    });
-    if (v == 0) {
-      this.status = true;
-    }
+
   }
 
   consulta(json: any) {
 
-    const item = { module: "aseguradora", razon: json, type: this.itemData.e };
+    const item = {
+      'module': 'reaseguradores',
+      'razon': json,
+    };
 
-    this._service.postRazonsocial(item).then(
+    this.service.postQuery(item, 'razonSocial').then(
       res => {
-        if (res.length > 0) {
-          this.lisRequest = true;
-          this.reaseguroData = res;
-          console.log(res);
-        }
-
+        this.lisRequest = true;
+        this.reaseguroData = res;
       },
       err => {
         console.log(err);
@@ -171,14 +225,9 @@ export class CreateInsurerComponent implements OnInit {
     );
 
   }
+
   cargar(item: any) {
     this.lisRequest = false;
     this.reaseguroData = item;
-    this.reaseguroData.r = item.e;
-    this.reaseguroData.nt = item.s;
-    this.reaseguroData.te = item.s2;
-    this.reaseguroData.dr = item.o;
-    this.reaseguroData.c = item.a2 + " " + item.r2;
-    this.reaseguroData.rg = item.n;
   }
 }
