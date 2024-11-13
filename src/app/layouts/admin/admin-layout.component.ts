@@ -45,11 +45,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       this.usersData = this.localStore.getSuccessLogin();
       this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
       var data =  this.localStore.getItem(Menssage.menu)
-      if (this.usersData.user.id_rol == idRol.admin) {
-        this.getMenu(this.usersData.user.id_rol );
-      } else {
-        //this.getMenu(this.usersData.user.idrol);
-      }
+      this.getMenuIdCLiente(this.usersData.user.id);
     }
     ngOnInit() {
         const elemMainPanel = <HTMLElement>document.querySelector('.main-panel');
@@ -167,6 +163,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     }
     getMenu(item: number){
       this._https.getmenu(item).then((resulta: any)=>{
+        console.log("llego",resulta)
         if (resulta.length != 0) {
           this.menuItems = [];
           this.subMenu(resulta)
@@ -181,7 +178,23 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
         }
       });
     }
-
+    getMenuIdCLiente(item: number){
+      this._https.getMenuIdUsers(item).then((resulta: any)=>{
+        console.log("llego",resulta)
+        if (resulta.length != 0) {
+          this.menuItems = [];
+          this.subMenu(resulta)
+        } else {
+          this.menuItems = [];
+        }
+          
+      }).catch((err: any)=>{
+        console.log(err)
+        if (err.error.message == "Unauthenticated.") {
+          this._https.logout()
+        }
+      });
+    }
     subMenu(resulta:any){
       resulta.forEach(element => {
         console.log(element)

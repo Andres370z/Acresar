@@ -178,11 +178,7 @@ export class ContentComponent implements OnInit {
       this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
       var data =  this.localStore.getItem(Menssage.menu)
       this.menuItemsStore = data == null ? []: data
-      if (this.usersData.user.id_rol == idRol.admin) {
-        this.getMenu(this.usersData.user.id_rol );
-      } else {
-        //this.getMenu(this.usersData.user.idrol);
-      }
+      this.getMenuIdCLiente(this.usersData.user.id);
     }
 
   ngOnInit(): void {
@@ -200,7 +196,20 @@ export class ContentComponent implements OnInit {
       this.alert.error(Menssage.error, Menssage.server);
     });
   }
-  
+  getMenuIdCLiente(item: number){
+    this._https.getMenuIdUsers(item).then((resulta: any)=>{
+      console.log("llego",resulta)
+      this.menuItems = resulta.filter(menuItem => menuItem.a !== 1);
+      this.localStore.setItem(this.menuItems, Menssage.menu); // Guardar los elementos filtrados
+      this.alert.messagefin();
+        
+    }).catch((err: any)=>{
+      console.log(err)
+      if (err.error.message == "Unauthenticated.") {
+        this._https.logout()
+      }
+    });
+  }
   
   routerList(item: string){
     this.router.navigate([item]);
