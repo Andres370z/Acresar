@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from '../home/reinsurance-companies/corredor/register/register.component';
+import { ResApiComponent } from '../home/res-api/res-api.component';
 
 export const PagesRoutes: Routes = [
     { 
@@ -13,6 +15,9 @@ export const PagesRoutes: Routes = [
         children: [ {
             path: '',
             component: LoginComponent
+        },{
+            path: 'api',
+            component: ResApiComponent
         }]
-    },
+    }
 ];

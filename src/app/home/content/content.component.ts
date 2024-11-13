@@ -12,14 +12,14 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./content.component.css']
 })
 export class ContentComponent implements OnInit {
-  
+
   /**GRAFICAS */
   view: any[] = [900, 500];
   multi: any[]
 
   // options
   legend: boolean = true;
-   showXAxis: boolean = true;
+  showXAxis: boolean = true;
   showYAxis: boolean = true;
   gradient: boolean = false;
   showLegend: boolean = true;
@@ -67,7 +67,7 @@ export class ContentComponent implements OnInit {
       "value": 4300000
     }
   ];
-  bubbleData =  [
+  bubbleData = [
     {
       name: 'Germany',
       series: [
@@ -161,7 +161,7 @@ export class ContentComponent implements OnInit {
       ]
     }
   ];
-  
+
 
   /**GRAFICAS FINISH */
   public menuItems: any[] = [];
@@ -169,17 +169,19 @@ export class ContentComponent implements OnInit {
   public usersData: any;
   public customerDetail: any = [];
   constructor(private localStore: LocalstoreService,
-    private _https:AuthService,
+    private _https: AuthService,
     private router: Router,
     private alert: AlertService,
-    ) { 
-      
-      this.usersData = this.localStore.getSuccessLogin();
-      this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
-      var data =  this.localStore.getItem(Menssage.menu)
-      this.menuItemsStore = data == null ? []: data
-      this.getMenuIdCLiente(this.usersData.user.id);
-    }
+  ) {
+
+    this.usersData = this.localStore.getSuccessLogin();
+    this.customerDetail = this.localStore.getItem(Menssage.customerDetail)
+    var data = this.localStore.getItem(Menssage.menu)
+    this.menuItemsStore = data == null ? [] : data
+    this.getMenuIdCLiente(this.usersData.user.id);
+
+    
+  }
 
   ngOnInit(): void {
   }
@@ -196,25 +198,27 @@ export class ContentComponent implements OnInit {
       this.alert.error(Menssage.error, Menssage.server);
     });
   }
-  getMenuIdCLiente(item: number){
-    this._https.getMenuIdUsers(item).then((resulta: any)=>{
-      console.log("llego",resulta)
+  getMenuIdCLiente(item: number) {
+    this._https.getMenuIdUsers(item).then((resulta: any) => {
+      console.log("llego", resulta)
       this.menuItems = resulta.filter(menuItem => menuItem.a !== 1);
       this.localStore.setItem(this.menuItems, Menssage.menu); // Guardar los elementos filtrados
       this.alert.messagefin();
-        
-    }).catch((err: any)=>{
+
+    }).catch((err: any) => {
       console.log(err)
       if (err.error.message == "Unauthenticated.") {
         this._https.logout()
       }
     });
   }
-  
-  routerList(item: string){
+
+  routerList(item: string) {
+    this.localStore.setItem(true, 'resApi')
     this.router.navigate([item]);
+
   }
-  navigate(item: string, data: any){
+  navigate(item: string, data: any) {
     this.localStore.setItem(data, Menssage.menuSelect)
     this.router.navigate([item])
   }
@@ -230,7 +234,7 @@ export class ContentComponent implements OnInit {
   onDeactivate(data: any): void {
     console.log('Deactivate', JSON.parse(JSON.stringify(data)));
   }
-  
 
-  
+
+
 }
