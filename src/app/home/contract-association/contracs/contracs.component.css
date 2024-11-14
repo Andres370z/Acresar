@@ -7,3 +7,8 @@ table{
     border-right: 1px solid #E0E0E0;
     padding: 3px;
 }
+
+.custom-cell-dos {
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
+}

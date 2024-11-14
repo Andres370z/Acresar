@@ -1,7 +1,18 @@
 table {
     width: 100%;
 }
-
+td {
+    text-align: center;
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
+    padding-left: 0px !important;
+}
+th {
+    text-align: center !important;
+    border-left: 1px solid #E0E0E0;
+    border-right: 1px solid #E0E0E0;
+    padding-left: 0px !important;
+}
 
 .centered-cell {
     text-align: center;

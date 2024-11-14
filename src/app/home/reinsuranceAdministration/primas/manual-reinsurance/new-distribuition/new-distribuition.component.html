@@ -9,42 +9,50 @@
             </div>
             <h4 class="card-title">listado de pólizas</h4>
             <!-- MENU -->
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <mat-form-field>
+                <mat-label>Buscar...</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
+              </mat-form-field>
+              <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" matSort>
+                <ng-container matColumnDef="poliza">
+                  <th mat-header-cell *matHeaderCellDef> Poliza </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Poliza}} </td>
+                </ng-container>
+                <ng-container matColumnDef="asegurado">
+                  <th mat-header-cell *matHeaderCellDef> Asegurado </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Asegurado}} </td>
+                </ng-container>
+                <ng-container matColumnDef="noContrato">
+                  <th mat-header-cell *matHeaderCellDef class="centered-header"> Numero de Contrato </th>
+                  <td mat-cell *matCellDef="let element" class="codigo-cell"> {{element.Id_contrato}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fechaInicio">
+                  <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Inicio}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="fechaFinal">
+                  <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+                  <td mat-cell *matCellDef="let element"> {{element.Fin}} </td>
+                </ng-container>
 
-            <div class="card-body">
-              <div class="table-responsive">
-                <mat-form-field>
-                  <mat-label>Buscar...</mat-label>
-                  <input matInput (keyup)="applyFilter($event)" placeholder="Busca..." #input>
-                </mat-form-field>
-                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-                  <ng-container matColumnDef="poliza">
-                    <th mat-header-cell *matHeaderCellDef> Poliza </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Poliza}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="asegurado">
-                    <th mat-header-cell *matHeaderCellDef> Asegurado </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Asegurado}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="noContrato">
-                    <th mat-header-cell *matHeaderCellDef class="centered-header"> Numero de Contrato </th>
-                    <td mat-cell *matCellDef="let element" class="codigo-cell"> {{element.Id_contrato}} </td>
-                  </ng-container>
-                  <ng-container matColumnDef="fechaInicio">
-                    <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Inicio}} </td>
-                  </ng-container>
-                  
-                  <ng-container matColumnDef="fechaFinal">
-                    <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Fin}} </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
-                  itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
-                </mat-paginator>
-              </div>
+                <ng-container matColumnDef="accion">
+                  <th mat-header-cell *matHeaderCellDef> Accion </th>
+                  <td mat-cell *matCellDef="let element">
+                    <a (click)="editItemForm(element)"><mat-icon>edit</mat-icon></a>
+                    <a (click)="delete(element)"><mat-icon>delete</mat-icon></a>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+                itemsPerPageLabel='cantidad de elementos' aria-label="Select page of periodic elements">
+              </mat-paginator>
             </div>
           </div>
         </div>

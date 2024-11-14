@@ -15,73 +15,53 @@
 
 
               <div class="row">
-                <div class="col-xs-12 col-md-12">
-                  <div class="row">
-                    <div class="col-xs-12 col-md-12">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Identificación del contrato</mat-label>
-                            <input matInput type="text" id="searchInput" placeholder="Nombre del contrato"
-                              formControlName="idContrato">
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-6">
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Descripción</mat-label>
-                            <input matInput type="text" formControlName="descripcion" placeholder="Descripción">
-                          </mat-form-field>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-12 col-xs-12">
-                      <div class="row">
-                        <div class="col-md-6">
-                          <mat-form-field appearance="outline" class="w-100">
-                            <mat-label>Moneda</mat-label>
-                            <input matInput type="text" formControlName="moneda" placeholder="Moneda">
-                          </mat-form-field>
-                        </div>
-                        <div class="col-md-6">
-                          <div class="row">
-                            <div class="col-md-6">
-                              <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Inicio</mat-label>
-                                <input matInput type="text" formControlName="inicio">
-                              </mat-form-field>
-                            </div>
-                            <div class="col-md-6">
-                              <mat-form-field appearance="outline" class="w-100">
-                                <mat-label>Fin</mat-label>
-                                <input matInput type="text" formControlName="fin">
-                              </mat-form-field>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Identificación del contrato</mat-label>
+                    <input matInput type="text" id="searchInput" placeholder="Nombre del contrato"
+                      formControlName="idContrato">
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Descripción</mat-label>
+                    <input matInput type="text" formControlName="descripcion" placeholder="Descripción">
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Moneda</mat-label>
+                    <input matInput type="text" formControlName="moneda" placeholder="Moneda">
+                  </mat-form-field>
+                </div>
+                <div class="col-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Inicio</mat-label>
+                    <input matInput type="text" formControlName="inicio">
+                  </mat-form-field>
+                </div>
+                <div class="col-3">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Fin</mat-label>
+                    <input matInput type="text" formControlName="fin">
+                  </mat-form-field>
+                </div>
+
+
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Ramos</mat-label>
+                    <input matInput type="text" formControlName="ramo">
+                  </mat-form-field>
+                </div>
+                <div class="col-6">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Tipo Asociación</mat-label>
+                    <input matInput type="text" formControlName="tipofinal">
+                  </mat-form-field>
                 </div>
               </div>
 
-              <div class="row">
-                <div class="col-xs-12 col-md-12">
-                  <div class="row">
-                    <div class="col-md-6 col-xs-12">
-                      <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Ramos</mat-label>
-                        <input matInput type="text" formControlName="ramo">
-                      </mat-form-field>
-                    </div>
-                    <div class="col-md-6 col-xs-12">
-                      <mat-form-field appearance="outline" class="w-100">
-                        <mat-label>Tipo Asociación</mat-label>
-                        <input matInput type="text" formControlName="tipofinal">
-                      </mat-form-field>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
               <div class="row">
                 <div class="col-xs-12 col-md-6">
@@ -100,7 +80,7 @@
 
               <div class="row">
                 <div class="col-md-12 text-center">
-                  <button mat-raised-button  class="btn btn-lg btn-block">REASEGURO</button>
+                  <button mat-raised-button class="btn btn-lg btn-block">REASEGURO</button>
                 </div>
               </div>
 
@@ -277,7 +257,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Salvamentos y recobros</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Salvamentos y recobros</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -297,17 +277,17 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block"><b>TOTAL INGRESOS</b></button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block"><b>TOTAL INGRESOS</b></button>
                 </div>
                 <div class="col-md-2 text-center"></div>
                 <div class="col-md-3 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">{{totalingresos}}</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">{{totalingresos}}</button>
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Siniestros</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Siniestros</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -327,7 +307,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Comisiones</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Comisiones</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -347,7 +327,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Ajustes comisión</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Ajustes comisión</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -367,7 +347,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Impuestos intereses Dep</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Impuestos intereses Dep</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -386,7 +366,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Primas Retenida/Cedida</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Primas Retenida/Cedida</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -405,7 +385,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Depósitos Retenidos</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Depósitos Retenidos</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -424,7 +404,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Gastos reasegurador</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Gastos reasegurador</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -444,7 +424,7 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">Salida cartera primas</button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Salida cartera primas</button>
                 </div>
                 <div class="col-md-2 text-center">
                   <mat-form-field appearance="outline" class="ajustesfrom">
@@ -464,14 +444,25 @@
 
               <div class="row">
                 <div class="col-md-7 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block"><b>TOTAL EGRESOS</b></button>
+                  <button mat-raised-button class="btn btn-default btn-lg btn-block">Salida cartera siniestros</button>
                 </div>
-                <div class="col-md-2 text-center"></div>
+                <div class="col-md-2 text-center">
+                  <mat-form-field appearance="outline" class="ajustesfrom">
+                    <mat-label>%</mat-label>
+                    <input matInput type="text"   formControlName="salidasiniestros"  (change)="porcentajepoliza('salidasiniestros')"  placeholder="%">
+                  </mat-form-field>
+                </div>
                 <div class="col-md-3 text-center">
-                  <button mat-raised-button  class="btn btn-default btn-lg btn-block">{{totalegresos}}</button>
+                  <mat-form-field appearance="outline" class="ajustesfrom">
+                    <mat-label>valor</mat-label>
+                    
+                    <input matInput type="text"   formControlName="salidasiniestrosvalor"  (change)="miles('cuotaParteFormreasegurador', 'salidasiniestrosvalor')"  placeholder="Valor">
+                  </mat-form-field>
+
                 </div>
               </div>
-
+              
+              
 
 
 
@@ -528,17 +519,16 @@
               </div>
 
               <div class="row">
-                <div class="col-md-12 col-xs-12 text-center">
+                <div class="col-md-12 col-xs-12">
                   <button mat-raised-button color="primary" (click)="cerrar()"
                     style="margin-right: 1rem;">Cerrar</button>
                 </div>
               </div>
 
             </form>
-            <a [routerLink]="['/admin']">
+            <a [routerLink]="['/home']">
               <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
                 Regresar
-                <i class="favb fa fa-circle"></i>
               </button>
             </a>
           </div>

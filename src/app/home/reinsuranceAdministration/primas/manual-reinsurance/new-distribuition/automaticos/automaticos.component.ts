@@ -357,7 +357,9 @@ export class AutomaticosComponent implements OnInit {
         for (let i = 0; i <= this.reasegurador.length; i++) {
           const e = this.reasegurador[i];
           if (idfinal === e.a) {
+            console.log('ESTE ES RETURN', e.e);
             return e.e;
+            
           }
         }
       }
@@ -494,7 +496,7 @@ export class AutomaticosComponent implements OnInit {
     });
   }
 
-  contratosfacultativos() {
+  contratosfacultativos() { 
     this.lisRequest = true;
     console.log(this.cuotaParteForm.controls.idContrato.value);
     if (this.cuotaParteForm.controls.idContrato.value) {
@@ -851,7 +853,7 @@ export class AutomaticosComponent implements OnInit {
       this.http.getLoadRamos(id).then(
         res => {
           this.ramoscomision = res
-          console.log('hola' + res);
+          console.log('hola', res);
         },
         err => {
           console.log(err);

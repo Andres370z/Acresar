@@ -19,7 +19,7 @@ import { EditComponent } from './edit/edit.component';
 
 
 @NgModule({
-  declarations: [AutomaticosComponent, EditComponent],
+  declarations: [AutomaticosComponent],
   imports: [
     CommonModule,
     AutomaticosRoutingModule,
