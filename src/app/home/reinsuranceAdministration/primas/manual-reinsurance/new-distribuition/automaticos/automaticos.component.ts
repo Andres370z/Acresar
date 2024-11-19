@@ -280,6 +280,7 @@ export class AutomaticosComponent implements OnInit {
     );
     this.cuotaParteForm.controls.primasreasegurado.valueChanges.subscribe(
       (res) => {
+        console.log("result",res)
         if (res !== '' && this.polizafinal !== res) {
           var ramos = res;
           this.polizafinal = res;
@@ -289,13 +290,13 @@ export class AutomaticosComponent implements OnInit {
           }
           this.http.postValid(data).then(
             res => {
-              console.log(res);
+              console.log("result",res);
               const valor = this._pct.removerDesimal(this.cuotaParteForm.controls.primaneta.value)
-              console.log('hla una' + valor);
+              console.log('hla una', valor);
               if (valor !== '') {
                 this.ramoscomision.forEach(element => {
-                  console.log('hla dos' + element.c + 'r' + ramos);
-                  if (parseInt(element.c) === parseInt(ramos)) {
+                  console.log('hla una', element);
+                  if (parseInt(element.r) === parseInt(ramos)) {
                     this.calculo = (Number(valor) * Number(element.s)) / 100;
                     this.cuotaParteForm.controls.otrosgastos.setValue(this.porcentaje(element.s));
                     this.cuotaParteForm.controls.primacedidapor.setValue(this.porcentaje(element.s));
@@ -518,6 +519,7 @@ export class AutomaticosComponent implements OnInit {
       );
     }
   }
+
   aseguradorfinal() {
     this.lisRequest2 = true;
     console.log(this.cuotaParteForm.controls.asegurador.value);
@@ -851,7 +853,7 @@ export class AutomaticosComponent implements OnInit {
       this.http.getLoadRamos(id).then(
         res => {
           this.ramoscomision = res
-          console.log('hola' + res);
+          console.log('hola', this.ramoscomision);
         },
         err => {
           console.log(err);
