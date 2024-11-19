@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { LocalstoreService } from 'src/app/service/localstore.service';
 
 @Component({
   selector: 'app-contracs',
@@ -21,7 +22,8 @@ export class ContracsComponent implements OnInit {
   calendarfi: JQuery;
   calendarff: JQuery;
   modulo: string = 'Asociación de Contratos';
-  formulario: FormGroup;
+  forms = {idContrato: ''}
+  formularioTwo: FormGroup;
   ramos: any;
   tiposAsoc: any;
   dataReq: any;
@@ -34,15 +36,18 @@ export class ContracsComponent implements OnInit {
   list: any;
   listAsociacion = new Array();
   checkList = [];
-
+  rta: boolean = false;
   constructor(
     private authService: AuthService,
     private router: Router,
     public _http: AuthService,
-    public alertService: AlertService
+    public alertService: AlertService,
+    private localService: LocalstoreService
   ) { }
 
   ngOnInit(): void {
+    localStorage.removeItem('editAdministra');
+    sessionStorage.removeItem('editAdministra');
     this.getDta()
 
     this._http.getQuery('ramos').then(
@@ -77,9 +82,9 @@ export class ContracsComponent implements OnInit {
   }
 
   createForm() {
-    this.formulario = new FormGroup({
+    this.formularioTwo = new FormGroup({
       tipoContrato: new FormControl('', Validators.required),
-      idContrato: new FormControl('', Validators.required),
+      // idContrato: new FormControl('', Validators.required),
       idContratopk: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
       fInicio: new FormControl('', Validators.required),
@@ -102,16 +107,16 @@ export class ContracsComponent implements OnInit {
 
   agregar() {
 
-    const ramo = this.buscarId(this.ramos, this.formulario.controls.ramo.value, 'a', 'a2');
-    const tipoAs = this.buscarId(this.tiposAsoc, this.formulario.controls.tipoAsociacion.value, 'a', 'c');
+    const ramo = this.buscarId(this.ramos, this.formularioTwo.controls.ramo.value, 'a', 'a2');
+    const tipoAs = this.buscarId(this.tiposAsoc, this.formularioTwo.controls.tipoAsociacion.value, 'a', 'c');
 
-    let data = this.formulario.value;
+    let data = this.formularioTwo.value;
     data.ramoN = ramo;
     data.tipoAs = tipoAs;
     data['detalle'] = this.checkList;
 
     this.listAsociacion.push(data);
-    this.formulario.reset();
+    this.formularioTwo.reset();
     this.checkList = [];
     this.showAssoc = false;
 
@@ -131,13 +136,13 @@ export class ContracsComponent implements OnInit {
   guardar() {
     let dataJson = []
     if (this.listAsociacion.length > 0) {
-      const form = this.formulario.value;
+      const form = this.formularioTwo.value;
       form['detalle'] = this.checkList;
       dataJson = this.listAsociacion;
       dataJson.push(form);
       this.checkList = [];
     } else {
-      dataJson = this.formulario.value;
+      dataJson = this.formularioTwo.value;
       dataJson["detalle"] = this.checkList;
       this.checkList = [];
     }
@@ -151,25 +156,31 @@ export class ContracsComponent implements OnInit {
     );
   }
 
-  cargar(item) {
-    this.formulario.controls.idContratopk.setValue(item.a);
-    this.formulario.controls.idContrato.setValue(item.o);
-    this.formulario.controls.descripcion.setValue(item.c);
-    this.formulario.controls.fInicio.setValue(item.r);
-    this.formulario.controls.fFin.setValue(item.e);
-    this.formulario.controls.tipoContrato.setValue(item.cat);
+  cargar(item: any) {
+    console.log('Datos cargados en el formularioTwo:', item);
+
+    if (item) {
+        this.formularioTwo.controls.idContratopk.setValue(item.a || '');
+        // this.formularioTwo.controls.idContrato.setValue(item.o || '');
+        this.forms.idContrato = item.o
+        this.formularioTwo.controls.descripcion.setValue(item.c || '');
+        this.formularioTwo.controls.fInicio.setValue(item.r || '');
+        this.formularioTwo.controls.fFin.setValue(item.e || '');
+        this.formularioTwo.controls.tipoContrato.setValue(item.cat || '');
+    }
+
     this.lisRequest = false;
   }
 
   consultar() {
     this.lisRequest = true;
-    if (this.formulario.controls.idContrato.value) {
-      const item = { word: this.formulario.controls.idContrato.value };
+    if (this.formularioTwo.controls.idContrato.value) {
+      const item = { word: this.formularioTwo.controls.idContrato.value };
 
       this._http.postQuery(item, 'contratos/search')
         .then(
           res => {
-            this.dataReq = res;
+            this.dataReq = res; 
           }
         );
     }
@@ -177,12 +188,12 @@ export class ContracsComponent implements OnInit {
 
   ShowAssoc() {
     this.showAssoc = false;
-    this.showAssoc = this.formulario.controls.ramo.value != '' ? true : false;
+    this.showAssoc = this.formularioTwo.controls.ramo.value != '' ? true : false;
   }
 
   getDetail() {
-    if (this.formulario.controls.tipoAsociacion.value != 0) {
-      const item = { ramo: this.formulario.controls.ramo.value, tipo: this.formulario.controls.tipoAsociacion.value };
+    if (this.formularioTwo.controls.tipoAsociacion.value != 0) {
+      const item = { ramo: this.formularioTwo.controls.ramo.value, tipo: this.formularioTwo.controls.tipoAsociacion.value };
       this._http.postQuery(item, 'asociaciondecontratos/detail').then(
         res => {
           this.showList = true;
@@ -228,9 +239,7 @@ export class ContracsComponent implements OnInit {
   // editar
 
   consultarContrato(items: any) {
-    this.lisRequest = true;
-    console.log(items);
-
+    this.alertService.loading()
     if (items) {
       let datas = this.extraer(items.con)
       const item = { word: datas};
@@ -239,7 +248,9 @@ export class ContracsComponent implements OnInit {
         .then(
           res => {
             this.dataReq = res;
-              this.cargar(this.dataReq)
+            this.localService.setItem(this.dataReq, 'editAdministra', )
+            this.alertService.messagefin()
+            this.router.navigate(['home/asociacion/contratos/edit'])
           }
         );
     }

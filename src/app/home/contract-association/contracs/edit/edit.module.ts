@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ContracsRoutingModule } from './contracs-routing.module';
-import { ContracsComponent } from './contracs.component';
+import { EditRoutingModule } from './edit-routing.module';
+import { EditComponent } from './edit.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -13,15 +13,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MenuModule } from '../menu/menu.module';
-import { EditComponent } from './edit/edit.component';
-
 
 @NgModule({
-  declarations: [ContracsComponent],
+  declarations: [EditComponent],
   imports: [
     CommonModule,
-    ContracsRoutingModule,
+    EditRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -33,7 +30,6 @@ import { EditComponent } from './edit/edit.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    MenuModule
   ]
 })
-export class ContracsModule { }
+export class EditModule { }
