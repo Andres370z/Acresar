@@ -152,18 +152,34 @@ export class CreateInsurerComponent implements OnInit {
       item.ag = this.reaseguroData.cxa;
       item.p = this.reaseguroData.sa;
       item.r = this.reaseguroData.ca;
-      item.act = this.reaseguroData.act;
-      this.rl = "reaseguradoras";
+      //item.act = this.reaseguroData.act; para validar
 
-      this.service.postQuery(item, this.rl).then(
-        item => {
 
-          //   console.log(item[0].mensaje);
-          this.alertService.success('Ok', item.item.mensaje);
-          this.router.navigate(["home/companias"]);
-        },
-        error => console.log(<any>error)
-      );
+      const evalua = item.es
+      console.log('evalua ----->', evalua);
+      let numeros = evalua.match(/\d/g);
+      numeros = numeros.join((""));
+      if (numeros) {
+        const valida: any = Number(numeros);
+        if (valida < 2020) {
+          this.alertService.info('Hey', 'Estado debe ser mayor al año 2020')
+        } else {
+          this.reaseguroData.act = this.reaseguroData.act.replace(/\d+/, valida);
+          item.act = this.reaseguroData.act;
+          this.rl = "reaseguradoras";
+          console.log('item ----> ', item);
+
+          this.service.postQuery(item, this.rl).then(
+            item => {
+
+              //   console.log(item[0].mensaje);
+              this.alertService.success('Ok', item.item.mensaje);
+              this.router.navigate(["home/companias"]);
+            },
+            error => console.log(<any>error)
+          );
+        }
+      }
     } else {
 
       let jsonData = sessionStorage.getItem('companiaR');
@@ -216,6 +232,8 @@ export class CreateInsurerComponent implements OnInit {
 
     this.service.postQuery(item, 'razonSocial').then(
       res => {
+        console.log('Esta es res: -----> ', res);
+
         this.lisRequest = true;
         this.reaseguroData = res;
       },
@@ -227,7 +245,10 @@ export class CreateInsurerComponent implements OnInit {
   }
 
   cargar(item: any) {
+
     this.lisRequest = false;
     this.reaseguroData = item;
+    console.log('envia ----->', this.reaseguroData.act);
+
   }
 }

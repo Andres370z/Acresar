@@ -26,7 +26,7 @@
 <div class="menuOne">
   <button mat-button [matMenuTriggerFor]="matMenu" class="myButton">Primas</button>
   <mat-menu #matMenu="matMenu">
-    <button mat-menu-item [matMenuTriggerFor]="reaseguradorManual">Reasegurador Manual</button>
+    <button mat-menu-item [matMenuTriggerFor]="reaseguradorManual" (click)="navigate('home/reinsuranceAdministration/primas/new-distribuition')">Reasegurador Manual</button>
     <button mat-menu-item [matMenuTriggerFor]="reaseguroAutomatico">Reaseguro Automatico</button>
     <button mat-menu-item [matMenuTriggerFor]="reaseguroAutomatico"
       (click)="navigate('home/reinsuranceAdministration/primas')">Primas</button>

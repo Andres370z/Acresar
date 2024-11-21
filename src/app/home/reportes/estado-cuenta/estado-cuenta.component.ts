@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
@@ -14,7 +14,7 @@ import { PercentageService } from 'src/app/service/percentage.service';
 })
 export class EstadoCuentaComponent implements OnInit {
   money: any;
-  contratos: any;
+  ramos: any;
   poliza: any;
   reasegradores: any;
   asegurado: any;
@@ -27,6 +27,17 @@ export class EstadoCuentaComponent implements OnInit {
   corredor: any;
   resultado: any;
   contras: number;
+
+  rsltncr: any;
+  modulo = "Estado de cuenta";
+  currency: any;
+  rsltnrsgr: any;
+  active: Boolean;
+  j: JQuery;
+  cuotaParteForm: FormGroup;
+  enviardatos: FormGroup;
+  cuotaParteFormreasegurador: FormGroup;
+  fromajustes: FormGroup;
   public selectedOption: any;
   constructor(
     private authService: AuthService,
@@ -34,15 +45,42 @@ export class EstadoCuentaComponent implements OnInit {
     private myFormBuilder: FormBuilder,
     private porcentajes: PercentageService,
     private router: Router,
-    private excelService: ExcelService
+    private excelService: ExcelService,
+    private _service: AuthService
   ) { }
 
   ngOnInit(): void {
-    this.initial()
+    this.createFormreas();
+    this.active = false;
+    this.cuotaParteForm.controls.corredor.valueChanges.subscribe(
+      (res) => {
+        if (res !== '' || res !== undefined) {
+          console.log(res)
+          this.active = true;
+          this.contras = res;
+          console.log(res); 
+          const data = {id: this.contras};
+          this._service.postQuery(data, 'contratos/automaticos/poliza/get/reasegurador').then(
+            res => {
+              this.rsltnrsgr = res;
+              console.log(res)
+            },
+            err => {
+              console.log(err);
+            });
+        } else {
+          this.alert.info('Hey','Debes seleccionar un contrato');
+        }
+      });
+      this._service.getQuery('contratos/automaticos/poliza/get/contratos').then(
+        res => {
+          this.rsltncr = res;
+        }
+      );
   }
   initial() {
     this.form = this.myFormBuilder.group({
-      contratos: [Menssage.empty, Validators.compose([Validators.required])],
+      poliza: [Menssage.empty, Validators.compose([Validators.required])],
       
       startDate: [Menssage.empty, Validators.compose([Validators.required])],
       endDate: [Menssage.empty, Validators.compose([Validators.required])],
@@ -69,6 +107,7 @@ export class EstadoCuentaComponent implements OnInit {
         this.alert.error('Te falta algo','Debes seleccionar un contrato');
       }
     })
+   
   }
 
   downloadData() {
@@ -139,6 +178,53 @@ export class EstadoCuentaComponent implements OnInit {
   }
   exportAsXLSX(item: any) {
     this.excelService.exportAsExcelFile(item, 'REPORTE-BORDERAUX')
+  }
+
+
+  createFormreas() {
+    this.cuotaParteForm = new FormGroup({
+      corredor: new FormControl('', Validators.required),
+      reseasegurador: new FormControl('', Validators.required),
+      fechainicial: new FormControl('', Validators.required),
+      fechafinal: new FormControl('', Validators.required),
+    });
+  }
+  generateExcel() {
+    const form = this.cuotaParteForm.value;
+    console.log(form);
+    if (form.reseasegurador === '') {
+      this.alert.error('Ups','Debes seleccionar un reasegurador');
+    } else if (form.fechainicial === '') {
+      this.alert.error('Ups','Debes seleccionar una fecha incial');
+    } else if (form.fechafinal === '') {
+      this.alert.error('Ups','Debes seleccionar una fecha final');
+    }else {
+      this.alert.loading();
+      const data = {
+        id: form.reseasegurador,
+        idcontr: this.contras ,
+        inicial: form.fechainicial,
+        final: form.fechafinal
+      };
+      this._service.postQuery(data, 'contratos/automaticos/poliza/get/excel').then(
+        res => {
+          console.log(res);
+          if (res !== undefined && res!== '' && res !== null ) {
+            this.excelService.exportAsExcelFile(res, 'REPORTE-BORDERAUX');
+            this.cuotaParteForm.reset();
+            this.alert.messagefin();
+          } else {
+            this.cuotaParteForm.reset(); 
+            this.alert.messagefin();
+
+            this.alert.error('Ups','No se encontro dato alguno');
+          }
+        },
+        err => {
+          console.log(err);
+          this.alert.messagefin();
+        });
+    }
   }
 
 }
