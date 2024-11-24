@@ -44,6 +44,7 @@ export class CuotaEditComponent implements OnInit {
   listareasu2: any;
   moneda: any;
   monedaSelect: any
+  idContra: number
   ctb = {
     tb1: "+",
     tb2: "+",
@@ -136,6 +137,7 @@ export class CuotaEditComponent implements OnInit {
 
     this._ls.getCorredor().then(res => { this.corredorList = res; });
     this.Alertservice.loading();
+    this.idContra = id.a
     this._ls.getDtaForm(id.a)
       .then(
         res => {
@@ -153,10 +155,10 @@ export class CuotaEditComponent implements OnInit {
           console.log("contact", res)
           this.cuotaParteForm.controls.horainicio.setValue(this.horainicio);
           this.cuotaParteForm.controls.horafin.setValue(this.horafin);
-          this.cuotaParteForm.controls.fechaInicio.setValue(this.fecha1);
-          this.cuotaParteForm.controls.fechaFin.setValue(this.fecha2);
+          this.cuotaParteForm.controls.fechaInicio.setValue(cnt.r);
+          this.cuotaParteForm.controls.fechaFin.setValue(cnt.e);
           this.cuotaParteForm.controls.descripcion.setValue(cnt.c);
-          this.cuotaParteForm.controls.epiContrato.setValue(cnt.epi);
+          this.cuotaParteForm.controls.epiContrato.setValue(this.desimal(this.removerSiniestro(cnt.epi)));
           this.cuotaParteForm.controls.observacion.setValue(cnt.r2);
           this.cuotaParteForm.controls.siniestroContrato.setValue(this.desimal(this.removerSiniestro(cnt.sin_con)));
           this.item.c = cnt.o;
@@ -957,6 +959,7 @@ export class CuotaEditComponent implements OnInit {
       { nombre: 'observacion', mensaje: 'Falta una observación' },
       { nombre: 'codigocontrato', mensaje: 'Falta un código de contrato' },
       { nombre: 'siniestroContrato', mensaje: 'Falta un siniestro' },
+      { nombre: 'epiContrato', mensaje: 'Falta un epi Contrato' },
     ];
 
     for (const campo of campos) {
@@ -969,19 +972,23 @@ export class CuotaEditComponent implements OnInit {
   }
   verificar() {
     this.validateForm()
-    if (this.validateForm() == true) {
+    if (this.validateForm()) {
       const id = JSON.parse(sessionStorage.getItem('cp'));
-      const fechaini = Object.values(this.cuotaParteForm.controls.fechaInicio.value).join('/')
-      const fechaFin = Object.values(this.cuotaParteForm.controls.fechaInicio.value).join('/')
+      const fechaInicio =  this.cuotaParteForm.controls.fechaInicio.value
+      const fechaFin = this.cuotaParteForm.controls.fechaFin.value
       let item = {
-        id: id.a,
+        idusers: this.user.authUser.id,
+        id: this.dataEdicion.a,
+        codigocontrato: this.cod,
         descripcion: this.cuotaParteForm.controls.descripcion.value,
-        fechaInicio: fechaini,
-        fechaFin: fechaFin,
-        moneda: id.mc,
+        fechaInicio: fechaInicio.getFullYear() + '-' + (fechaInicio.getMonth()+1) + '-' + fechaInicio.getDate(),
+        fechaFin: fechaFin.getFullYear() + '-' + (fechaFin.getMonth()+1) + '-' + fechaFin.getDate(),
+        moneda: this.cuotaParteForm.controls.moneda.value,
+        horainicio:this.cuotaParteForm.controls.horainicio.value,
+        horafin:this.cuotaParteForm.controls.horainicio.value,
+        epiContrato:this._pct.removerDesimal(this.cuotaParteForm.controls.epiContrato.value),
         observacion: this.cuotaParteForm.controls.observacion.value,
-        codigocontrato: this.cuotaParteForm.controls.codigocontrato.value,
-        siniestroContrato: this.cuotaParteForm.controls.siniestroContrato.value
+        siniestroContrato: this._pct.removerDesimal(this.cuotaParteForm.controls.siniestroContrato.value)
       }
 
       this._ls.postContratoCuotaAparteEdit(item).then((res: any) => {
@@ -989,9 +996,10 @@ export class CuotaEditComponent implements OnInit {
         sessionStorage.clear();
         this.cod = '';
         this.cuotaParteForm.reset();
+        this.router.navigate(['home/contracts']);
         // tslint:disable-next-line:prefer-const
-        this.Alertservice.success('Ok', res);
-        this.router.navigate(['home/contracs']);
+        this.Alertservice.success('Ok', "Contrato editado correctamente");
+       
       }, err => {
         console.log('Error, ', err);
         this.Alertservice.error('Error', 'error en el servidor')
