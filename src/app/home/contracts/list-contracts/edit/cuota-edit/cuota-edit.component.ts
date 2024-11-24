@@ -43,6 +43,7 @@ export class CuotaEditComponent implements OnInit {
   dataEdicion: any;
   listareasu2: any;
   moneda: any;
+  monedaSelect: any
   ctb = {
     tb1: "+",
     tb2: "+",
@@ -119,6 +120,9 @@ export class CuotaEditComponent implements OnInit {
     const idsForm = sessionStorage.getItem('formCount');
     this._ls.getCurrency().then((res: any) => {
       this.currency = res
+      this.monedaSelect = res
+      console.log('moneda select ', this.monedaSelect);
+      
     });
     this.createForm();
     this.createFormreasegurador();
@@ -146,7 +150,7 @@ export class CuotaEditComponent implements OnInit {
           this.fecha2 = { year: fFin[0], month: fFin[1], day: fFin[2] };
           this.horainicio = cnt.hrn;
           this.horafin = cnt.hrf;
-          console.log("contact",res)
+          console.log("contact", res)
           this.cuotaParteForm.controls.horainicio.setValue(this.horainicio);
           this.cuotaParteForm.controls.horafin.setValue(this.horafin);
           this.cuotaParteForm.controls.fechaInicio.setValue(this.fecha1);
@@ -341,7 +345,7 @@ export class CuotaEditComponent implements OnInit {
       const cortar = this.cortarDesimales(key)
       const quitar = this.desimal(cortar);
       return quitar;
-    } 
+    }
 
   }
 
@@ -727,9 +731,9 @@ export class CuotaEditComponent implements OnInit {
     } else {
       const porcentaje = this.procentaje(key);
       console.log('porcentaje, ', porcentaje);
-      
+
       return porcentaje;
-      
+
     }
 
   }
@@ -943,16 +947,58 @@ export class CuotaEditComponent implements OnInit {
       }
     }
   }
+  validateForm() {
+
+    const campos = [
+      { nombre: 'descripcion', mensaje: 'Falta una descripción' },
+      { nombre: 'fechaInicio', mensaje: 'Falta una fecha de inicio' },
+      { nombre: 'fechaFin', mensaje: 'Falta una fecha final' },
+      { nombre: 'moneda', mensaje: 'Falta una moneda' },
+      { nombre: 'observacion', mensaje: 'Falta una observación' },
+      { nombre: 'codigocontrato', mensaje: 'Falta un código de contrato' },
+      { nombre: 'siniestroContrato', mensaje: 'Falta un siniestro' },
+    ];
+
+    for (const campo of campos) {
+      if (this.cuotaParteForm.controls[campo.nombre].invalid) {
+        this.Alertservice.info('Hey', campo.mensaje);
+        return false
+      }
+    }
+    return true
+  }
   verificar() {
-    localStorage.removeItem('idcontrato')
-    sessionStorage.clear();
-    this.cod = '';
-    this.cuotaParteForm.reset();
-    // tslint:disable-next-line:prefer-const
-    let res = 'Contrato creado exitosamente';
-    this.Alertservice.success('Ok', res);
-    this.router.navigate(['home/contracs']);
-    // tslint:disable-next-line:one-line
+    this.validateForm()
+    if (this.validateForm() == true) {
+      const id = JSON.parse(sessionStorage.getItem('cp'));
+      const fechaini = Object.values(this.cuotaParteForm.controls.fechaInicio.value).join('/')
+      const fechaFin = Object.values(this.cuotaParteForm.controls.fechaInicio.value).join('/')
+      let item = {
+        id: id.a,
+        descripcion: this.cuotaParteForm.controls.descripcion.value,
+        fechaInicio: fechaini,
+        fechaFin: fechaFin,
+        moneda: id.mc,
+        observacion: this.cuotaParteForm.controls.observacion.value,
+        codigocontrato: this.cuotaParteForm.controls.codigocontrato.value,
+        siniestroContrato: this.cuotaParteForm.controls.siniestroContrato.value
+      }
+
+      this._ls.postContratoCuotaAparteEdit(item).then((res: any) => {
+        localStorage.removeItem('idcontrato')
+        sessionStorage.clear();
+        this.cod = '';
+        this.cuotaParteForm.reset();
+        // tslint:disable-next-line:prefer-const
+        this.Alertservice.success('Ok', res);
+        this.router.navigate(['home/contracs']);
+      }, err => {
+        console.log('Error, ', err);
+        this.Alertservice.error('Error', 'error en el servidor')
+      })
+
+    }
+
 
   }
   agregarnomina(item: String, part: String) {

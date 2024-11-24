@@ -611,7 +611,9 @@ export class AuthService {
   postContratoCuotaAparte(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparte, { item })
   }
-
+  postContratoCuotaAparteEdit(item: any) {
+    return this.registeresquest.POSTRESPALDO('contratosautomaticos/proporcionales/cuotaparte/',  item )
+  }
   postQuery(item, route) {
     return this.registeresquest.POSTRESPALDO(route, { item })
   }
