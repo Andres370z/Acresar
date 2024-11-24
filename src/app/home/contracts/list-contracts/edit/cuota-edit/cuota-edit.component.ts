@@ -155,8 +155,8 @@ export class CuotaEditComponent implements OnInit {
           console.log("contact", res)
           this.cuotaParteForm.controls.horainicio.setValue(this.horainicio);
           this.cuotaParteForm.controls.horafin.setValue(this.horafin);
-          this.cuotaParteForm.controls.fechaInicio.setValue(cnt.r);
-          this.cuotaParteForm.controls.fechaFin.setValue(cnt.e);
+          this.cuotaParteForm.controls.fechaInicio.setValue(new Date(cnt.r));
+          this.cuotaParteForm.controls.fechaFin.setValue(new Date(cnt.e));
           this.cuotaParteForm.controls.descripcion.setValue(cnt.c);
           this.cuotaParteForm.controls.epiContrato.setValue(this.desimal(this.removerSiniestro(cnt.epi)));
           this.cuotaParteForm.controls.observacion.setValue(cnt.r2);
