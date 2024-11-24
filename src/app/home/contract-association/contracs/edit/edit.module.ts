@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { NewDistribuitionRoutingModule } from './new-distribuition-routing.module';
+import { EditRoutingModule } from './edit-routing.module';
+import { EditComponent } from './edit.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -12,15 +13,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
-import { NewDistribuitionComponent } from './new-distribuition.component';
-import { EditComponent } from './automaticos/edit/edit.component';
-
 
 @NgModule({
-  declarations: [NewDistribuitionComponent, EditComponent],
+  declarations: [EditComponent],
   imports: [
     CommonModule,
-    NewDistribuitionRoutingModule,
+    EditRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -34,4 +32,4 @@ import { EditComponent } from './automaticos/edit/edit.component';
     MatButtonModule,
   ]
 })
-export class NewDistribuitionModule { }
+export class EditModule { }

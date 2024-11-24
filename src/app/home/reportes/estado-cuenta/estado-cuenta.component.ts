@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Menssage } from 'src/app/models/router';
+import { Menssage, RoutersLink } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { ExcelNewService } from 'src/app/service/excel-new.service';
 import { ExcelService } from 'src/app/service/excel.service';
 import { PercentageService } from 'src/app/service/percentage.service';
 
@@ -27,6 +28,14 @@ export class EstadoCuentaComponent implements OnInit {
   corredor: any;
   resultado: any;
   contras: number;
+  rsltncr: any;
+  modulo = "Estado de cuenta";
+  currency: any;
+  rsltnrsgr: any;
+  active: Boolean;
+  enviardatos: FormGroup;
+  formreasegurador: FormGroup;
+  fromajustes: FormGroup;
   public selectedOption: any;
   constructor(
     private authService: AuthService,
@@ -34,7 +43,7 @@ export class EstadoCuentaComponent implements OnInit {
     private myFormBuilder: FormBuilder,
     private porcentajes: PercentageService,
     private router: Router,
-    private excelService: ExcelService
+    private excelService: ExcelNewService
   ) { }
 
   ngOnInit(): void {
@@ -42,103 +51,75 @@ export class EstadoCuentaComponent implements OnInit {
   }
   initial() {
     this.form = this.myFormBuilder.group({
-      contratos: [Menssage.empty, Validators.compose([Validators.required])],
-      
-      startDate: [Menssage.empty, Validators.compose([Validators.required])],
-      endDate: [Menssage.empty, Validators.compose([Validators.required])],
+      corredor: [Menssage.empty, Validators.compose([Validators.required])],
+      reseasegurador: [Menssage.empty, Validators.compose([Validators.required])],
+      fechainicial: [Menssage.empty, Validators.compose([Validators.required])],
+      fechafinal: [Menssage.empty, Validators.compose([Validators.required])],
     });
     //Trae contratos Asociados
-    this.authService.getPoliza().then((resulta: any) => {
-      this.poliza = resulta;
-    }).catch((err) => {
-      console.log(err);
-    });
-    this.form.controls.poliza.valueChanges.subscribe((res: any)=>{
-      if (res !== '' || res !== undefined) {
-        this.contras = res;
-        console.log(res);
-        const data = {id: this.contras};
-        this.authService.postPolizaReasegurador(data).then(
-          res => {
-            console.log(res)
-          },
-          err => {
-            console.log(err);
-          });
-      } else {
-        this.alert.error('Te falta algo','Debes seleccionar un contrato');
+    this.authService.getQuery(RoutersLink.getPoliza).then(
+      res => {
+        this.rsltncr = res;
       }
-    })
-  }
-
-  downloadData() {
-    if (this.form.valid) {
-      const form = this.form.value
-      const data = {
-        id: form.poliza,
-        idcontr: this.contras ,
-        inicial: form.startDate,
-        final: form.endDate
-      };
-      console.log('UNO', data);
-      this.authService.postExcel(data).then((res: any) => {
-        console.log(res[0]);
-          if (res !== undefined && res!== '' && res !== null ) {
-            this.excelService.exportAsExcelFile(res,'')
-            this.form.reset();
-            this.alert.loading();
-          } else {
-            this.form.reset();
-            this.alert.messagefin();
-            this.alert.error('Error','No se encontro dato alguno');
-          }
-      })
-    }else{
-      this.alert.error('Falta algo', 'Todavia no llenas el formulario')
-    }
-
-  }
-  convertir(item: any) {
-    var toReturn = {}
-    const datatmp = [];
-    for (let index = 0; index < item.length; index++) {
-      const element = item[index];
-      datatmp.push(
-        {
-          Serie: element.Serie,
-          Asegurado: element.Asegurado,
-          Poliza: element.Poliza,
-          Certificado: element.Certificado,
-          Id_contrato: element.Id_contrato,
-          Codigo: element.Codigo,
-          Ramo: element.Ramo,
-          Inicio: element.Inicio,
-          Fin: element.Fin,
-          Reasegurador: element.Reasegurador,
-          Participacion: element.Participacion,
-          Prima: this.cortarDesimales(element.Prima),
-          Cesion: element.Cesion,
-          Prima_cedida: this.cortarDesimales(element.Prima_cedida),
-          Prima_rea: this.cortarDesimales(element.Prima_rea),
-          Comision: element.Comision,
-          Valor_comision: this.cortarDesimales(element.Valor_comision),
-          Desposito: element.Desposito,
-          Valor_deposito: this.cortarDesimales(element.Valor_deposito),
-          Impuesto: element.Impuesto,
-          Valor_impuesto: this.cortarDesimales(element.Valor_impuesto),
-          Broke: element.Broke,
-          Valor_Broke: this.cortarDesimales(element.Valor_Broke),
+    );
+    this.active = false;
+    this.form.controls.corredor.valueChanges.subscribe(
+      (res) => {
+        if (res !== '' || res !== undefined) {
+          console.log(res)
+          this.active = true;
+          this.contras = res;
+          console.log(res);
+          const data = {id: this.contras};
+          this.authService.postQuery(data, RoutersLink.postPolizaReasegurador).then(
+            res => {
+              this.rsltnrsgr = res;
+              console.log(res)
+            },
+            err => {
+              console.log(err);
+            });
+        } else {
+          this.alert.error("Error",'Debes seleccionar un contrato');
         }
-      );
-    }
-    console.log(datatmp);
-    this.exportAsXLSX(datatmp)
-  }
-  cortarDesimales(item: any) {
-    return Math.trunc(item);
-  }
-  exportAsXLSX(item: any) {
-    this.excelService.exportAsExcelFile(item, 'REPORTE-BORDERAUX')
+      });
   }
 
+  generateExcel() {
+    const form = this.form.value;
+    console.log(form);
+    if (form.reseasegurador === '') {
+      this.alert.error("Error",'Debes seleccionar un reasegurador');
+    } else if (form.fechainicial === '') {
+      this.alert.error("Error",'Debes seleccionar una fecha incial');
+    } else if (form.fechafinal === '') {
+      this.alert.error("Error",'Debes seleccionar una fecha final');
+    }else {
+      this.alert.loading();
+      const dateInit = form.fechainicial.getFullYear() + '-' + (form.fechainicial.getMonth()+1) + '-' + form.fechainicial.getDate()
+      const dateEnd = form.fechafinal.getFullYear() + '-' + (form.fechafinal.getMonth()+1) + '-' + form.fechafinal.getDate()
+      const data = {
+        id: form.reseasegurador,
+        idcontr: this.contras ,
+        inicial: dateInit,
+        final: dateEnd
+      };
+      this.authService.postQuery(data, RoutersLink.postExcel).then(
+        res => {
+          if (res !== undefined && res!== '' && res !== null ) {
+            console.log("resultado: ",res);
+            this.excelService.generateExcel(res);
+          } else {
+            this.alert.error("Error",'No se encontro dato alguno');
+          }
+          this.form.reset();
+          this.active =false;
+          this.alert.messagefin();
+        },
+        err => {
+          console.log(err);
+          this.alert.messagefin();
+        });
+    }
+  }
 }

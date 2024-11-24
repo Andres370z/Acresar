@@ -14,6 +14,8 @@ const routes: Routes = [
     path: 'dashboard',
     loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModule),
   },
+  // API RES
+  // {path: 'api', loadChildren: ()=> import('./res-api/res-api.module').then(m => m.ResApiModule)},
   { path: 'createEvents', loadChildren: () => import('./create-events/create-events.module').then(m => m.CreateEventsModule) },
   { path: 'createGuest', loadChildren: () => import('./create-guest/create-guest.module').then(m => m.CreateGuestModule) },
   { path: 'assistantList', loadChildren: () => import('./assistant-list/assistant-list.module').then(m => m.AssistantListModule) },
@@ -49,7 +51,7 @@ const routes: Routes = [
   /**Asociacion de colombia */
   // { path: 'asociacion/contratos', loadChildren: () => import('./contract-association/ramos/ramos.module').then(m => m.RamosModule) },
   { path: 'asociacion-ramos', loadChildren: () => import('./contract-association/ramos/ramos.module').then(m => m.RamosModule) },
-   {path: 'asociacion/contratos', loadChildren:() => import ('./contract-association/contracs/contracs.module').then(m => m.ContracsModule)},
+  { path: 'asociacion/contratos', loadChildren: () => import('./contract-association/contracs/contracs.module').then(m => m.ContracsModule) },
   { path: 'asociacion/asociacion-contratos', loadChildren: () => import('./contract-association/contract-association-contract-form/contract-association-contract-form.module').then(m => m.ContractAssociationContractFormModule) },
   { path: 'reinsuranceAdministration/primas', loadChildren: () => import('./reinsuranceAdministration/primas/primas.module').then(m => m.PrimasModule) },
   { path: 'reinsuranceAdministration/siniestro', loadChildren: () => import('./reinsuranceAdministration/siniestro/list-siniestro/list-siniestro.module').then(m => m.ListSiniestroModule) },

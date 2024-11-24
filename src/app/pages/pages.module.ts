@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { PagesRoutes } from './pages.routing';
 
 import { LoginComponent } from './login/login.component';
+import { RegisterComponent } from './register/register.component';
+import { ResApiComponent } from '../home/res-api/res-api.component';
 
 @NgModule({
   imports: [
@@ -17,6 +19,7 @@ import { LoginComponent } from './login/login.component';
   ],
   declarations: [
     LoginComponent,
+    ResApiComponent
   ]
 })
 

@@ -1,10 +1,12 @@
 <div class="logo">
 
-    <a href="https://www.systemresolution.com" class="simple-text logo-normal" style="--dropdown-color: #fff;">
+    <a (click)="navigate('home/content')" class="simple-text logo-normal" style="--dropdown-color: #fff;">
         <h4>System Resolution</h4>
     </a>
     <div class="photoPerfil" style="text-align: center;">
-        <img src="./../../assets/img/logo_login.png" alt="" style="max-width: 200px; max-height: 100px; width: auto; height: auto;">
+        <a (click)="navigate('home/content')" style="cursor: pointer;">
+            <img src="./../../assets/img/logo_login.png" alt="" style="max-width: 200px; max-height: 100px; width: auto; height: auto;">
+        </a>
     </div>
 </div>
 
@@ -12,8 +14,8 @@
 <div class="sidebar-wrapper">
 
     <div class="user">
-        <div class="photo">
-            <img src="./../../../assets/img/logo_login1 - copia.png" />
+        <div class="photo"> 
+            <img [src]="'https://systemresolutiondesarrollo.softsaenz.com.co'+usersData.user.photo" alt="">
         </div>
         <div class="user-info">
             <a data-toggle="collapse" href="#collapseExample" class="collapsed" style="--dropdown-color: #fff;">

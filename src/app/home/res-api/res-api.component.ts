@@ -1,45 +1,56 @@
-import { Component, OnInit, ElementRef, OnDestroy } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Menssage, RoutersLink } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { HttpsService } from 'src/app/service/https.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
+
 
 declare var $: any;
 declare var particlesJS: any;
 @Component({
-  selector: 'app-login-cmp',
-  templateUrl: './login.component.html'
+  selector: 'app-res-api',
+  templateUrl: './res-api.component.html',
+  styleUrls: ['./res-api.component.css']
 })
+export class ResApiComponent implements OnInit {
+  test: Date = new Date();
+  public textAlert: any;
+  public customerDetail: any = [];
+  public toggleButton: any;
+  public sidebarVisible: boolean;
+  public nativeElement: Node;
+  public form: FormGroup;
+  constructor(private element: ElementRef,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    public formBuilder: FormBuilder,
+    private _https: AuthService,
+    private alert: AlertService,
+    private localStore: LocalstoreService,
+    private httpservice: HttpsService
+  ) {
+    this.nativeElement = element.nativeElement;
+    this.sidebarVisible = false;
+    this.textAlert = Menssage;
 
-export class LoginComponent implements OnInit, OnDestroy {
-    test: Date = new Date();
-    public textAlert: any;
-    public customerDetail: any = [];
-    public toggleButton: any;
-    public sidebarVisible: boolean;
-    public nativeElement: Node;
-    public form: FormGroup;
-    constructor(private element: ElementRef,
-      private activatedRoute: ActivatedRoute,
-        private router: Router,
-        public formBuilder: FormBuilder,
-        private _https:AuthService,
-        private alert: AlertService,
-        private localStore: LocalstoreService) {
-        this.nativeElement = element.nativeElement;
-        this.sidebarVisible = false;
-        this.textAlert = Menssage;
-        
-        let reload =  this.localStore.getItem("reload")
-        if (reload != "reload") {
-          this.localStore.setItem("reload", "reload")
-          window.location.reload()
-        }
+    let reload = this.localStore.getItem("reload")
+    if (reload != "reload") {
+      this.localStore.setItem("reload", "reload")
+      window.location.reload()
+    }
+    if (this.localStore.getItem('resApi') == 'false') {
+      window.location.reload();
+      this.localStore.setItem('resApi', 'true'); // Actualiza a 'true' para evitar futuras recargas
     }
 
+  }
+
   ngOnInit() {
+
+    localStorage.removeItem('res');
     //this.alert.loading();
     particlesJS.load('particles-js', '../assets/particle.json', null);
     var navbar: HTMLElement = this.element.nativeElement;
@@ -55,6 +66,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.initial();
   }
   initial() {
+
     /* if (localStorage.getItem('token') !== null) {
       this.router.navigate([RoutersLink.home]);
     } */
@@ -100,7 +112,7 @@ export class LoginComponent implements OnInit, OnDestroy {
           this.alert.success(Menssage.exito, Menssage.success);
           //this.alert.messagefin();
           this.form.reset();
-        }else {
+        } else {
           this.alert.error(Menssage.error, Menssage.server);
         }
       }).catch((err: any) => {
@@ -152,5 +164,16 @@ export class LoginComponent implements OnInit, OnDestroy {
       valid = false
     }
     return valid
+  }
+  pruebas() {
+    this.localStore.setItem(true, 'resApi');
+    this.router.navigate([RoutersLink.content]);
+    this.httpservice.actualizarURLs('pruebas');
+  }
+  produccion() {
+    this.localStore.setItem(true, 'resApi');
+    this.router.navigate([RoutersLink.content]);
+    this.httpservice.actualizarURLs('produccion');
+
   }
 }
