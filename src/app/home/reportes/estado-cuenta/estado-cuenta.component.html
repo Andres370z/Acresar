@@ -1,65 +1,70 @@
 <div class="main-content">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-        <div class="card">
-          <div class="card-header card-header-rose card-header-icon">
-            <div class="card-icon" style="background-color: #016672;">
-              <i class="material-icons">storage</i>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-rose card-header-icon">
+                        <div class="card-icon" style="background-color: #016672;">
+                            <i class="material-icons">storage</i>
+                        </div>
+                        <h4 class="card-title">Reporte de Compañia</h4>
+                    </div>
+                    <div style="display: flex; justify-content: center; align-items: center;">
+                        <!-- ACA VA EL MENU -->
+                    </div>
+
+                    <div class="card-body">
+                        <form class="form mb-4" [formGroup]="form" style="width: 100%;">
+                            <div class="row">
+                                <div class="col-xs-12 col-md-12">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label for="dtcr">Contratos asociados</mat-label>
+                                        <mat-select formControlName="corredor" class="form-control" id="dtcr" name="corredor" required>
+                                            <mat-option value="">Sin Contratos</mat-option>
+                                            <mat-option *ngFor="let item of rsltncr" value="{{item.c}}">{{item.cnt}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-xs-12 col-md-12">
+                                    <mat-form-field appearance="fill" *ngIf="active">
+                                        <mat-label for="dtrsg">Reasegurador</mat-label>
+                                        <mat-select formControlName="reseasegurador" class="form-control" id="dtrsg" name="reseasegurador" required>
+                                            <mat-option *ngFor="let item of rsltnrsgr" value="{{item.o}}">{{item.rea}}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label>Fecha de Inicio</mat-label>
+                                        <input matInput [matDatepicker]="picker2" formControlName="fechainicial" placeholder="ingresa una fecha">
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker2></mat-datepicker>
+                                        <mat-hint>este campo es obligatorio *</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-6">
+                                    <mat-form-field appearance="fill">
+                                        <mat-label> Fecha de Fin</mat-label>
+                                        <input matInput [matDatepicker]="picker" formControlName="fechafinal" placeholder="ingresa una fecha">
+                                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                        <mat-hint>este campo es obligatorio *</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-12">
+                                    <button mat-raised-button type="button" class="btn btn-fill btn-rose" style="background-color: #016672" (click)="generateExcel()">
+                                      Descargar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <h4 class="card-title">Reporte de Compañia</h4>
-          </div>
-          <div style="display: flex; justify-content: center; align-items: center;">
-            <!-- ACA VA EL MENU -->
-          </div>
-
-          <div class="card-body">
-            <form [formGroup]="cuotaParteForm">
-              <div class="row">
-                <div class="col-xs-12 col-md-12">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Contratos asociados</mat-label>
-                    <select matNativeControl formControlName="corredor" id="dtcr" name="corredor" required>
-                      <option value="">Sin Contratos</option>
-                      <option *ngFor="let item of rsltncr" [value]="item.c">{{item.cnt}}</option>
-                    </select>
-                  </mat-form-field>
-                </div>
-
-                <div class="col-xs-12 col-md-12" *ngIf="active">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Reasegurador</mat-label>
-                    <select matNativeControl formControlName="reseasegurador" id="dtrsg" name="reseasegurador" required>
-                      <option *ngFor="let item of rsltnrsgr" [value]="item.o">{{item.rea}}</option>
-                    </select>
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Fecha de Inicio</mat-label>
-                    <input matInput type="date" formControlName="fechainicial" name="finicio" class="calendar" />
-                  </mat-form-field>
-                </div>
-                <div class="col-md-6">
-                  <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Fecha de Fin</mat-label>
-                    <input matInput type="date" formControlName="fechafinal" name="fFin" />
-                  </mat-form-field>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <button mat-raised-button color="primary" (click)="generateExcel()">Descargar</button>
-                </div>
-              </div>
-            </form>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
