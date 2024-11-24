@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Menssage, RoutersLink } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
@@ -15,7 +15,7 @@ import { PercentageService } from 'src/app/service/percentage.service';
 })
 export class EstadoCuentaComponent implements OnInit {
   money: any;
-  contratos: any;
+  ramos: any;
   poliza: any;
   reasegradores: any;
   asegurado: any;
@@ -47,7 +47,7 @@ export class EstadoCuentaComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.initial()
+    this.initial();
   }
   initial() {
     this.form = this.myFormBuilder.group({
