@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { ListContractsRoutingModule } from './list-contracts-routing.module';
-import { ListContractsComponent } from './list-contracts.component';
-import { CompanyListRoutingModule } from '../../reinsurance-companies/company-list/company-list-routing.module';
+import { RenewAutomaticRoutingModule } from './renew-automatic-routing.module';
+import { RenewAutomaticComponent } from './renew-automatic.component';
+
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioModule } from '@angular/material/radio';
@@ -12,19 +12,18 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MenuModule } from '../menu/menu.module';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { NgxCsvParserModule } from "ngx-csv-parser";
-
+import { MatButtonModule } from '@angular/material/button';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
-  declarations: [ListContractsComponent],
+  declarations: [
+    RenewAutomaticComponent
+  ],
   imports: [
     CommonModule,
-    ListContractsRoutingModule,
-    CompanyListRoutingModule,
+    RenewAutomaticRoutingModule,
     MatTableModule,
     MatPaginatorModule,
     MatRadioModule,
@@ -36,9 +35,8 @@ import { NgxCsvParserModule } from "ngx-csv-parser";
     MatDatepickerModule,
     MatNativeDateModule,
     MatButtonModule,
-    MenuModule,
-    MatSortModule,
-    NgxCsvParserModule
+    MatAutocompleteModule,
+    MatListModule
   ]
 })
-export class ListContractsModule { }
+export class RenewAutomaticModule { }

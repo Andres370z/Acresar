@@ -14,10 +14,11 @@
  * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
  */
+
 @font-face {
     font-family: 'Myriad Pro Light';
-    src: url('../font/MyriadPro-Light.eot');
-    src: url('../font/MyriadPro-Light.eot?#iefix') format('embedded-opentype'), url('../font/MyriadPro-Light.woff2') format('woff2'), url('../font/MyriadPro-Light.woff') format('woff'), url('../font/MyriadPro-Light.ttf') format('truetype'), url('../font/MyriadPro-Light.svg#MyriadPro-Light') format('svg');
+    src: url('/assets/font/MyriadPro-Light.eot');
+    src: url('/assets/font/MyriadPro-Light.eot?#iefix') format('embedded-opentype'), url('/assets/font/MyriadPro-Light.woff2') format('woff2'), url('/assets/font/MyriadPro-Light.woff') format('woff'), url('/assets/font/MyriadPro-Light.ttf') format('truetype'), url('/assets/font/MyriadPro-Light.svg#MyriadPro-Light') format('svg');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
@@ -25,8 +26,8 @@
 
 @font-face {
     font-family: 'Myriad Pro Black';
-    src: url('../font/MyriadPro-Black.eot');
-    src: url('../font/MyriadPro-Black.eot?#iefix') format('embedded-opentype'), url('../font/MyriadPro-Black.woff2') format('woff2'), url('../font/MyriadPro-Black.woff') format('woff'), url('../font/MyriadPro-Black.ttf') format('truetype'), url('../font/MyriadPro-Black.svg#MyriadPro-Black') format('svg');
+    src: url('/assets/font/MyriadPro-Black.eot');
+    src: url('/assets/font/MyriadPro-Black.eot?#iefix') format('embedded-opentype'), url('/assets/font/MyriadPro-Black.woff2') format('woff2'), url('/assets/font/MyriadPro-Black.woff') format('woff'), url('/assets/font/MyriadPro-Black.ttf') format('truetype'), url('/assets/font/MyriadPro-Black.svg#MyriadPro-Black') format('svg');
     font-weight: 900;
     font-style: normal;
     font-display: swap;
@@ -34,8 +35,8 @@
 
 @font-face {
     font-family: 'Myriad Pro Bold';
-    src: url('../font/MyriadPro-Bold.eot');
-    src: url('../font/MyriadPro-Bold.eot?#iefix') format('embedded-opentype'), url('../font/MyriadPro-Bold.woff2') format('woff2'), url('../font/MyriadPro-Bold.woff') format('woff'), url('../font/MyriadPro-Bold.ttf') format('truetype'), url('../font/MyriadPro-Bold.svg#MyriadPro-Bold') format('svg');
+    src: url('/assets/font/MyriadPro-Bold.eot');
+    src: url('/assets/font/MyriadPro-Bold.eot?#iefix') format('embedded-opentype'), url('/assets/font/MyriadPro-Bold.woff2') format('woff2'), url('/assets/font/MyriadPro-Bold.woff') format('woff'), url('/assets/font/MyriadPro-Bold.ttf') format('truetype'), url('/assets/font/MyriadPro-Bold.svg#MyriadPro-Bold') format('svg');
     font-weight: bold;
     font-style: normal;
     font-display: swap;
@@ -43,17 +44,23 @@
 
 @font-face {
     font-family: 'Myriad Pro Regular';
-    src: url('../font/MyriadPro-Regular.eot');
-    src: url('../font/MyriadPro-Regular.eot?#iefix') format('embedded-opentype'), url('../font/MyriadPro-Regular.woff2') format('woff2'), url('../font/MyriadPro-Regular.woff') format('woff'), url('../font/MyriadPro-Regular.ttf') format('truetype'), url('../font/MyriadPro-Regular.svg#MyriadPro-Regular') format('svg');
+    src: url('/assets/font/MyriadPro-Regular.eot');
+    src: url('/assets/font/MyriadPro-Regular.eot?#iefix') format('embedded-opentype'), url('/assets/font/MyriadPro-Regular.woff2') format('woff2'), url('/assets/font/MyriadPro-Regular.woff') format('woff'), url('/assets/font/MyriadPro-Regular.ttf') format('truetype'), url('/assets/font/MyriadPro-Regular.svg#MyriadPro-Regular') format('svg');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
-@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+.mat-form-field-infix {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+@import "../../../node_modules/@angular/material/prebuilt-themes/indigo-pink.css";
 @import "core/variables";
 @import "core/mixins";
-@import "~bootstrap/scss/bootstrap";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
 @import "core/reboot";
 // Core Components
 @import "core/layout";
@@ -108,9 +115,9 @@
 @import "plugins/fullcalendar";
 @import "plugins/wizard-card";
 @import "plugins/chartist";
-@import "~chartist/dist/scss/chartist";
+@import "../../../node_modules/chartist/dist/scss/chartist";
 @import "plugins/select-bootstrap";
 @import "plugins/perfect-scrollbar";
 @import "plugins/plugin-tagsinput";
 @import "dashboard/responsive";
-@import '~lightgallery/scss/lightgallery';
+@import '../../../node_modules/lightgallery/scss/lightgallery';

@@ -43,7 +43,6 @@ import { ModalComponent } from './modal/modal.component';
     MatDialogModule,
     MatCardModule
   ],
-  entryComponents: [ModalComponent]
 
 })
 export class DetalleModule { }

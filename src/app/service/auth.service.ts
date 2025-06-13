@@ -246,7 +246,9 @@ export class AuthService {
     };
     return this.registeresquest.POST(RoutersLink.passwordUpdate, data)
   }
-
+  massiveContractAssociation(inform: any){
+    return this.registeresquest.POST(RoutersLink.massiveContractAssociation, inform)
+  }
   createImgUpdate(inform: any) {
     const formData = new FormData();
     formData.append("file", inform.file);
@@ -611,6 +613,16 @@ export class AuthService {
   postContratoCuotaAparte(item: any) {
     return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparte, { item })
   }
+  postContratoCuotaAparteMasivo(item: any) {
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postContratoCuotaAparteMasivo, { item })
+  }
+  postNominaMasivo(item: any) {
+    return this.registeresquest.POSTRESPALDO(RoutersLink.postNominaMasivo, { item })
+  }
+  
+  typeContract(){
+    return this.registeresquest.GETER(RoutersLink.typeContract)
+  }
   postContratoCuotaAparteEdit(item: any) {
     return this.registeresquest.POSTRESPALDO('contratosautomaticos/proporcionales/cuotaparte',  item )
   }
@@ -776,6 +788,9 @@ export class AuthService {
     this.route.navigate([RoutersLink.login]);
   }
 
+  getContractRenew(id: number) {
+    return this.registeresquest.GETER(RoutersLink.renewContract + id)
+  }
 
   
 }

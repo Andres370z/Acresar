@@ -6,7 +6,8 @@ const routes: Routes = [{path: '', component: NewDistribuitionComponent},
 {path: 'primas-facultativos', loadChildren: () => import ('./facultativos/facultativos.module').then(m => m.FacultativosModule)},
 {path: 'primas-especiales', loadChildren: () => import ('./facultativos-especial/facultativos-especial.module').then(m => m.FacultativosEspecialModule)},
 {path: 'primas-automaticos', loadChildren: () => import ('./automaticos/automaticos.module').then(m => m.AutomaticosModule)},
-{path: 'editar-prima-automaticos', loadChildren: () => import('./automaticos/edit/edit.module').then(m => m.EditModule)}
+{path: 'editar-prima-automaticos', loadChildren: () => import('./automaticos/edit/edit.module').then(m => m.EditModule)},
+{ path: 'renovar-prima-automaticos', loadChildren: () => import('./automaticos/renew-automatic/renew-automatic.module').then(m => m.RenewAutomaticModule) },
 ]
 
 @NgModule({

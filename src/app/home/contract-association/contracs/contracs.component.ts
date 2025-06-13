@@ -3,8 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Menssage } from 'src/app/models/router';
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
+import { ExcelService } from 'src/app/service/excel.service';
 import { LocalstoreService } from 'src/app/service/localstore.service';
 
 @Component({
@@ -42,7 +44,8 @@ export class ContracsComponent implements OnInit {
     private router: Router,
     public _http: AuthService,
     public alertService: AlertService,
-    private localService: LocalstoreService
+    private localService: LocalstoreService,
+    private excel: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -268,5 +271,12 @@ export class ContracsComponent implements OnInit {
     let textoExtraido = resultado ? resultado[1] : "";
 
     return textoExtraido  // Salida: "ATL-AUT-000001 - 2021"
+  }
+  download(){
+      if (this.data.length != 0) {
+            this.excel.exportAsExcelFile(this.data, Menssage.nameEvents);
+          }else{
+            this.alertService.error(Menssage.error, Menssage.nameEventsNull);
+      }
   }
 }

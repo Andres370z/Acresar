@@ -41,6 +41,5 @@ import { MatCardModule } from '@angular/material/card';
     MatDialogModule,
     MatCardModule
   ],
-  entryComponents: [ModalComponent]
 })
 export class FacultativoModule { }

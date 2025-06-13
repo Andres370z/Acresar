@@ -6,6 +6,10 @@ import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
 import { MatSort } from '@angular/material/sort';
+import { NgxCsvParser, NgxCSVParserError } from 'ngx-csv-parser';
+import { SessionUser } from '../../global/sessionUser';
+import { Menssage } from 'src/app/models/router';
+import { ExcelService } from 'src/app/service/excel.service';
 
 @Component({
   selector: 'app-list-contracts',
@@ -21,11 +25,26 @@ export class ListContractsComponent implements OnInit {
   displayedColumns: string[] = ['o', 'c', 'r', 'e', 'mc', 'cc', 'fc', 'Accion'];
   data: any[] = [];
   public dataSource: MatTableDataSource<any>
+  public dataCsv: any[] = [];
+  public dataCsvNom: any[] = [];
+  public dataCsvNomAso: any[] = [];
+  public records = [];
+  public headers = [];
+  public header = false;
+  public user: any;
+  public idagregar: number = 0;
+  public currency:any = [];
   constructor(
     private authService: AuthService,
     private router: Router,
-    private alert: AlertService
-  ) { }
+    private alert: AlertService,
+    private ngxCsvParser: NgxCsvParser,
+    private excel: ExcelService
+  ) {
+        this.user = new SessionUser(this.router);
+        this.user.getAuthUser();
+        console.log("user",this.user.authUser)
+   }
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.data);
@@ -46,6 +65,10 @@ export class ListContractsComponent implements OnInit {
         this.dataSource.sort = this.sort;
       }
     );
+    this.authService.typeContract().then(res => {
+      this.alert.messagefin();
+      this.currency = res
+    })
   }
 
   applyFilter(event: Event) {
@@ -111,7 +134,179 @@ export class ListContractsComponent implements OnInit {
       }
     });
   }
-  
-  
 
+  renew(item: any){
+    console.log("renew",item);
+    this.alert.loading();
+    this.authService.getContractRenew(item.a).then(
+      res => {
+        if (res.error) {
+          this.alert.error(
+            "Renovación no exitosa",
+            res.error + ' ' + res.codigo + ' para este contrato ' + res.modifyCode
+          );
+          console.log('esta es tu respuesta', res);
+        } else {
+          this.alert.success(
+            "Renovación exitosa",
+            "EL contrato se renovo exitosamente " + res.codigo
+          );
+          console.log('esta es tu respuesta', res);
+          this.getDta();
+        }
+       
+      }
+    );
+  }
+  fileData(item: any, num: number){
+    let files = item.target.files[0];
+    this.ngxCsvParser
+      .parse(files, { header: this.header, delimiter: ";" })
+      .pipe()
+      .subscribe(
+        (result: Array<any>) => {
+          this.headers = result[0];
+          this.records = result.slice(1);
+          const headers = result[0];
+          for (let i = 1; i < this.records.length; i++) {        
+              if (!this.records[i])
+                  continue
+              const obj = {}
+              const currentline = this.records[i]
+              for (let j = 0; j < this.headers.length; j++) {
+                  if (headers[j] != "") {
+                    obj[headers[j]] = currentline[j]
+                  }
+              }
+              if (num == 1) {
+                this.dataCsv.push(obj)
+              } else if (num == 2){
+                this.dataCsvNom.push(obj)
+              }else if (num == 3){
+                this.dataCsvNomAso.push(obj)
+              }
+              
+          }
+          
+          console.log("success", this.dataCsv); 
+          console.log("header", this.headers)
+          
+        },
+        (error: NgxCSVParserError) => {
+          console.log("Error", error);
+        }
+      );
+  }
+  submit(){
+    if (this.valid(1)) {
+      const item =  {
+        type: this.idagregar,
+        idusers: this.user.authUser.id,
+        file:this.dataCsv
+      } 
+      this.alert.loading();
+      this.authService.postContratoCuotaAparteMasivo(item).then(
+        res => {
+          this.alert.messagefin();
+          console.log(res);
+          this.idagregar = 0;
+          this.dataCsv = [];
+        },
+        err => {
+          this.alert.messagefin();
+          console.log(err);
+        });
+    } 
+  }
+  submitNominaMasivo(){
+    if (this.valid(2)) {
+      const item =  {
+        type: this.idagregar,
+        idusers: this.user.authUser.id,
+        file:this.dataCsvNom
+      } 
+      this.alert.loading();
+      this.authService.postNominaMasivo(item).then(
+        res => {
+          this.alert.messagefin();
+          console.log(res);
+          this.idagregar = 0;
+          this.dataCsvNom = [];
+        },
+        err => {
+          this.alert.messagefin();
+          console.log(err);
+        });
+    } 
+  }
+  massiveContractAssociation(){
+    if (this.valid(3)) {
+      const item =  {
+        type: this.idagregar,
+        idusers: this.user.authUser.id,
+        file:this.dataCsvNomAso
+      } 
+      this.alert.loading();
+      this.authService.massiveContractAssociation(item).then(
+        res => {
+          this.alert.messagefin();
+          console.log(res);
+          this.idagregar = 0;
+          this.dataCsvNomAso = [];
+        },
+        err => {
+          this.alert.messagefin();
+          console.log(err);
+        });
+    }
+  }
+  valid(item: number): boolean{
+    let valid = true
+    console.log("masivo",this.dataCsv)
+    
+    switch (item) {
+      case 1:
+        if (this.dataCsv.length == 0) {
+          this.alert.info("Uff","Debes subir un archivo .csv");
+          valid = false
+        }
+        else if (this.idagregar == 0){
+          this.alert.info("Uff","Debes selecionar un tipo de contrato");
+          valid =false
+        }
+        break;
+
+      case 2:
+        if (this.dataCsvNom.length == 0) {
+          this.alert.info("Uff","Debes subir un archivo .csv");
+          valid = false
+        }else if (this.idagregar == 0){
+          this.alert.info("Uff","Debes selecionar un tipo de contrato");
+          valid =false
+        }
+        break;
+      case 3:
+          if (this.dataCsvNomAso.length == 0) {
+            this.alert.info("Uff","Debes subir un archivo .csv");
+            valid = false
+          }else if (this.idagregar == 0){
+            this.alert.info("Uff","Debes selecionar un tipo de contrato");
+            valid =false
+          }
+          break;
+    
+      default:
+        break;
+    }
+    
+
+    return valid
+  }
+  download(){
+    if (this.data.length != 0) {
+          this.excel.exportAsExcelFile(this.data, Menssage.nameEvents);
+        }else{
+          this.alert.error(Menssage.error, Menssage.nameEventsNull);
+    }
+  }
 }

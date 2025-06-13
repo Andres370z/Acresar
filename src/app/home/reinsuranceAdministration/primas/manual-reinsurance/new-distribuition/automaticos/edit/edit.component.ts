@@ -669,4 +669,19 @@ export class EditComponent implements OnInit {
   desimal(key: any) {
     return key.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+  renewItemForm() {
+    var contra = this.polizacontrato.Id_contrato.substr(0, 7);
+
+    if (contra == "ATL-AUT") {
+      //this.messegeInfofinal("Estamos trabajando para dejar la funcionalidad");
+      sessionStorage.setItem('renewprimasautomatico', JSON.stringify(this.polizacontrato));
+      this.router.navigate(["home/reinsuranceAdministration/primas/new-distribuition/renovar-prima-automaticos"])
+    } else if (contra == "ATL-FAC") {
+      sessionStorage.setItem('renewrprimas', JSON.stringify(this.polizacontrato));
+      this.router.navigate(["/admin/contratos/ajuste/primas-facultativos/edit"])
+    } else {
+      console.log(contra)
+    }
+  }
+
 }

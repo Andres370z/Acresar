@@ -3,6 +3,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { AlertService } from 'src/app/service/alert.service';
 import { AuthService } from 'src/app/service/auth.service';
 import { Procentajes } from '../../commos/porcentajes';
+import { Menssage } from 'src/app/models/router';
+import { ExcelService } from 'src/app/service/excel.service';
 
 @Component({
   selector: 'app-asignacion-proveedores',
@@ -40,7 +42,8 @@ export class AsignacionProveedoresComponent implements OnInit {
     private myFormBuilder: FormBuilder,
     private authService: AuthService,
     private _http: AuthService,
-    private alert: AlertService
+    private alert: AlertService,
+    private excel: ExcelService
   ) { }
 
   ngOnInit(): void {
@@ -199,6 +202,12 @@ export class AsignacionProveedoresComponent implements OnInit {
       }
     )
   }
-
+  download(){
+    if (this.listAsociacion.length != 0) {
+          this.excel.exportAsExcelFile(this.listAsociacion, Menssage.nameEventsAsosiation);
+        }else{
+          this.alert.error(Menssage.error, Menssage.nameEventsNull);
+    }
+  }
 
 }

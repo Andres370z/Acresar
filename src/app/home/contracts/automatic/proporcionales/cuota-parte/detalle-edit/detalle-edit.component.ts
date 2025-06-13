@@ -229,7 +229,7 @@ export class DetalleEditComponent implements OnInit {
   cargarFormulario(jsonData: any, v: any) {
     if (jsonData != undefined || jsonData != null) {
       const dataForm = JSON.parse(jsonData)
-      console.log(dataForm);
+      console.log("verificar",dataForm);
       if (v == 0) {
         const i = dataForm;
 
@@ -634,6 +634,7 @@ export class DetalleEditComponent implements OnInit {
         }
         this.form.cartera = this.form.traspasoCartera.traspaso
         this.datajsonNominas.push(this.form);
+        console.log("verificar", this.datajsonNominas)
         localStorage.setItem('comision', JSON.stringify(this.datajsonNominas));
 
         let data = JSON.parse(localStorage.getItem('comision'));

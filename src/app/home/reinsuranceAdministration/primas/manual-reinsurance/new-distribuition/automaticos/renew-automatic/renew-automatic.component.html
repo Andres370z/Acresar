@@ -7,7 +7,7 @@
                         <div class="card-icon" style="background-color: #016672;">
                             <i class="material-icons">storage</i>
                         </div>
-                        <h4 class="card-title">Forumulario Prima Automatico</h4>
+                        <h4 class="card-title">Forumulario Renovar Prima Automatico</h4>
                     </div>
                     <div class="card-body">
 
@@ -492,18 +492,19 @@
 
                             <div class="row">
                                 <div class="col-md-6 col-xs-6">
-                                    <button mat-raised-button color="primary" (click)="cerrar()" style="margin-right: 1rem;">Cerrar</button>
+                                    <button mat-raised-button (click)="guardardatos()" style="margin: 10px; background-color: #016672; color: #fff;">PROCESAR</button>
                                 </div>
                                 <div class="col-md-6 col-xs-6">
-                                    <button mat-raised-button color="primary" (click)="renewItemForm()" style="margin-right: 1rem;">Renovar</button>
+                                    <button mat-raised-button color="primary" (click)="cerrar()" style="margin: 10px;">Cerrar</button>
                                 </div>
+
                             </div>
 
                         </form>
                         <a [routerLink]="['/home']">
                             <button type="button" class="btn btn-alert btn-md shadow-box-item" onclick="history.go(-1);">
-                Regresar
-              </button>
+                  Regresar
+                </button>
                         </a>
                     </div>
 
